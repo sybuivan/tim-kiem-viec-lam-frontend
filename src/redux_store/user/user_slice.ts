@@ -1,12 +1,19 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-// const userSlice = createSlice({
-//   name: 'user',
-//   //   initialState,
-//   reducers: {},
-//   extraReducers() {},
-// });
+const initialState = {
+  me: '',
+};
 
-// const { actions, reducer } = userSlice;
-// export const {} = actions;
-// export default reducer;
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {
+    setName: (state, action) => {
+      console.log('test');
+    },
+  },
+});
+
+const { actions, reducer } = userSlice;
+export const {} = actions;
+export default reducer;
