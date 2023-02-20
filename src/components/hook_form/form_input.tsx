@@ -2,14 +2,21 @@ import React from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { FormControl, IconButton, InputAdornment, SxProps, TextField } from '@mui/material';
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  SxProps,
+  TextField,
+} from '@mui/material';
 import { isNumber, isString } from 'lodash';
 import { Control, Controller } from 'react-hook-form';
 
 interface IProps {
   control: Control<any, any>;
   name: string;
-  label: string;
+  label?: string;
+  placeholder?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;
   variant?: 'standard' | 'filled' | 'outlined';
@@ -44,6 +51,7 @@ export const FormInput = (props: IProps) => {
     notSpacing = false,
     handleChange,
     InputProps,
+    placeholder,
   } = props;
 
   const [isShowPassword, setIsShowPassword] = React.useState<boolean>(false);
@@ -52,7 +60,9 @@ export const FormInput = (props: IProps) => {
     setIsShowPassword((prev) => !prev);
   };
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleMouseDownPassword = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
   };
 
@@ -66,8 +76,17 @@ export const FormInput = (props: IProps) => {
         },
       }}
       control={control}
-      render={({ field: { value, onChange }, fieldState: { error, invalid } }) => (
-        <FormControl required={required} fullWidth size={size} margin={margin} sx={sx}>
+      render={({
+        field: { value, onChange },
+        fieldState: { error, invalid },
+      }) => (
+        <FormControl
+          required={required}
+          fullWidth
+          size={size}
+          margin={margin}
+          sx={sx}
+        >
           <TextField
             fullWidth
             size={size}
@@ -75,17 +94,22 @@ export const FormInput = (props: IProps) => {
             variant={variant}
             disabled={disabled}
             label={label}
+            placeholder={placeholder}
             error={invalid}
             helperText={error ? error.message : null}
             onChange={(e) => {
-              const value = notSpacing ? e.target.value.replace(/ /g, '') : e.target.value;
+              const value = notSpacing
+                ? e.target.value.replace(/ /g, '')
+                : e.target.value;
 
               onChange(value);
               if (handleChange) {
                 handleChange(name, value);
               }
             }}
-            value={isString(value) ? value : '' || isNumber(value) ? value : null}
+            value={
+              isString(value) ? value : '' || isNumber(value) ? value : null
+            }
             InputProps={
               InputProps
                 ? InputProps
@@ -98,7 +122,11 @@ export const FormInput = (props: IProps) => {
                             onMouseDown={handleMouseDownPassword}
                             edge="end"
                           >
-                            {isShowPassword ? <Visibility /> : <VisibilityOff />}
+                            {isShowPassword ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
                           </IconButton>
                         </InputAdornment>
                       ) : showClearable && Boolean(value) ? (

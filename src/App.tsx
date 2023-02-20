@@ -3,9 +3,9 @@ import { useRoutes } from 'react-router-dom';
 import routes from 'src/routes';
 
 function App() {
-  // const isLogin: boolean = true;
+  const isLogin: boolean = true;
   console.log('dasd');
-  return useRoutes(routes);
+  return useRoutes(routes(isLogin));
 }
 
 export default App;

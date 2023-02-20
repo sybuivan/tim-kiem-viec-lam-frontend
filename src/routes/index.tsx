@@ -2,7 +2,7 @@ import { RouteObject } from 'react-router';
 import MainLayout from 'src/layout/main_layout';
 import Home from 'src/pages/home';
 
-let routes: RouteObject[] = [
+let routes: (isLogin: boolean) => RouteObject[] = (isLogin?: boolean) => [
   {
     path: '/',
     element: <MainLayout />,

@@ -21,10 +21,11 @@ import Loading from '../loading';
 interface IProps {
   control: Control<any, any>;
   name: string;
-  label: string;
   options: any[];
   keyOption: string;
   labelOption: string;
+  placeholder?: string;
+  label?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;
   variant?: 'standard' | 'filled' | 'outlined';
@@ -56,12 +57,18 @@ export const FormSelect = (props: IProps) => {
     deleteOption,
     handleChange,
     sx,
+    placeholder,
   } = props;
 
   const [deletingId, setDeletingId] = useState(null);
 
   const renderDeleteIcon = (value: string, option: any) => {
-    if (!deleteOption || option[keyOption] === value || option[keyOption] === 'all') return null;
+    if (
+      !deleteOption ||
+      option[keyOption] === value ||
+      option[keyOption] === 'all'
+    )
+      return null;
     if (deleteOption.isDeleting && deletingId === option[keyOption])
       return <CircularProgress size={22} />;
 
@@ -91,7 +98,10 @@ export const FormSelect = (props: IProps) => {
     return options.map((option, index) => (
       <MenuItem
         key={index}
-        disabled={optionsDisabled.includes(option[keyOption]) && value !== option[keyOption]}
+        disabled={
+          optionsDisabled.includes(option[keyOption]) &&
+          value !== option[keyOption]
+        }
         value={option[keyOption]}
       >
         {deleteOption ? (
@@ -110,11 +120,23 @@ export const FormSelect = (props: IProps) => {
     <Controller
       name={name}
       control={control}
-      render={({ field: { value, onChange }, fieldState: { error, invalid } }) => (
-        <FormControl sx={sx} fullWidth margin={margin} size={size} error={invalid}>
-          <InputLabel size={size === 'medium' ? 'normal' : 'small'} variant={variant}>
+      render={({
+        field: { value, onChange },
+        fieldState: { error, invalid },
+      }) => (
+        <FormControl
+          sx={sx}
+          fullWidth
+          margin={margin}
+          size={size}
+          error={invalid}
+        >
+          {/* <InputLabel
+            size={size === 'medium' ? 'normal' : 'small'}
+            variant={variant}
+          >
             {label}
-          </InputLabel>
+          </InputLabel> */}
 
           <Select
             label={label}
@@ -128,7 +150,12 @@ export const FormSelect = (props: IProps) => {
             }}
             size={size}
             disabled={disabled}
+            // placeholder={placeholder}
+            displayEmpty
           >
+            <MenuItem disabled value="">
+              <em>{placeholder}</em>
+            </MenuItem>
             {renderOptions(value)}
           </Select>
           {invalid && <FormHelperText>{error?.message}</FormHelperText>}

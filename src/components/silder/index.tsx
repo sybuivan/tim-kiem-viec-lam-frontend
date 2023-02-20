@@ -1,14 +1,108 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Slider from 'react-slick';
 
 import Banner from 'src/assets/images/banner.png';
 import Banne2 from 'src/assets/images/banner2.png';
+import { FormInput, FormSelect } from '../hook_form';
+import { useForm } from 'react-hook-form';
+import theme from 'src/theme';
 
 const SliderService = () => {
+  const { control } = useForm({
+    defaultValues: {
+      searchKeyword: '',
+    },
+  });
   return (
-    <Box>
-      <input></input>
+    <Box
+      sx={{
+        width: '500px',
+        backgroundColor: 'transparent',
+        borderRadius: 1,
+        padding: 2,
+        border: '1px solid #c1c1c1',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1,
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        left: '30px',
+      }}
+    >
+      <Box
+        display="flex"
+        alignItems="center"
+        height="40px"
+        width="100%"
+        gap={1}
+      >
+        <FormInput
+          name="searchKeyword"
+          control={control}
+          placeholder="Tìm kiếm cơ hội việc làm"
+          sx={{
+            backgroundColor: theme.palette.common.white,
+            borderRadius: '4px',
+          }}
+        />
+        <Box height="37px" width="130px">
+          <Button
+            variant="contained"
+            sx={{
+              padding: '8px',
+            }}
+          >
+            Tìm kiếm
+          </Button>
+        </Box>
+      </Box>
+
+      <Box display="flex" alignItems="center" gap={1}>
+        <FormSelect
+          control={control}
+          name="name"
+          placeholder="Tất cả nghề nghiệp"
+          options={[]}
+          keyOption="id"
+          labelOption="name"
+          sx={{
+            backgroundColor: theme.palette.common.white,
+            borderRadius: '4px',
+          }}
+        />
+        <FormSelect
+          control={control}
+          name="name"
+          placeholder="Tất cả tỉnh thành"
+          options={[]}
+          keyOption="id"
+          labelOption="name"
+          sx={{
+            backgroundColor: theme.palette.common.white,
+            borderRadius: '4px',
+            color: theme.palette.common.white,
+          }}
+        />
+      </Box>
+
+      <Box
+        display="flex"
+        gap={2}
+        sx={{
+          '& p': {
+            color: theme.palette.common.white,
+            cursor: 'pointer',
+            py: 1,
+          },
+        }}
+      >
+        <Typography>Ke toan</Typography>
+        <Typography>Marketing</Typography>
+        <Typography>IT</Typography>
+        <Typography>Thuc tap sinh</Typography>
+      </Box>
     </Box>
   );
 };
@@ -23,31 +117,41 @@ const SliderHome = () => {
     slidesToScroll: 1,
   };
   return (
-    <Slider {...settings}>
-      <div>
-        <div
-          style={{
-            borderRadius: '10px',
-            backgroundPosition: 'center',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            height: '25rem',
-            backgroundImage: `url(${Banner})`,
-          }}
-        ></div>
-      </div>
-      <div>
-        <div
-          style={{
-            backgroundPosition: 'center',
-            backgroundSize: 'contain',
-            backgroundRepeat: 'no-repeat',
-            height: '25rem',
-            backgroundImage: `url(${Banne2})`,
-          }}
-        ></div>
-      </div>
-    </Slider>
+    <div>
+      <Slider {...settings}>
+        <div>
+          <div
+            style={{
+              borderRadius: '10px',
+              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              position: 'relative',
+
+              height: '25rem',
+              backgroundImage: `url(${Banner})`,
+            }}
+          >
+            <SliderService />
+          </div>
+        </div>
+        <div>
+          <div
+            style={{
+              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              height: '25rem',
+              position: 'relative',
+
+              backgroundImage: `url(${Banne2})`,
+            }}
+          >
+            <SliderService />
+          </div>
+        </div>
+      </Slider>
+    </div>
   );
 };
 
