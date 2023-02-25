@@ -4,7 +4,6 @@ import routes from 'src/routes';
 
 function App() {
   const isLogin: boolean = true;
-  console.log('dasd');
   return useRoutes(routes(isLogin));
 }
 

@@ -13,7 +13,7 @@ export const setClientToken = (token: string) => {
 };
 
 export const createClient = () => {
-  const baseURL = 'http://localhost:5000/v1/api';
+  const baseURL = 'http://localhost:5000/api/v1';
 
   const instance = axios.create({
     baseURL,
@@ -33,7 +33,7 @@ export const createClient = () => {
   instance.interceptors.request.use(
     (config: any) => {
       config.headers = {
-        Authorization: getClientToken(),
+        // Authorization: getClientToken(),
         ...config.headers,
       };
       return config;

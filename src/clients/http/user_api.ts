@@ -1,12 +1,15 @@
+import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import { createClient } from './axios_client';
 
 const client = createClient();
 
 export const userApi = {
-  login: () => {
-    return client.post('/users');
+  login: (payload: IPayloadLogin) => {
+    return client.post('/auth/login', payload);
   },
-  register: () => {
-    return client.post('/users');
+  register: (payload: IPayloadRegister) => {
+    console.log({ payload });
+
+    return client.post<any>('/auth/register', payload);
   },
 };

@@ -17,6 +17,9 @@ const palette: PaletteOptions = {
   },
   secondary: {
     main: '#414045',
+
+    // active
+    light: '#341678',
   },
 };
 

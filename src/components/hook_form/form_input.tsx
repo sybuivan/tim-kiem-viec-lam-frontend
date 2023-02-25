@@ -10,10 +10,10 @@ import {
   TextField,
 } from '@mui/material';
 import { isNumber, isString } from 'lodash';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 interface IProps {
-  control: Control<any, any>;
+  control: any;
   name: string;
   label?: string;
   placeholder?: string;

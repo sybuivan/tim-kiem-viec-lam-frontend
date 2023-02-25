@@ -39,19 +39,21 @@ const SliderService = () => {
         gap={1}
       >
         <FormInput
-          name="searchKeyword"
           control={control}
+          name="searchKeyword"
           placeholder="Tìm kiếm cơ hội việc làm"
           sx={{
             backgroundColor: theme.palette.common.white,
             borderRadius: '4px',
+            width: '70%',
           }}
         />
-        <Box height="37px" width="130px">
+        <Box height="37px" flex={1}>
           <Button
             variant="contained"
             sx={{
               padding: '8px',
+              width: '100%',
             }}
           >
             Tìm kiếm

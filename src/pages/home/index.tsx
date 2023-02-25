@@ -44,7 +44,7 @@ const dataList: ICompanyList = {
   ],
 };
 
-const dataJobs: IJobList = {
+export const dataJobs: IJobList = {
   data: [
     {
       nameJob: 'Nhân Viên Kế Toán Công Nợ Phải Trả',

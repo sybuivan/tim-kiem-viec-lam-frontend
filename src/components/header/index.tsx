@@ -1,31 +1,35 @@
+import { KeyboardArrowDown } from '@mui/icons-material';
+import { LocationCity, NotificationsNoneOutlined } from '@mui/icons-material';
 import {
   Avatar,
+  Badge,
   Box,
+  Container,
   IconButton,
   Menu,
   MenuItem,
   Tooltip,
   Typography,
-  Container,
-  Badge,
 } from '@mui/material';
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {
-  NotificationsNoneOutlined,
-  LocationCity,
-  KeyboardArrowDown,
-} from '@mui/icons-material';
-
-import theme from 'src/theme';
 import { ReactComponent as ReactLogo } from 'src/assets/images/logo.svg';
+import { MODAL_IDS } from 'src/constants';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import LoginForm from 'src/pages/auth/login_form';
+import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import theme from 'src/theme';
+import useStyles from './styles';
+
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 const Header = () => {
+  const { me } = useAppSelector((state) => state.userSlice);
+  const dispatch = useAppDispatch();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const classes = useStyles();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -34,6 +38,16 @@ const Header = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const handleOpenClick = () => {
+    dispatch(
+      openModal({
+        modalId: MODAL_IDS.login,
+        dialogComponent: <LoginForm />,
+      })
+    );
+  };
+
   return (
     <Box bgcolor={theme.palette.primary.main} height={70} width="100%">
       <Container
@@ -66,21 +80,35 @@ const Header = () => {
                 gap: '10px',
               }}
             >
-              <li>
-                <Link to="">Cơ hội việc làm</Link>
+              <li className={classes.liItem}>
+                <Link to="/co-hoi-viec-lam">
+                  <Typography fontWeight="600" fontSize="16px">
+                    Cơ hội việc làm
+                  </Typography>
+                </Link>
               </li>
-              <li>
-                <Link to="">Tin tức</Link>
+              <li className={classes.liItem}>
+                <Link
+                  to=""
+                  style={{
+                    fontWeight: 600,
+                    fontSize: '15px',
+                  }}
+                >
+                  <Typography fontWeight="600" fontSize="16px">
+                    Tin tức
+                  </Typography>
+                </Link>
               </li>
             </ul>
           </Box>
 
-          <Box display="flex" justifyContent="flex-end" gap="80px" flex="1">
+          <Box display="flex" justifyContent="flex-end" gap="50px" flex="1">
             <Box
               display="flex"
               color={theme.palette.common.white}
               alignItems="center"
-              gap={2}
+              gap={1}
               sx={{
                 cursor: 'pointer',
                 '& p': {
@@ -99,43 +127,71 @@ const Header = () => {
               <Typography>Thông báo</Typography>
             </Box>
 
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton
-                  onClick={handleOpenUserMenu}
-                  sx={{ p: 0, color: theme.palette.common.white }}
+            {me?.accessToken ? (
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0, color: theme.palette.common.white }}
+                  >
+                    <Avatar
+                      alt="Remy Sharp"
+                      src="/static/images/avatar/2.jpg"
+                    />
+                    <Typography ml={1} fontWeight="600">
+                      Van Sy
+                    </Typography>
+                    <KeyboardArrowDown />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
                 >
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                  <Typography ml={1} fontWeight="600">
-                    Van Sy
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            ) : (
+              <Box display="flex">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  className={classes.liItem}
+                  onClick={handleOpenClick}
+                >
+                  <Typography
+                    fontWeight="600"
+                    fontSize="16px"
+                    color={theme.palette.common.white}
+                  >
+                    Đăng nhập/
                   </Typography>
-                  <KeyboardArrowDown />
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-
+                  <Typography
+                    fontWeight="600"
+                    fontSize="16px"
+                    color={theme.palette.common.white}
+                  >
+                    Đăng ký
+                  </Typography>
+                </Box>
+              </Box>
+            )}
             <Box
               display="Flex"
               alignItems="center"
