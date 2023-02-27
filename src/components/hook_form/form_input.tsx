@@ -4,6 +4,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   FormControl,
+  FormLabel,
   IconButton,
   InputAdornment,
   SxProps,
@@ -87,13 +88,20 @@ export const FormInput = (props: IProps) => {
           margin={margin}
           sx={sx}
         >
+          <FormLabel
+            sx={{
+              fontWeight: '600',
+            }}
+          >
+            {label}
+          </FormLabel>
           <TextField
             fullWidth
             size={size}
             type={isShowPassword ? 'text' : type}
             variant={variant}
             disabled={disabled}
-            label={label}
+            // label={label}
             placeholder={placeholder}
             error={invalid}
             helperText={error ? error.message : null}

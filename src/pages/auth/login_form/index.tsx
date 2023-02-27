@@ -129,7 +129,7 @@ const LoginForm = () => {
             </Typography>
           </Typography>
         </Box>
-        <Box flex="1" height="360px">
+        <Box flex="1" height="395px">
           <img
             width="100%"
             src="https://img.timvieckysu.com/2021/08/quy-trinh-tuyen-dung.jpg"

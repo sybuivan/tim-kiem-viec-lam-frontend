@@ -2,7 +2,8 @@ import React from 'react';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom/client';
-import { ToastContainer } from 'react-toastify';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import 'react-toastify/dist/ReactToastify.css';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
@@ -24,7 +25,9 @@ root.render(
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <App />
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <App />
+          </LocalizationProvider>
           <ModalController />
         </BrowserRouter>
         <Toaster position="top-center" />

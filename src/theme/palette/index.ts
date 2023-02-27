@@ -5,12 +5,12 @@ const palette: PaletteOptions = {
     light: '#757ce8',
     // tim
     main: '#451DA0',
-    contrastText: '#fff',
+
+    // hover primary
+    contrastText: '#d5eaff',
 
     // blue
     dark: '#2c95ff',
-
-    '100': '#d5eaff',
   },
   error: {
     main: '#d63031',

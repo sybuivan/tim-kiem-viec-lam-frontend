@@ -1,7 +1,41 @@
 import React from 'react';
+import { Container, Grid, Box } from '@mui/material';
+import ProfileBar from './profile_bar';
+import { Outlet } from 'react-router';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+  root: {
+    position: 'fixed',
+  },
+});
 
 const Profile = () => {
-  return <div>Profile</div>;
+  const classes = useStyles();
+  return (
+    <Box bgcolor="#ebe5e5">
+      <Container
+        sx={{
+          height: '100%',
+          minWidth: '1600px',
+          paddingLeft: '0!important',
+          overflowX: 'hidden',
+          minHeight: '30px',
+        }}
+      >
+        <Grid container columnSpacing={2}>
+          <Grid item xs={2.5}>
+            <Box className={classes.root}>
+              <ProfileBar />
+            </Box>
+          </Grid>
+          <Grid item xs={7.5}>
+            <Outlet />
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
+  );
 };
 
 export default Profile;

@@ -12,7 +12,8 @@ import {
   Typography,
 } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { PersonOutlineOutlined, LogoutOutlined } from '@mui/icons-material';
 import { ReactComponent as ReactLogo } from 'src/assets/images/logo.svg';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
@@ -20,15 +21,32 @@ import LoginForm from 'src/pages/auth/login_form';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
 import useStyles from './styles';
+import { logout } from 'src/redux_store/user/user_slice';
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings: {
+  icon: any;
+  title: string;
+  path?: string;
+}[] = [
+  {
+    icon: <PersonOutlineOutlined />,
+    title: 'Tài khoản người dùng',
+    path: '/thong-tin-ca-nhan',
+  },
+  {
+    icon: <LogoutOutlined />,
+    title: 'Đăng xuất',
+  },
+];
 
 const Header = () => {
-  const { me } = useAppSelector((state) => state.userSlice);
+  const { me, token } = useAppSelector((state) => state.userSlice);
+  console.log(token);
   const dispatch = useAppDispatch();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const navigate = useNavigate();
   const classes = useStyles();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -116,7 +134,7 @@ const Header = () => {
                 },
               }}
             >
-              <Badge badgeContent={4} color="primary">
+              <Badge badgeContent={4} color="error">
                 <NotificationsNoneOutlined
                   color="action"
                   sx={{
@@ -127,7 +145,7 @@ const Header = () => {
               <Typography>Thông báo</Typography>
             </Box>
 
-            {me?.accessToken ? (
+            {token ? (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton
@@ -136,10 +154,10 @@ const Header = () => {
                   >
                     <Avatar
                       alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
+                      src={me?.avatar || '/static/images/avatar/2.jpg'}
                     />
                     <Typography ml={1} fontWeight="600">
-                      Van Sy
+                      {me?.fullName}
                     </Typography>
                     <KeyboardArrowDown />
                   </IconButton>
@@ -161,8 +179,21 @@ const Header = () => {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting}</Typography>
+                    <MenuItem
+                      key={setting.title}
+                      onClick={handleCloseUserMenu}
+                      onClickCapture={() => {
+                        if (setting.path) {
+                          navigate(setting.path);
+                        } else {
+                          dispatch(logout(''));
+                        }
+                      }}
+                    >
+                      {setting.icon}
+                      <Typography textAlign="center">
+                        {setting.title}
+                      </Typography>
                     </MenuItem>
                   ))}
                 </Menu>

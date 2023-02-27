@@ -3,6 +3,7 @@ import {
   CircularProgress,
   FormControl,
   FormHelperText,
+  FormLabel,
   IconButton,
   InputLabel,
   ListItemText,
@@ -19,7 +20,7 @@ import { Control, Controller } from 'react-hook-form';
 import Loading from '../loading';
 
 interface IProps {
-  control: Control<any, any>;
+  control: any;
   name: string;
   options: any[];
   keyOption: string;
@@ -131,15 +132,16 @@ export const FormSelect = (props: IProps) => {
           size={size}
           error={invalid}
         >
-          {/* <InputLabel
-            size={size === 'medium' ? 'normal' : 'small'}
-            variant={variant}
+          <FormLabel
+            sx={{
+              fontWeight: '600',
+            }}
           >
             {label}
-          </InputLabel> */}
+          </FormLabel>
 
           <Select
-            label={label}
+            // label={label}
             value={options.length ? value || '' : ''}
             onChange={(e) => {
               if (_.isEqual(value, e.target.value) || loading) return;
