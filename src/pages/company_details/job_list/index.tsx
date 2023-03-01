@@ -1,8 +1,12 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import React from 'react';
 import { JobCompany } from 'src/components/job_company';
+import { useAppSelector } from 'src/hooks';
 
 const JobList = () => {
+  const {
+    companyDetail: { jobs },
+  } = useAppSelector((state) => state.companySlice);
   return (
     <Paper
       sx={{
@@ -21,9 +25,9 @@ const JobList = () => {
           </Typography>
 
           <Box>
-            <JobCompany />
-            <JobCompany />
-            <JobCompany />
+            {jobs.map((job) => (
+              <JobCompany job={job} key={job.id_job} />
+            ))}
           </Box>
         </Box>
       </Container>

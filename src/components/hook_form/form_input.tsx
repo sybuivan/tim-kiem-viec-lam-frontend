@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { isNumber, isString } from 'lodash';
 import { Controller } from 'react-hook-form';
+import theme from 'src/theme';
 
 interface IProps {
   control: any;
@@ -91,6 +92,8 @@ export const FormInput = (props: IProps) => {
           <FormLabel
             sx={{
               fontWeight: '600',
+              color: theme.palette.common.black,
+              pb: label ? 0.5 : 0,
             }}
           >
             {label}

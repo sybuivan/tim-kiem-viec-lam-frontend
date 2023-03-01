@@ -39,39 +39,42 @@ const JobItem = () => {
           >
             Kinh Môn-Hải Dương_Quỳnh Phụ-Thái Bình_Bố T-Thái Bình_Bố T
           </Typography>
+
           <Typography fontWeight="500">
             Công Ty TNHH Manulife (Việt Nam){' '}
           </Typography>
         </Box>
+      </Box>
+      <Box pl={7} display="flex" justifyContent="space-between">
+        <Box>
+          <Box display="flex" gap={1}>
+            <LocationOnOutlined
+              sx={{
+                color: theme.palette.grey[600],
+              }}
+            />
+            <Typography>Hà nội </Typography>
+          </Box>
+          <Box display="flex" gap={1}>
+            <AttachMoneyOutlined
+              sx={{
+                color: theme.palette.grey[600],
+              }}
+            />
+            <Typography>11 - 30 triệu </Typography>
+          </Box>
+          <Box display="flex" gap={1}>
+            <BusinessCenterOutlined
+              sx={{
+                color: theme.palette.grey[600],
+              }}
+            />
+            <Typography>1 năm </Typography>
+          </Box>
+        </Box>
         <IconButton>
           <FavoriteBorderOutlined />
         </IconButton>
-      </Box>
-      <Box pl={7}>
-        <Box display="flex" gap={1}>
-          <LocationOnOutlined
-            sx={{
-              color: theme.palette.grey[600],
-            }}
-          />
-          <Typography>Hà nội </Typography>
-        </Box>
-        <Box display="flex" gap={1}>
-          <AttachMoneyOutlined
-            sx={{
-              color: theme.palette.grey[600],
-            }}
-          />
-          <Typography>11 - 30 triệu </Typography>
-        </Box>
-        <Box display="flex" gap={1}>
-          <BusinessCenterOutlined
-            sx={{
-              color: theme.palette.grey[600],
-            }}
-          />
-          <Typography>1 năm </Typography>
-        </Box>
       </Box>
     </Box>
   );

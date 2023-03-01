@@ -47,10 +47,6 @@ function DialogWrapper(props: IDialogWrapperProps) {
 
   const dispatch = useAppDispatch();
 
-  console.log({
-    isOpen: modal.open,
-  });
-
   return (
     <Dialog
       disableRestoreFocus

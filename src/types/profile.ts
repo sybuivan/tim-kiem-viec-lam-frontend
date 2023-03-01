@@ -7,6 +7,7 @@ export interface ICustomAccordion {
     icon: ReactNode;
     name: string;
     path: string;
+    nested?: string;
   }[];
 }
 

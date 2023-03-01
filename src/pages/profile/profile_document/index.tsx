@@ -2,10 +2,12 @@ import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
 import theme from 'src/theme';
+import { useNavigate } from 'react-router';
 
 const ProfileDocument = () => {
+  const navigate = useNavigate();
   return (
-    <Box>
+    <Box minHeight="80vh">
       <Box
         bgcolor={theme.palette.common.white}
         p={2}
@@ -23,7 +25,7 @@ const ProfileDocument = () => {
         justifyContent="space-between"
         alignItems="center"
         bgcolor={theme.palette.common.white}
-        px={2}
+        p={2}
       >
         <Box display="flex" alignItems="center" gap={2}>
           <img src="https://vieclam24h.vn/img/img-hsdk.png" alt="" />
@@ -39,6 +41,9 @@ const ProfileDocument = () => {
         </Box>
 
         <Button
+          onClick={() => {
+            navigate('/thong-tin-ca-nhan/ho-so-dinh-kem');
+          }}
           startIcon={<AttachmentOutlinedIcon />}
           variant="contained"
           sx={{

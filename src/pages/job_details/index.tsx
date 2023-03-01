@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 import {
   Container,
   Paper,
@@ -10,8 +11,21 @@ import {
 import JobInfo from './job_info';
 import JobDescription from './job_description';
 import JobSugget from './job_sugget';
+import { useParams } from 'react-router';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getJobById } from 'src/redux_store/job/job_action';
 
 const JobDetails = () => {
+  const { id_job } = useParams();
+  const dispatch = useAppDispatch();
+  const { jobDetail } = useAppSelector((state) => state.jobSlice);
+
+  useEffect(() => {
+    dispatch(getJobById(id_job + ''));
+
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <Container sx={{ maxWidth: '1500px!important' }}>
       <Breadcrumbs
@@ -30,10 +44,7 @@ const JobDetails = () => {
         >
           Việc làm
         </Link>
-        <Typography color="text.primary">
-          Nhân Viên Hỗ Trợ Khách Hàng App Food (Không Sales - Không Áp Số - Cung
-          Cấp Thiết Bị Làm Việc)
-        </Typography>
+        <Typography color="text.primary">{jobDetail.name_job}</Typography>
       </Breadcrumbs>
 
       <Grid container columnSpacing={4}>
@@ -45,14 +56,19 @@ const JobDetails = () => {
               mb: 4,
             }}
           >
-            <JobInfo />
+            <JobInfo jobDetail={jobDetail} />
           </Paper>
           <Paper
             sx={{
               p: 4,
             }}
           >
-            <JobDescription />
+            <JobDescription
+              required_job={jobDetail.required_job}
+              description_job={jobDetail.description_job}
+              benefits_job={jobDetail.benefits_job}
+              id_job={jobDetail.id_job}
+            />
           </Paper>
         </Grid>
         <Grid item xs={4}>

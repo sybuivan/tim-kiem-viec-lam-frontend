@@ -18,6 +18,7 @@ import { ClearOutlined } from '@mui/icons-material';
 import _ from 'lodash';
 import { Control, Controller } from 'react-hook-form';
 import Loading from '../loading';
+import theme from 'src/theme';
 
 interface IProps {
   control: any;
@@ -135,6 +136,8 @@ export const FormSelect = (props: IProps) => {
           <FormLabel
             sx={{
               fontWeight: '600',
+              color: theme.palette.common.black,
+              pb: label ? 0.5 : 0,
             }}
           >
             {label}

@@ -18,6 +18,9 @@ const palette: PaletteOptions = {
   secondary: {
     main: '#414045',
 
+    // color text
+    contrastText: 'rgba(111,109,113,1)',
+
     // active
     light: '#341678',
   },

@@ -130,7 +130,7 @@ const SliderHome = () => {
               backgroundRepeat: 'no-repeat',
               position: 'relative',
 
-              height: '25rem',
+              height: '20rem',
               backgroundImage: `url(${Banner})`,
             }}
           >
@@ -143,7 +143,7 @@ const SliderHome = () => {
               backgroundPosition: 'center',
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
-              height: '25rem',
+              height: '20rem',
               position: 'relative',
 
               backgroundImage: `url(${Banne2})`,

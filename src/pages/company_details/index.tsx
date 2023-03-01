@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Grid, Typography, Paper } from '@mui/material';
 import theme from 'src/theme';
 
-import {
-  LocationOnOutlined,
-  Groups2Outlined,
-  FactoryOutlined,
-  HourglassBottomOutlined,
-} from '@mui/icons-material';
+import { LocationOnOutlined } from '@mui/icons-material';
 import CompanyInfo from './company_info';
 import JobList from './job_list';
 import CompanyIntro from './company_intro';
+import { getCompanyById } from 'src/redux_store/company/company_action';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { useParams } from 'react-router';
 
 const CompanyDetails = () => {
+  const dispatch = useAppDispatch();
+  const { id_company } = useParams<string>();
+  const {
+    companyDetail: {
+      company: { address },
+    },
+  } = useAppSelector((state) => state.companySlice);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
+    dispatch(getCompanyById(id_company + ''));
+  }, []);
+
   return (
-    <Box bgcolor="#ebe5e5">
+    <Box>
       <CompanyInfo />
       <Grid
         container
@@ -53,10 +66,7 @@ const CompanyDetails = () => {
                     Địa chỉ
                   </Typography>
                 </Box>
-                <Typography>
-                  Số 55 Đường Số 1, Khu Dân Cư City land, Phường 7, Quận Gò Vấp,
-                  TP. HCM
-                </Typography>
+                <Typography>{address}</Typography>
               </Box>
             </Box>
           </Paper>

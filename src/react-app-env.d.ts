@@ -13,4 +13,5 @@ declare module 'react-slick';
 declare module 'react-toastify';
 declare module 'react-dnd';
 declare module 'react-dnd-html5-backend';
+declare module 'react-html-string';
 // declare module '@emotion/react';

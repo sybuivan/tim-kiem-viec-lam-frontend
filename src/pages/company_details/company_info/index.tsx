@@ -6,9 +6,15 @@ import {
   RemoveRedEyeOutlined,
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from 'src/hooks';
 import theme from 'src/theme';
 
 const CompanyInfo = () => {
+  const {
+    companyDetail: {
+      company: { cover_image, link_website, logo, name_company },
+    },
+  } = useAppSelector((state) => state.companySlice);
   return (
     <Paper
       sx={{
@@ -22,8 +28,7 @@ const CompanyInfo = () => {
             height: '300px',
             backgroundSize: 'cover',
             backgroundPosition: '50%',
-            backgroundImage:
-              'url(https://cdn1.vieclam24h.vn/images/assets/img/generic_3.jpg)',
+            backgroundImage: `url("${cover_image}")`,
             borderRadius: '0 0 20px 20px',
           }}
         ></div>
@@ -43,7 +48,7 @@ const CompanyInfo = () => {
                 width="150px"
                 height="150px"
                 alt=""
-                src="https://cdn1.vieclam24h.vn/tvn/images/default/2021/11/12/images/163668454852.jpeg"
+                src={logo}
                 style={{
                   boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
                   borderRadius: '20px',
@@ -59,7 +64,7 @@ const CompanyInfo = () => {
                 }}
               >
                 <Typography fontWeight="600" fontSize="20px">
-                  Công Ty TNHH Thương Mại Và Dịch Vụ Wonmom
+                  {name_company}
                 </Typography>
                 <Box display="flex" gap={3}>
                   <Box display="flex" gap={1} alignItems="center">
@@ -76,7 +81,7 @@ const CompanyInfo = () => {
                         color: theme.palette.primary.main,
                       }}
                     />
-                    <Link to="/">WONMOM.COM</Link>
+                    <Link to="/">{link_website}</Link>
                   </Box>
                 </Box>
               </Box>

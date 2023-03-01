@@ -7,14 +7,24 @@ import {
 } from '@mui/icons-material';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import { Box, IconButton, Typography } from '@mui/material';
+import moment from 'moment';
 import React from 'react';
+import { useAppSelector } from 'src/redux_store';
 import theme from 'src/theme';
+import { IJob } from 'src/types/job';
 
-export const JobCompany = ({ isSave }: { isSave?: boolean }) => {
+export const JobCompany = ({
+  isSave,
+  job,
+}: {
+  isSave?: boolean;
+  job?: IJob;
+}) => {
   return (
     <Box
       px={2}
       py={2}
+      mb={0.4}
       border="1px solid #c1c1c1"
       borderRadius="4px"
       sx={{
@@ -26,7 +36,7 @@ export const JobCompany = ({ isSave }: { isSave?: boolean }) => {
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography fontWeight="600" fontSize="16px">
-          Nhân Viên Content Marketing
+          {job?.name_job}
         </Typography>
         <IconButton>
           {isSave ? (
@@ -54,7 +64,7 @@ export const JobCompany = ({ isSave }: { isSave?: boolean }) => {
           >
             Nơi làm việc:
           </Typography>
-          <Typography>Hà nội </Typography>
+          <Typography>{job?.work_location}</Typography>
         </Box>
         <Box display="flex" gap={0.5}>
           <AttachMoneyOutlined
@@ -69,7 +79,7 @@ export const JobCompany = ({ isSave }: { isSave?: boolean }) => {
           >
             Lương:
           </Typography>
-          <Typography>11 - 30 triệu </Typography>
+          <Typography>{job?.name_range}</Typography>
         </Box>
         <Box display="flex" gap={0.5}>
           <HourglassBottomOutlined
@@ -84,7 +94,7 @@ export const JobCompany = ({ isSave }: { isSave?: boolean }) => {
           >
             Hạn nộp:
           </Typography>
-          <Typography>12/03/2023 </Typography>
+          <Typography>{moment(job?.deadline).format('DD/MM-YYYY')} </Typography>
         </Box>
       </Box>
     </Box>

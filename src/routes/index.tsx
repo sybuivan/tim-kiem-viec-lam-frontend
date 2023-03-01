@@ -10,6 +10,7 @@ import ProfileDocument from 'src/pages/profile/profile_document';
 import JobApplied from 'src/pages/profile/job_applied';
 import JobSaved from 'src/pages/profile/job_saved';
 import CompanyFollow from 'src/pages/profile/company_follow';
+import ProfileOnline from 'src/pages/profile/profile_document/profile_online';
 
 let routes: (isLogin: boolean) => RouteObject[] = (isLogin?: boolean) => [
   {
@@ -25,11 +26,11 @@ let routes: (isLogin: boolean) => RouteObject[] = (isLogin?: boolean) => [
         element: <JobList />,
       },
       {
-        path: '/viec-lam/:id',
+        path: '/viec-lam/:id_job',
         element: <JobDetails />,
       },
       {
-        path: '/cong-ty/:id',
+        path: '/cong-ty/:id_company',
         element: <CompanyDetails />,
       },
       {
@@ -55,6 +56,10 @@ let routes: (isLogin: boolean) => RouteObject[] = (isLogin?: boolean) => [
           {
             path: 'danh-sach-theo-doi',
             element: <CompanyFollow />,
+          },
+          {
+            path: 'ho-so-dinh-kem',
+            element: <ProfileOnline />,
           },
         ],
       },

@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser, updateProfile } from './user_action';
+import { ISavedList } from 'src/types/user';
+import {
+  loginUser,
+  saveJob,
+  updateProfile,
+  getSavedListByUser,
+} from './user_action';
 
 const getLocal: any = localStorage.getItem('user_account')
   ? JSON.parse(localStorage.getItem('user_account') || '')
@@ -7,9 +13,19 @@ const getLocal: any = localStorage.getItem('user_account')
 
 const token: any = localStorage.getItem('token');
 
-const initialState = {
+interface IUserSlice {
+  saveJobList: ISavedList;
+  me: any;
+  token: any;
+}
+
+const initialState: IUserSlice = {
   me: getLocal,
   token,
+  saveJobList: {
+    savedList: [],
+    total: 0,
+  },
 };
 
 const userSlice = createSlice({
@@ -21,6 +37,14 @@ const userSlice = createSlice({
       state.token = '';
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
+    },
+
+    unSaveJobById: (state, action) => {
+      const id_job = action.payload;
+      const newSavedList = state.saveJobList.savedList.filter(
+        (item) => item.id_job !== id_job
+      );
+      state.saveJobList.savedList = newSavedList;
     },
   },
   extraReducers: (builder) => {
@@ -36,10 +60,16 @@ const userSlice = createSlice({
         const { users } = action.payload;
         state.me = users;
         localStorage.setItem('user_account', JSON.stringify(users));
+      })
+      .addCase(saveJob.fulfilled, (state, action) => {
+        state.saveJobList = action.payload;
+      })
+      .addCase(getSavedListByUser.fulfilled, (state, action) => {
+        state.saveJobList = action.payload;
       });
   },
 });
 
 const { actions, reducer } = userSlice;
-export const { logout } = actions;
+export const { logout, unSaveJobById } = actions;
 export default reducer;

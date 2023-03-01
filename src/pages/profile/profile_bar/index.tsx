@@ -45,7 +45,7 @@ const CustomAccordion = ({ data }: { data: ICustomAccordion }) => {
         <Box
           onClick={() => handleClick(item.path)}
           bgcolor={
-            location.pathname === item.path
+            location.pathname === item.path || location.pathname === item.nested
               ? theme.palette.primary.contrastText
               : theme.palette.common.white
           }
@@ -76,6 +76,7 @@ const ProfileBar = () => {
     >
       <Box
         sx={{
+          paddingTop: '10px',
           '& .Mui-expanded': {
             margin: '0!important',
           },

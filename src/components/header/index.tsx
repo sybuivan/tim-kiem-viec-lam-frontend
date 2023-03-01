@@ -11,7 +11,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { PersonOutlineOutlined, LogoutOutlined } from '@mui/icons-material';
 import { ReactComponent as ReactLogo } from 'src/assets/images/logo.svg';
@@ -41,7 +41,6 @@ const settings: {
 
 const Header = () => {
   const { me, token } = useAppSelector((state) => state.userSlice);
-  console.log(token);
   const dispatch = useAppDispatch();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null

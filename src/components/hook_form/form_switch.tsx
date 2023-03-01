@@ -3,7 +3,7 @@ import React from 'react';
 import { Control, Controller } from 'react-hook-form';
 
 interface IProps {
-  control: Control<any, any>;
+  control: any;
   name: string;
   label: string;
   size?: 'small' | 'medium';

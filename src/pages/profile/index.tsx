@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 const Profile = () => {
   const classes = useStyles();
   return (
-    <Box bgcolor="#ebe5e5">
+    <Box>
       <Container
         sx={{
           height: '100%',

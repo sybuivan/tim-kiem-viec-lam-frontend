@@ -1,10 +1,84 @@
 import React from 'react';
+import HTMLString from 'react-html-string';
 import { Box, Paper, Typography, Button } from '@mui/material';
 import { FavoriteBorderOutlined } from '@mui/icons-material';
 
 import theme from 'src/theme';
+import ApplyModal from '../apply_modal';
+import { MODAL_IDS } from 'src/constants';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import { FavoriteRounded } from '@mui/icons-material';
+import { checkIsSaveJob } from 'src/utils/common';
+import LoginForm from 'src/pages/auth/login_form';
+import { saveJob, unSavedJob } from 'src/redux_store/user/user_action';
+import { toastMessage } from 'src/utils/toast';
+import { unSaveJobById } from 'src/redux_store/user/user_slice';
 
-const JobDescription = () => {
+const JobDescription = ({
+  description_job,
+  benefits_job,
+  required_job,
+  id_job,
+}: {
+  required_job?: string;
+  description_job?: string;
+  benefits_job?: string;
+  id_job: string;
+}) => {
+  const dispatch = useAppDispatch();
+  const {
+    token,
+    me,
+    saveJobList: { savedList },
+  } = useAppSelector((state) => state.userSlice);
+
+  const handleOnpenApply = () => {
+    dispatch(
+      openModal({
+        modalId: MODAL_IDS.apply,
+        dialogComponent: <ApplyModal />,
+      })
+    );
+  };
+  const handleOnSave = () => {
+    if (token) {
+      dispatch(
+        saveJob({
+          id_job,
+          id_user: me?.id_user,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          toastMessage.success('Lưu thành công');
+        });
+    } else {
+      dispatch(
+        openModal({
+          modalId: MODAL_IDS.login,
+          dialogComponent: <LoginForm />,
+        })
+      );
+    }
+  };
+
+  const handleOnUnSaved = () => {
+    if (token) {
+      dispatch(
+        unSavedJob({
+          id_job: id_job,
+          id_user: me?.id_user,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          toastMessage.success('Bỏ lưu thành công');
+          dispatch(unSaveJobById(id_job));
+        });
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -23,55 +97,20 @@ const JobDescription = () => {
         <Typography fontWeight="600" py={2} fontSize="20px">
           Mô tả công việc
         </Typography>
-        <ul>
-          <li>
-            Làm việc trực tiếp tại Chi nhánh Ngân hàng hàng đầu Việt Nam, xây
-            dựng mối quan hệ và hỗ trợ nhân viên Ngân hàng và Chi nhánh trong
-            các hoạt động kinh doanh
-          </li>
-          <li>Được hỗ trợ nguồn khách hàng từ nhân viên ngân hàng</li>
-          <li>
-            Hỗ trợ nhân viên Ngân hàng giới thiệu, tư vấn cho khách hàng về kế
-            hoạch tài chính, giải pháp và chương trình Bảo hiểm
-          </li>
-          <li>
-            Tham gia xây dựng kế hoạch kinh doanh theo từng giai đoạn; định kỳ
-            báo cáo và cập nhật kết quả kinh doanh đến Quản lý kinh doanh trực
-            tiếp
-          </li>
-          <li>Trao đổi trực tiếp khi phỏng vấns</li>
-        </ul>
+        <HTMLString html={description_job} />
       </Box>
       <Box>
         <Typography fontWeight="600" py={2} fontSize="20px">
           Yêu cầu công việc
         </Typography>
 
-        <ul>
-          <li>Trình độ: Cao đẳng / Đại học</li>
-          <li>
-            Kinh nghiệm: Ít nhất 6th trong lãnh vực Sales. Có kinh nghiệm trong
-            lãnh vực Ngân hàng/ Tài chính/ Bảo hiểm là một lợi thế Tác phong:
-            chuyên nghiệp, nhanh nhẹn
-          </li>
-          <li>Kỹ năng: giao tiếp và đàm phán, chăm sóc khách hàng tốt</li>
-        </ul>
+        <HTMLString html={required_job} />
       </Box>
       <Box>
         <Typography fontWeight="600" py={2} fontSize="20px">
           Quyền lợi
         </Typography>
-
-        <ul>
-          <li>Chế độ lương và phúc lợi: LƯƠNG CỐ ĐỊNH + hoa hồng + thưởngc</li>
-          <li>Chính sách hoa hồng hấp dẫn, cạnh tranh</li>
-          <li>
-            Các khoản thưởng hiệu quả kinh doanh vượt trội định kì (tháng, quý,
-            năm) và thưởng “nóng” nếu đạt thành tích xuất sắc Chế độ thưởng
-          </li>
-          <li>Chăm sóc sức khỏe</li>
-          <li>Chăm sóc sức khỏe</li>
-        </ul>
+        <HTMLString html={benefits_job} />
       </Box>
 
       <Box display="flex" gap={2} py={4}>
@@ -83,12 +122,36 @@ const JobDescription = () => {
             px: 6,
             py: 2,
           }}
+          onClick={handleOnpenApply}
         >
           Nộp hồ sơ
         </Button>
-        <Button startIcon={<FavoriteBorderOutlined />} variant="outlined">
-          Lưu hồ sơ
-        </Button>
+        {checkIsSaveJob(savedList, id_job) ? (
+          <Button
+            startIcon={<FavoriteRounded />}
+            variant="outlined"
+            sx={{
+              px: 5,
+              color: theme.palette.primary.main,
+            }}
+            onClick={handleOnUnSaved}
+          >
+            Đã lưu
+          </Button>
+        ) : (
+          <>
+            <Button
+              startIcon={<FavoriteBorderOutlined />}
+              variant="outlined"
+              sx={{
+                px: 5,
+              }}
+              onClick={handleOnSave}
+            >
+              Lưu
+            </Button>
+          </>
+        )}
       </Box>
     </Box>
   );
