@@ -1,9 +1,14 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
+import { useAppSelector } from 'src/hooks';
 import ProfileHeader from '../header';
 import { JobCompany } from 'src/components/job_company';
+import EmptyData from 'src/components/empty_data';
 
 const JobSaved = () => {
+  const {
+    saveJobList: { savedList, total },
+  } = useAppSelector((state) => state.userSlice);
   return (
     <Box>
       <ProfileHeader />
@@ -27,9 +32,15 @@ const JobSaved = () => {
             gap: 2,
           }}
         >
-          <JobCompany isSave={true} />
-          <JobCompany isSave={true} />
-          <JobCompany isSave={true} />
+          {savedList.length > 0 ? (
+            <>
+              {savedList.map((job) => (
+                <JobCompany job={job} key={job.id_job} />
+              ))}
+            </>
+          ) : (
+            <EmptyData title="Bạn chưa có việc làm đã lưu" />
+          )}
         </Box>
       </Paper>
     </Box>

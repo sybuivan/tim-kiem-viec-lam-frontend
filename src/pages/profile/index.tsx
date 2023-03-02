@@ -30,7 +30,9 @@ const Profile = () => {
             </Box>
           </Grid>
           <Grid item xs={7.5}>
-            <Outlet />
+            <Box minHeight="90vh">
+              <Outlet />
+            </Box>
           </Grid>
         </Grid>
       </Container>

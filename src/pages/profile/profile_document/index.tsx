@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 const ProfileDocument = () => {
   const navigate = useNavigate();
   return (
-    <Box minHeight="80vh">
+    <Box>
       <Box
         bgcolor={theme.palette.common.white}
         p={2}
