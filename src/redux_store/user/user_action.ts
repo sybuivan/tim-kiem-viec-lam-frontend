@@ -2,7 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from 'src/clients/http/user_api';
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import { IPayloadProfile } from 'src/types/profile';
-import { IPayloadSaveJob, ISavedList } from 'src/types/user';
+import {
+  IPayLoadCV,
+  IPayloadSaveJob,
+  IProfileCV,
+  ISavedList,
+} from 'src/types/user';
 import { toastMessage } from 'src/utils/toast';
 
 export const loginUser = createAsyncThunk<
@@ -38,7 +43,7 @@ export const updateProfile = createAsyncThunk<
   {
     users: any;
   },
-  IPayloadProfile
+  any
 >('user/updateProfile', async (payload, { rejectWithValue }) => {
   try {
     const { data } = await userApi.updateProfile(payload);
@@ -48,6 +53,32 @@ export const updateProfile = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
+
+export const createCV = createAsyncThunk<IProfileCV, any>(
+  'user/createCV',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.createCV(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getProfileCV = createAsyncThunk<IProfileCV, string>(
+  'user/getProfileCV',
+  async (id_user, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.getProfileCV(id_user);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
 export const saveJob = createAsyncThunk<ISavedList, IPayloadSaveJob>(
   'user/saveJob',
   async (payload, { rejectWithValue }) => {

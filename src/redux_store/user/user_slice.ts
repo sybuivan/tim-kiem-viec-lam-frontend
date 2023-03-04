@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ISavedList } from 'src/types/user';
+import { IPayLoadCV, ISavedList } from 'src/types/user';
 import {
   loginUser,
   saveJob,
   updateProfile,
   getSavedListByUser,
+  createCV,
+  getProfileCV,
 } from './user_action';
 
 const getLocal: any = localStorage.getItem('user_account')
@@ -15,12 +17,23 @@ const token: any = localStorage.getItem('token');
 
 interface IUserSlice {
   saveJobList: ISavedList;
+  profileCV: IPayLoadCV;
   me: any;
   token: any;
 }
 
 const initialState: IUserSlice = {
   me: getLocal,
+  profileCV: {
+    career_goals: '',
+    desired_salary: 0,
+    id_company_field: '',
+    id_experience: '',
+    id_type_current: '',
+    id_type_desired: '',
+    id_working_form: '',
+    is_public: 0,
+  },
   token,
   saveJobList: {
     savedList: [],
@@ -66,6 +79,12 @@ const userSlice = createSlice({
       })
       .addCase(getSavedListByUser.fulfilled, (state, action) => {
         state.saveJobList = action.payload;
+      })
+      .addCase(createCV.fulfilled, (state, action) => {
+        state.profileCV = action.payload.profile_cv;
+      })
+      .addCase(getProfileCV.fulfilled, (state, action) => {
+        state.profileCV = action.payload.profile_cv;
       });
   },
 });

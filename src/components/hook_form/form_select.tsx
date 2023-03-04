@@ -135,7 +135,7 @@ export const FormSelect = (props: IProps) => {
         >
           <FormLabel
             sx={{
-              fontWeight: '600',
+              fontWeight: '500',
               color: theme.palette.common.black,
               pb: label ? 0.5 : 0,
             }}

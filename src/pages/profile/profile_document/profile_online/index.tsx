@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Breadcrumbs,
@@ -16,17 +16,112 @@ import {
   EditOutlined,
   ContactPageOutlined,
   WorkOutlineOutlined,
+  DeleteForeverOutlined,
+  CheckCircleRounded,
 } from '@mui/icons-material';
+import * as yup from 'yup';
+import { toastMessage } from 'src/utils/toast';
+
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
 
 import theme from 'src/theme';
 import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
-import { CCitisOption } from 'src/constants/common';
+import {
+  CCitisOption,
+  CCompanyField,
+  CExperience,
+  CTypeRank,
+  CWorkingForm,
+} from 'src/constants/common';
+import moment from 'moment';
+import { messageRequired } from 'src/utils/common';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { IPayLoadCV } from 'src/types/user';
+import { createCV, getProfileCV } from 'src/redux_store/user/user_action';
+
+const typeFile = [
+  'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+];
+
+const schema = yup.object().shape({
+  career_goals: yup.string().required(messageRequired('Vị trí mong muốn')),
+  id_company_field: yup.string().required(messageRequired('Nghề nghiệp')),
+  id_type_current: yup.string().required(messageRequired('Cấp bậc hiện tại')),
+  id_type_desired: yup.string().required(messageRequired('Cấp bậc mong muốn')),
+  desired_salary: yup.number().required(messageRequired('Mức lương mong muốn')),
+  id_experience: yup.string().required(messageRequired('Số năm kinh nghiệm')),
+  id_working_form: yup.string().required(messageRequired('Hình thức làm việc')),
+});
 
 const ProfileOnline = () => {
-  const { control } = useForm({});
+  const { me, profileCV } = useAppSelector((state) => state.userSlice);
+  const {
+    control,
+    handleSubmit,
+    formState: { isDirty, dirtyFields, isValid },
+  } = useForm<IPayLoadCV>({
+    defaultValues: profileCV,
+    resolver: yupResolver(schema),
+  });
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [isInvalidFile, setIsInvalidFile] = useState<boolean>(false);
+  const [file, setFile] = useState<any>();
+
+  const handleOnChangeFile = (e: any) => {
+    if (typeFile.includes(e.target.files[0].type)) {
+      //
+      setFile(e.target.files[0]);
+      setIsInvalidFile(false);
+    } else {
+      setIsInvalidFile(true);
+
+      setFile(null);
+    }
+  };
+
+  const handleOnSubmit = (data: IPayLoadCV) => {
+    const {
+      id_company_field,
+      id_working_form,
+      id_experience,
+      desired_salary,
+      id_type_current,
+      id_type_desired,
+      career_goals,
+      is_public,
+    } = data;
+    const is_publicCV: any = is_public ? 1 : 0;
+    const formData = new FormData();
+    if (file) {
+      formData.append('id_user', me.id_user);
+      formData.append('id_type_current', id_type_current);
+      formData.append('id_type_desired', id_type_desired);
+      formData.append('career_goals', career_goals);
+      formData.append('desired_salary', desired_salary);
+      formData.append('id_experience', id_experience);
+      formData.append('id_working_form', id_working_form);
+      formData.append('id_company_field', id_company_field);
+      formData.append('is_public', is_publicCV);
+      formData.append('file_cv', file, file.name);
+      formData.append('file_name', file.name);
+      dispatch(createCV(formData))
+        .unwrap()
+        .then(() => {
+          toastMessage.success('Lưu hồ sơ thành công');
+        });
+    } else {
+      toastMessage.error('File CV không được bỏ trống');
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getProfileCV(me.id_user));
+  }, []);
 
   return (
     <Box pb="90px">
@@ -69,20 +164,50 @@ const ProfileOnline = () => {
                 Tải CV đính kèm
               </Typography>
             </Box>
-
             <Box p={2}>
+              {(file || profileCV.file_cv) && (
+                <Box
+                  sx={{
+                    border: '1px solid rgba(234,240,246,1)',
+                    px: 2,
+                    py: 1,
+                    mb: 2,
+                    borderRadius: '4px',
+                    fontWeight: '600',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Box>
+                    <Typography fontWeight="600">
+                      {file?.name || profileCV.file_cv}
+                    </Typography>
+                    <Link href={`http://localhost:5000/${profileCV.file_cv}`}>
+                      Xem hồ sơ
+                    </Link>
+                  </Box>
+                  <IconButton
+                    onClick={() => {
+                      setFile(null);
+                      setIsInvalidFile(false);
+                    }}
+                  >
+                    <DeleteForeverOutlined
+                      sx={{
+                        color: theme.palette.error.main,
+                      }}
+                    />
+                  </IconButton>
+                </Box>
+              )}
               <Button
                 variant="outlined"
                 startIcon={<FileUploadOutlined />}
                 component="label"
               >
                 Tải file
-                <input
-                  hidden
-                  accept="image/*"
-                  type="file"
-                  //  onChange={handleOnChangeFile}
-                />
+                <input hidden type="file" onChange={handleOnChangeFile} />
               </Button>
 
               <Typography
@@ -93,6 +218,18 @@ const ProfileOnline = () => {
               >
                 Định dạng file .doc, .docx, .pdf
               </Typography>
+              {isInvalidFile && (
+                <Typography
+                  sx={{
+                    color: theme.palette.error.main,
+                    py: 1,
+                    fontWeight: '600',
+                  }}
+                >
+                  File upload không hợp lệ. File phải có định dạng .pdf, .doc,
+                  .docx
+                </Typography>
+              )}
             </Box>
           </Paper>
 
@@ -144,10 +281,12 @@ const ProfileOnline = () => {
 
               <Box>
                 <Typography fontWeight="600" fontSize="17px">
-                  Sỹ Bùi Văn
+                  {me.fullName}
                 </Typography>
-                <Typography>Số điện thoại: 0947895039</Typography>
-                <Typography>31/01/2001 - Nam - Độc thân</Typography>
+                <Typography>Số điện thoại: {me.phone}</Typography>
+                <Typography>
+                  {moment(me.birthday).format('DD/MM/YYYY')} - {me.gender}
+                </Typography>
                 <Typography>Quảng Trị Da nang</Typography>
               </Box>
             </Box>
@@ -173,76 +312,66 @@ const ProfileOnline = () => {
                   <FormInput
                     control={control}
                     label="Vị trí mong muốn"
-                    name="fullName"
+                    name="career_goals"
                     placeholder="E.g. Nhân viên kinh doanh"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <FormSelect
                     control={control}
-                    name="city"
+                    name="id_company_field"
                     label="Nghề nghiệp "
                     placeholder="Chọn"
-                    options={CCitisOption}
-                    keyOption="name"
-                    labelOption="name_with_type"
+                    options={CCompanyField}
+                    keyOption="id"
+                    labelOption="label"
                   />
                 </Grid>
 
                 <Grid item xs={6}>
                   <FormSelect
                     control={control}
-                    name="city"
+                    name="id_type_current"
                     label="Cấp bậc hiện tại "
                     placeholder="Chọn"
-                    options={CCitisOption}
-                    keyOption="name"
-                    labelOption="name_with_type"
+                    options={CTypeRank}
+                    keyOption="id"
+                    labelOption="label"
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <FormSelect
                     control={control}
-                    name="city"
+                    name="id_type_desired"
                     label="Cấp bậc mong muốn "
                     placeholder="Chọn"
-                    options={CCitisOption}
-                    keyOption="name"
-                    labelOption="name_with_type"
+                    options={CTypeRank}
+                    keyOption="id"
+                    labelOption="label"
                   />
                 </Grid>
                 <Grid item xs={6}>
                   <FormInput
                     control={control}
                     label="Mức lương mong muốn"
-                    name="fullName"
+                    name="desired_salary"
                     placeholder="0.0"
                     type="number"
                   />
                 </Grid>
+
                 <Grid item xs={6}>
                   <FormSelect
                     control={control}
-                    name="city"
-                    label="Trình độ học vấn "
-                    placeholder="Chọn"
-                    options={CCitisOption}
-                    keyOption="name"
-                    labelOption="name_with_type"
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormSelect
-                    control={control}
-                    name="city"
+                    name="id_experience"
                     label="Số năm kinh nghiệm"
                     placeholder="Chọn"
-                    options={CCitisOption}
-                    keyOption="name"
-                    labelOption="name_with_type"
+                    options={CExperience}
+                    keyOption="id"
+                    labelOption="label"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                   <FormSelect
                     control={control}
                     name="city"
@@ -252,16 +381,16 @@ const ProfileOnline = () => {
                     keyOption="name"
                     labelOption="name_with_type"
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={6}>
                   <FormSelect
                     control={control}
-                    name="city"
+                    name="id_working_form"
                     label="Hình thức làm việc"
                     placeholder="Chọn"
-                    options={CCitisOption}
-                    keyOption="name"
-                    labelOption="name_with_type"
+                    options={CWorkingForm}
+                    keyOption="id"
+                    labelOption="label"
                   />
                 </Grid>
               </Grid>
@@ -302,7 +431,15 @@ const ProfileOnline = () => {
                     />
                     <Typography>Tải CV đính kèm</Typography>
                   </Box>
-                  <Chip label="Bắt buộc" size="small" />
+                  {file || profileCV.file_cv ? (
+                    <CheckCircleRounded
+                      sx={{
+                        color: theme.palette.success.main,
+                      }}
+                    />
+                  ) : (
+                    <Chip label="Bắt buộc" size="small" />
+                  )}
                 </Box>
                 <Box
                   display="flex"
@@ -325,7 +462,15 @@ const ProfileOnline = () => {
                     />
                     <Typography>Thông tin cá nhân</Typography>
                   </Box>
-                  <Chip label="Bắt buộc" size="small" />
+                  {me.is_update_profle === 1 ? (
+                    <CheckCircleRounded
+                      sx={{
+                        color: theme.palette.success.main,
+                      }}
+                    />
+                  ) : (
+                    <Chip label="Bắt buộc" size="small" />
+                  )}
                 </Box>
                 <Box
                   display="flex"
@@ -348,7 +493,15 @@ const ProfileOnline = () => {
                     />
                     <Typography>Thông tin chung</Typography>
                   </Box>
-                  <Chip label="Bắt buộc" size="small" />
+                  {isValid ? (
+                    <CheckCircleRounded
+                      sx={{
+                        color: theme.palette.success.main,
+                      }}
+                    />
+                  ) : (
+                    <Chip label="Bắt buộc" size="small" />
+                  )}
                 </Box>
               </Box>
             </Box>
@@ -365,11 +518,12 @@ const ProfileOnline = () => {
         >
           <Box display="flex" justifyContent="space-between">
             <FormSwitch
-              name="public"
+              name="is_public"
               control={control}
               label="Cho phép nhà tuyển dụng tìm kiếm hồ sơ trực tuyến của bạn"
             />
             <Button
+              onClick={handleSubmit(handleOnSubmit)}
               variant="contained"
               sx={{
                 backgroundColor: theme.palette.primary.main,

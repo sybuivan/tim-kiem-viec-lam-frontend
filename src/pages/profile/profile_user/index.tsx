@@ -24,7 +24,6 @@ import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
 import { CCitisOption, CGenderOption } from 'src/constants/common';
-import moment from 'moment';
 
 const schema = yup.object().shape({
   fullName: yup.string().required(messageRequired('Họ và tên')),
@@ -44,7 +43,8 @@ const ProfileUser = () => {
   const [isLoading] = useGetStatus('user', 'updateProfile');
   const { me } = useAppSelector((state) => state.userSlice);
 
-  const [privewImage, setPrivewImage] = useState<string>('');
+  const [privewImage, setPrivewImage] = useState<string>(me.avatar || '');
+  const [file, setFile] = useState<any>();
 
   const { control, handleSubmit } = useForm<IPayloadProfile>({
     defaultValues: me,
@@ -52,28 +52,40 @@ const ProfileUser = () => {
   });
 
   const handleOnChangeFile = (e: any) => {
-    // setFile(e.target.files[0]);
+    setFile(e.target.files[0]);
     setPrivewImage(URL.createObjectURL(e.target.files[0]));
   };
 
   const handleOnSubmit = (data: IPayloadProfile) => {
     const { address, birthDay, city, fullName, gender, phone, email } = data;
-    dispatch(
-      updateProfile({
-        address,
-        birthDay: moment(birthDay).format('YYYY-MM-DD'),
-        city,
-        fullName,
-        gender,
-        phone,
-        email,
-        id_user: me.id_user,
-      })
-    )
-      .unwrap()
-      .then(() => {
-        toastMessage.success('Chỉnh sửa thông tin tài khoản thành công');
-      });
+    const formData = new FormData();
+
+    formData.append('address', address);
+    formData.append('birthDay', birthDay);
+    formData.append('city', city);
+    formData.append('fullName', fullName);
+    formData.append('gender', gender);
+    formData.append('phone', phone);
+    formData.append('email', email);
+    formData.append('id_user', me.id_user);
+    if (file) {
+      formData.append('avatar', file, file.name);
+      dispatch(updateProfile(formData))
+        .unwrap()
+        .then(() => {
+          toastMessage.success('Chỉnh sửa thông tin tài khoản thành công');
+        });
+    } else {
+      if (me.avatar) {
+        dispatch(updateProfile(formData))
+          .unwrap()
+          .then(() => {
+            toastMessage.success('Chỉnh sửa thông tin tài khoản thành công');
+          });
+      } else {
+        toastMessage.error('Ảnh không được bỏ trống');
+      }
+    }
   };
   return (
     <Box>

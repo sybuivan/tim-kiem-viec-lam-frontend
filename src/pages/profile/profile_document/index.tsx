@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
 import theme from 'src/theme';
 import { useNavigate } from 'react-router';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getProfileCV } from 'src/redux_store/user/user_action';
 
 const ProfileDocument = () => {
   const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+  const { me } = useAppSelector((state) => state.userSlice);
+
+  useEffect(() => {
+    dispatch(getProfileCV(me.id_user));
+  }, []);
+
   return (
     <Box>
       <Box

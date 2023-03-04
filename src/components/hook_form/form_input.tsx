@@ -91,8 +91,10 @@ export const FormInput = (props: IProps) => {
         >
           <FormLabel
             sx={{
-              fontWeight: '600',
-              color: theme.palette.common.black,
+              fontWeight: '500',
+              color: error
+                ? theme.palette.error.main
+                : theme.palette.common.black,
               pb: label ? 0.5 : 0,
             }}
           >
