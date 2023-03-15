@@ -1,4 +1,4 @@
-import { Typography, Box, Button, IconButton } from '@mui/material';
+import { Typography, Box, Button, IconButton, Link } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import BootstrapDialogTitle from 'src/components/modal/dialog_title';
 import DialogWrapper from 'src/components/modal/dialog_wrapper';
@@ -16,17 +16,23 @@ import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
 import { LoadingButton } from '@mui/lab';
+import moment from 'moment';
+import { IApply } from 'src/types/apply';
+import { applyJob } from 'src/redux_store/apply/apply_actions';
+import { toastMessage } from 'src/utils/toast';
 
-const ApplyModal = () => {
+const ApplyModal = ({ id_job }: { id_job: string }) => {
   const dispatch = useAppDispatch();
-  const [filePdf, setFilePdf] = useState({
-    name: '',
-  });
+  const [filePdf, setFilePdf] = useState<any>();
 
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isActiveFile, setIsActiveFile] = useState<boolean>(false);
-  const { me } = useAppSelector((state) => state.userSlice);
-  const { control, reset } = useForm({});
+  const {
+    me,
+    profileCV: { file_cv, file_name, created_at },
+  } = useAppSelector((state) => state.userSlice);
+
+  const { control, reset, handleSubmit } = useForm<IApply>({});
 
   useEffect(() => {
     reset(me);
@@ -56,7 +62,22 @@ const ApplyModal = () => {
     setIsActive(false);
   };
 
-  console.log({ filePdf });
+  const handleOnSubmit = (data: IApply) => {
+    const { introducing_letter } = data;
+    const formData = new FormData();
+    if (filePdf) {
+      formData.append('cv_file', filePdf, filePdf.name);
+    }
+    formData.append('id_user', me?.id_user);
+    formData.append('id_job', id_job);
+    formData.append('introducing_letter', '123');
+
+    dispatch(applyJob(formData))
+      .unwrap()
+      .then(() => {
+        toastMessage.success('Nộp hồ sơ thành công');
+      });
+  };
   return (
     <DialogWrapper
       modalId={MODAL_IDS.apply}
@@ -90,8 +111,8 @@ const ApplyModal = () => {
           Công Ty TNHH Dksh Việt Nam
         </Typography>
       </BootstrapDialogTitle>
-      <Box p={2}>
-        {filePdf.name ? (
+      <Box p={2} component="form" onSubmit={handleSubmit(handleOnSubmit)}>
+        {filePdf?.name ? (
           <Box
             display="flex"
             alignItems="center"
@@ -194,7 +215,7 @@ const ApplyModal = () => {
               )}
             </IconButton>
             <Box>
-              <Typography fontWeight="600">Fresher Front - End</Typography>
+              <Typography fontWeight="600">{file_name}</Typography>
               <Box display="flex" alignItems="center" gap={1}>
                 <Typography
                   display="flex"
@@ -208,16 +229,18 @@ const ApplyModal = () => {
                       fontSize: '14px',
                     }}
                   />
-                  Hồ sơ đính kèm: 01/03/2023
+                  Hồ sơ đính kèm: {moment(created_at).format('DD/MM/YYYY')}
                 </Typography>
-                <Typography
+                <Link
+                  href={`${file_cv}`}
+                  target="_blank"
                   color="#2c95ff"
                   sx={{
                     cursor: 'pointer',
                   }}
                 >
                   Xem hồ sơ
-                </Typography>
+                </Link>
               </Box>
             </Box>
           </Box>

@@ -16,13 +16,24 @@ const initialState: ICompanySlice = {
     company: {},
     jobs: [],
     total: 0,
+    followere: [],
   },
 };
 
 const companySlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    addFollowere: (state, action) => {
+      state.companyDetail.followere.push(action.payload);
+    },
+    updateFollowere: (state, action) => {
+      const newFollowere = state.companyDetail.followere.filter(
+        (item) => item.id_user !== action.payload
+      );
+      state.companyDetail.followere = newFollowere;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getCompanyList.fulfilled, (state, action) => {
       state.companyList = action.payload;
@@ -34,4 +45,5 @@ const companySlice = createSlice({
 });
 
 const { actions, reducer } = companySlice;
+export const { addFollowere, updateFollowere } = actions;
 export default reducer;

@@ -22,6 +22,7 @@ import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
 import useStyles from './styles';
 import { logout } from 'src/redux_store/user/user_slice';
+import { resetApplyData } from 'src/redux_store/apply/apply_slice';
 
 const settings: {
   icon: any;
@@ -146,7 +147,7 @@ const Header = () => {
 
             {token ? (
               <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Open settings">
+                <Tooltip title="Quản lý hồ sơ">
                   <IconButton
                     onClick={handleOpenUserMenu}
                     sx={{ p: 0, color: theme.palette.common.white }}
@@ -186,6 +187,9 @@ const Header = () => {
                           navigate(setting.path);
                         } else {
                           dispatch(logout(''));
+                          dispatch(resetApplyData());
+                          setAnchorElUser(null);
+                          navigate('/');
                         }
                       }}
                     >

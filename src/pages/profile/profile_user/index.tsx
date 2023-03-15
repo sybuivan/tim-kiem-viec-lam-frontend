@@ -23,7 +23,7 @@ import { IPayloadProfile } from 'src/types/profile';
 import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
-import { CCitisOption, CGenderOption } from 'src/constants/common';
+import { CGenderOption } from 'src/constants/common';
 
 const schema = yup.object().shape({
   fullName: yup.string().required(messageRequired('Họ và tên')),
@@ -42,6 +42,7 @@ const ProfileUser = () => {
   const dispatch = useAppDispatch();
   const [isLoading] = useGetStatus('user', 'updateProfile');
   const { me } = useAppSelector((state) => state.userSlice);
+  const { cityfield } = useAppSelector((state) => state.commonSlice.fieldList);
 
   const [privewImage, setPrivewImage] = useState<string>(me.avatar || '');
   const [file, setFile] = useState<any>();
@@ -185,9 +186,9 @@ const ProfileUser = () => {
                   name="city"
                   label="Tỉnh / Thành phố "
                   placeholder="Chọn tỉnh thành phô"
-                  options={CCitisOption}
-                  keyOption="name"
-                  labelOption="name_with_type"
+                  options={cityfield}
+                  keyOption="id_city"
+                  labelOption="name_city"
                 />
               </Grid>
               <Grid item xs={6}>

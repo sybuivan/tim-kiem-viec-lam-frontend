@@ -1,15 +1,35 @@
 import { Container } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { dataJobs } from '../home';
 import JobListFilters from './filters';
+import queryString from 'query-string';
 import JobListResults from './job_list_result';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getJobList, getJobListFilters } from 'src/redux_store/job/job_action';
+import { resetFilter } from 'src/redux_store/job/job_slices';
+import { useLocation } from 'react-router';
 
 const JobList = () => {
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const stringParams = queryString.parse(location.search);
+  const {
+    jobList: { data },
+  } = useAppSelector((state) => state.jobSlice);
+
+  useEffect(() => {
+    dispatch(getJobListFilters(queryString.parse(location.search)));
+
+    return () => {
+      dispatch(resetFilter());
+    };
+  }, []);
+
   return (
     <Container sx={{ maxWidth: '1500px!important' }}>
       <JobListFilters />
 
-      {/* <JobListResults jobList={dataJobs} /> */}
+      <JobListResults jobList={data} />
     </Container>
   );
 };

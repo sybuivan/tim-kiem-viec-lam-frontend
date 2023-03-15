@@ -51,3 +51,52 @@ export interface IFilterOption {
   id: string;
   name: string;
 }
+
+export interface IExperience {
+  id_experience: string;
+  name_experience: string;
+}
+export interface ICompanyField {
+  id_companyField: string;
+  name_field: string;
+}
+export interface IRangewage {
+  id_range: string;
+  name_range: string;
+}
+export interface ITypeRank {
+  id_rank: string;
+  name_rank: string;
+}
+export interface IWorkingForm {
+  id_working_form: string;
+  name: string;
+}
+export interface ICity {
+  id_city: string;
+  name_city: string;
+}
+
+export interface IFieldList {
+  companyfield: IExperience[];
+  experiencefield: ICompanyField[];
+  rangewagefield: IRangewage[];
+  typerankfield: ITypeRank[];
+  workingformfield: IWorkingForm[];
+  cityfield: ICity[];
+}
+
+export interface IHomeFilter {
+  keyword: string;
+  city: string;
+  companyfield: string;
+}
+
+export interface IadvancedFilter extends IHomeFilter {
+  id_experience?: string;
+  id_range?: string;
+  id_rank?: string;
+  id_working_form?: string;
+  id_gender?: string;
+  page: number;
+}

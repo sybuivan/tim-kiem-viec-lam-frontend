@@ -4,6 +4,7 @@ import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import { IPayloadProfile } from 'src/types/profile';
 import {
   IPayLoadCV,
+  IPayloadFollow,
   IPayloadSaveJob,
   IProfileCV,
   ISavedList,
@@ -109,6 +110,42 @@ export const unSavedJob = createAsyncThunk<any, IPayloadSaveJob>(
   async (payload, { rejectWithValue }) => {
     try {
       const { data } = await userApi.unSavedJob(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const followCompany = createAsyncThunk<any, IPayloadFollow>(
+  'user/followCompany',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.followCompany(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const unFollowCompany = createAsyncThunk<any, IPayloadFollow>(
+  'user/unFollowCompany',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.unFollowCompany(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const getAllFollowUser = createAsyncThunk<any, string>(
+  'user/getAllFollowUser',
+  async (id_user, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.getAllFollowUser(id_user);
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);

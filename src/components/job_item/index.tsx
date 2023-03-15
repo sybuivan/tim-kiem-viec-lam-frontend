@@ -29,7 +29,7 @@ const JobItem = (props: IJobItem) => {
   const { handleOnUnSaved, handleOnSave } = useSaveJob(
     token,
     jobItem.id_job,
-    me.id_user
+    me?.id_user
   );
 
   const handleClick = () => {
@@ -73,9 +73,6 @@ const JobItem = (props: IJobItem) => {
                   alignItems="center"
                 >
                   <Typography fontWeight="600">{jobItem.name_job}</Typography>
-                  <IconButton>
-                    <FavoriteBorderOutlined />
-                  </IconButton>
                 </Box>
               )}
               <Typography
@@ -103,7 +100,7 @@ const JobItem = (props: IJobItem) => {
                 >
                   <LocationOnOutlined />
 
-                  {jobItem.work_location}
+                  {jobItem.name_city}
                 </Typography>
               </Box>
             </Box>

@@ -5,7 +5,6 @@ import {
   FormHelperText,
   FormLabel,
   IconButton,
-  InputLabel,
   ListItemText,
   MenuItem,
   Select,
@@ -16,7 +15,7 @@ import { ClearOutlined } from '@mui/icons-material';
 // import React from 'react';
 
 import _ from 'lodash';
-import { Control, Controller } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import Loading from '../loading';
 import theme from 'src/theme';
 
@@ -158,7 +157,7 @@ export const FormSelect = (props: IProps) => {
             // placeholder={placeholder}
             displayEmpty
           >
-            <MenuItem disabled value="">
+            <MenuItem value="">
               <em>{placeholder}</em>
             </MenuItem>
             {renderOptions(value)}

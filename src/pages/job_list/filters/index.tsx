@@ -1,11 +1,54 @@
 import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
+import queryString from 'query-string';
+
 import { useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router';
 import { FormInput, FormSelect } from 'src/components/hook_form';
+import { CGenderOption } from 'src/constants/common';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { changeHomeFilter } from 'src/redux_store/job/job_slices';
 import theme from 'src/theme';
+import { getJobListFilters } from 'src/redux_store/job/job_action';
 
 const JobListFilters = () => {
-  const { control } = useForm();
+  const location = useLocation();
+  const { control } = useForm({
+    defaultValues: queryString.parse(location.search),
+  });
+  const dispatch = useAppDispatch();
+
+  const {
+    companyfield,
+    experiencefield,
+    typerankfield,
+    rangewagefield,
+    workingformfield,
+    cityfield,
+  } = useAppSelector((state) => state.commonSlice.fieldList);
+  const navigate = useNavigate();
+  const { jobFilters } = useAppSelector((state) => state.jobSlice);
+
+  const handleOnChange = (name: string, value: string) => {
+    const newValue = {
+      ...jobFilters,
+      [name]: value,
+    };
+    dispatch(changeHomeFilter(newValue));
+  };
+
+  const handleOnSearch = () => {
+    const stringifiedParams = queryString.stringify({ ...jobFilters, page: 1 });
+    navigate(`/co-hoi-viec-lam?${stringifiedParams}`);
+    dispatch(
+      changeHomeFilter({
+        ...jobFilters,
+        page: 1,
+      })
+    );
+    dispatch(getJobListFilters({ ...jobFilters, page: 1 }));
+  };
+
   return (
     <Box
       bgcolor={theme.palette.primary.main}
@@ -24,32 +67,34 @@ const JobListFilters = () => {
             backgroundColor: theme.palette.common.white,
             borderRadius: '4px',
           }}
+          handleChange={handleOnChange}
         />
         <FormSelect
           control={control}
-          name="name"
+          name="companyfield"
           placeholder="Tất cả nghề nghiệp"
-          options={[]}
-          keyOption="id"
-          labelOption="name"
+          options={companyfield}
+          keyOption="id_companyField"
+          labelOption="name_field"
           sx={{
             backgroundColor: theme.palette.common.white,
             borderRadius: '4px',
-            // maxWidth: '165px',
           }}
+          handleChange={handleOnChange}
         />
         <FormSelect
           control={control}
-          name="name"
+          name="city"
           placeholder="Tất cả tỉnh thành"
-          options={[]}
-          keyOption="id"
-          labelOption="name"
+          options={cityfield}
+          keyOption="id_city"
+          labelOption="name_city"
           sx={{
             backgroundColor: theme.palette.common.white,
             borderRadius: '4px',
             color: theme.palette.common.white,
           }}
+          handleChange={handleOnChange}
         />
         <Box height="38px">
           <Button
@@ -57,7 +102,9 @@ const JobListFilters = () => {
             sx={{
               padding: '8px',
               minWidth: '100px!important',
+              backgroundColor: '#2c95ff',
             }}
+            onClick={handleOnSearch}
           >
             Tìm kiếm
           </Button>
@@ -69,6 +116,9 @@ const JobListFilters = () => {
               padding: '8px',
               minWidth: '200px!important',
               backgroundColor: '#5c27d6',
+              '&:hover': {
+                backgroundColor: '#5c27d6',
+              },
             }}
           >
             Tìm kiếm nâng cao
@@ -90,47 +140,50 @@ const JobListFilters = () => {
         left={0}
       >
         <Typography>Lọc nâng cao:</Typography>
-        <Box display="flex" gap={1}>
+        <Box display="flex" gap={1} flex={1}>
           <FormSelect
             control={control}
-            name="name"
+            name="id_experience"
             placeholder="Tất cả kinh nghiệm"
-            options={[]}
-            keyOption="id"
-            labelOption="name"
+            options={experiencefield}
+            keyOption="id_experience"
+            labelOption="name_experience"
             sx={{
               backgroundColor: theme.palette.common.white,
               borderRadius: '4px',
             }}
+            handleChange={handleOnChange}
           />
           <FormSelect
             control={control}
-            name="name"
+            name="id_range"
             placeholder="Tất cả mức lương"
-            options={[]}
-            keyOption="id"
-            labelOption="name"
+            options={rangewagefield}
+            keyOption="id_range"
+            labelOption="name_range"
             sx={{
               backgroundColor: theme.palette.common.white,
               borderRadius: '4px',
               color: theme.palette.common.white,
             }}
+            handleChange={handleOnChange}
           />
           <FormSelect
             control={control}
-            name="name"
+            name="id_rank"
             placeholder="Tất cả cấp bậc"
-            options={[]}
-            keyOption="id"
-            labelOption="name"
+            options={typerankfield}
+            keyOption="id_rank"
+            labelOption="name_rank"
             sx={{
               backgroundColor: theme.palette.common.white,
               borderRadius: '4px',
             }}
+            handleChange={handleOnChange}
           />
           <FormSelect
             control={control}
-            name="name"
+            name="id"
             placeholder="Tất cả trình độ"
             options={[]}
             keyOption="id"
@@ -143,23 +196,24 @@ const JobListFilters = () => {
           />
           <FormSelect
             control={control}
-            name="name"
+            name="id_working_form"
             placeholder="Loại công việc"
-            options={[]}
-            keyOption="id"
+            options={workingformfield}
+            keyOption="id_working_form"
             labelOption="name"
             sx={{
               backgroundColor: theme.palette.common.white,
               borderRadius: '4px',
             }}
+            handleChange={handleOnChange}
           />
           <FormSelect
             control={control}
-            name="name"
+            name="id_gender"
             placeholder="Tất cả giới tính"
-            options={[]}
-            keyOption="id"
-            labelOption="name"
+            options={CGenderOption}
+            keyOption="value"
+            labelOption="label"
             sx={{
               backgroundColor: theme.palette.common.white,
               borderRadius: '4px',
@@ -168,25 +222,28 @@ const JobListFilters = () => {
             }}
           />
         </Box>
-        <Box
-          sx={{
-            color: theme.palette.error.main,
-            fontWeight: '600',
-            cursor: 'pointer',
-            paddingRight: 1,
-            borderRight: '2px solid #c1c1c1',
-          }}
-        >
-          Xóa chọn
-        </Box>
-        <Box
-          sx={{
-            color: theme.palette.grey[700],
-            fontWeight: '600',
-            cursor: 'pointer',
-          }}
-        >
-          Đóng
+        <Box display="flex">
+          <Box
+            sx={{
+              color: theme.palette.error.main,
+              fontWeight: '600',
+              cursor: 'pointer',
+              pr: 1,
+              borderRight: '2px solid #c1c1c1',
+            }}
+          >
+            Xóa chọn
+          </Box>
+          <Box
+            sx={{
+              color: theme.palette.grey[700],
+              fontWeight: '600',
+              cursor: 'pointer',
+              pl: 1,
+            }}
+          >
+            Đóng
+          </Box>
         </Box>
       </Box>
     </Box>

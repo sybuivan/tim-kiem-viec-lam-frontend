@@ -24,4 +24,5 @@ export interface IJob extends ICompany {
   description_job?: string;
   required_job?: string;
   benefits_job?: string;
+  name_city?: string;
 }

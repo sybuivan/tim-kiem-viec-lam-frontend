@@ -25,9 +25,18 @@ const JobList = () => {
           </Typography>
 
           <Box>
-            {jobs.map((job) => (
-              <JobCompany job={job} key={job.id_job} />
-            ))}
+            {jobs.length > 0 ? (
+              jobs.map((job) => <JobCompany job={job} key={job.id_job} />)
+            ) : (
+              <Typography
+                fontWeight="00"
+                fontSize="18px"
+                mb={2}
+                textAlign="center"
+              >
+                Chưa có vị trí đang tuyển
+              </Typography>
+            )}
           </Box>
         </Box>
       </Container>

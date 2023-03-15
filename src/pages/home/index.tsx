@@ -1,20 +1,18 @@
 import { Container } from '@mui/material';
 import React, { useEffect } from 'react';
 import Slider from 'src/components/silder';
-import { ICompanyList } from 'src/types/company';
-import { IJobList } from 'src/types/job';
 import CompanyList from './company_list';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getCompanyList } from 'src/redux_store/company/company_action';
-
 import JobList from './job_list';
-import { QueryBuilderOutlined, LightModeOutlined } from '@mui/icons-material';
+import { QueryBuilderOutlined } from '@mui/icons-material';
 import theme from 'src/theme';
 import PostList from './post_list';
 import { getJobList } from 'src/redux_store/job/job_action';
 
 const Home = () => {
   const dispatch = useAppDispatch();
+
   const {
     companyList: { companyList },
   } = useAppSelector((state) => state.companySlice);

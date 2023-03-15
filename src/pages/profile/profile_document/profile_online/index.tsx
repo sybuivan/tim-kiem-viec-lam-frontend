@@ -28,13 +28,7 @@ import { useForm } from 'react-hook-form';
 
 import theme from 'src/theme';
 import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
-import {
-  CCitisOption,
-  CCompanyField,
-  CExperience,
-  CTypeRank,
-  CWorkingForm,
-} from 'src/constants/common';
+
 import moment from 'moment';
 import { messageRequired } from 'src/utils/common';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -60,9 +54,19 @@ const schema = yup.object().shape({
 const ProfileOnline = () => {
   const { me, profileCV } = useAppSelector((state) => state.userSlice);
   const {
+    fieldList: {
+      typerankfield,
+      companyfield,
+      experiencefield,
+      workingformfield,
+    },
+  } = useAppSelector((state) => state.commonSlice);
+  const {
     control,
     handleSubmit,
-    formState: { isDirty, dirtyFields, isValid },
+    setValue,
+    getValues,
+    formState: { isValid },
   } = useForm<IPayLoadCV>({
     defaultValues: profileCV,
     resolver: yupResolver(schema),
@@ -165,7 +169,7 @@ const ProfileOnline = () => {
               </Typography>
             </Box>
             <Box p={2}>
-              {(file || profileCV.file_cv) && (
+              {(file || getValues('file_name')) && (
                 <Box
                   sx={{
                     border: '1px solid rgba(234,240,246,1)',
@@ -181,9 +185,9 @@ const ProfileOnline = () => {
                 >
                   <Box>
                     <Typography fontWeight="600">
-                      {file?.name || profileCV.file_cv}
+                      {file?.name || profileCV.file_name}
                     </Typography>
-                    <Link href={`http://localhost:5000/${profileCV.file_cv}`}>
+                    <Link href={`${profileCV.file_cv}`} target="_blank">
                       Xem hồ sơ
                     </Link>
                   </Box>
@@ -191,6 +195,7 @@ const ProfileOnline = () => {
                     onClick={() => {
                       setFile(null);
                       setIsInvalidFile(false);
+                      setValue('file_name', '');
                     }}
                   >
                     <DeleteForeverOutlined
@@ -322,9 +327,9 @@ const ProfileOnline = () => {
                     name="id_company_field"
                     label="Nghề nghiệp "
                     placeholder="Chọn"
-                    options={CCompanyField}
-                    keyOption="id"
-                    labelOption="label"
+                    options={companyfield}
+                    keyOption="id_companyField"
+                    labelOption="name_field"
                   />
                 </Grid>
 
@@ -334,9 +339,9 @@ const ProfileOnline = () => {
                     name="id_type_current"
                     label="Cấp bậc hiện tại "
                     placeholder="Chọn"
-                    options={CTypeRank}
-                    keyOption="id"
-                    labelOption="label"
+                    options={typerankfield}
+                    keyOption="id_rank"
+                    labelOption="name_rank"
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -345,9 +350,9 @@ const ProfileOnline = () => {
                     name="id_type_desired"
                     label="Cấp bậc mong muốn "
                     placeholder="Chọn"
-                    options={CTypeRank}
-                    keyOption="id"
-                    labelOption="label"
+                    options={typerankfield}
+                    keyOption="id_rank"
+                    labelOption="name_rank"
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -366,9 +371,9 @@ const ProfileOnline = () => {
                     name="id_experience"
                     label="Số năm kinh nghiệm"
                     placeholder="Chọn"
-                    options={CExperience}
-                    keyOption="id"
-                    labelOption="label"
+                    options={experiencefield}
+                    keyOption="id_experience"
+                    labelOption="name_experience"
                   />
                 </Grid>
                 {/* <Grid item xs={6}>
@@ -388,9 +393,9 @@ const ProfileOnline = () => {
                     name="id_working_form"
                     label="Hình thức làm việc"
                     placeholder="Chọn"
-                    options={CWorkingForm}
-                    keyOption="id"
-                    labelOption="label"
+                    options={workingformfield}
+                    keyOption="id_working_form"
+                    labelOption="name"
                   />
                 </Grid>
               </Grid>
@@ -431,7 +436,7 @@ const ProfileOnline = () => {
                     />
                     <Typography>Tải CV đính kèm</Typography>
                   </Box>
-                  {file || profileCV.file_cv ? (
+                  {file || getValues('file_name') ? (
                     <CheckCircleRounded
                       sx={{
                         color: theme.palette.success.main,

@@ -11,8 +11,9 @@ import JobApplied from 'src/pages/profile/job_applied';
 import JobSaved from 'src/pages/profile/job_saved';
 import CompanyFollow from 'src/pages/profile/company_follow';
 import ProfileOnline from 'src/pages/profile/profile_document/profile_online';
+import { PrivateUser } from './private/user';
 
-let routes: (isLogin: boolean) => RouteObject[] = (isLogin?: boolean) => [
+let routes: (token: string) => RouteObject[] = (token: string) => [
   {
     path: '/',
     element: <MainLayout />,
@@ -35,7 +36,11 @@ let routes: (isLogin: boolean) => RouteObject[] = (isLogin?: boolean) => [
       },
       {
         path: '/thong-tin-ca-nhan',
-        element: <Profile />,
+        element: (
+          <PrivateUser token={token}>
+            <Profile />
+          </PrivateUser>
+        ),
         children: [
           {
             index: true,

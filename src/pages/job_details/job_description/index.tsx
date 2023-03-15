@@ -9,7 +9,7 @@ import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import { FavoriteRounded } from '@mui/icons-material';
-import { checkIsSaveJob } from 'src/utils/common';
+import { checkIsApply, checkIsSaveJob } from 'src/utils/common';
 import LoginForm from 'src/pages/auth/login_form';
 import { saveJob, unSavedJob } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
@@ -32,12 +32,15 @@ const JobDescription = ({
     me,
     saveJobList: { savedList },
   } = useAppSelector((state) => state.userSlice);
+  const {
+    applyList: { data },
+  } = useAppSelector((state) => state.applySlice);
 
   const handleOnpenApply = () => {
     dispatch(
       openModal({
         modalId: MODAL_IDS.apply,
-        dialogComponent: <ApplyModal />,
+        dialogComponent: <ApplyModal id_job={id_job} />,
       })
     );
   };
@@ -114,18 +117,35 @@ const JobDescription = ({
       </Box>
 
       <Box display="flex" gap={2} py={4}>
-        <Button
-          variant="contained"
-          sx={{
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.common.white,
-            px: 6,
-            py: 2,
-          }}
-          onClick={handleOnpenApply}
-        >
-          Nộp hồ sơ
-        </Button>
+        {checkIsApply(data, id_job) ? (
+          <Box
+            sx={{
+              color: theme.palette.warning.main,
+              px: 6,
+              py: 2,
+              border: `1px solid ${theme.palette.warning.main}`,
+              borderRadius: '4px',
+              '&:hover': {
+                cursor: 'no-drop',
+              },
+            }}
+          >
+            Đã nộp hồ sơ
+          </Box>
+        ) : (
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: theme.palette.primary.main,
+              color: theme.palette.common.white,
+              px: 6,
+              py: 2,
+            }}
+            onClick={handleOnpenApply}
+          >
+            Nộp hồ sơ
+          </Button>
+        )}
         {checkIsSaveJob(savedList, id_job) ? (
           <Button
             startIcon={<FavoriteRounded />}

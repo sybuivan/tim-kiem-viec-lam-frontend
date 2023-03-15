@@ -1,7 +1,31 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
+import moment from 'moment';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { unFollowCompany } from 'src/redux_store/user/user_action';
 
-const Company = () => {
+const Company = ({
+  company,
+}: {
+  company: {
+    name_company: string;
+    id_company: string;
+    created_at: string;
+    address: string;
+    total_people: number;
+    logo: string;
+  };
+}) => {
+  const { id_user } = useAppSelector((state) => state.userSlice.me);
+  const dispatch = useAppDispatch();
+  const handleUnFollow = () => {
+    dispatch(
+      unFollowCompany({
+        id_user,
+        id_company: company.id_company,
+      })
+    );
+  };
   return (
     <Box
       sx={{
@@ -13,9 +37,9 @@ const Company = () => {
       }}
     >
       <Box display="flex" gap={5} alignItems="center">
-        <Box flex="0.5" display="flex" gap={2}>
+        <Box flex="0.7" display="flex" gap={2}>
           <img
-            src="https://cdn1.vieclam24h.vn/upload/files_cua_nguoi_dung/logo/2019/02/12/1549951205_57a95198dda12_1470714264_300x300.png"
+            src={company.logo}
             alt=""
             width="100px"
             height="100px"
@@ -37,11 +61,10 @@ const Company = () => {
                 maxWidth: '330px',
               }}
             >
-              Công Ty Tài Chính TNHH MTV Quốc Tế Việt Nam Jaccs
+              {company.name_company}
             </Typography>
             <Typography
-              title="Tầng 15, Tòa nhà Centec, 72 -74 Nguyễn Thị Minh Khai, Phường Võ Thị
-          Sáu, Quận 3, Thành Phố Hồ Chí Minh, Việt Nam"
+              title={company.address}
               sx={{
                 whiteSpace: 'nowrap',
                 textOverflow: 'ellipsis',
@@ -52,10 +75,9 @@ const Company = () => {
               }}
               py={0.5}
             >
-              Tầng 15, Tòa nhà Centec, 72 -74 Nguyễn Thị Minh Khai, Phường Võ
-              Thị Sáu, Quận 3, Thành Phố Hồ Chí Minh, Việt Nam{' '}
+              {company.address}
             </Typography>
-            <Typography>Trên 300 người</Typography>
+            <Typography>Trên {company.total_people} người</Typography>
           </Box>
         </Box>
 
@@ -63,10 +85,14 @@ const Company = () => {
           <Typography pl="15px">81 vị trí</Typography>
         </Box>
         <Box flex="0.2">
-          <Typography pl="10px">21/10/2022</Typography>
+          <Typography pl="10px">
+            {moment(company.created_at).format('DD/MM/YYYY')}
+          </Typography>
         </Box>
         <Box flex="0.2">
-          <Button variant="outlined">Hủy theo dõi</Button>
+          <Button variant="outlined" onClick={handleUnFollow}>
+            Hủy theo dõi
+          </Button>
         </Box>
       </Box>
     </Box>

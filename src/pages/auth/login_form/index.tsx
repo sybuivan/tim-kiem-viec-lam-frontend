@@ -9,10 +9,16 @@ import { FormInput } from 'src/components/hook_form';
 import theme from 'src/theme';
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import { useAppDispatch } from 'src/hooks';
-import { loginUser, registerUser } from 'src/redux_store/user/user_action';
+import {
+  getProfileCV,
+  getSavedListByUser,
+  loginUser,
+  registerUser,
+} from 'src/redux_store/user/user_action';
 import RegisterForm from '../register_form';
 import { toastMessage } from 'src/utils/toast';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
+import { getApplyList } from 'src/redux_store/apply/apply_actions';
 
 const schemaLogin = yup.object().shape({
   email: yup
@@ -38,8 +44,11 @@ const LoginForm = () => {
   const handleOnSubmit = (data: IPayloadLogin) => {
     dispatch(loginUser(data))
       .unwrap()
-      .then(() => {
+      .then((data) => {
         toastMessage.success('Đăng nhập tài khoản thành công');
+        dispatch(getProfileCV(data.users.id_user));
+        dispatch(getSavedListByUser(data.users.id_user));
+        dispatch(getApplyList(data.users.id_user));
         dispatch(
           closeModal({
             modalId: MODAL_IDS.login,
@@ -58,7 +67,7 @@ const LoginForm = () => {
       })
     )
       .unwrap()
-      .then(() => {
+      .then((data) => {
         toastMessage.success('Đăng ký tài khoản thành công');
       });
   };

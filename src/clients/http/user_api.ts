@@ -2,6 +2,7 @@ import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import { IPayloadProfile } from 'src/types/profile';
 import {
   IPayLoadCV,
+  IPayloadFollow,
   IPayloadSaveJob,
   IProfileCV,
   ISavedList,
@@ -41,5 +42,18 @@ export const userApi = {
     return client.delete(`/user/un-save-job`, {
       data: payload,
     });
+  },
+
+  followCompany: (payload: IPayloadFollow) => {
+    return client.post('/user/add-follow', payload);
+  },
+  unFollowCompany: (payload: IPayloadFollow) => {
+    return client.delete('/user/unfollow', {
+      data: payload,
+    });
+  },
+
+  getAllFollowUser: (id_user: string) => {
+    return client.get(`/user/get-all-follow-user/${id_user}`);
   },
 };

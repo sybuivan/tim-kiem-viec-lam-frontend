@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IPayLoadCV, ISavedList } from 'src/types/user';
+import { IPayLoadCV, ISavedList, IFollowList } from 'src/types/user';
 import {
   loginUser,
   saveJob,
@@ -7,6 +7,8 @@ import {
   getSavedListByUser,
   createCV,
   getProfileCV,
+  followCompany,
+  getAllFollowUser,
 } from './user_action';
 
 const getLocal: any = localStorage.getItem('user_account')
@@ -17,7 +19,9 @@ const token: any = localStorage.getItem('token');
 
 interface IUserSlice {
   saveJobList: ISavedList;
+  followList: IFollowList;
   profileCV: IPayLoadCV;
+
   me: any;
   token: any;
 }
@@ -39,6 +43,10 @@ const initialState: IUserSlice = {
     savedList: [],
     total: 0,
   },
+  followList: {
+    followers: [],
+    total: 0,
+  },
 };
 
 const userSlice = createSlice({
@@ -48,6 +56,7 @@ const userSlice = createSlice({
     logout: (state, action) => {
       state.me = action.payload;
       state.token = '';
+      state.saveJobList = initialState.saveJobList;
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
     },
@@ -85,6 +94,9 @@ const userSlice = createSlice({
       })
       .addCase(getProfileCV.fulfilled, (state, action) => {
         state.profileCV = action.payload.profile_cv;
+      })
+      .addCase(getAllFollowUser.fulfilled, (state, action) => {
+        state.followList = action.payload;
       });
   },
 });

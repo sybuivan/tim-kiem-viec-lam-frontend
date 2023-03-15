@@ -15,6 +15,18 @@ export const getJobList = createAsyncThunk<IJobList, void>(
     }
   }
 );
+export const getJobListFilters = createAsyncThunk<IJobList, any>(
+  'job/getJobListFilters',
+  async (params, { rejectWithValue }) => {
+    try {
+      const { data } = await jobApi.getJobListFilters(params);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
 export const getJobById = createAsyncThunk<{ job: IJob }, string>(
   'job/getJobById',
   async (id, { rejectWithValue }) => {

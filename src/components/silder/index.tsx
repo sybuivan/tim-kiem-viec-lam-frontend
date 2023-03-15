@@ -1,19 +1,44 @@
 import React from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import Slider from 'react-slick';
+import queryString from 'query-string';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 
 import Banner from 'src/assets/images/banner.png';
+import { changeHomeFilter } from 'src/redux_store/job/job_slices';
 import Banne2 from 'src/assets/images/banner2.png';
-import { FormInput, FormSelect } from '../hook_form';
-import { useForm } from 'react-hook-form';
 import theme from 'src/theme';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { IHomeFilter } from 'src/types/common';
+import { FormInput, FormSelect } from '../hook_form';
 
 const SliderService = () => {
-  const { control } = useForm({
+  const dispatch = useAppDispatch();
+  const {
+    fieldList: { companyfield, cityfield },
+  } = useAppSelector((state) => state.commonSlice);
+  const { jobFilters } = useAppSelector((state) => state.jobSlice);
+  const navigate = useNavigate();
+  const { control } = useForm<IHomeFilter>({
     defaultValues: {
-      searchKeyword: '',
+      city: '',
+      companyfield: '',
+      keyword: '',
     },
   });
+  const handleOnChange = (name: string, value: string) => {
+    const newValue = {
+      ...jobFilters,
+      [name]: value,
+    };
+    dispatch(changeHomeFilter(newValue));
+  };
+
+  const handeOnSearch = () => {
+    const stringifiedParams = queryString.stringify(jobFilters);
+    navigate(`/co-hoi-viec-lam?${stringifiedParams}`);
+  };
   return (
     <Box
       sx={{
@@ -47,13 +72,16 @@ const SliderService = () => {
             borderRadius: '4px',
             width: '70%',
           }}
+          handleChange={handleOnChange}
         />
         <Box height="37px" flex={1}>
           <Button
+            onClick={handeOnSearch}
             variant="contained"
             sx={{
               padding: '8px',
               width: '100%',
+              backgroundColor: '#2c95ff',
             }}
           >
             Tìm kiếm
@@ -64,28 +92,30 @@ const SliderService = () => {
       <Box display="flex" alignItems="center" gap={1}>
         <FormSelect
           control={control}
-          name="name"
+          name="companyfield"
           placeholder="Tất cả nghề nghiệp"
-          options={[]}
-          keyOption="id"
-          labelOption="name"
+          options={companyfield}
+          keyOption="id_companyField"
+          labelOption="name_field"
           sx={{
             backgroundColor: theme.palette.common.white,
             borderRadius: '4px',
           }}
+          handleChange={handleOnChange}
         />
         <FormSelect
           control={control}
-          name="name"
+          name="city"
           placeholder="Tất cả tỉnh thành"
-          options={[]}
-          keyOption="id"
-          labelOption="name"
+          options={cityfield}
+          keyOption="id_city"
+          labelOption="name_city"
           sx={{
             backgroundColor: theme.palette.common.white,
             borderRadius: '4px',
             color: theme.palette.common.white,
           }}
+          handleChange={handleOnChange}
         />
       </Box>
 

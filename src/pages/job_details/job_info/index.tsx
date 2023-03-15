@@ -1,25 +1,22 @@
-import React from 'react';
-import { Grid, Box, Typography, Button } from '@mui/material';
 import {
   DateRangeOutlined,
-  NotificationsOutlined,
-  TimerOutlined,
   FavoriteBorderOutlined,
   FavoriteRounded,
+  NotificationsOutlined,
+  TimerOutlined,
 } from '@mui/icons-material';
-import theme from 'src/theme';
-import { useNavigate } from 'react-router';
-import { useAppDispatch, useAppSelector, useSaveJob } from 'src/hooks';
-import { openModal } from 'src/redux_store/common/modal/modal_slice';
-import { MODAL_IDS } from 'src/constants';
-import ApplyModal from '../apply_modal';
-import { IJob } from 'src/types/job';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import moment from 'moment';
-import { saveJob, unSavedJob } from 'src/redux_store/user/user_action';
-import { toastMessage } from 'src/utils/toast';
+import React from 'react';
+import { useNavigate } from 'react-router';
+import { MODAL_IDS } from 'src/constants';
+import { useAppDispatch, useAppSelector, useSaveJob } from 'src/hooks';
 import LoginForm from 'src/pages/auth/login_form';
-import { checkIsSaveJob } from 'src/utils/common';
-import { unSaveJobById } from 'src/redux_store/user/user_slice';
+import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import theme from 'src/theme';
+import { IJob } from 'src/types/job';
+import { checkIsApply, checkIsSaveJob } from 'src/utils/common';
+import ApplyModal from '../apply_modal';
 
 const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
   const {
@@ -27,21 +24,35 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
     me,
     saveJobList: { savedList },
   } = useAppSelector((state) => state.userSlice);
+
+  const {
+    applyList: { data },
+  } = useAppSelector((state) => state.applySlice);
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { handleOnSave, handleOnUnSaved } = useSaveJob(
     token,
     jobDetail.id_job,
-    me.id_user
+    me?.id_user
   );
 
   const handleOnpenApply = () => {
-    dispatch(
-      openModal({
-        modalId: MODAL_IDS.apply,
-        dialogComponent: <ApplyModal />,
-      })
-    );
+    if (me?.id_user) {
+      dispatch(
+        openModal({
+          modalId: MODAL_IDS.apply,
+          dialogComponent: <ApplyModal id_job={jobDetail.id_job} />,
+        })
+      );
+    } else {
+      dispatch(
+        openModal({
+          modalId: MODAL_IDS.login,
+          dialogComponent: <LoginForm />,
+        })
+      );
+    }
   };
   // const handleOnSave = () => {
   //   if (token) {
@@ -91,7 +102,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
           cursor: 'pointer',
         }}
         onClick={() => {
-          navigate('/cong-ty/abc');
+          navigate(`/cong-ty/${jobDetail.id_company}`);
         }}
       >
         <img
@@ -138,18 +149,35 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
         </Box>
 
         <Box display="flex" gap={2}>
-          <Button
-            variant="contained"
-            sx={{
-              backgroundColor: theme.palette.primary.main,
-              color: theme.palette.common.white,
-              px: 6,
-              py: 2,
-            }}
-            onClick={handleOnpenApply}
-          >
-            Nộp hồ sơ
-          </Button>
+          {checkIsApply(data, jobDetail.id_job) ? (
+            <Box
+              sx={{
+                color: theme.palette.warning.main,
+                px: 6,
+                py: 2,
+                border: `1px solid ${theme.palette.warning.main}`,
+                borderRadius: '4px',
+                '&:hover': {
+                  cursor: 'no-drop',
+                },
+              }}
+            >
+              Đã nộp hồ sơ
+            </Box>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.common.white,
+                px: 6,
+                py: 2,
+              }}
+              onClick={handleOnpenApply}
+            >
+              Nộp hồ sơ
+            </Button>
+          )}
           {checkIsSaveJob(savedList, jobDetail.id_job) ? (
             <Button
               startIcon={<FavoriteRounded />}

@@ -2,7 +2,11 @@ import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import ProfileHeader from '../header';
 import Company from './company';
+import { useAppSelector } from 'src/hooks';
+import EmptyData from 'src/components/empty_data';
+
 const CompanyFollow = () => {
+  const { followers } = useAppSelector((state) => state.userSlice.followList);
   return (
     <Box>
       <ProfileHeader />
@@ -43,8 +47,11 @@ const CompanyFollow = () => {
               Ngày theo dõi
             </Box>
           </Box>
-          <Company />
-          <Company />
+          {followers.length > 0 ? (
+            followers.map((item) => <Company company={item} />)
+          ) : (
+            <EmptyData title="Bạn theo dõi nhà tuyển dụng nào" />
+          )}
         </Box>
       </Paper>
     </Box>

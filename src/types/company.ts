@@ -26,4 +26,7 @@ export interface ICompanyDetail {
   company: ICompany;
   jobs: IJob[];
   total: number;
+  followere: {
+    id_user: string;
+  }[];
 }

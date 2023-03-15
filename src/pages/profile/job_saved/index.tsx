@@ -7,7 +7,7 @@ import EmptyData from 'src/components/empty_data';
 
 const JobSaved = () => {
   const {
-    saveJobList: { savedList, total },
+    saveJobList: { savedList },
   } = useAppSelector((state) => state.userSlice);
   return (
     <Box>

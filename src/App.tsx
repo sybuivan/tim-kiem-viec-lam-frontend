@@ -3,7 +3,12 @@ import { useRoutes } from 'react-router-dom';
 import routes from 'src/routes';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from './hooks';
-import { getSavedListByUser } from './redux_store/user/user_action';
+import {
+  getAllFollowUser,
+  getSavedListByUser,
+} from './redux_store/user/user_action';
+import { getApplyList } from './redux_store/apply/apply_actions';
+import { getAllField } from './redux_store/common/field/field_actions';
 
 function App() {
   const { token, me } = useAppSelector((state) => state.userSlice);
@@ -11,6 +16,9 @@ function App() {
   useEffect(() => {
     if (token) {
       dispatch(getSavedListByUser(me?.id_user));
+      dispatch(getApplyList(me?.id_user));
+      dispatch(getAllFollowUser(me?.id_user));
+      dispatch(getAllField());
     }
   }, []);
 
