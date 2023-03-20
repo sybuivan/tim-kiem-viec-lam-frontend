@@ -17,6 +17,27 @@ export interface ICompany {
   active_status?: string;
 }
 
+export interface IPayloadRegisterCompany {
+  email: string;
+  password?: string;
+  fullName: string;
+  phone: number;
+  name_company: string;
+  faxCode?: string;
+  total_people: string;
+  city: string;
+  address: string;
+  fieldOfActivity?: string;
+}
+
+export interface IPayloadCompanyInfo extends IPayloadRegisterCompany {
+  lat?: number;
+  lng?: number;
+  link_website?: string;
+  introduce: string;
+  idCompanyField?: string;
+}
+
 export interface ICompanyList {
   companyList: ICompany[];
   total?: number;

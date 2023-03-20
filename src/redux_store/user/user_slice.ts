@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getLocal, token } from 'src/constants/localstoge';
 import { IPayLoadCV, ISavedList, IFollowList } from 'src/types/user';
 import {
   loginUser,
@@ -10,12 +11,6 @@ import {
   followCompany,
   getAllFollowUser,
 } from './user_action';
-
-const getLocal: any = localStorage.getItem('user_account')
-  ? JSON.parse(localStorage.getItem('user_account') || '')
-  : null;
-
-const token: any = localStorage.getItem('token');
 
 interface IUserSlice {
   saveJobList: ISavedList;

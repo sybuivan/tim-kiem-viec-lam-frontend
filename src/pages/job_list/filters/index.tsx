@@ -200,7 +200,7 @@ const JobListFilters = () => {
             placeholder="Loại công việc"
             options={workingformfield}
             keyOption="id_working_form"
-            labelOption="name"
+            labelOption="name_working_form"
             sx={{
               backgroundColor: theme.palette.common.white,
               borderRadius: '4px',

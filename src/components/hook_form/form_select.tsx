@@ -22,6 +22,7 @@ import theme from 'src/theme';
 interface IProps {
   control: any;
   name: string;
+  required?: boolean;
   options: any[];
   keyOption: string;
   labelOption: string;
@@ -49,6 +50,7 @@ export const FormSelect = (props: IProps) => {
     size = 'small',
     disabled = false,
     variant = 'outlined',
+    required = false,
     margin = 'dense',
     options,
     keyOption,
@@ -121,6 +123,12 @@ export const FormSelect = (props: IProps) => {
     <Controller
       name={name}
       control={control}
+      rules={{
+        required: {
+          value: required,
+          message: 'Vui lòng chọn trường này!',
+        },
+      }}
       render={({
         field: { value, onChange },
         fieldState: { error, invalid },
@@ -134,12 +142,12 @@ export const FormSelect = (props: IProps) => {
         >
           <FormLabel
             sx={{
-              fontWeight: '500',
+              fontWeight: '600',
               color: theme.palette.common.black,
               pb: label ? 0.5 : 0,
             }}
           >
-            {label}
+            {label} {required && '*'}
           </FormLabel>
 
           <Select
@@ -157,9 +165,11 @@ export const FormSelect = (props: IProps) => {
             // placeholder={placeholder}
             displayEmpty
           >
-            <MenuItem value="">
-              <em>{placeholder}</em>
-            </MenuItem>
+            {placeholder && (
+              <MenuItem value="">
+                <em>{placeholder}</em>
+              </MenuItem>
+            )}
             {renderOptions(value)}
           </Select>
           {invalid && <FormHelperText>{error?.message}</FormHelperText>}

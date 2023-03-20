@@ -21,7 +21,7 @@ const applySlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(applyJob.fulfilled, (state, action) => {
-        state.applyList.data.push(action.payload);
+        state.applyList.data.push(action.payload.apply_cv);
       })
       .addCase(getApplyList.fulfilled, (state, action) => {
         state.applyList = action.payload;

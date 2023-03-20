@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jobApi } from 'src/clients/http/job_api';
-import { IJob, IJobList } from 'src/types/job';
+import { IJob, IJobList, IPayloadJob } from 'src/types/job';
 import { toastMessage } from 'src/utils/toast';
 
 export const getJobList = createAsyncThunk<IJobList, void>(
@@ -39,3 +39,18 @@ export const getJobById = createAsyncThunk<{ job: IJob }, string>(
     }
   }
 );
+export const createJob = createAsyncThunk<
+  { job: IPayloadJob },
+  {
+    id_company: string;
+    payload: IPayloadJob;
+  }
+>('job/createJob', async ({ id_company, payload }, { rejectWithValue }) => {
+  try {
+    const { data } = await jobApi.createJob(id_company, payload);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});

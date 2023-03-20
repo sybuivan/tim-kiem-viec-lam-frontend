@@ -1,15 +1,18 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import ProfileHeader from '../header';
+import ProfileHeader from '../../../components/profile_bar/header';
 import Company from './company';
 import { useAppSelector } from 'src/hooks';
 import EmptyData from 'src/components/empty_data';
 
 const CompanyFollow = () => {
-  const { followers } = useAppSelector((state) => state.userSlice.followList);
+  const {
+    me,
+    followList: { followers },
+  } = useAppSelector((state) => state.userSlice);
   return (
     <Box>
-      <ProfileHeader />
+      <ProfileHeader fullName={me.fullName} />
       <Paper>
         <Box
           p={2}

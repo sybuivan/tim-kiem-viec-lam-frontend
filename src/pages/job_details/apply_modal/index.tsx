@@ -76,6 +76,7 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
       .unwrap()
       .then(() => {
         toastMessage.success('Nộp hồ sơ thành công');
+        handleCloseModal();
       });
   };
   return (

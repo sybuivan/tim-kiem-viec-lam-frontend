@@ -16,7 +16,7 @@ import {
   FormInput,
   FormSelect,
 } from 'src/components/hook_form';
-import ProfileHeader from '../header';
+import ProfileHeader from '../../../components/profile_bar/header';
 import { useAppSelector, useAppDispatch, useGetStatus } from 'src/hooks';
 import { messageRequired } from 'src/utils/common';
 import { IPayloadProfile } from 'src/types/profile';
@@ -90,7 +90,7 @@ const ProfileUser = () => {
   };
   return (
     <Box>
-      <ProfileHeader />
+      <ProfileHeader fullName={me.fullName} />
       <Paper>
         <Box
           p={2}

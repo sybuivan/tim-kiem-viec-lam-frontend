@@ -1,4 +1,4 @@
-import { IApplyList } from 'src/types/apply';
+import { IApply, IApplyList } from 'src/types/apply';
 import { IJob, IJobList } from 'src/types/job';
 import { createClient } from './axios_client';
 
@@ -6,7 +6,7 @@ const client = createClient();
 
 export const applyApi = {
   applyJob: (formData: FormData) => {
-    return client.post<any>(`/apply/apply-job`, formData, {
+    return client.post<{ apply_cv: IApply }>(`/apply/apply-job`, formData, {
       headers: { 'content-type': 'multipart/form-data' },
     });
   },

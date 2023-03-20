@@ -1,4 +1,4 @@
-import { IJob, IJobList } from 'src/types/job';
+import { IJob, IJobList, IPayloadJob } from 'src/types/job';
 import { createClient } from './axios_client';
 import queryString from 'query-string';
 
@@ -16,5 +16,12 @@ export const jobApi = {
 
   getJobById: (id_job: string) => {
     return client.get<{ job: IJob }>(`/job/get-job-by-id/${id_job}`);
+  },
+
+  createJob: (id_company: string, data: IPayloadJob) => {
+    return client.post<{ job: IPayloadJob }>(
+      `/job/create-job/${id_company}`,
+      data
+    );
   },
 };

@@ -1,6 +1,5 @@
 import { Box, Typography, Paper } from '@mui/material';
 import React from 'react';
-import { CProfileRoute } from 'src/constants/profile';
 import { ICustomAccordion } from 'src/types/profile';
 import theme from 'src/theme';
 import { useLocation, useNavigate } from 'react-router';
@@ -67,7 +66,7 @@ const CustomAccordion = ({ data }: { data: ICustomAccordion }) => {
   );
 };
 
-const ProfileBar = () => {
+const ProfileBar = ({ data }: { data: ICustomAccordion[] }) => {
   return (
     <Paper
       sx={{
@@ -82,7 +81,7 @@ const ProfileBar = () => {
           },
         }}
       >
-        {CProfileRoute.data.map((item) => (
+        {data.map((item) => (
           <CustomAccordion data={item} />
         ))}
       </Box>

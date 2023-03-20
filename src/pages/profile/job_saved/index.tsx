@@ -1,17 +1,18 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import { useAppSelector } from 'src/hooks';
-import ProfileHeader from '../header';
+import ProfileHeader from '../../../components/profile_bar/header';
 import { JobCompany } from 'src/components/job_company';
 import EmptyData from 'src/components/empty_data';
 
 const JobSaved = () => {
   const {
     saveJobList: { savedList },
+    me,
   } = useAppSelector((state) => state.userSlice);
   return (
     <Box>
-      <ProfileHeader />
+      <ProfileHeader fullName={me.fullName} />
       <Paper>
         <Box
           p={2}

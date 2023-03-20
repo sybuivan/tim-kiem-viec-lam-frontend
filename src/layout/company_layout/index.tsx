@@ -1,12 +1,9 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import Scrollbars from 'react-custom-scrollbars-2';
 import { Outlet } from 'react-router';
-import Header from 'src/components/header';
-import { sql } from 'src/constants/common';
+import { HeaderCompany } from 'src/components/header';
 
-const MainLayout = () => {
-  console.log(sql());
+const CompanyLayout = () => {
   return (
     <Box bgcolor="#f2f3f7">
       <Box
@@ -17,7 +14,7 @@ const MainLayout = () => {
           maxWidth: '1346px',
         }}
       >
-        <Header />
+        <HeaderCompany />
       </Box>
       <Box pt="70px">
         <Outlet />
@@ -26,4 +23,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default CompanyLayout;

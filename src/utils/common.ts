@@ -1,3 +1,4 @@
+import { ROLE_COMPANY, ROLE_USER } from 'src/constants/common';
 import { IApplyList, IApply } from 'src/types/apply';
 import { IJob } from 'src/types/job';
 
@@ -24,4 +25,15 @@ export const checkIsFollow = (
   return followere.findIndex((item) => item.id_user === id_user) >= 0
     ? true
     : false;
+};
+
+export const checkRoleCompany = (idRole: string, token: string) => {
+  if (idRole === ROLE_COMPANY && token) return true;
+
+  return false;
+};
+export const checkRoleUser = (idRole: string, token: string) => {
+  if (idRole === ROLE_USER && token) return true;
+
+  return false;
 };

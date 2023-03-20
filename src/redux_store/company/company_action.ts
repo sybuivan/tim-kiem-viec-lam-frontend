@@ -2,7 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { companyApi } from 'src/clients/http/company_api';
 import { userApi } from 'src/clients/http/user_api';
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
-import { ICompanyList, ICompanyDetail } from 'src/types/company';
+import {
+  ICompanyList,
+  ICompanyDetail,
+  IPayloadRegisterCompany,
+  IPayloadCompanyInfo,
+} from 'src/types/company';
 import { IPayloadProfile } from 'src/types/profile';
 import { toastMessage } from 'src/utils/toast';
 
@@ -14,7 +19,7 @@ export const loginCompany = createAsyncThunk<
   IPayloadLogin
 >('company/loginCompany', async (payload, { rejectWithValue }) => {
   try {
-    const { data } = await userApi.login(payload);
+    const { data } = await companyApi.login(payload);
     return data;
   } catch (error: any) {
     toastMessage.setErrors(error);
@@ -22,11 +27,11 @@ export const loginCompany = createAsyncThunk<
   }
 });
 
-export const registerCompany = createAsyncThunk<any, IPayloadRegister>(
+export const registerCompany = createAsyncThunk<any, IPayloadRegisterCompany>(
   'company/registerCompany',
   async (payload, { rejectWithValue }) => {
     try {
-      const { data } = await userApi.register(payload);
+      const { data } = await companyApi.register(payload);
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);
@@ -47,11 +52,30 @@ export const getCompanyList = createAsyncThunk<ICompanyList, void>(
     }
   }
 );
+
 export const getCompanyById = createAsyncThunk<ICompanyDetail, string>(
   'company/getCompanyById',
   async (id, { rejectWithValue }) => {
     try {
       const { data } = await companyApi.getCompanyById(id);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const updateProfile = createAsyncThunk<
+  { company: IPayloadCompanyInfo },
+  {
+    id_company: string;
+    payload: FormData;
+  }
+>(
+  'company/updateProfile',
+  async ({ id_company, payload }, { rejectWithValue }) => {
+    try {
+      const { data } = await companyApi.updateProfile(id_company, payload);
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);

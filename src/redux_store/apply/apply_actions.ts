@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { applyApi } from 'src/clients/http/apply_api';
-import { IApplyList } from 'src/types/apply';
+import { IApply, IApplyList } from 'src/types/apply';
 import { toastMessage } from 'src/utils/toast';
 
-export const applyJob = createAsyncThunk<any, any>(
+export const applyJob = createAsyncThunk<{ apply_cv: IApply }, any>(
   'apply/applyJob',
   async (formData, { rejectWithValue }) => {
     try {

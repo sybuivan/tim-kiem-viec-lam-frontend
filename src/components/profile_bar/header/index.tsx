@@ -3,8 +3,13 @@ import React from 'react';
 import theme from 'src/theme';
 import { useAppSelector } from 'src/hooks';
 
-const ProfileHeader = () => {
-  const { me } = useAppSelector((state) => state.userSlice);
+const ProfileHeader = ({
+  fullName,
+  title = 'Xin chào.',
+}: {
+  fullName: string;
+  title?: string;
+}) => {
   return (
     <Box
       bgcolor={theme.palette.common.white}
@@ -18,10 +23,10 @@ const ProfileHeader = () => {
         fontWeight="600"
         color={theme.palette.grey[600]}
       >
-        Xin chào.
+        {title}
       </Typography>
       <Typography fontSize="18px" fontWeight="600">
-        {me.fullName}
+        {fullName}
       </Typography>
     </Box>
   );

@@ -26,3 +26,19 @@ export interface IJob extends ICompany {
   benefits_job?: string;
   name_city?: string;
 }
+
+export interface IPayloadJob {
+  name_job: string;
+  work_location: string;
+  city: string;
+  size_number: number;
+  description_job: string;
+  required_job: string;
+  benefits_job: string;
+  id_field: string;
+  id_type: string;
+  id_range: string;
+  id_experience: string;
+  id_working_form: string;
+  deadline: string | Date;
+}

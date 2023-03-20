@@ -1,5 +1,10 @@
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
-import { ICompanyDetail, ICompanyList } from 'src/types/company';
+import {
+  ICompanyDetail,
+  ICompanyList,
+  IPayloadCompanyInfo,
+  IPayloadRegisterCompany,
+} from 'src/types/company';
 import { IPayloadProfile } from 'src/types/profile';
 import { createClient } from './axios_client';
 
@@ -9,11 +14,14 @@ export const companyApi = {
   login: (payload: IPayloadLogin) => {
     return client.post('/company/login', payload);
   },
-  register: (payload: IPayloadRegister) => {
+  register: (payload: IPayloadRegisterCompany) => {
     return client.post<any>('/company/register', payload);
   },
-  updateProfile: (id_company: string, payload: IPayloadProfile) => {
-    return client.put<any>(`/company/update-profile/${id_company}`, payload);
+  updateProfile: (id_company: string, payload: FormData) => {
+    console.log({ id_company });
+    return client.put<any>(`/company/update-profile/${id_company}`, payload, {
+      headers: { 'content-type': 'multipart/form-data' },
+    });
   },
 
   getCompanyById: (id_company: string) => {

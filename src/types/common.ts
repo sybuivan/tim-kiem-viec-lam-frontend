@@ -70,7 +70,7 @@ export interface ITypeRank {
 }
 export interface IWorkingForm {
   id_working_form: string;
-  name: string;
+  name_working_form: string;
 }
 export interface ICity {
   id_city: string;

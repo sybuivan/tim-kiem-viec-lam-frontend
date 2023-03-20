@@ -12,6 +12,8 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect } from 'react';
+import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import { PersonOutlineOutlined, LogoutOutlined } from '@mui/icons-material';
 import { ReactComponent as ReactLogo } from 'src/assets/images/logo.svg';
@@ -22,7 +24,9 @@ import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
 import useStyles from './styles';
 import { logout } from 'src/redux_store/user/user_slice';
+import { logoutCompany } from 'src/redux_store/company/company_slices';
 import { resetApplyData } from 'src/redux_store/apply/apply_slice';
+import { checkRoleCompany, checkRoleUser } from 'src/utils/common';
 
 const settings: {
   icon: any;
@@ -34,6 +38,15 @@ const settings: {
     title: 'Tài khoản người dùng',
     path: '/thong-tin-ca-nhan',
   },
+  {
+    icon: <LogoutOutlined />,
+    title: 'Đăng xuất',
+  },
+];
+const settingsCompany: {
+  icon: any;
+  title: string;
+}[] = [
   {
     icon: <LogoutOutlined />,
     title: 'Đăng xuất',
@@ -145,7 +158,7 @@ const Header = () => {
               <Typography>Thông báo</Typography>
             </Box>
 
-            {token ? (
+            {checkRoleUser(me?.id_role, token) ? (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Quản lý hồ sơ">
                   <IconButton
@@ -237,6 +250,7 @@ const Header = () => {
                 },
               }}
               color={theme.palette.common.white}
+              onClick={() => navigate('/company')}
             >
               <LocationCity />
               <Box>
@@ -244,6 +258,180 @@ const Header = () => {
                 <Typography>Đăng ký</Typography>
               </Box>
             </Box>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
+  );
+};
+
+export const HeaderCompany = () => {
+  const { me, token } = useAppSelector((state) => state.companySlice);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const classes = useStyles();
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  );
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+  return (
+    <Box bgcolor={theme.palette.primary.main} height={70} width="100%">
+      <Container
+        sx={{
+          height: '100%',
+          minWidth: '1300px',
+        }}
+      >
+        <Box
+          display="flex"
+          alignItems="center"
+          height="100%"
+          sx={{
+            '& a': {
+              color: theme.palette.common.white,
+              fontWeight: 600,
+            },
+          }}
+        >
+          <Box mr={5}>
+            <Link to="/">
+              <ReactLogo width="200" height="60" />
+            </Link>
+          </Box>
+
+          <Box display="flex" justifyContent="flex-end" gap="50px" flex="1">
+            {checkRoleCompany(me?.id_role, token) && (
+              <Box
+                display="flex"
+                color={theme.palette.common.white}
+                alignItems="center"
+                gap={1}
+                sx={{
+                  cursor: 'pointer',
+                  '& p': {
+                    fontWeight: 600,
+                  },
+                }}
+              >
+                <Badge badgeContent={4} color="error">
+                  <NotificationsNoneOutlined
+                    color="action"
+                    sx={{
+                      color: theme.palette.common.white,
+                    }}
+                  />
+                </Badge>
+                <Typography>Thông báo</Typography>
+              </Box>
+            )}
+
+            {checkRoleCompany(me?.id_role, token) ? (
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Quản lý tài khoản">
+                  <IconButton
+                    onClick={handleOpenUserMenu}
+                    sx={{ p: 0, color: theme.palette.common.white }}
+                  >
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={me?.avatar || '/static/images/avatar/2.jpg'}
+                    />
+                    <Typography ml={1} fontWeight="600">
+                      {me?.fullName}
+                    </Typography>
+                    <KeyboardArrowDown />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settingsCompany.map((setting) => (
+                    <MenuItem
+                      key={setting.title}
+                      onClick={handleCloseUserMenu}
+                      onClickCapture={() => {
+                        dispatch(logoutCompany(''));
+                        setAnchorElUser(null);
+                      }}
+                    >
+                      {setting.icon}
+                      <Typography textAlign="center">
+                        {setting.title}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            ) : (
+              <Box display="flex">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  className={classes.liItem}
+                  sx={{
+                    borderRight: '1px solid #fff',
+                  }}
+                >
+                  <Typography
+                    fontWeight="600"
+                    fontSize="16px"
+                    color={theme.palette.common.white}
+                  >
+                    Đăng nhập
+                  </Typography>
+                  <AccountCircleOutlinedIcon
+                    sx={{
+                      color: theme.palette.common.white,
+                    }}
+                  />
+                </Box>
+
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  sx={{
+                    cursor: 'pointer',
+                    pl: 1,
+                  }}
+                  onClick={() => navigate('/')}
+                >
+                  <Groups2OutlinedIcon
+                    sx={{
+                      color: theme.palette.primary.contrastText,
+                    }}
+                  />
+                  <Typography
+                    fontWeight="600"
+                    fontSize="16px"
+                    color={theme.palette.common.white}
+                  >
+                    Người tìm việc
+                  </Typography>
+                </Box>
+              </Box>
+            )}
           </Box>
         </Box>
       </Container>

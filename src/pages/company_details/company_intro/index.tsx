@@ -1,11 +1,6 @@
 import React from 'react';
 import { Box, Typography, Container, Paper } from '@mui/material';
-import {
-  LocationOnOutlined,
-  Groups2Outlined,
-  FactoryOutlined,
-  HourglassBottomOutlined,
-} from '@mui/icons-material';
+
 import theme from 'src/theme';
 import { useAppSelector } from 'src/hooks';
 

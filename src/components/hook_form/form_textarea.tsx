@@ -1,12 +1,14 @@
 import React from 'react';
-import { FormControl, SxProps, TextField } from '@mui/material';
+import { FormControl, FormLabel, SxProps, TextField } from '@mui/material';
 import { Control, Controller } from 'react-hook-form';
+import theme from 'src/theme';
 
 interface IProps {
-  control: Control<any, any>;
+  control: any;
   name: string;
   label: string;
   minRows: number;
+  placeholder?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;
   variant?: 'standard' | 'filled' | 'outlined';
@@ -29,6 +31,7 @@ export const FormTextarea = (props: IProps) => {
     margin = 'dense',
     required = false,
     handleChange,
+    placeholder,
   } = props;
 
   return (
@@ -41,16 +44,36 @@ export const FormTextarea = (props: IProps) => {
         },
       }}
       control={control}
-      render={({ field: { value, onChange }, fieldState: { error, invalid } }) => (
-        <FormControl required={required} fullWidth size={size} margin={margin} sx={sx}>
+      render={({
+        field: { value, onChange },
+        fieldState: { error, invalid },
+      }) => (
+        <FormControl
+          required={required}
+          fullWidth
+          size={size}
+          margin={margin}
+          sx={sx}
+        >
+          <FormLabel
+            sx={{
+              fontWeight: '600',
+              color: error
+                ? theme.palette.error.main
+                : theme.palette.common.black,
+              pb: label ? 0.5 : 0,
+            }}
+          >
+            {label}
+          </FormLabel>
           <TextField
             multiline
             variant={variant}
             disabled={disabled}
-            label={label}
             error={invalid}
             helperText={error ? error.message : null}
             minRows={minRows}
+            placeholder={placeholder}
             maxRows={minRows}
             onChange={(e) => {
               const value = e.target.value;

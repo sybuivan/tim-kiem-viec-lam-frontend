@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
-import ProfileHeader from '../header';
+import ProfileHeader from '../../../components/profile_bar/header';
 import EmptyData from 'src/components/empty_data';
 import JobSave from './job';
 import { useAppSelector } from 'src/hooks';
@@ -9,9 +9,10 @@ const JobApplied = () => {
   const {
     applyList: { data },
   } = useAppSelector((state) => state.applySlice);
+  const { me } = useAppSelector((state) => state.companySlice);
   return (
     <Box>
-      <ProfileHeader />
+      <ProfileHeader fullName={me.fullName} />
       <Paper>
         <Box
           p={2}

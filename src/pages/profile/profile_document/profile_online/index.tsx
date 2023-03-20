@@ -395,7 +395,7 @@ const ProfileOnline = () => {
                     placeholder="Chọn"
                     options={workingformfield}
                     keyOption="id_working_form"
-                    labelOption="name"
+                    labelOption="name_working_form"
                   />
                 </Grid>
               </Grid>

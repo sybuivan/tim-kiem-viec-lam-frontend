@@ -2,6 +2,7 @@ import React from 'react';
 import { FormControl, FormLabel, SxProps, TextField } from '@mui/material';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import { Control, Controller } from 'react-hook-form';
+import theme from 'src/theme';
 
 interface IProps {
   control: any;
@@ -14,7 +15,9 @@ interface IProps {
   required?: boolean;
   sx?: SxProps;
   maxDate?: Date;
+  minDate?: Date;
   handleChange?: (name: string, value: any) => void;
+  disableFuture?: boolean;
 }
 
 export const FormDatePicker = (props: IProps) => {
@@ -29,7 +32,9 @@ export const FormDatePicker = (props: IProps) => {
     margin = 'dense',
     required = false,
     maxDate,
+    minDate,
     handleChange,
+    disableFuture = true,
   } = props;
 
   return (
@@ -56,14 +61,19 @@ export const FormDatePicker = (props: IProps) => {
           <FormLabel
             sx={{
               fontWeight: '600',
+              color: error
+                ? theme.palette.error.main
+                : theme.palette.common.black,
+              pb: label ? 0.5 : 0,
             }}
           >
-            {label}
+            {label} {required && '*'}
           </FormLabel>
           <MobileDatePicker
             disabled={disabled}
             // label={label}
-            disableFuture={true}
+            minDate={minDate}
+            disableFuture={disableFuture}
             value={value}
             onChange={onChange}
             maxDate={maxDate}
