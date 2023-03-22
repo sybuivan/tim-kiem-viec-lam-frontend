@@ -268,7 +268,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                   Số lượng tuyển:
                 </Typography>
                 <Typography fontWeight="600">
-                  {jobDetail.total_number}
+                  {jobDetail.size_number}
                 </Typography>
               </Box>
             </Grid>

@@ -1,71 +1,33 @@
 // CreateJobPostings
 
-import React, { useState } from 'react';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Typography, Paper, Button, Grid } from '@mui/material';
 import { DeleteOutlineOutlined, SaveOutlined } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
+import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-
-import theme from 'src/theme';
+import { useParams } from 'react-router-dom';
 import {
   FormDatePicker,
   FormInput,
   FormSelect,
   FormTextarea,
 } from 'src/components/hook_form';
-import { useAppSelector, useAppDispatch, useGetStatus } from 'src/hooks';
-import { messageRequired } from 'src/utils/common';
-import { LoadingButton } from '@mui/lab';
-import { updateProfile } from 'src/redux_store/company/company_action';
+import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
+import {
+  updateJob,
+  getJobById,
+  getJobByIdCompany,
+} from 'src/redux_store/job/job_action';
+import { IPayloadJob } from 'src/types/job';
 import { toastMessage } from 'src/utils/toast';
-import ProfileHeader from 'src/components/profile_bar/header';
-import { CPersonnelSize } from 'src/constants/common';
-import { IPayloadCompanyInfo } from 'src/types/company';
-import { IJob, IPayloadJob } from 'src/types/job';
-import { createJob } from 'src/redux_store/job/job_action';
+import { schema } from '../create_post';
 
-export const CInitValues: IPayloadJob = {
-  benefits_job: '',
-  city: '',
-  deadline: '',
-  work_location: '',
-  description_job: '',
-  id_experience: '',
-  id_range: '',
-  id_type: '',
-  id_working_form: '',
-  name_job: '',
-  required_job: '',
-  size_number: 0,
-  id_field: '',
-};
-
-export const schema = yup.object().shape({
-  benefits_job: yup.string().required(messageRequired('Quyền lợi')),
-  city: yup.string().required(messageRequired('Thành phố')),
-  deadline: yup.string().required(messageRequired('Hạn nộp')),
-  work_location: yup.string().required(messageRequired('Nơi làm việc')),
-  description_job: yup.string().required(messageRequired('Mô tả công việc')),
-  id_experience: yup.string().required(messageRequired('Kinh nghiệm')),
-  id_field: yup.string().required(messageRequired('Lĩnh vực')),
-  id_range: yup.string().required(messageRequired('Mức lương')),
-  id_type: yup.string().required(messageRequired('Cập bậc')),
-  id_working_form: yup.string().required(messageRequired('Hình thức làm việc')),
-  name_job: yup.string().required(messageRequired('Tên công việc')),
-  required_job: yup.string().required(messageRequired('Yêu cầu')),
-  size_number: yup
-    .number(messageRequired('Số lượng tuyển'))
-    .typeError(messageRequired('Số lượng tuyển'))
-    .required(messageRequired('Số lượng tuyển'))
-    .min(1, 'Số lượng phải lớn hơn 1')
-    .nullable(),
-});
-
-const CreateJobPostings = () => {
+const UpdateJobPostings = () => {
   const dispatch = useAppDispatch();
   const { me } = useAppSelector((state) => state.companySlice);
-  const [isLoading] = useGetStatus('job', 'createJob');
+  const [isLoading] = useGetStatus('job', 'updateJob');
+  const { id_job } = useParams();
   const {
     cityfield,
     companyfield,
@@ -76,24 +38,28 @@ const CreateJobPostings = () => {
   } = useAppSelector((state) => state.commonSlice.fieldList);
 
   const { control, handleSubmit, reset } = useForm<IPayloadJob>({
-    defaultValues: {
-      ...CInitValues,
-      id_field: me.idCompanyField,
-    },
     resolver: yupResolver(schema),
   });
 
-  const handleOnSubmit = (data: IPayloadJob) => {
-    console.log(data);
-    dispatch(createJob({ id_company: me.id_company, payload: data }))
-      .unwrap()
-      .then(() => {
-        toastMessage.success('Tạo bài đăng tuyển dụng thành công');
-        reset({
-          ...CInitValues,
-          id_field: me.idCompanyField,
+  useEffect(() => {
+    if (id_job)
+      dispatch(getJobByIdCompany(id_job))
+        .unwrap()
+        .then((data) => {
+          const { created_at, urgent_recruitment, ...other } = data.job;
+          reset({
+            ...other,
+          });
         });
-      });
+  }, []);
+
+  const handleOnSubmit = (data: IPayloadJob) => {
+    if (id_job)
+      dispatch(updateJob({ id_job, payload: data }))
+        .unwrap()
+        .then(() => {
+          toastMessage.success('Chỉnh sửa bài đăng tuyển dụng thành công');
+        });
   };
   return (
     <Box pb="90px">
@@ -105,7 +71,7 @@ const CreateJobPostings = () => {
           }}
         >
           <Typography fontSize="18px" fontWeight="600">
-            Tạo mới bài đăng tuyển dụng
+            Chỉnh sửa bài đăng tuyển dụng
           </Typography>
         </Box>
         <Box
@@ -281,7 +247,7 @@ const CreateJobPostings = () => {
                       variant="contained"
                       onClick={handleSubmit(handleOnSubmit)}
                     >
-                      Tạo bài đăng
+                      Chỉnh sủa tin
                     </LoadingButton>
                   </Box>
                 </Box>
@@ -294,4 +260,4 @@ const CreateJobPostings = () => {
   );
 };
 
-export default CreateJobPostings;
+export default UpdateJobPostings;

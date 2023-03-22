@@ -17,10 +17,15 @@ import RegisterFormCompany from 'src/pages/auth_company/register_form_company';
 import LoginFormCompany from 'src/pages/auth_company/login_form_company';
 import { PrivateCompany, PrivateLoginCompany } from './private/company';
 import HomeCompany from 'src/pages/home_company';
-import CompanyInfo from 'src/pages/company_details/company_info';
 import CompanyInfoAdmin from 'src/pages/home_company/company_info';
 import CreateJobPostings from 'src/pages/home_company/create_post';
 import PostingList from 'src/pages/home_company/posting_list';
+import UpdateJobPostings from 'src/pages/home_company/update_post';
+import ApplyList from 'src/pages/home_company/apply_list';
+import SavedProfile from 'src/pages/home_company/saved_profile';
+import CandidateList from 'src/pages/home_company/candidate_list';
+import BuyServices from 'src/pages/home_company/buy_services';
+import PurchaseHistory from 'src/pages/home_company/purchase_history';
 
 let routes: (token: string) => RouteObject[] = (token: string) => [
   {
@@ -120,8 +125,32 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
             element: <CreateJobPostings />,
           },
           {
+            path: 'chinh-sua-tin-tuyen-dung/:id_job',
+            element: <UpdateJobPostings />,
+          },
+          {
             path: 'danh-sach-dang-tin',
             element: <PostingList />,
+          },
+          {
+            path: 'ho-so-ung-tuyen',
+            element: <ApplyList />,
+          },
+          {
+            path: 'ho-so-da-luu',
+            element: <SavedProfile />,
+          },
+          {
+            path: 'tim-kiem-ung-vien',
+            element: <CandidateList />,
+          },
+          {
+            path: 'mua-dich-vu',
+            element: <BuyServices />,
+          },
+          {
+            path: 'lich-su-mua-hang',
+            element: <PurchaseHistory />,
           },
         ],
       },

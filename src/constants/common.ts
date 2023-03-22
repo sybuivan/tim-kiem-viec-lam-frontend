@@ -323,3 +323,18 @@ export const sql = () => {
     (item) => `("${item.name}", "${item.name_with_type}")`
   );
 };
+
+export const COptionStatusApply = [
+  {
+    label: 'Đã liên hệ',
+    status: 'DLH',
+  },
+  {
+    label: 'Đã xem hồ sơ',
+    status: 'DXHS',
+  },
+  {
+    label: 'Đã từ chối',
+    status: 'DTC',
+  },
+];

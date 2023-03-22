@@ -12,7 +12,7 @@ export const formatDate = (date: string | Date) => {
 
 export const convertMinMaxToArray = (
   min: number | string,
-  max: number | string,
+  max: number | string
 ): { value: number; label: string }[] => {
   if (min && max) {
     return Array.from({ length: Number(max) - Number(min) + 1 }, (v, k) => {
@@ -29,3 +29,6 @@ export const convertMinMaxToArray = (
 export const formatFilterToString = (array: { id: string; name: string }[]) => {
   return array.map((item) => item.id).join(',');
 };
+
+export const formatPrice = (price: number) =>
+  price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });

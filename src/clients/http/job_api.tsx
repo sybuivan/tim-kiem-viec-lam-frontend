@@ -17,11 +17,27 @@ export const jobApi = {
   getJobById: (id_job: string) => {
     return client.get<{ job: IJob }>(`/job/get-job-by-id/${id_job}`);
   },
+  getJobByIdCompany: (id_job: string) => {
+    return client.get<{ job: IPayloadJob }>(
+      `/job/get-job-by-id-company/${id_job}`
+    );
+  },
 
+  getListJobByCompany: (id_company: string) => {
+    return client.get<IJobList>(`/job/get-jobs-by-company/${id_company}`);
+  },
   createJob: (id_company: string, data: IPayloadJob) => {
     return client.post<{ job: IPayloadJob }>(
       `/job/create-job/${id_company}`,
       data
     );
+  },
+  deleteJob: (id_company: string, id_job: string) => {
+    return client.delete<any>(
+      `/job/delete-job?id_job=${id_job}&id_company=${id_company}`
+    );
+  },
+  updateJob: (id_job: string, data: IPayloadJob) => {
+    return client.put<IJob>(`/job/update-job/${id_job}`, data);
   },
 };

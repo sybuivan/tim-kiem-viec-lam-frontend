@@ -20,7 +20,7 @@ export interface IJob extends ICompany {
   name_experience?: string;
   name_rank?: string;
   name_field?: string;
-  total_number?: number;
+  size_number?: number;
   description_job?: string;
   required_job?: string;
   benefits_job?: string;
@@ -41,4 +41,6 @@ export interface IPayloadJob {
   id_experience: string;
   id_working_form: string;
   deadline: string | Date;
+  created_at?: string | Date | null;
+  urgent_recruitment?: number;
 }

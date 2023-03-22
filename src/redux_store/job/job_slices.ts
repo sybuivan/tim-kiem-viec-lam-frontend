@@ -1,12 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IadvancedFilter, IHomeFilter } from 'src/types/common';
+import { IadvancedFilter } from 'src/types/common';
 import { IJobList, IJob } from 'src/types/job';
-import { getJobList, getJobById, getJobListFilters } from './job_action';
+import {
+  getJobList,
+  getJobById,
+  getJobListFilters,
+  getListJobByCompany,
+} from './job_action';
 
 interface ICompanySlice {
   jobList: IJobList;
   jobDetail: IJob;
   jobFilters: IadvancedFilter;
+  jobListCompany: IJobList;
 }
 
 const initialState: ICompanySlice = {
@@ -14,6 +20,7 @@ const initialState: ICompanySlice = {
     data: [],
     total: 0,
   },
+  jobListCompany: { data: [], total: 0 },
   jobDetail: {
     deadline: '',
     id_job: '',
@@ -47,6 +54,13 @@ const jobSlice = createSlice({
       };
       state.jobFilters = newFields;
     },
+
+    deleteJobById: (state, action) => {
+      const newJobList = state.jobListCompany.data.filter(
+        (job) => job.id_job !== action.payload
+      );
+      state.jobListCompany.data = newJobList;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -56,6 +70,9 @@ const jobSlice = createSlice({
       .addCase(getJobListFilters.fulfilled, (state, action) => {
         state.jobList = action.payload;
       })
+      .addCase(getListJobByCompany.fulfilled, (state, action) => {
+        state.jobListCompany = action.payload;
+      })
       .addCase(getJobById.fulfilled, (state, action) => {
         state.jobDetail = action.payload.job;
       });
@@ -63,5 +80,5 @@ const jobSlice = createSlice({
 });
 
 const { actions, reducer } = jobSlice;
-export const { changeHomeFilter, resetFilter } = actions;
+export const { changeHomeFilter, resetFilter, deleteJobById } = actions;
 export default reducer;

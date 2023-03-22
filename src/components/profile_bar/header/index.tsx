@@ -13,7 +13,8 @@ const ProfileHeader = ({
   return (
     <Box
       bgcolor={theme.palette.common.white}
-      p={2}
+      px={1}
+      py={2}
       display="flex"
       gap={1}
       mb={2}
@@ -25,7 +26,11 @@ const ProfileHeader = ({
       >
         {title}
       </Typography>
-      <Typography fontSize="18px" fontWeight="600">
+      <Typography
+        fontSize="18px"
+        fontWeight="600"
+        color={theme.palette.primary.main}
+      >
         {fullName}
       </Typography>
     </Box>

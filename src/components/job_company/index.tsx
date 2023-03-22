@@ -26,7 +26,7 @@ export const JobCompany = ({ job }: { job: IJob }) => {
   const { handleOnUnSaved, handleOnSave } = useSaveJob(
     token,
     job.id_job,
-    me.id_user
+    me?.id_user
   );
   return (
     <Box position="relative">

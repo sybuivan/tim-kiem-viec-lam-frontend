@@ -3,4 +3,5 @@ export const MODAL_IDS = {
   login: 'login',
 
   apply: 'apply',
+  deleteJob: 'deleteJob',
 };

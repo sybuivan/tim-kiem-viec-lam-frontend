@@ -15,6 +15,7 @@ const EmptyData = ({ title }: { title: string }) => {
         src={imptyImage}
         style={{
           margin: 'auto',
+          display: 'flex',
         }}
       />
     </>
