@@ -23,8 +23,8 @@ const schemaRegister = yup.object().shape({
   fullName: yup.string().required('Họ và tên không được bỏ trống'),
 
   phone: yup.number().required('Số điện thoại không được bỏ trống'),
-  nameCompany: yup.string().required('Tên công ty không được bỏ trống'),
-  totalPeople: yup.string().required('Quy mô nhân sự không được bỏ trống'),
+  name_company: yup.string().required('Tên công ty không được bỏ trống'),
+  total_people: yup.string().required('Quy mô nhân sự không được bỏ trống'),
   city: yup.string().required('Địa điểm không được bỏ trống'),
   address: yup.string().required('Địa chỉ công ty không được bỏ trống'),
   fieldOfActivity: yup
@@ -138,7 +138,7 @@ const RegisterFormCompany = () => {
         />
         <FormInput
           control={control}
-          name="nameCompany"
+          name="name_company"
           label="Tên công ty"
           placeholder="Tên công ty theo giấy phép đăng ký kinh doanh"
           required
@@ -151,7 +151,7 @@ const RegisterFormCompany = () => {
         />
         <FormSelect
           control={control}
-          name="totalPeople"
+          name="total_people"
           options={CPersonnelSize}
           keyOption="value"
           label="Quy mô nhân sự"

@@ -26,6 +26,15 @@ import SavedProfile from 'src/pages/home_company/saved_profile';
 import CandidateList from 'src/pages/home_company/candidate_list';
 import BuyServices from 'src/pages/home_company/buy_services';
 import PurchaseHistory from 'src/pages/home_company/purchase_history';
+import Message from 'src/pages/message';
+import { ContentMessage } from 'src/pages/message/content_message';
+import SidebarLayout from 'src/layout/SidebarLayout';
+import Dashboard from 'src/pages/admin/dashboard';
+import ManagementUser from 'src/pages/admin/management-user';
+import ListCompany from 'src/pages/admin/list-company';
+import ListRegisterCompany from 'src/pages/admin/list-register-company';
+import AddPost from 'src/pages/admin/add-post';
+import ListPost from 'src/pages/admin/list-post';
 
 let routes: (token: string) => RouteObject[] = (token: string) => [
   {
@@ -109,6 +118,20 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
         ),
       },
       {
+        path: 'message',
+        element: (
+          <PrivateLoginCompany>
+            <Message />
+          </PrivateLoginCompany>
+        ),
+        children: [
+          {
+            path: ':id_user',
+            element: <ContentMessage />,
+          },
+        ],
+      },
+      {
         path: 'home',
         element: (
           <PrivateLoginCompany>
@@ -153,6 +176,37 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
             element: <PurchaseHistory />,
           },
         ],
+      },
+    ],
+  },
+
+  {
+    path: 'admin',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: 'dashboard',
+        element: <Dashboard />,
+      },
+      {
+        path: 'management-user',
+        element: <ManagementUser />,
+      },
+      {
+        path: 'list-company',
+        element: <ListCompany />,
+      },
+      {
+        path: 'list-register-company',
+        element: <ListRegisterCompany />,
+      },
+      {
+        path: 'add-post',
+        element: <AddPost />,
+      },
+      {
+        path: 'list-post',
+        element: <ListPost />,
       },
     ],
   },

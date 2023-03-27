@@ -34,6 +34,7 @@ export interface IPayLoadCV {
   file_cv?: any;
   file_name?: any;
   created_at?: Date | string;
+  city: string;
 }
 
 export interface IProfileCV {

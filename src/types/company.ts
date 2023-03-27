@@ -51,3 +51,19 @@ export interface ICompanyDetail {
     id_user: string;
   }[];
 }
+
+export interface IParamsCandidate {
+  keyword: string;
+  id_company_field: string;
+  id_city: string;
+}
+
+export interface ICandidate {
+  id_user: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  name_field: string;
+  file_cv: string;
+  avatar: string;
+}

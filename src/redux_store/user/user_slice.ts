@@ -8,7 +8,6 @@ import {
   getSavedListByUser,
   createCV,
   getProfileCV,
-  followCompany,
   getAllFollowUser,
 } from './user_action';
 
@@ -25,12 +24,13 @@ const initialState: IUserSlice = {
   me: getLocal,
   profileCV: {
     career_goals: '',
-    desired_salary: 0,
+    desired_salary: 1000000,
     id_company_field: '',
     id_experience: '',
     id_type_current: '',
     id_type_desired: '',
     id_working_form: '',
+    city: '',
     is_public: 0,
   },
   token,

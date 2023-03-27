@@ -1,34 +1,35 @@
-import React from 'react';
-import { Box, Button, Link, Paper, Typography, Grid } from '@mui/material';
-import {
-  FavoriteRounded,
-  LocalPhoneOutlined,
-  BadgeOutlined,
-  EmailOutlined,
-  AssignmentOutlined,
-} from '@mui/icons-material';
-import { useAppSelector } from 'src/hooks';
-import ProfileHeader from 'src/components/profile_bar/header';
-import { JobCompany } from 'src/components/job_company';
-import EmptyData from 'src/components/empty_data';
-import theme from 'src/theme';
-import { CandidateInfo } from '../saved_profile';
-import { FormSelect, FormInput } from 'src/components/hook_form';
+import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+
+import { FormInput, FormSelect } from 'src/components/hook_form';
+import ProfileHeader from 'src/components/profile_bar/header';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getCandidateList } from 'src/redux_store/company/company_action';
+import theme from 'src/theme';
+import EmptyData from 'src/components/empty_data';
+import { CandidateInfo } from '../saved_profile';
 
 const CandidateList = () => {
   const {
-    saveJobList: { savedList },
     me,
-  } = useAppSelector((state) => state.userSlice);
-  const {
-    companyfield,
-    experiencefield,
-    typerankfield,
-    rangewagefield,
-    workingformfield,
-    cityfield,
-  } = useAppSelector((state) => state.commonSlice.fieldList);
+    candidateList: { data },
+  } = useAppSelector((state) => state.companySlice);
+  const { companyfield, cityfield } = useAppSelector(
+    (state) => state.commonSlice.fieldList
+  );
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(
+      getCandidateList({
+        id_city: '',
+        id_company_field: '',
+        keyword: '',
+      })
+    );
+  }, []);
 
   const { control } = useForm({});
   return (
@@ -107,13 +108,14 @@ const CandidateList = () => {
           }}
         >
           <Grid container columnSpacing={1}>
-            <CandidateInfo />
-            <CandidateInfo />
-            <CandidateInfo />
+            {data.length > 0 ? (
+              data.map((candidate) => (
+                <CandidateInfo candidate={candidate} key={candidate.file_cv} />
+              ))
+            ) : (
+              <EmptyData title="Bạn chưa lưu ứng viên nào" />
+            )}
           </Grid>
-          {/* ) : (
-            <EmptyData title="Bạn chưa có việc làm đã lưu" />
-          )} */}
         </Box>
       </Paper>
     </Box>

@@ -15,8 +15,8 @@ const JobList = () => {
   const stringParams = queryString.parse(location.search);
   const {
     jobList: { data },
+    jobFilters,
   } = useAppSelector((state) => state.jobSlice);
-
   useEffect(() => {
     dispatch(getJobListFilters(queryString.parse(location.search)));
 

@@ -1,7 +1,9 @@
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import {
+  ICandidate,
   ICompanyDetail,
   ICompanyList,
+  IParamsCandidate,
   IPayloadCompanyInfo,
   IPayloadRegisterCompany,
 } from 'src/types/company';
@@ -32,5 +34,27 @@ export const companyApi = {
 
   getCompanyList: () => {
     return client.get<ICompanyList>(`/company/get-company-list`);
+  },
+
+  getAllFolllowUser: (id_company: string) => {
+    return client.get<any>(`/company/get-candidate-follow/${id_company}`);
+  },
+
+  followUser: (payload: { id_user: string; id_company: string }) => {
+    return client.post(`/company/follow-user`, payload);
+  },
+  unfollowUser: (payload: { id_user: string; id_company: string }) => {
+    return client.delete<string>(`/company/unfollow-user`, {
+      data: payload,
+    });
+  },
+
+  getCandidateList: (params: IParamsCandidate) => {
+    return client.get<{
+      data: ICandidate[];
+      total: number;
+    }>(`/company/get-candidate-list`, {
+      params,
+    });
   },
 };

@@ -34,6 +34,5 @@ export const checkRoleCompany = (idRole: string, token: string) => {
 };
 export const checkRoleUser = (idRole: string, token: string) => {
   if (idRole === ROLE_USER && token) return true;
-
   return false;
 };

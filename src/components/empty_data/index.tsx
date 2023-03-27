@@ -1,10 +1,10 @@
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import React from 'react';
 import imptyImage from 'src/assets/images/empty_image.jpg';
 
 const EmptyData = ({ title }: { title: string }) => {
   return (
-    <>
+    <Box width="100%">
       <Typography fontSize="22px" py={3} textAlign="center" color="#000">
         {title}
       </Typography>
@@ -18,7 +18,7 @@ const EmptyData = ({ title }: { title: string }) => {
           display: 'flex',
         }}
       />
-    </>
+    </Box>
   );
 };
 

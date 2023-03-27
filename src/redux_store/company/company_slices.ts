@@ -1,16 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ICompanyDetail, ICompanyList } from 'src/types/company';
+import { ICompanyDetail, ICompanyList, ICandidate } from 'src/types/company';
 import {
   getCompanyList,
   getCompanyById,
   loginCompany,
   updateProfile,
+  getCandidateList,
+  getAllFolllowUser,
+  unfollowUser,
+  followUser,
 } from './company_action';
 import { getLocal, token } from 'src/constants/localstoge';
 
 interface ICompanySlice {
   companyList: ICompanyList;
   companyDetail: ICompanyDetail;
+  followList: {
+    followers: ICandidate[];
+    total: number;
+  };
+  candidateList: {
+    data: ICandidate[];
+    total: number;
+  };
   me: any;
   token: string;
 }
@@ -20,6 +32,15 @@ const initialState: ICompanySlice = {
     companyList: [],
     total: 0,
   },
+  candidateList: {
+    data: [],
+    total: 0,
+  },
+  followList: {
+    followers: [],
+    total: 0,
+  },
+
   companyDetail: {
     company: {},
     jobs: [],
@@ -69,6 +90,21 @@ const companySlice = createSlice({
         const { company } = action.payload;
         state.me = company;
         localStorage.setItem('user_account', JSON.stringify(company));
+      })
+      .addCase(getAllFolllowUser.fulfilled, (state, action) => {
+        state.followList = action.payload;
+      })
+      .addCase(getCandidateList.fulfilled, (state, action) => {
+        state.candidateList = action.payload;
+      })
+      .addCase(unfollowUser.fulfilled, (state, action) => {
+        const newFollowList = state.followList.followers.filter(
+          (item) => item.id_user !== action.payload
+        );
+        state.followList.followers = newFollowList;
+      })
+      .addCase(followUser.fulfilled, (state, action) => {
+        state.followList = action.payload;
       });
   },
 });

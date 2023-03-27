@@ -14,4 +14,7 @@ declare module 'react-toastify';
 declare module 'react-dnd';
 declare module 'react-dnd-html5-backend';
 declare module 'react-html-string';
+declare module 'recharts';
+declare module 'react-apexcharts';
+declare module 'apexcharts';
 // declare module '@emotion/react';

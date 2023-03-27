@@ -46,9 +46,13 @@ const schema = yup.object().shape({
   id_company_field: yup.string().required(messageRequired('Nghề nghiệp')),
   id_type_current: yup.string().required(messageRequired('Cấp bậc hiện tại')),
   id_type_desired: yup.string().required(messageRequired('Cấp bậc mong muốn')),
-  desired_salary: yup.number().required(messageRequired('Mức lương mong muốn')),
+  desired_salary: yup
+    .number()
+    .required(messageRequired('Mức lương mong muốn'))
+    .min(1000000, 'Số tiền phải lớn hơn 1000000'),
   id_experience: yup.string().required(messageRequired('Số năm kinh nghiệm')),
   id_working_form: yup.string().required(messageRequired('Hình thức làm việc')),
+  city: yup.string().required(messageRequired('Thành phố')),
 });
 
 const ProfileOnline = () => {
@@ -59,6 +63,7 @@ const ProfileOnline = () => {
       companyfield,
       experiencefield,
       workingformfield,
+      cityfield,
     },
   } = useAppSelector((state) => state.commonSlice);
   const {
@@ -98,6 +103,7 @@ const ProfileOnline = () => {
       id_type_desired,
       career_goals,
       is_public,
+      city,
     } = data;
     const is_publicCV: any = is_public ? 1 : 0;
     const formData = new FormData();
@@ -111,6 +117,7 @@ const ProfileOnline = () => {
       formData.append('id_working_form', id_working_form);
       formData.append('id_company_field', id_company_field);
       formData.append('is_public', is_publicCV);
+      formData.append('id_city', city);
       formData.append('file_cv', file, file.name);
       formData.append('file_name', file.name);
       dispatch(createCV(formData))
@@ -376,17 +383,17 @@ const ProfileOnline = () => {
                     labelOption="name_experience"
                   />
                 </Grid>
-                {/* <Grid item xs={6}>
+                <Grid item xs={6}>
                   <FormSelect
                     control={control}
                     name="city"
                     label="Địa điểm làm việc"
                     placeholder="Chọn"
-                    options={CCitisOption}
-                    keyOption="name"
-                    labelOption="name_with_type"
+                    options={cityfield}
+                    keyOption="id_city"
+                    labelOption="name_city"
                   />
-                </Grid> */}
+                </Grid>
                 <Grid item xs={6}>
                   <FormSelect
                     control={control}

@@ -1,4 +1,8 @@
-import { ComponentsOverrides, ComponentsProps, ComponentsVariants } from '@mui/material';
+import {
+  ComponentsOverrides,
+  ComponentsProps,
+  ComponentsVariants,
+} from '@mui/material';
 
 import NunitoRegular from 'src/assets/fonts/Nunito-Regular.ttf';
 
