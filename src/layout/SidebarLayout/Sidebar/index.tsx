@@ -1,6 +1,6 @@
 import Scrollbars from 'react-custom-scrollbars-2';
-import { Box, Drawer, styled, Divider, useTheme, Button } from '@mui/material';
-import { ReactComponent as ReactLogo } from 'src/assets/images/logo.svg';
+import { Box, Drawer, styled, Divider, useTheme } from '@mui/material';
+import logo from 'src/assets/images/logo.png';
 
 import SidebarMenu from './sidebar-menu';
 import { useNavigate } from 'react-router';
@@ -40,13 +40,15 @@ function Sidebar() {
                 width: '100%',
               }}
             >
-              <ReactLogo
+              <img
+                onClick={() => navigate('/')}
+                src={logo}
+                alt="logo"
                 width="100%"
                 height="60"
                 style={{
                   margin: 'auto',
                 }}
-                onClick={() => navigate('/')}
               />
             </Box>
           </Box>
@@ -76,7 +78,7 @@ function Sidebar() {
                   width: 52,
                 }}
               >
-                <ReactLogo width="200" height="60" />
+                <img src={logo} alt="logo" width="200" height="60" />
               </Box>
             </Box>
             <Divider

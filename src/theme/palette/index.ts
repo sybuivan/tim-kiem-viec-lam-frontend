@@ -5,6 +5,7 @@ const palette: PaletteOptions = {
     light: '#757ce8',
     // tim
     main: '#451DA0',
+    // main: '#135de8',
 
     // hover primary
     contrastText: '#d5eaff',

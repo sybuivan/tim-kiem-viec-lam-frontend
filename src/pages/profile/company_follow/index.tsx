@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import ProfileHeader from '../../../components/profile_bar/header';
 import Company from './company';
-import { useAppSelector } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import EmptyData from 'src/components/empty_data';
+import { getAllFollowUser } from 'src/redux_store/user/user_action';
 
 const CompanyFollow = () => {
   const {
     me,
     followList: { followers },
   } = useAppSelector((state) => state.userSlice);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getAllFollowUser(me?.id_user));
+  }, []);
   return (
     <Box>
       <ProfileHeader fullName={me.fullName} />

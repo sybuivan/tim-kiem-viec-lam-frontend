@@ -4,8 +4,13 @@ import { useSelector } from 'react-redux';
 import { MessageCard } from '../message_card';
 import theme from 'src/theme';
 import Scrollbars from 'react-custom-scrollbars-2';
+import { useAppSelector } from 'src/hooks';
 
 export const SideBar = () => {
+  const {
+    roomList: { rooms },
+  } = useAppSelector((state) => state.chatSlice);
+
   return (
     <Box sx={{ borderRight: '1px solid #c1c1c1', height: '100%' }}>
       <Box
@@ -25,18 +30,9 @@ export const SideBar = () => {
 
       <List sx={{ height: '100vh' }}>
         <Scrollbars>
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
-          <MessageCard />
+          {rooms.map((room) => (
+            <MessageCard key={room.id_room} room={room} />
+          ))}
         </Scrollbars>
       </List>
     </Box>

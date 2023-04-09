@@ -1,9 +1,9 @@
-import React from 'react';
+import PageHeader from './PageHeader';
 import { Grid, Container } from '@mui/material';
 
-import RecentOrders from './Transactions/RecentOrders';
+import RecentOrders from './RecentOrders';
 
-function ListRegisterCompany() {
+function ApplicationsTransactions() {
   return (
     <>
       <Container maxWidth="lg">
@@ -23,4 +23,4 @@ function ListRegisterCompany() {
   );
 }
 
-export default ListRegisterCompany;
+export default ApplicationsTransactions;

@@ -9,6 +9,8 @@ import {
   createCV,
   getProfileCV,
   getAllFollowUser,
+  followCompany,
+  unFollowCompany,
 } from './user_action';
 
 interface IUserSlice {
@@ -91,6 +93,9 @@ const userSlice = createSlice({
         state.profileCV = action.payload.profile_cv;
       })
       .addCase(getAllFollowUser.fulfilled, (state, action) => {
+        state.followList = action.payload;
+      })
+      .addCase(unFollowCompany.fulfilled, (state, action) => {
         state.followList = action.payload;
       });
   },

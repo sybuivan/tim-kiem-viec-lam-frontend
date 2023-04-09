@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Button, Paper, Typography, Grid, Chip } from '@mui/material';
-import { useNavigate } from 'react-router';
-import { useAppSelector } from 'src/hooks';
+import { Box, Paper, Typography, Grid, Button } from '@mui/material';
 
 import ProfileHeader from 'src/components/profile_bar/header';
-import EmptyData from 'src/components/empty_data';
 import theme from 'src/theme';
 import { formatPrice } from 'src/utils/function';
 
@@ -12,37 +9,37 @@ const CServices = [
   {
     name: 'Đăng tin cơ bản',
     price: 100000,
-    type: 'month',
+    type: 'tháng',
     id: 'DTCBM',
   },
   {
     name: 'Đăng tin cơ bản',
     price: 250000,
-    type: 'quarter',
+    type: '3 tháng',
     id: 'DTCBQ',
   },
   {
     name: 'Đăng tin cơ bản',
     price: 1000000,
-    type: 'year',
+    type: 'năm',
     id: 'DTCBY',
   },
   {
     name: 'Trang chủ - Tuyển gấp',
     price: 150000,
-    type: 'month',
+    type: 'tháng',
     id: 'TCTGM',
   },
   {
     name: 'Trang chủ - Tuyển gấp',
     price: 350000,
-    type: 'quarter',
+    type: '3 tháng',
     id: 'TCTGQ',
   },
   {
     name: 'Trang chủ - Tuyển gấp',
     price: 1300000,
-    type: 'year',
+    type: 'năm',
     id: 'TCTGY',
   },
 ];
@@ -78,7 +75,16 @@ const BuyServices = () => {
                     Chi tiết dịch vụ
                   </Typography>
                 </Box>
-                <Box></Box>
+                <Box>
+                  <Typography>
+                    <b>Số lượng:</b> 10 tin / 1 tháng
+                  </Typography>
+                  <Typography>Được đăng trên trang chủ của hệ thông</Typography>
+
+                  <Button variant="contained" sx={{ mt: 2 }}>
+                    Mua ngay
+                  </Button>
+                </Box>
               </Box>
             </Grid>
           </Grid>
@@ -100,6 +106,7 @@ const BuyServicesItem = ({
     name: string;
     price: number;
     id: string;
+    type: string;
   };
   onSelected: (id: string) => void;
 }) => {
@@ -127,7 +134,7 @@ const BuyServicesItem = ({
         Tên dịch vụ: {service.name}
       </Typography>
       <Typography fontWeight="600" fontSize="12px">
-        Giá: {formatPrice(service.price)}
+        Giá: {formatPrice(service.price)} / {service.type}
       </Typography>
     </Box>
   );

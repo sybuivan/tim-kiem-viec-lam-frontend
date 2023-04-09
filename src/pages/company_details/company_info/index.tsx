@@ -18,6 +18,8 @@ import {
 import LoginForm from 'src/pages/auth/login_form';
 import { MODAL_IDS } from 'src/constants';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import { toastMessage } from 'src/utils/toast';
+
 import {
   addFollowere,
   updateFollowere,
@@ -49,6 +51,7 @@ const CompanyInfo = () => {
               id_user: me?.id_user,
             })
           );
+          toastMessage.success('Theo dõi thành công');
         });
     } else {
       dispatch(
@@ -71,6 +74,7 @@ const CompanyInfo = () => {
         .unwrap()
         .then(() => {
           dispatch(updateFollowere(me?.id_user));
+          toastMessage.success('Hủy theo dõi thành công');
         });
     }
   };

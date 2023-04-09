@@ -338,3 +338,17 @@ export const COptionStatusApply = [
     status: 'DTC',
   },
 ];
+export const COptionJobs = [
+  {
+    label: 'Trợ lý dự án(Project Assistant)',
+    status: 'DLH',
+  },
+  {
+    label: 'Lập trình viên Frontend',
+    status: 'DXHS',
+  },
+  {
+    label: 'Lập trình viên Backend',
+    status: 'DTC',
+  },
+];

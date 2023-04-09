@@ -9,14 +9,15 @@ import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import { getListJobByCompany } from 'src/redux_store/job/job_action';
 import theme from 'src/theme';
 import { FormSelect } from 'src/components/hook_form';
-import { COptionStatusApply } from 'src/constants/common';
+import { COptionStatusApply, COptionJobs } from 'src/constants/common';
 
 const ApplyList = () => {
   const dispatch = useAppDispatch();
+  const { control } = useForm({});
+
   const {
     me: { id_company },
   } = useAppSelector((state) => state.companySlice);
-  const { jobListCompany } = useAppSelector((state) => state.jobSlice);
 
   useEffect(() => {
     dispatch(getListJobByCompany(id_company));
@@ -31,7 +32,16 @@ const ApplyList = () => {
           mt: 3,
         }}
       >
-        <Box>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          py={2}
+          pb={4}
+          sx={{
+            borderBottom: '1px solid #c1c1c1',
+          }}
+        >
           <Box display="flex" gap={0.5}>
             <Typography variant="h6" fontWeight="600">
               Trợ lý dự án(Project Assistant)
@@ -39,6 +49,19 @@ const ApplyList = () => {
             <Typography variant="h6" color={theme.palette.error.main}>
               (5 hồ sơ nộp)
             </Typography>
+          </Box>
+          <Box>
+            <FormSelect
+              name="status"
+              placeholder="Chọn vị trí"
+              control={control}
+              options={COptionJobs}
+              keyOption="status"
+              labelOption="label"
+            />
+          </Box>
+          <Box>
+            <Button variant="contained"> Gửi</Button>
           </Box>
         </Box>
 

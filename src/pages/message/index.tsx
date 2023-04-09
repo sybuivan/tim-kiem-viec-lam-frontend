@@ -1,9 +1,23 @@
 import { Grid, Paper } from '@mui/material';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getRoom } from 'src/redux_store/chat/chat_actions';
 import { SideBar } from './side_bar';
 
 const Message = () => {
+  const dispatch = useAppDispatch();
+  const { me } = useAppSelector((state) => state.companySlice);
+
+  console.log(me);
+
+  useEffect(() => {
+    if (me.id_user && me.id_role) {
+      dispatch(getRoom({ id_user: me.id_user, id_role: me.id_role }));
+    } else if (me.id_company && me.id_role) {
+      dispatch(getRoom({ id_user: me.id_company, id_role: me.id_role }));
+    }
+  }, []);
   return (
     <Paper
       sx={{

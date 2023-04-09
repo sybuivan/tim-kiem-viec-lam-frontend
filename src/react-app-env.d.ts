@@ -17,4 +17,4 @@ declare module 'react-html-string';
 declare module 'recharts';
 declare module 'react-apexcharts';
 declare module 'apexcharts';
-// declare module '@emotion/react';
+declare module 'socket.io-client';

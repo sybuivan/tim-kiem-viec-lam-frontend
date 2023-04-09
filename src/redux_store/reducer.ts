@@ -5,6 +5,7 @@ import companySlice from './company/company_slices';
 import jobSlice from './job/job_slices';
 import applySlice from './apply/apply_slice';
 import commonSlice from './common/field/field_slice';
+import chatSlice from './chat/chat_slices';
 
 export const reducer = {
   modalSlice,
@@ -14,4 +15,5 @@ export const reducer = {
   companySlice,
   jobSlice,
   applySlice,
+  chatSlice,
 };

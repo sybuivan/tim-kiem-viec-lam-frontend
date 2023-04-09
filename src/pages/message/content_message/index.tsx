@@ -1,74 +1,70 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Button,
-  Typography,
-  Box,
-  Avatar,
-  IconButton,
-  InputBase,
-} from '@mui/material';
 import { SendOutlined } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
-
-import { useForm } from 'react-hook-form';
-import theme from 'src/theme';
+import { Avatar, Box, IconButton, Typography } from '@mui/material';
+import React, { useEffect } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
+import { useForm } from 'react-hook-form';
+import { useParams } from 'react-router';
+import * as io from 'socket.io-client';
 
-const useStyles = makeStyles({
-  root: {
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  boxContent: {
-    height: 'calc(100vh - 70px - 78px)',
-  },
-
-  client: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    marginBottom: '10px',
-    '& > p': {
-      backgroundColor: theme.palette.primary.contrastText,
-      border: '1px solid #c1c1c1',
-    },
-  },
-  textMessage: {
-    padding: '12px 1rem',
-    borderRadius: '8px',
-    fontSize: '1.4rem',
-  },
-  user: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    marginBottom: '1rem',
-    marginRight: '14px',
-    '& > p': {
-      backgroundColor: theme.palette.grey[400],
-    },
-  },
-
-  formChat: {
-    position: 'absolute',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    width: '100%',
-    margin: 'auto',
-    bottom: '140px',
-  },
-});
+import { FormInputBase } from 'src/components/hook_form/form_input_base';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { createMessage, getMessages } from 'src/redux_store/chat/chat_actions';
+import theme from 'src/theme';
+import { useStyles } from './styles';
 
 export const ContentMessage = () => {
+  const socket = io.connect('http://localhost:5000');
+
+  const { id_room_message } = useParams();
+  const {
+    messageList: { messages, room },
+  } = useAppSelector((state) => state.chatSlice);
+  const { me } = useAppSelector((state) => state.companySlice);
+  const dispatch = useAppDispatch();
+
   const {
     control,
     handleSubmit,
-    register,
-    reset,
+    resetField,
     formState: { isSubmitting },
-  } = useForm({
+  } = useForm<{ message: '' }>({
     defaultValues: {
-      messageText: '',
+      message: '',
     },
   });
+
+  useEffect(() => {
+    if (id_room_message) dispatch(getMessages(id_room_message));
+  }, [id_room_message]);
+
+  useEffect(() => {
+    console.log('connect socket');
+    socket.on('new-message', ({ message }: any) => {
+      console.log({ message });
+    });
+  }, [socket, messages]);
+
+  const handleSentMessage = async ({ message }: { message: string }) => {
+    const { id_company, id_user, fullName, id_room } = room;
+    console.log({
+      fullName,
+      id_room,
+    });
+    if (id_room && fullName)
+      dispatch(
+        createMessage({
+          id_company,
+          id_room,
+          id_user,
+          message,
+          sender: me?.id_role,
+        })
+      )
+        .unwrap()
+        .then(() => {
+          resetField('message');
+        });
+  };
 
   const classes = useStyles();
   return (
@@ -96,7 +92,7 @@ export const ContentMessage = () => {
             sx={{ width: '40px', height: '40px', mr: 2 }}
           />
           <Typography fontSize="16px" fontWeight="600">
-            Bui Van Sy
+            {room.fullName}
           </Typography>
         </Box>
       </Box>
@@ -105,41 +101,27 @@ export const ContentMessage = () => {
       <Box className={classes.boxContent}>
         <Box width="88%" mt={2} ml="14px" height="84%">
           <Scrollbars>
-            <Box className={classes.user}>
-              <Typography className={classes.textMessage}>
-                Xin chào bạn?
-              </Typography>
-            </Box>
-            <Box className={classes.client}>
-              <Typography className={classes.textMessage}>2312213</Typography>
-            </Box>
-            <Box className={classes.user}>
-              <Typography className={classes.textMessage}>
-                Xin chào bạn?
-              </Typography>
-            </Box>
-            <Box className={classes.client}>
-              <Typography className={classes.textMessage}>2312213</Typography>
-            </Box>
-            <Box className={classes.user}>
-              <Typography className={classes.textMessage}>
-                Xin chào bạn?
-              </Typography>
-            </Box>
-            <Box className={classes.client}>
-              <Typography className={classes.textMessage}>2312213</Typography>
-            </Box>
-            <Box className={classes.client}>
-              <Typography className={classes.textMessage}>2312213</Typography>
-            </Box>
-            <Box className={classes.client}>
-              <Typography className={classes.textMessage}>2312213</Typography>
-            </Box>
+            {messages.map((message) => (
+              <Box
+                className={
+                  message.sender === me.id_role ? classes.user : classes.client
+                }
+                key={message.id_chat}
+              >
+                <Typography className={classes.textMessage}>
+                  {message.message}
+                </Typography>
+              </Box>
+            ))}
           </Scrollbars>
         </Box>
       </Box>
 
-      <Box className={classes.formChat}>
+      <Box
+        className={classes.formChat}
+        component="form"
+        onSubmit={handleSubmit(handleSentMessage)}
+      >
         <Box
           display="flex"
           justifyContent="space-between"
@@ -151,18 +133,13 @@ export const ContentMessage = () => {
             ml: '10px',
           }}
         >
-          <InputBase
-            sx={{
-              ml: 1,
-              flex: 1,
-              fontSize: '14px',
-              width: '80%',
-              color: theme.palette.grey[600],
-            }}
+          <FormInputBase
+            control={control}
+            name="message"
             placeholder="Nhập tin nhắn"
           />
           <Box sx={{ '& svg': { fontSize: '24px' } }}>
-            <IconButton>
+            <IconButton onClick={handleSubmit(handleSentMessage)}>
               <SendOutlined
                 sx={{
                   color: theme.palette.primary.main,

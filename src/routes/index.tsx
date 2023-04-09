@@ -1,4 +1,4 @@
-import { RouteObject } from 'react-router';
+import { Navigate, RouteObject } from 'react-router';
 import MainLayout from 'src/layout/main_layout';
 import CompanyLayout from 'src/layout/company_layout';
 import Home from 'src/pages/home';
@@ -48,6 +48,16 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
       {
         path: '/',
         element: <Home />,
+      },
+      {
+        path: 'users/message',
+        element: <Message />,
+        children: [
+          {
+            path: ':id_room_message',
+            element: <ContentMessage />,
+          },
+        ],
       },
       {
         path: '/co-hoi-viec-lam',
@@ -126,7 +136,7 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
         ),
         children: [
           {
-            path: ':id_user',
+            path: ':id_room_message',
             element: <ContentMessage />,
           },
         ],
@@ -184,6 +194,10 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
     path: 'admin',
     element: <SidebarLayout />,
     children: [
+      {
+        path: '',
+        element: <Navigate to="dashboard" replace />,
+      },
       {
         path: 'dashboard',
         element: <Dashboard />,

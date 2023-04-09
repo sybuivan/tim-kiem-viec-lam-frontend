@@ -11,12 +11,13 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import React, { useEffect } from 'react';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import { PersonOutlineOutlined, LogoutOutlined } from '@mui/icons-material';
-import { ReactComponent as ReactLogo } from 'src/assets/images/logo.svg';
+import logo from 'src/assets/images/logo.png';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import LoginForm from 'src/pages/auth/login_form';
@@ -100,7 +101,7 @@ const Header = () => {
         >
           <Box mr={5}>
             <Link to="/">
-              <ReactLogo width="200" height="60" />
+              <img src={logo} alt="logo" width="200" height="60" />
             </Link>
           </Box>
           <Box>
@@ -302,34 +303,59 @@ export const HeaderCompany = () => {
         >
           <Box mr={5}>
             <Link to="/">
-              <ReactLogo width="200" height="60" />
+              <img src={logo} alt="logo" width="200" height="60" />
             </Link>
           </Box>
 
-          <Box display="flex" justifyContent="flex-end" gap="50px" flex="1">
+          <Box display="flex" justifyContent="flex-end" gap="20px" flex="1">
             {checkRoleCompany(me?.id_role, token) && (
-              <Box
-                display="flex"
-                color={theme.palette.common.white}
-                alignItems="center"
-                gap={1}
-                sx={{
-                  cursor: 'pointer',
-                  '& p': {
-                    fontWeight: 600,
-                  },
-                }}
-              >
-                <Badge badgeContent={4} color="error">
-                  <NotificationsNoneOutlined
-                    color="action"
-                    sx={{
-                      color: theme.palette.common.white,
-                    }}
-                  />
-                </Badge>
-                <Typography>Thông báo</Typography>
-              </Box>
+              <>
+                <Box
+                  display="flex"
+                  color={theme.palette.common.white}
+                  alignItems="center"
+                  gap={1}
+                  sx={{
+                    cursor: 'pointer',
+                    '& p': {
+                      fontWeight: 600,
+                    },
+                  }}
+                >
+                  <Badge badgeContent={4} color="error">
+                    <NotificationsNoneOutlined
+                      color="action"
+                      sx={{
+                        color: theme.palette.common.white,
+                      }}
+                    />
+                  </Badge>
+                  <Typography>Thông báo</Typography>
+                </Box>
+                <Box
+                  onClick={() => navigate('/company/message')}
+                  display="flex"
+                  color={theme.palette.common.white}
+                  alignItems="center"
+                  gap={1}
+                  sx={{
+                    cursor: 'pointer',
+                    '& p': {
+                      fontWeight: 600,
+                    },
+                  }}
+                >
+                  <Badge badgeContent={4} color="error">
+                    <SmsOutlinedIcon
+                      color="action"
+                      sx={{
+                        color: theme.palette.common.white,
+                      }}
+                    />
+                  </Badge>
+                  <Typography>Tin nhắn</Typography>
+                </Box>
+              </>
             )}
 
             {checkRoleCompany(me?.id_role, token) ? (

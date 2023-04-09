@@ -75,6 +75,7 @@ const LoginForm = () => {
     <DialogWrapper modalId={MODAL_IDS.login} minWidth={875}>
       <Box
         display="flex"
+        alignItems="center"
         component="form"
         onSubmit={handleSubmit(handleOnSubmit)}
       >
