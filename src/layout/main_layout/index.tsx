@@ -6,7 +6,6 @@ import Header from 'src/components/header';
 import { sql } from 'src/constants/common';
 
 const MainLayout = () => {
-  console.log(sql());
   return (
     <Box bgcolor="#f2f3f7">
       <Box

@@ -12,6 +12,7 @@ import {
   Typography,
 } from '@mui/material';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
+import { BsFillChatDotsFill } from 'react-icons/bs';
 import React, { useEffect } from 'react';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -135,7 +136,7 @@ const Header = () => {
             </ul>
           </Box>
 
-          <Box display="flex" justifyContent="flex-end" gap="50px" flex="1">
+          <Box display="flex" justifyContent="flex-end" gap="30px" flex="1">
             <Box
               display="flex"
               color={theme.palette.common.white}
@@ -157,6 +158,28 @@ const Header = () => {
                 />
               </Badge>
               <Typography>Thông báo</Typography>
+            </Box>
+
+            <Box
+              onClick={() => navigate('/users/message')}
+              display="flex"
+              color={theme.palette.common.white}
+              alignItems="center"
+              gap={1}
+              sx={{
+                cursor: 'pointer',
+                '& p': {
+                  fontWeight: 600,
+                },
+              }}
+            >
+              <Badge badgeContent={4} color="error">
+                <BsFillChatDotsFill
+                  style={{
+                    fontSize: '25px',
+                  }}
+                />
+              </Badge>
             </Box>
 
             {checkRoleUser(me?.id_role, token) ? (
@@ -346,14 +369,12 @@ export const HeaderCompany = () => {
                   }}
                 >
                   <Badge badgeContent={4} color="error">
-                    <SmsOutlinedIcon
-                      color="action"
-                      sx={{
-                        color: theme.palette.common.white,
+                    <BsFillChatDotsFill
+                      style={{
+                        fontSize: '25px',
                       }}
                     />
                   </Badge>
-                  <Typography>Tin nhắn</Typography>
                 </Box>
               </>
             )}

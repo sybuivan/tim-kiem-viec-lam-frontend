@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Grid, Box, Typography, Paper, Button } from '@mui/material';
 import { AssignmentOutlined } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
@@ -6,22 +6,64 @@ import moment from 'moment';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import ProfileHeader from 'src/components/profile_bar/header';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
-import { getListJobByCompany } from 'src/redux_store/job/job_action';
 import theme from 'src/theme';
 import { FormSelect } from 'src/components/hook_form';
-import { COptionStatusApply, COptionJobs } from 'src/constants/common';
+import { COptionStatusApply } from 'src/constants/common';
+import {
+  getAllJobByIdCompany,
+  getProfileAppliedByJob,
+} from 'src/redux_store/company/company_action';
+import EmptyData from 'src/components/empty_data';
 
 const ApplyList = () => {
   const dispatch = useAppDispatch();
   const { control } = useForm({});
-
+  const [job, setJob] = useState<{
+    name_job: string;
+    id_job: string;
+  }>({
+    name_job: '',
+    id_job: '',
+  });
   const {
     me: { id_company },
+    jobList: { jobs },
+    appliedJob: { applied, total },
   } = useAppSelector((state) => state.companySlice);
 
   useEffect(() => {
-    dispatch(getListJobByCompany(id_company));
+    dispatch(getAllJobByIdCompany(id_company));
   }, []);
+
+  useEffect(() => {
+    dispatch(
+      getProfileAppliedByJob({
+        id_company,
+        id_job: job.id_job,
+      })
+    );
+  }, [job]);
+
+  const handleOnChange = (name_job: string, id_job: string) => {
+    setJob({
+      id_job,
+      name_job: applied[0].name_job,
+    });
+  };
+
+  const jobsOption = useMemo(
+    () =>
+      jobs.map((job) => {
+        return {
+          name_job: `${job.name_job} - ${moment(job.deadline).format(
+            'DD/MM/YYYY'
+          )}`,
+          id_job: job.id_job,
+        };
+      }),
+    [jobs]
+  );
+
   return (
     <Box>
       <ProfileHeader fullName="Hồ sơ ứng tuyển" title="" />
@@ -44,20 +86,21 @@ const ApplyList = () => {
         >
           <Box display="flex" gap={0.5}>
             <Typography variant="h6" fontWeight="600">
-              Trợ lý dự án(Project Assistant)
+              {job.name_job ? job.name_job : 'Tất cả vị trí'}
             </Typography>
             <Typography variant="h6" color={theme.palette.error.main}>
-              (5 hồ sơ nộp)
+              ({total} hồ sơ nộp)
             </Typography>
           </Box>
           <Box>
             <FormSelect
               name="status"
-              placeholder="Chọn vị trí"
+              placeholder="Tất cả vị trí"
               control={control}
-              options={COptionJobs}
-              keyOption="status"
-              labelOption="label"
+              options={jobsOption}
+              keyOption="id_job"
+              labelOption="name_job"
+              handleChange={handleOnChange}
             />
           </Box>
           <Box>
@@ -102,10 +145,11 @@ const ApplyList = () => {
             </Grid>
           </Box>
           <Box>
-            <ProfileItem />
-            <ProfileItem />
-            <ProfileItem />
-            {/* <EmptyData title="Chưa có bài đăng tuyển dụng nào" /> */}
+            {applied.length > 0 ? (
+              applied.map((apply) => <ProfileItem />)
+            ) : (
+              <EmptyData title="Chưa có người ứng tuyển" />
+            )}
           </Box>
         </Box>
       </Paper>

@@ -156,3 +156,37 @@ export const unfollowUser = createAsyncThunk<
     }
   }
 );
+
+export const getAllJobByIdCompany = createAsyncThunk<any, string>(
+  'company/getAllJobByIdCompany',
+  async (id_company, { rejectWithValue }) => {
+    try {
+      const { data } = await companyApi.getAllJobByIdCompany(id_company);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const getProfileAppliedByJob = createAsyncThunk<
+  any,
+  {
+    id_company: string;
+    id_job?: string;
+  }
+>(
+  'company/getProfileAppliedByJob',
+  async ({ id_company, id_job }, { rejectWithValue }) => {
+    try {
+      const { data } = await companyApi.getProfileAppliedByJob({
+        id_company,
+        id_job,
+      });
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);

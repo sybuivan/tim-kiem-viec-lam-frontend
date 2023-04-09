@@ -24,6 +24,7 @@ import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
 import { CGenderOption } from 'src/constants/common';
+import moment from 'moment';
 
 const schema = yup.object().shape({
   fullName: yup.string().required(messageRequired('Họ và tên')),
@@ -62,7 +63,7 @@ const ProfileUser = () => {
     const formData = new FormData();
 
     formData.append('address', address);
-    formData.append('birthDay', birthDay);
+    formData.append('birthDay', moment(birthDay).format('YYYY-MM-DD'));
     formData.append('city', city);
     formData.append('fullName', fullName);
     formData.append('gender', gender);

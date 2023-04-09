@@ -53,8 +53,24 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
       />
       <Box>
         <Typography sx={{ fontWeight: '600', pb: 1 }}>{fullName}</Typography>
-        <Typography sx={{ display: 'flex' }}>
-          {messages[messages.length - 1]?.message}
+        <Typography
+          sx={{
+            display: 'flex',
+          }}
+        >
+          <Typography
+            // title={messages[messages.length - 1]?.message}
+            sx={{
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              fontSize: '15px',
+              margin: 0,
+              width: '240px',
+            }}
+          >
+            {messages[messages.length - 1]?.message}
+          </Typography>
           <Typography sx={{ color: theme.palette.grey[600], p: '0 1rem' }}>
             -
           </Typography>

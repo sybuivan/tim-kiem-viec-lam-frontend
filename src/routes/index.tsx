@@ -35,6 +35,9 @@ import ListCompany from 'src/pages/admin/list-company';
 import ListRegisterCompany from 'src/pages/admin/list-register-company';
 import AddPost from 'src/pages/admin/add-post';
 import ListPost from 'src/pages/admin/list-post';
+import { io } from 'socket.io-client';
+
+const socket = io('ws://localhost:5000');
 
 let routes: (token: string) => RouteObject[] = (token: string) => [
   {
@@ -51,11 +54,15 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
       },
       {
         path: 'users/message',
-        element: <Message />,
+        element: (
+          <PrivateUser token={token}>
+            <Message />
+          </PrivateUser>
+        ),
         children: [
           {
             path: ':id_room_message',
-            element: <ContentMessage />,
+            element: <ContentMessage socket={socket} />,
           },
         ],
       },
@@ -137,7 +144,7 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
         children: [
           {
             path: ':id_room_message',
-            element: <ContentMessage />,
+            element: <ContentMessage socket={socket} />,
           },
         ],
       },

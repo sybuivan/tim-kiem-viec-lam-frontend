@@ -1,15 +1,15 @@
 import { Grid, Paper } from '@mui/material';
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router';
+
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getRoom } from 'src/redux_store/chat/chat_actions';
+import { ContentMessage } from './content_message';
 import { SideBar } from './side_bar';
 
 const Message = () => {
   const dispatch = useAppDispatch();
   const { me } = useAppSelector((state) => state.companySlice);
-
-  console.log(me);
 
   useEffect(() => {
     if (me.id_user && me.id_role) {

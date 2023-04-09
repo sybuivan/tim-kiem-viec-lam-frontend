@@ -9,6 +9,8 @@ import {
   getAllFolllowUser,
   unfollowUser,
   followUser,
+  getAllJobByIdCompany,
+  getProfileAppliedByJob,
 } from './company_action';
 import { getLocal, token } from 'src/constants/localstoge';
 
@@ -21,6 +23,19 @@ interface ICompanySlice {
   };
   candidateList: {
     data: ICandidate[];
+    total: number;
+  };
+  jobList: {
+    jobs: {
+      name_job: string;
+      id_job: string;
+      deadline: string;
+    }[];
+  };
+  appliedJob: {
+    applied: {
+      name_job: string;
+    }[];
     total: number;
   };
   me: any;
@@ -47,6 +62,15 @@ const initialState: ICompanySlice = {
     total: 0,
     followere: [],
   },
+  jobList: {
+    jobs: [],
+  },
+
+  appliedJob: {
+    applied: [],
+    total: 0,
+  },
+
   me: getLocal,
   token,
 };
@@ -105,6 +129,12 @@ const companySlice = createSlice({
       })
       .addCase(followUser.fulfilled, (state, action) => {
         state.followList = action.payload;
+      })
+      .addCase(getAllJobByIdCompany.fulfilled, (state, action) => {
+        state.jobList = action.payload;
+      })
+      .addCase(getProfileAppliedByJob.fulfilled, (state, action) => {
+        state.appliedJob = action.payload;
       });
   },
 });

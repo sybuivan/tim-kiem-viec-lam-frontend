@@ -42,6 +42,10 @@ const chatSlice = createSlice({
     setUserRoom: (state, action) => {
       state.selectedRoom = action.payload;
     },
+
+    setMessageList: (state, action) => {
+      state.messageList.messages.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createRoom.fulfilled, (state, action) => {
@@ -55,11 +59,11 @@ const chatSlice = createSlice({
       state.messageList = action.payload;
     });
     builder.addCase(createMessage.fulfilled, (state, action) => {
-      state.messageList.messages.push(action.payload.message);
+      // state.messageList.messages.push(action.payload.message);
     });
   },
 });
 
 const { actions, reducer } = chatSlice;
-export const { setUserRoom } = actions;
+export const { setUserRoom, setMessageList } = actions;
 export default reducer;

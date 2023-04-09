@@ -57,4 +57,10 @@ export const companyApi = {
       params,
     });
   },
+  getAllJobByIdCompany: (id_company: string) => {
+    return client.get(`/company/get-all-job-by-company/${id_company}`);
+  },
+  getProfileAppliedByJob: (params: { id_company: string; id_job?: string }) => {
+    return client.get(`/company/get-applied-by-company`, { params });
+  },
 };
