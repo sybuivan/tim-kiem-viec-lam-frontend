@@ -5,7 +5,7 @@ import { Control, Controller } from 'react-hook-form';
 interface IProps {
   control: any;
   name: string;
-  label: string;
+  label?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;
   margin?: 'none' | 'dense' | 'normal';

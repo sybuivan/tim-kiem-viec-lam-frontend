@@ -4,9 +4,23 @@ import { IApply } from 'src/types/apply';
 import moment from 'moment';
 import { useNavigate } from 'react-router';
 
+const checkStatus = (status: number) => {
+  if (status === 0) return 'Nộp thành công';
+  if (status === 1) return 'Đã liên hệ';
+  if (status === 2) return "'Đã xem hồ sơ";
+  if (status === 3) return 'Từ chối';
+};
+
 const JobSave = ({ job }: { job: IApply }) => {
-  const { id_job, id_company, name_job, name_company, created_at, deadline } =
-    job;
+  const {
+    id_job,
+    id_company,
+    name_job,
+    name_company,
+    created_at,
+    deadline,
+    status,
+  } = job;
   const navigate = useNavigate();
   return (
     <Box
@@ -75,7 +89,11 @@ const JobSave = ({ job }: { job: IApply }) => {
           </Typography>{' '}
         </Box>
         <Box flex="0.2">
-          <Chip color="success" variant="outlined" label="Nộp thành công" />
+          <Chip
+            color="success"
+            variant="outlined"
+            label={checkStatus(status)}
+          />
         </Box>
       </Box>
     </Box>

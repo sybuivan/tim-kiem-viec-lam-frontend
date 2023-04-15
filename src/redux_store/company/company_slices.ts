@@ -13,6 +13,7 @@ import {
   getProfileAppliedByJob,
 } from './company_action';
 import { getLocal, token } from 'src/constants/localstoge';
+import { IApplyUser } from 'src/types/apply';
 
 interface ICompanySlice {
   companyList: ICompanyList;
@@ -25,6 +26,11 @@ interface ICompanySlice {
     data: ICandidate[];
     total: number;
   };
+  filtersCandidate: {
+    id_city: string;
+    id_company_field: string;
+    keyword: string;
+  };
   jobList: {
     jobs: {
       name_job: string;
@@ -33,9 +39,7 @@ interface ICompanySlice {
     }[];
   };
   appliedJob: {
-    applied: {
-      name_job: string;
-    }[];
+    applied: IApplyUser[];
     total: number;
   };
   me: any;
@@ -46,6 +50,11 @@ const initialState: ICompanySlice = {
   companyList: {
     companyList: [],
     total: 0,
+  },
+  filtersCandidate: {
+    id_city: '',
+    id_company_field: '',
+    keyword: '',
   },
   candidateList: {
     data: [],
@@ -81,6 +90,10 @@ const companySlice = createSlice({
   reducers: {
     addFollowere: (state, action) => {
       state.companyDetail.followere.push(action.payload);
+    },
+    changeFiltersCandidate: (state, action) => {
+      console.log(action.payload);
+      state.filtersCandidate = action.payload;
     },
     updateFollowere: (state, action) => {
       const newFollowere = state.companyDetail.followere.filter(
@@ -134,11 +147,23 @@ const companySlice = createSlice({
         state.jobList = action.payload;
       })
       .addCase(getProfileAppliedByJob.fulfilled, (state, action) => {
-        state.appliedJob = action.payload;
+        const newAppliedJob = action.payload.applied.map((apply) => {
+          return {
+            ...apply,
+            checked: false,
+          };
+        });
+        state.appliedJob.applied = newAppliedJob;
+        state.appliedJob.total = action.payload.total;
       });
   },
 });
 
 const { actions, reducer } = companySlice;
-export const { addFollowere, updateFollowere, logoutCompany } = actions;
+export const {
+  addFollowere,
+  updateFollowere,
+  logoutCompany,
+  changeFiltersCandidate,
+} = actions;
 export default reducer;

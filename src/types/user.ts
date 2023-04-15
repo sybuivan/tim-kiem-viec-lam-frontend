@@ -45,3 +45,10 @@ export interface IPayloadFollow {
   id_user: string;
   id_company: string;
 }
+
+export interface INotification {
+  id_notification: string;
+  status: number;
+  content: string;
+  created_at: string | Date;
+}

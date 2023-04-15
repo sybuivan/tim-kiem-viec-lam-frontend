@@ -19,12 +19,14 @@ const JobDetails = () => {
   const { id_job } = useParams();
   const dispatch = useAppDispatch();
   const { jobDetail } = useAppSelector((state) => state.jobSlice);
-
+  const onTop = () => {
+    window.scrollTo(0, 0);
+  };
   useEffect(() => {
     dispatch(getJobById(id_job + ''));
 
-    window.scrollTo(0, 0);
-  }, []);
+    onTop();
+  }, [id_job]);
 
   return (
     <Container sx={{ maxWidth: '1500px!important' }}>

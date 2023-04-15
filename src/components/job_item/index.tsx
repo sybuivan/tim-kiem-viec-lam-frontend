@@ -38,7 +38,7 @@ const JobItem = (props: IJobItem) => {
 
   return (
     <Grid item xs={col}>
-      <Box position="relative">
+      <Box position="relative" m={2}>
         <Box
           sx={{
             border: '1px solid #c1c1c1',

@@ -12,6 +12,21 @@ export interface IApply {
   status: number;
 }
 
+export interface IApplyUser {
+  fullName: string;
+  id_user: string;
+  birthDay: Date;
+  position_nominee?: string;
+  id_apply: string;
+  name_job: string;
+  name_rank?: string;
+  file_cv?: string;
+  checked?: boolean;
+  status?: number | string;
+  avatar?: string;
+  created_at: Date | string;
+}
+
 export interface IApplyList {
   data: IApply[];
   total: number;

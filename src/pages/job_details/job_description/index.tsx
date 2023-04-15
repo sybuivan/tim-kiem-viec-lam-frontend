@@ -14,6 +14,7 @@ import LoginForm from 'src/pages/auth/login_form';
 import { saveJob, unSavedJob } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
 import { unSaveJobById } from 'src/redux_store/user/user_slice';
+import { socketIo } from 'src/clients/socket';
 
 const JobDescription = ({
   description_job,
@@ -60,7 +61,7 @@ const JobDescription = ({
       dispatch(
         openModal({
           modalId: MODAL_IDS.login,
-          dialogComponent: <LoginForm />,
+          dialogComponent: <LoginForm socket={socketIo} />,
         })
       );
     }

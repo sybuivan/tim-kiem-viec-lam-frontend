@@ -5,9 +5,10 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { setUserRoom } from 'src/redux_store/chat/chat_slices';
 import theme from 'src/theme';
 import { IRoom } from 'src/types/chat';
+import { getSubTimeFromDayFNS } from 'src/utils/function';
 
 export const MessageCard = ({ room }: { room: IRoom }) => {
-  const { fullName, id_room } = room;
+  const { fullName, id_room, message, created_at, avatar } = room;
   const { me } = useAppSelector((state) => state.userSlice);
   const {
     messageList: { messages },
@@ -15,7 +16,7 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
   const { id_room_message } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
+  console.log({ created_at });
   const handleOnClick = () => {
     if (me.id_role === 'user') {
       navigate(`/users/message/${id_room}`);
@@ -48,11 +49,23 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
     >
       <Avatar
         alt="Remy Sharp"
-        src={`http://localhost:5000/v1/}`}
+        src={avatar}
         sx={{ width: '50px', height: '50px', mr: 2 }}
       />
       <Box>
-        <Typography sx={{ fontWeight: '600', pb: 1 }}>{fullName}</Typography>
+        <Box display="flex" alignItems="center">
+          <Typography sx={{ fontWeight: '600' }}>{fullName}</Typography>
+          <Typography sx={{ color: theme.palette.grey[600], px: 1 }}>
+            -
+          </Typography>
+          <Typography
+            sx={{ color: theme.palette.primary.main }}
+            fontWeight="600"
+            fontSize="12px"
+          >
+            {getSubTimeFromDayFNS(created_at)}
+          </Typography>
+        </Box>
         <Typography
           sx={{
             display: 'flex',
@@ -69,16 +82,10 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
               width: '240px',
             }}
           >
-            {messages[messages.length - 1]?.message}
-          </Typography>
-          <Typography sx={{ color: theme.palette.grey[600], p: '0 1rem' }}>
-            -
-          </Typography>
-          <Typography
-            sx={{ color: theme.palette.primary.main }}
-            fontWeight="600"
-          >
-            1 giờ
+            {/* {!messages[messages.length - 1]?.message
+              ? message
+              : messages[messages.length - 1]?.message} */}
+            {message}
           </Typography>
         </Typography>
       </Box>

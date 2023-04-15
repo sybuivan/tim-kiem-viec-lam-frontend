@@ -8,7 +8,7 @@ import { useParams } from 'react-router';
 import { FormInputBase } from 'src/components/hook_form/form_input_base';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { createMessage, getMessages } from 'src/redux_store/chat/chat_actions';
-import { setMessageList } from 'src/redux_store/chat/chat_slices';
+import { setMessageList, changeRoom } from 'src/redux_store/chat/chat_slices';
 import theme from 'src/theme';
 import { useStyles } from './styles';
 
@@ -36,9 +36,9 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
   }, [id_room_message]);
 
   useEffect(() => {
-    console.log('connect socket');
     socket.on('new-message', ({ message }: any) => {
       console.log({ message });
+      dispatch(changeRoom(message));
       dispatch(setMessageList(message));
     });
 
@@ -91,7 +91,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
         >
           <Avatar
             alt="Remy Sharp"
-            src={''}
+            src={room.avatar}
             sx={{ width: '40px', height: '40px', mr: 2 }}
           />
           <Typography fontSize="16px" fontWeight="600">

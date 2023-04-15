@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { companyApi } from 'src/clients/http/company_api';
+import { IApplyUser } from 'src/types/apply';
 import { IPayloadLogin } from 'src/types/auth';
 import {
   ICompanyList,
@@ -169,8 +170,12 @@ export const getAllJobByIdCompany = createAsyncThunk<any, string>(
     }
   }
 );
+
 export const getProfileAppliedByJob = createAsyncThunk<
-  any,
+  {
+    applied: IApplyUser[];
+    total: number;
+  },
   {
     id_company: string;
     id_job?: string;
@@ -190,3 +195,18 @@ export const getProfileAppliedByJob = createAsyncThunk<
     }
   }
 );
+export const updateStatusApplied = createAsyncThunk<
+  any,
+  {
+    id_apply: string;
+    status: number;
+  }[]
+>('company/updateStatusApplied', async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await companyApi.updateStatusApplied(payload);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});

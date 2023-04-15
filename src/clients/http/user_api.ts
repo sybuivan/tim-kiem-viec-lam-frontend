@@ -56,4 +56,10 @@ export const userApi = {
   getAllFollowUser: (id_user: string) => {
     return client.get(`/user/get-all-follow-user/${id_user}`);
   },
+  getNotification: (id_user: string) => {
+    return client.get(`/user/get-notification/${id_user}`);
+  },
+  updateNotification: (id_notification: string) => {
+    return client.put(`/user/update-notification/${id_notification}`);
+  },
 };

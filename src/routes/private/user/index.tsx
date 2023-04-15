@@ -1,5 +1,6 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate } from 'react-router';
+import { socketIo } from 'src/clients/socket';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch } from 'src/hooks';
 import LoginForm from 'src/pages/auth/login_form';
@@ -19,7 +20,7 @@ export const PrivateUser = ({
       dispatch(
         openModal({
           modalId: MODAL_IDS.login,
-          dialogComponent: <LoginForm />,
+          dialogComponent: <LoginForm socket={socketIo} />,
         })
       );
     }

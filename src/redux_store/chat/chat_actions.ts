@@ -52,3 +52,15 @@ export const createMessage = createAsyncThunk<{ message: IMessage }, IMessage>(
     }
   }
 );
+export const createNewMessage = createAsyncThunk<
+  { message: IMessage },
+  IMessage
+>('chat/createNewMessage', async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await chatApi.createNewMessage(payload);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});

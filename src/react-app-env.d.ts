@@ -17,4 +17,5 @@ declare module 'react-html-string';
 declare module 'recharts';
 declare module 'react-apexcharts';
 declare module 'apexcharts';
+declare module 'date-fns';
 declare module 'socket.io-client';

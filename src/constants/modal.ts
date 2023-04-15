@@ -5,4 +5,5 @@ export const MODAL_IDS = {
   apply: 'apply',
   deleteJob: 'deleteJob',
   userMessage: 'userMessage',
+  messageApplied: 'messageApplied',
 };

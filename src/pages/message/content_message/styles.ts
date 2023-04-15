@@ -15,6 +15,7 @@ export const useStyles = makeStyles({
     justifyContent: 'flex-start',
     marginBottom: '10px',
     '& > p': {
+      maxWidth: '80%',
       backgroundColor: theme.palette.primary.contrastText,
       border: '1px solid #c1c1c1',
     },
@@ -22,7 +23,7 @@ export const useStyles = makeStyles({
   textMessage: {
     padding: '12px 1rem',
     borderRadius: '8px',
-    fontSize: '1.4rem',
+    fontSize: '14px',
   },
   user: {
     display: 'flex',
@@ -30,6 +31,7 @@ export const useStyles = makeStyles({
     marginBottom: '1rem',
     marginRight: '14px',
     '& > p': {
+      maxWidth: '80%',
       backgroundColor: theme.palette.grey[400],
     },
   },

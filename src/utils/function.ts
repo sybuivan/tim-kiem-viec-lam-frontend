@@ -1,5 +1,16 @@
 import moment from 'moment';
 
+import {
+  formatDistance,
+  subYears,
+  subDays,
+  subMonths,
+  subHours,
+  subMinutes,
+} from 'date-fns';
+
+import { vi } from 'date-fns/locale';
+
 export const findIndexItem = (array: any[], id: string) => {
   const index = array.findIndex((item) => item.id === id);
 
@@ -32,3 +43,51 @@ export const formatFilterToString = (array: { id: string; name: string }[]) => {
 
 export const formatPrice = (price: number) =>
   price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+export const findNameJob = (
+  applied: { id_job: string; name_job: string }[],
+  id_job: string
+) => {
+  console.log({ applied });
+  const name = applied.filter((item) => item.id_job === id_job);
+
+  return name[0].name_job;
+};
+
+export const getSubTimeFromDayFNS = (date?: string | Date) => {
+  const locale = vi;
+  const now = moment(); // Lấy thời điểm hiện tại
+  const startDate = moment(date); // Ngày bắt đầu tính
+  const diffInYears = now.diff(startDate, 'years'); // Tính số năm khác nhau
+  const diffInMonths = now.diff(startDate, 'months'); // Tính số tháng khác nhau
+  const diffInDays = now.diff(startDate, 'days'); // Tính số ngày khác nhau
+  const diffInHours = now.diff(startDate, 'hours'); // Tính số giờ khác nhau
+  const diffInMinutes = now.diff(startDate, 'minutes'); // Tính số giờ khác nhau
+
+  if (diffInYears >= 1) {
+    return formatDistance(subYears(new Date(), diffInYears), new Date(), {
+      locale,
+      addSuffix: true,
+    });
+  } else if (diffInMonths >= 1) {
+    return formatDistance(subMonths(new Date(), diffInMonths), new Date(), {
+      locale,
+      addSuffix: true,
+    });
+  } else if (diffInDays >= 1) {
+    return formatDistance(subDays(new Date(), diffInDays), new Date(), {
+      locale,
+      addSuffix: true,
+    });
+  } else if (diffInHours >= 1) {
+    return formatDistance(subHours(new Date(), diffInHours), new Date(), {
+      locale,
+      addSuffix: true,
+    });
+  } else {
+    return formatDistance(subMinutes(new Date(), diffInMinutes), new Date(), {
+      locale,
+      addSuffix: true,
+    });
+  }
+};

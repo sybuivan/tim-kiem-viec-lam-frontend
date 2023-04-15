@@ -46,6 +46,26 @@ const chatSlice = createSlice({
     setMessageList: (state, action) => {
       state.messageList.messages.push(action.payload);
     },
+
+    changeRoom: (state, action) => {
+      const { message, created_at, id_room } = action.payload;
+
+      console.log({ id_room });
+
+      const index = state.roomList.rooms.findIndex(
+        (room) => room.id_room === id_room
+      );
+
+      console.log({ index });
+
+      const newRoom: IRoom = {
+        ...state.roomList.rooms[index],
+        message,
+        created_at,
+      };
+
+      state.roomList.rooms[index] = newRoom;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createRoom.fulfilled, (state, action) => {
@@ -65,5 +85,5 @@ const chatSlice = createSlice({
 });
 
 const { actions, reducer } = chatSlice;
-export const { setUserRoom, setMessageList } = actions;
+export const { setUserRoom, setMessageList, changeRoom } = actions;
 export default reducer;

@@ -3,6 +3,9 @@ export interface IRoom {
   id_company: string;
   id_room?: string;
   fullName?: string;
+  message?: string;
+  created_at?: string;
+  avatar?: string;
 }
 
 export interface IRoomList {
@@ -13,11 +16,12 @@ export interface IRoomList {
 export interface IMessage {
   id_user: string;
   id_company: string;
-  id_room: string;
   message: string;
   id_chat?: string;
-  sender?: string;
+  sender?: 'user' | 'company';
+  id_room?: string;
   fullName?: string;
+  created_at?: string;
 }
 
 export interface IMessageList {

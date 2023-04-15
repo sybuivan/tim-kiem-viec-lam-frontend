@@ -28,7 +28,7 @@ const schemaLogin = yup.object().shape({
   password: yup.string().required('Xin vui lòng nhập lại mật khẩu.').min(8),
 });
 
-const LoginForm = () => {
+const LoginForm = ({ socket }: { socket: any }) => {
   const dispatch = useAppDispatch();
   const initLoginForm: IPayloadLogin = {
     email: '',
@@ -54,6 +54,7 @@ const LoginForm = () => {
             modalId: MODAL_IDS.login,
           })
         );
+        socket.emit('user_id', data.users.id_user);
       });
   };
 

@@ -9,11 +9,14 @@ import { getCandidateList } from 'src/redux_store/company/company_action';
 import theme from 'src/theme';
 import EmptyData from 'src/components/empty_data';
 import { CandidateInfo } from '../saved_profile';
+import { changeFiltersCandidate } from 'src/redux_store/company/company_slices';
+import { Socket } from 'socket.io-client';
 
 const CandidateList = () => {
   const {
     me,
     candidateList: { data },
+    filtersCandidate,
   } = useAppSelector((state) => state.companySlice);
   const { companyfield, cityfield } = useAppSelector(
     (state) => state.commonSlice.fieldList
@@ -22,14 +25,22 @@ const CandidateList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    console.log({ filtersCandidate });
+    dispatch(getCandidateList(filtersCandidate));
+  }, []);
+
+  const handleOnChange = (name: string, value: string) => {
     dispatch(
-      getCandidateList({
-        id_city: '',
-        id_company_field: '',
-        keyword: '',
+      changeFiltersCandidate({
+        ...filtersCandidate,
+        [name]: value,
       })
     );
-  }, []);
+  };
+
+  const handleOnSearch = () => {
+    dispatch(getCandidateList(filtersCandidate));
+  };
 
   const { control } = useForm({});
   return (
@@ -51,7 +62,7 @@ const CandidateList = () => {
           />
           <FormSelect
             control={control}
-            name="companyfield"
+            name="id_company_field"
             placeholder="Tất cả nghề nghiệp"
             options={companyfield}
             keyOption="id_companyField"
@@ -60,10 +71,11 @@ const CandidateList = () => {
               backgroundColor: theme.palette.common.white,
               borderRadius: '4px',
             }}
+            handleChange={handleOnChange}
           />
           <FormSelect
             control={control}
-            name="city"
+            name="id_city"
             placeholder="Tất cả tỉnh thành"
             options={cityfield}
             keyOption="id_city"
@@ -73,6 +85,7 @@ const CandidateList = () => {
               borderRadius: '4px',
               color: theme.palette.common.white,
             }}
+            handleChange={handleOnChange}
           />
           <Box height="38px">
             <Button
@@ -82,6 +95,7 @@ const CandidateList = () => {
                 minWidth: '100px!important',
                 backgroundColor: '#2c95ff',
               }}
+              onClick={handleOnSearch}
             >
               Tìm kiếm
             </Button>

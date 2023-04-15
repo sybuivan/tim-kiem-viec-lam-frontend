@@ -63,4 +63,7 @@ export const companyApi = {
   getProfileAppliedByJob: (params: { id_company: string; id_job?: string }) => {
     return client.get(`/company/get-applied-by-company`, { params });
   },
+  updateStatusApplied: (payload: { id_apply: string; status: number }[]) => {
+    return client.post(`/company/update-status-applied`, payload);
+  },
 };

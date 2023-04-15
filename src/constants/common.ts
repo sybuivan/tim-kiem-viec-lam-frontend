@@ -327,15 +327,15 @@ export const sql = () => {
 export const COptionStatusApply = [
   {
     label: 'Đã liên hệ',
-    status: 'DLH',
+    status: 1,
   },
   {
     label: 'Đã xem hồ sơ',
-    status: 'DXHS',
+    status: 2,
   },
   {
-    label: 'Đã từ chối',
-    status: 'DTC',
+    label: 'Từ chối',
+    status: 3,
   },
 ];
 export const COptionJobs = [

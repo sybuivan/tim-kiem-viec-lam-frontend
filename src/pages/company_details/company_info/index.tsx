@@ -24,6 +24,7 @@ import {
   addFollowere,
   updateFollowere,
 } from 'src/redux_store/company/company_slices';
+import { socketIo } from 'src/clients/socket';
 
 const CompanyInfo = () => {
   const dispatch = useAppDispatch();
@@ -57,7 +58,7 @@ const CompanyInfo = () => {
       dispatch(
         openModal({
           modalId: MODAL_IDS.login,
-          dialogComponent: <LoginForm />,
+          dialogComponent: <LoginForm socket={socketIo} />,
         })
       );
     }

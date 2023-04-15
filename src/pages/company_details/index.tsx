@@ -19,10 +19,6 @@ const CompanyDetails = () => {
     },
   } = useAppSelector((state) => state.companySlice);
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  useEffect(() => {
     dispatch(getCompanyById(id_company + ''));
   }, []);
 

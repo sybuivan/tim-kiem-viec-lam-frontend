@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, List } from '@mui/material';
+import { Box, List, Typography } from '@mui/material';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { MessageCard } from '../message_card';
 import theme from 'src/theme';
@@ -41,7 +41,7 @@ export const SideBar = () => {
         }}
       >
         Danh sách tin nhắn
-        <Box ml={4}>
+        {/* <Box ml={4}>
           <IconButtonTooltip
             onClick={handleClick}
             title="Thêm tin nhắn"
@@ -49,14 +49,22 @@ export const SideBar = () => {
             size="small"
             style={{ color: theme.palette.primary.main }}
           />
-        </Box>
+        </Box> */}
       </Box>
 
       <List sx={{ height: '100vh' }}>
         <Scrollbars>
-          {rooms.map((room) => (
-            <MessageCard key={room.id_room} room={room} />
-          ))}
+          {rooms.length > 0 ? (
+            rooms.map((room) => <MessageCard key={room.id_room} room={room} />)
+          ) : (
+            <Typography
+              fontSize="16px"
+              textAlign="center"
+              color={theme.palette.error.main}
+            >
+              Chưa có tin nhắn nào
+            </Typography>
+          )}
         </Scrollbars>
       </List>
     </Box>

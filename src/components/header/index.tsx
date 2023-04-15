@@ -4,6 +4,7 @@ import {
   Avatar,
   Badge,
   Box,
+  Button,
   Container,
   IconButton,
   Menu,
@@ -29,6 +30,8 @@ import { logout } from 'src/redux_store/user/user_slice';
 import { logoutCompany } from 'src/redux_store/company/company_slices';
 import { resetApplyData } from 'src/redux_store/apply/apply_slice';
 import { checkRoleCompany, checkRoleUser } from 'src/utils/common';
+import { socketIo } from 'src/clients/socket';
+import Notification from '../notification';
 
 const settings: {
   icon: any;
@@ -56,7 +59,24 @@ const settingsCompany: {
 ];
 
 const Header = () => {
-  const { me, token } = useAppSelector((state) => state.userSlice);
+  const {
+    me,
+    token,
+    notification: { total },
+  } = useAppSelector((state) => state.userSlice);
+  const [anchorNotifi, setAnchorNotifi] =
+    React.useState<HTMLButtonElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorNotifi(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorNotifi(null);
+  };
+
+  const open = Boolean(anchorNotifi);
+  const id = open ? 'simple-popover' : undefined;
   const dispatch = useAppDispatch();
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
@@ -76,7 +96,7 @@ const Header = () => {
     dispatch(
       openModal({
         modalId: MODAL_IDS.login,
-        dialogComponent: <LoginForm />,
+        dialogComponent: <LoginForm socket={socketIo} />,
       })
     );
   };
@@ -135,109 +155,118 @@ const Header = () => {
               </li>
             </ul>
           </Box>
-
           <Box display="flex" justifyContent="flex-end" gap="30px" flex="1">
-            <Box
-              display="flex"
-              color={theme.palette.common.white}
-              alignItems="center"
-              gap={1}
-              sx={{
-                cursor: 'pointer',
-                '& p': {
-                  fontWeight: 600,
-                },
-              }}
-            >
-              <Badge badgeContent={4} color="error">
-                <NotificationsNoneOutlined
-                  color="action"
-                  sx={{
-                    color: theme.palette.common.white,
-                  }}
-                />
-              </Badge>
-              <Typography>Thông báo</Typography>
-            </Box>
-
-            <Box
-              onClick={() => navigate('/users/message')}
-              display="flex"
-              color={theme.palette.common.white}
-              alignItems="center"
-              gap={1}
-              sx={{
-                cursor: 'pointer',
-                '& p': {
-                  fontWeight: 600,
-                },
-              }}
-            >
-              <Badge badgeContent={4} color="error">
-                <BsFillChatDotsFill
-                  style={{
-                    fontSize: '25px',
-                  }}
-                />
-              </Badge>
-            </Box>
-
             {checkRoleUser(me?.id_role, token) ? (
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Quản lý hồ sơ">
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    sx={{ p: 0, color: theme.palette.common.white }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={me?.avatar || '/static/images/avatar/2.jpg'}
-                    />
-                    <Typography ml={1} fontWeight="600">
-                      {me?.fullName}
-                    </Typography>
-                    <KeyboardArrowDown />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: '45px' }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
+              <>
+                <Box
+                  display="flex"
+                  color={theme.palette.common.white}
+                  alignItems="center"
+                  gap={1}
+                  sx={{
+                    cursor: 'pointer',
+                    '& p': {
+                      fontWeight: 600,
+                    },
                   }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
                 >
-                  {settings.map((setting) => (
-                    <MenuItem
-                      key={setting.title}
-                      onClick={handleCloseUserMenu}
-                      onClickCapture={() => {
-                        if (setting.path) {
-                          navigate(setting.path);
-                        } else {
-                          dispatch(logout(''));
-                          dispatch(resetApplyData());
-                          setAnchorElUser(null);
-                          navigate('/');
-                        }
+                  <IconButton aria-describedby={id} onClick={handleClick}>
+                    <Badge badgeContent={total} color="error">
+                      <NotificationsNoneOutlined
+                        color="action"
+                        sx={{
+                          color: theme.palette.common.white,
+                        }}
+                      />
+                    </Badge>
+                  </IconButton>
+                </Box>
+
+                <Notification
+                  open={open}
+                  id={id}
+                  handleClose={handleClose}
+                  anchorEl={anchorNotifi}
+                />
+
+                <Box
+                  onClick={() => navigate('/users/message')}
+                  display="flex"
+                  color={theme.palette.common.white}
+                  alignItems="center"
+                  gap={1}
+                  sx={{
+                    cursor: 'pointer',
+                    '& p': {
+                      fontWeight: 600,
+                    },
+                  }}
+                >
+                  <Badge badgeContent={4} color="error">
+                    <BsFillChatDotsFill
+                      style={{
+                        fontSize: '25px',
                       }}
+                    />
+                  </Badge>
+                </Box>
+
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Quản lý hồ sơ">
+                    <IconButton
+                      onClick={handleOpenUserMenu}
+                      sx={{ p: 0, color: theme.palette.common.white }}
                     >
-                      {setting.icon}
-                      <Typography textAlign="center">
-                        {setting.title}
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={me?.avatar || '/static/images/avatar/2.jpg'}
+                      />
+                      <Typography ml={1} fontWeight="600">
+                        {me?.fullName}
                       </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
+                      <KeyboardArrowDown />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: '45px' }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    {settings.map((setting) => (
+                      <MenuItem
+                        key={setting.title}
+                        onClick={handleCloseUserMenu}
+                        onClickCapture={() => {
+                          if (setting.path) {
+                            navigate(setting.path);
+                          } else {
+                            dispatch(logout(''));
+                            dispatch(resetApplyData());
+                            setAnchorElUser(null);
+                            navigate('/');
+                          }
+                        }}
+                      >
+                        {setting.icon}
+                        <Typography textAlign="center">
+                          {setting.title}
+                        </Typography>
+                      </MenuItem>
+                    ))}
+                  </Menu>
+                </Box>
+              </>
             ) : (
               <Box display="flex">
                 <Box

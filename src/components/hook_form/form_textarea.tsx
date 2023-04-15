@@ -6,8 +6,8 @@ import theme from 'src/theme';
 interface IProps {
   control: any;
   name: string;
-  label: string;
   minRows: number;
+  label?: string;
   placeholder?: string;
   size?: 'small' | 'medium';
   disabled?: boolean;

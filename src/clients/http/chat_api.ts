@@ -17,4 +17,7 @@ export const chatApi = {
   createMessage: (data: IMessage) => {
     return client.post<{ message: IMessage }>(`/chat/chat-message`, data);
   },
+  createNewMessage: (data: IMessage) => {
+    return client.post<{ message: IMessage }>(`/chat/chat-new-message`, data);
+  },
 };

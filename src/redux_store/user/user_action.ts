@@ -153,3 +153,27 @@ export const getAllFollowUser = createAsyncThunk<any, string>(
     }
   }
 );
+export const getNotification = createAsyncThunk<any, string>(
+  'user/getNotification',
+  async (id_user, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.getNotification(id_user);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const updateNotification = createAsyncThunk<any, string>(
+  'user/updateNotification',
+  async (id_notification, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.updateNotification(id_notification);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);

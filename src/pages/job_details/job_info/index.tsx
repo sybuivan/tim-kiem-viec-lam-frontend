@@ -9,6 +9,7 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { socketIo } from 'src/clients/socket';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch, useAppSelector, useSaveJob } from 'src/hooks';
 import LoginForm from 'src/pages/auth/login_form';
@@ -49,7 +50,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
       dispatch(
         openModal({
           modalId: MODAL_IDS.login,
-          dialogComponent: <LoginForm />,
+          dialogComponent: <LoginForm socket={socketIo} />,
         })
       );
     }

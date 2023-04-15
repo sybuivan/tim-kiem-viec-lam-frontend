@@ -1,5 +1,7 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
+import Slider from 'react-slick';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import JobItem from 'src/components/job_item';
 import SkeletonJob from 'src/components/skeleton/job';
 import { useGetStatus } from 'src/hooks';
@@ -15,7 +17,18 @@ const JobList = ({
   title?: string;
 }) => {
   const [isLoading] = useGetStatus('job', 'getJobList');
-
+  const settings = {
+    dots: true,
+    className: 'center',
+    infinite: true,
+    centerPadding: '60px',
+    slidesToShow: 3,
+    speed: 500,
+    rows: 2,
+    slidesPerRow: 2,
+    nextArrow: <AiOutlineArrowRight />,
+    prevArrow: <AiOutlineArrowLeft />,
+  };
   if (isLoading)
     return (
       <>
@@ -34,11 +47,18 @@ const JobList = ({
           {title}
         </Typography>
       </Box>
-      <Grid container rowSpacing={2} columnSpacing={2}>
+      {/* <Grid container rowSpacing={2} columnSpacing={2}>
+        <Slider {...settings}>
+          {jobList.map((item, index) => (
+            <JobItem jobItem={item} key={item.id_job} />
+          ))}
+        </Slider>
+      </Grid> */}
+      <Slider {...settings}>
         {jobList.map((item, index) => (
           <JobItem jobItem={item} key={item.id_job} />
         ))}
-      </Grid>
+      </Slider>
     </Box>
   );
 };
