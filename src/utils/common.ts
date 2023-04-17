@@ -1,5 +1,5 @@
-import { ROLE_COMPANY, ROLE_USER } from 'src/constants/common';
-import { IApplyList, IApply } from 'src/types/apply';
+import { ROLE_COMPANY, ROLE_USER, ROLE_ADMIN } from 'src/constants/common';
+import { IApply } from 'src/types/apply';
 import { IJob } from 'src/types/job';
 
 export const messageRequired = (key: string) => {
@@ -32,6 +32,12 @@ export const checkRoleCompany = (idRole: string, token: string) => {
 
   return false;
 };
+export const checkRoleAdmin = (idRole: string, token: string) => {
+  if (idRole === ROLE_ADMIN && token) return true;
+
+  return false;
+};
+
 export const checkRoleUser = (idRole: string, token: string) => {
   if (idRole === ROLE_USER && token) return true;
   return false;

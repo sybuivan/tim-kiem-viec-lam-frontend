@@ -1,9 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from 'src/clients/http/user_api';
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
-import { IPayloadProfile } from 'src/types/profile';
 import {
-  IPayLoadCV,
   IPayloadFollow,
   IPayloadSaveJob,
   IProfileCV,
@@ -177,3 +175,44 @@ export const updateNotification = createAsyncThunk<any, string>(
     }
   }
 );
+export const deleteNotification = createAsyncThunk<any, string>(
+  'user/deleteNotification',
+  async (id_notification, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.deleteNotification(id_notification);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getSuggetJobForYou = createAsyncThunk<any, void>(
+  'user/getSuggetJobForYou',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.getSuggetJobForYou();
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const loginAdmin = createAsyncThunk<
+  {
+    users: any;
+    accessToken: string;
+  },
+  IPayloadLogin
+>('user/loginAdmin', async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await userApi.loginAdmin(payload);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});

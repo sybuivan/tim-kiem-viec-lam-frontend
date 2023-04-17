@@ -9,9 +9,16 @@ import { QueryBuilderOutlined } from '@mui/icons-material';
 import theme from 'src/theme';
 import PostList from './post_list';
 import { getJobList } from 'src/redux_store/job/job_action';
+import { LightModeOutlined } from '@mui/icons-material';
+import { getSuggetJobForYou } from 'src/redux_store/user/user_action';
+import JobSuggetForYou from './job_sugget_for_you';
 
 const Home = () => {
   const dispatch = useAppDispatch();
+  const {
+    token,
+    jobSuggets: { job_suggets_for_you },
+  } = useAppSelector((state) => state.userSlice);
 
   const {
     companyList: { companyList },
@@ -23,6 +30,10 @@ const Home = () => {
   useEffect(() => {
     dispatch(getCompanyList());
     dispatch(getJobList());
+  }, []);
+
+  useEffect(() => {
+    if (token) dispatch(getSuggetJobForYou());
   }, []);
 
   return (
@@ -46,19 +57,20 @@ const Home = () => {
           }
           title="Việc làm tuyển gấp"
         />
-        {/*
-        <JobList
-          jobList={dataJobs}
-          icon={
-            <LightModeOutlined
-              sx={{
-                color: theme.palette.primary.main,
-                fontSize: '30px',
-              }}
-            />
-          }
-          title="Việc làm gợi ý"
-        /> */}
+        {token && (
+          <JobSuggetForYou
+            jobList={job_suggets_for_you}
+            icon={
+              <LightModeOutlined
+                sx={{
+                  color: theme.palette.primary.main,
+                  fontSize: '30px',
+                }}
+              />
+            }
+            title="Việc làm gợi ý"
+          />
+        )}
 
         <PostList />
       </Container>

@@ -6,91 +6,129 @@ import {
   BusinessCenterOutlined,
   FavoriteBorderOutlined,
 } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 import theme from 'src/theme';
+import { IJob } from 'src/types/job';
+import { useAppSelector, useSaveJob } from 'src/hooks';
+import { FavoriteRounded } from '@mui/icons-material';
+import { checkIsSaveJob } from 'src/utils/common';
 
-const JobItem = () => {
+const JobItem = ({ job }: { job: IJob }) => {
+  const {
+    name_range,
+    name_company,
+    logo,
+    name_experience,
+    name_job,
+    work_location,
+    id_job,
+  } = job;
+
+  const {
+    saveJobList: { savedList },
+    token,
+    me,
+  } = useAppSelector((state) => state.userSlice);
+  const { handleOnUnSaved, handleOnSave } = useSaveJob(
+    token,
+    id_job,
+    me?.id_user
+  );
+
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    navigate(`/viec-lam/${id_job}`);
+  };
   return (
-    <Box
-      sx={{
-        border: '1px solid #c1c1c1',
-        borderRadius: '4px',
-        padding: 1,
-      }}
-    >
-      <Box display="flex" gap={2}>
-        <img
-          width="50"
-          height="50"
-          alt=""
-          src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/a6146cf707fcb73596bdd6816cd94902_4525010_vieclam24h_1577928661.png?v=220513"
-        />
-        <Box>
-          <Typography
-            fontWeight="600"
-            sx={{
-              whiteSpace: 'nowrap',
-              textOverflow: 'ellipsis',
-              overflow: 'hidden',
-              fontSize: '15px',
-              margin: 0,
-              maxWidth: '330px',
-            }}
-          >
-            Kinh Môn-Hải Dương_Quỳnh Phụ-Thái Bình_Bố T-Thái Bình_Bố T
-          </Typography>
+    <Box position="relative">
+      <Box
+        sx={{
+          border: '1px solid #c1c1c1',
+          borderRadius: '4px',
+          padding: 1,
+          cursor: 'pointer',
+        }}
+        onClick={handleOnClick}
+      >
+        <Box display="flex" gap={2}>
+          <img width="50" height="50" alt="" src={logo} />
+          <Box>
+            <Typography
+              fontWeight="600"
+              sx={{
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                overflow: 'hidden',
+                fontSize: '15px',
+                margin: 0,
+                maxWidth: '330px',
+              }}
+            >
+              {name_job}
+            </Typography>
 
-          <Typography fontWeight="500">
-            Công Ty TNHH Manulife (Việt Nam){' '}
-          </Typography>
+            <Typography fontWeight="500">{name_company}</Typography>
+          </Box>
+        </Box>
+        <Box pl={7} display="flex" justifyContent="space-between">
+          <Box>
+            <Box display="flex" gap={1}>
+              <LocationOnOutlined
+                sx={{
+                  color: theme.palette.grey[600],
+                }}
+              />
+              <Typography>{work_location}</Typography>
+            </Box>
+            <Box display="flex" gap={1}>
+              <AttachMoneyOutlined
+                sx={{
+                  color: theme.palette.grey[600],
+                }}
+              />
+              <Typography>{name_range}</Typography>
+            </Box>
+            <Box display="flex" gap={1}>
+              <BusinessCenterOutlined
+                sx={{
+                  color: theme.palette.grey[600],
+                }}
+              />
+              <Typography>{name_experience}</Typography>
+            </Box>
+          </Box>
         </Box>
       </Box>
-      <Box pl={7} display="flex" justifyContent="space-between">
-        <Box>
-          <Box display="flex" gap={1}>
-            <LocationOnOutlined
+      <Box position="absolute" bottom="30px" right="20px">
+        {checkIsSaveJob(savedList, id_job) ? (
+          <IconButton onClick={handleOnUnSaved}>
+            <FavoriteRounded
               sx={{
-                color: theme.palette.grey[600],
+                color: theme.palette.primary.main,
               }}
             />
-            <Typography>Hà nội </Typography>
-          </Box>
-          <Box display="flex" gap={1}>
-            <AttachMoneyOutlined
-              sx={{
-                color: theme.palette.grey[600],
-              }}
-            />
-            <Typography>11 - 30 triệu </Typography>
-          </Box>
-          <Box display="flex" gap={1}>
-            <BusinessCenterOutlined
-              sx={{
-                color: theme.palette.grey[600],
-              }}
-            />
-            <Typography>1 năm </Typography>
-          </Box>
-        </Box>
-        <IconButton>
-          <FavoriteBorderOutlined />
-        </IconButton>
+          </IconButton>
+        ) : (
+          <IconButton onClick={handleOnSave}>
+            <FavoriteBorderOutlined />
+          </IconButton>
+        )}
       </Box>
     </Box>
   );
 };
 
-const JobSugget = () => {
+const JobSugget = ({ job_suggets }: { job_suggets: IJob[] }) => {
   return (
     <Box display="flex" flexDirection="column" gap={2}>
       <Typography fontWeight="600" fontSize="20px">
         Việc làm tương tự cho bạn
       </Typography>
-      {Array(6)
-        .fill(6)
-        .map((item) => (
-          <JobItem />
-        ))}
+      {job_suggets.map((job) => (
+        <JobItem job={job} key={job.id_job} />
+      ))}
     </Box>
   );
 };

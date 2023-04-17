@@ -15,6 +15,9 @@ export const userApi = {
   login: (payload: IPayloadLogin) => {
     return client.post('/auth/login', payload);
   },
+  loginAdmin: (payload: IPayloadLogin) => {
+    return client.post('/auth/admin/login', payload);
+  },
   register: (payload: IPayloadRegister) => {
     return client.post<any>('/auth/register', payload);
   },
@@ -61,5 +64,11 @@ export const userApi = {
   },
   updateNotification: (id_notification: string) => {
     return client.put(`/user/update-notification/${id_notification}`);
+  },
+  deleteNotification: (id_notification: string) => {
+    return client.delete(`/user/delete-notification/${id_notification}`);
+  },
+  getSuggetJobForYou: () => {
+    return client.get(`/user/get-suggets-job-for-you`);
   },
 };

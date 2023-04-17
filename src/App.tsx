@@ -7,6 +7,7 @@ import {
   getAllFollowUser,
   getSavedListByUser,
   getNotification,
+  getSuggetJobForYou,
 } from './redux_store/user/user_action';
 import { getApplyList } from './redux_store/apply/apply_actions';
 import { getAllField } from './redux_store/common/field/field_actions';
@@ -27,6 +28,7 @@ function App() {
       dispatch(getAllFollowUser(me?.id_user));
       dispatch(getAllField());
       dispatch(getNotification(me?.id_user));
+      dispatch(getSuggetJobForYou());
     }
   }, []);
 

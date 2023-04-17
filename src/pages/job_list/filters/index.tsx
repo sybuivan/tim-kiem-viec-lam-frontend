@@ -11,7 +11,13 @@ import { changeHomeFilter } from 'src/redux_store/job/job_slices';
 import theme from 'src/theme';
 import { getJobListFilters } from 'src/redux_store/job/job_action';
 
-const JobListFilters = () => {
+const JobListFilters = ({
+  isOpenFilters,
+  onOpenFilters,
+}: {
+  isOpenFilters: boolean;
+  onOpenFilters: () => void;
+}) => {
   const location = useLocation();
   const { control } = useForm({
     defaultValues: queryString.parse(location.search),
@@ -53,7 +59,6 @@ const JobListFilters = () => {
     <Box
       bgcolor={theme.palette.primary.main}
       p={3}
-      pb={8}
       borderRadius="10px"
       mt={2}
       position="relative"
@@ -120,132 +125,135 @@ const JobListFilters = () => {
                 backgroundColor: '#5c27d6',
               },
             }}
+            onClick={() => onOpenFilters()}
           >
             Tìm kiếm nâng cao
           </Button>
         </Box>
       </Box>
-
-      <Box
-        display="flex"
-        bgcolor={theme.palette.common.white}
-        borderRadius="10px"
-        alignItems="center"
-        padding={1}
-        position="absolute"
-        bottom="-34px"
-        boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-        gap={1}
-        width="99%"
-        left={0}
-      >
-        <Typography>Lọc nâng cao:</Typography>
-        <Box display="flex" gap={1} flex={1}>
-          <FormSelect
-            control={control}
-            name="id_experience"
-            placeholder="Tất cả kinh nghiệm"
-            options={experiencefield}
-            keyOption="id_experience"
-            labelOption="name_experience"
-            sx={{
-              backgroundColor: theme.palette.common.white,
-              borderRadius: '4px',
-            }}
-            handleChange={handleOnChange}
-          />
-          <FormSelect
-            control={control}
-            name="id_range"
-            placeholder="Tất cả mức lương"
-            options={rangewagefield}
-            keyOption="id_range"
-            labelOption="name_range"
-            sx={{
-              backgroundColor: theme.palette.common.white,
-              borderRadius: '4px',
-              color: theme.palette.common.white,
-            }}
-            handleChange={handleOnChange}
-          />
-          <FormSelect
-            control={control}
-            name="id_rank"
-            placeholder="Tất cả cấp bậc"
-            options={typerankfield}
-            keyOption="id_rank"
-            labelOption="name_rank"
-            sx={{
-              backgroundColor: theme.palette.common.white,
-              borderRadius: '4px',
-            }}
-            handleChange={handleOnChange}
-          />
-          <FormSelect
-            control={control}
-            name="id"
-            placeholder="Tất cả trình độ"
-            options={[]}
-            keyOption="id"
-            labelOption="name"
-            sx={{
-              backgroundColor: theme.palette.common.white,
-              borderRadius: '4px',
-              color: theme.palette.common.white,
-            }}
-          />
-          <FormSelect
-            control={control}
-            name="id_working_form"
-            placeholder="Loại công việc"
-            options={workingformfield}
-            keyOption="id_working_form"
-            labelOption="name_working_form"
-            sx={{
-              backgroundColor: theme.palette.common.white,
-              borderRadius: '4px',
-            }}
-            handleChange={handleOnChange}
-          />
-          <FormSelect
-            control={control}
-            name="id_gender"
-            placeholder="Tất cả giới tính"
-            options={CGenderOption}
-            keyOption="value"
-            labelOption="label"
-            sx={{
-              backgroundColor: theme.palette.common.white,
-              borderRadius: '4px',
-              color: theme.palette.common.white,
-              maxWidth: '165px',
-            }}
-          />
-        </Box>
-        <Box display="flex">
-          <Box
-            sx={{
-              color: theme.palette.error.main,
-              fontWeight: '600',
-              cursor: 'pointer',
-              pr: 1,
-              borderRight: '2px solid #c1c1c1',
-            }}
-          >
-            Xóa chọn
+      {isOpenFilters && (
+        <Box
+          display="flex"
+          bgcolor={theme.palette.common.white}
+          borderRadius="10px"
+          alignItems="center"
+          padding={1}
+          position="absolute"
+          bottom="-50px"
+          boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
+          gap={1}
+          width="99%"
+          left={0}
+        >
+          <Typography>Lọc nâng cao:</Typography>
+          <Box display="flex" gap={1} flex={1}>
+            <FormSelect
+              control={control}
+              name="id_experience"
+              placeholder="Tất cả kinh nghiệm"
+              options={experiencefield}
+              keyOption="id_experience"
+              labelOption="name_experience"
+              sx={{
+                backgroundColor: theme.palette.common.white,
+                borderRadius: '4px',
+              }}
+              handleChange={handleOnChange}
+            />
+            <FormSelect
+              control={control}
+              name="id_range"
+              placeholder="Tất cả mức lương"
+              options={rangewagefield}
+              keyOption="id_range"
+              labelOption="name_range"
+              sx={{
+                backgroundColor: theme.palette.common.white,
+                borderRadius: '4px',
+                color: theme.palette.common.white,
+              }}
+              handleChange={handleOnChange}
+            />
+            <FormSelect
+              control={control}
+              name="id_rank"
+              placeholder="Tất cả cấp bậc"
+              options={typerankfield}
+              keyOption="id_rank"
+              labelOption="name_rank"
+              sx={{
+                backgroundColor: theme.palette.common.white,
+                borderRadius: '4px',
+              }}
+              handleChange={handleOnChange}
+            />
+            <FormSelect
+              control={control}
+              name="id"
+              placeholder="Tất cả trình độ"
+              options={[]}
+              keyOption="id"
+              labelOption="name"
+              sx={{
+                backgroundColor: theme.palette.common.white,
+                borderRadius: '4px',
+                color: theme.palette.common.white,
+              }}
+            />
+            <FormSelect
+              control={control}
+              name="id_working_form"
+              placeholder="Loại công việc"
+              options={workingformfield}
+              keyOption="id_working_form"
+              labelOption="name_working_form"
+              sx={{
+                backgroundColor: theme.palette.common.white,
+                borderRadius: '4px',
+              }}
+              handleChange={handleOnChange}
+            />
+            <FormSelect
+              control={control}
+              name="id_gender"
+              placeholder="Tất cả giới tính"
+              options={CGenderOption}
+              keyOption="value"
+              labelOption="label"
+              sx={{
+                backgroundColor: theme.palette.common.white,
+                borderRadius: '4px',
+                color: theme.palette.common.white,
+                maxWidth: '165px',
+              }}
+            />
           </Box>
-          <Box
-            sx={{
-              color: theme.palette.grey[700],
-              fontWeight: '600',
-              cursor: 'pointer',
-              pl: 1,
-            }}
-          >
-            Đóng
+          <Box display="flex">
+            <Box
+              sx={{
+                color: theme.palette.error.main,
+                fontWeight: '600',
+                cursor: 'pointer',
+                pr: 1,
+                borderRight: '2px solid #c1c1c1',
+              }}
+            >
+              Xóa chọn
+            </Box>
+            <Box
+              sx={{
+                color: theme.palette.grey[700],
+                fontWeight: '600',
+                cursor: 'pointer',
+                pl: 1,
+              }}
+              onClick={() => onOpenFilters()}
+            >
+              Đóng
+            </Box>
           </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };

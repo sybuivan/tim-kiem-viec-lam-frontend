@@ -18,7 +18,9 @@ import { getJobById } from 'src/redux_store/job/job_action';
 const JobDetails = () => {
   const { id_job } = useParams();
   const dispatch = useAppDispatch();
-  const { jobDetail } = useAppSelector((state) => state.jobSlice);
+  const {
+    jobDetail: { job, job_suggets },
+  } = useAppSelector((state) => state.jobSlice);
   const onTop = () => {
     window.scrollTo(0, 0);
   };
@@ -46,7 +48,7 @@ const JobDetails = () => {
         >
           Việc làm
         </Link>
-        <Typography color="text.primary">{jobDetail.name_job}</Typography>
+        <Typography color="text.primary">{job.name_job}</Typography>
       </Breadcrumbs>
 
       <Grid container columnSpacing={4}>
@@ -58,7 +60,7 @@ const JobDetails = () => {
               mb: 4,
             }}
           >
-            <JobInfo jobDetail={jobDetail} />
+            <JobInfo jobDetail={job} />
           </Paper>
           <Paper
             sx={{
@@ -66,15 +68,15 @@ const JobDetails = () => {
             }}
           >
             <JobDescription
-              required_job={jobDetail.required_job}
-              description_job={jobDetail.description_job}
-              benefits_job={jobDetail.benefits_job}
-              id_job={jobDetail.id_job}
+              required_job={job.required_job}
+              description_job={job.description_job}
+              benefits_job={job.benefits_job}
+              id_job={job.id_job}
             />
           </Paper>
         </Grid>
         <Grid item xs={4}>
-          <JobSugget />
+          <JobSugget job_suggets={job_suggets} />
         </Grid>
       </Grid>
     </Container>

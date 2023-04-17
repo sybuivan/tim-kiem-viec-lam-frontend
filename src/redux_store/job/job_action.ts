@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jobApi } from 'src/clients/http/job_api';
-import { IJob, IJobList, IPayloadJob } from 'src/types/job';
+import { IJob, IJobDetails, IJobList, IPayloadJob } from 'src/types/job';
 import { toastMessage } from 'src/utils/toast';
 
 export const getJobList = createAsyncThunk<IJobList, void>(
@@ -27,7 +27,7 @@ export const getJobListFilters = createAsyncThunk<IJobList, any>(
     }
   }
 );
-export const getJobById = createAsyncThunk<{ job: IJob }, string>(
+export const getJobById = createAsyncThunk<IJobDetails, string>(
   'job/getJobById',
   async (id, { rejectWithValue }) => {
     try {
@@ -79,6 +79,7 @@ export const getListJobByCompany = createAsyncThunk<IJobList, string>(
     }
   }
 );
+
 export const deleteJob = createAsyncThunk<
   any,
   {

@@ -35,7 +35,9 @@ import ListCompany from 'src/pages/admin/list-company';
 import ListRegisterCompany from 'src/pages/admin/list-register-company';
 import AddPost from 'src/pages/admin/add-post';
 import ListPost from 'src/pages/admin/list-post';
+import AuthLogin from 'src/pages/admin/auth_login';
 import { io } from 'socket.io-client';
+import { PrivateAdmin, PrivateLoginAdmin } from './private/admin';
 
 const socket = io('http://localhost:5000');
 
@@ -199,7 +201,12 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
 
   {
     path: 'admin',
-    element: <SidebarLayout />,
+
+    element: (
+      <PrivateLoginAdmin>
+        <SidebarLayout />
+      </PrivateLoginAdmin>
+    ),
     children: [
       {
         path: '',
@@ -230,6 +237,15 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
         element: <ListPost />,
       },
     ],
+  },
+
+  {
+    path: 'auth/admin/login',
+    element: (
+      <PrivateAdmin>
+        <AuthLogin />
+      </PrivateAdmin>
+    ),
   },
 ];
 

@@ -47,7 +47,7 @@ const JobListResults = ({ jobList }: { jobList: IJob[] }) => {
       </Box>
 
       <Box mb={2}>
-        <Grid container rowSpacing={2} columnSpacing={2}>
+        <Grid container rowSpacing={1} columnSpacing={1}>
           {jobList.map((item) => (
             <JobItem jobItem={item} key={item.id_job} col={6} isPage />
           ))}

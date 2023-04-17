@@ -4,13 +4,12 @@ import { Outlet } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getRoom } from 'src/redux_store/chat/chat_actions';
-import { ContentMessage } from './content_message';
 import { SideBar } from './side_bar';
 
 const Message = () => {
   const dispatch = useAppDispatch();
   const { me } = useAppSelector((state) => state.companySlice);
-
+  console.log('rendermessage !');
   useEffect(() => {
     if (me.id_user && me.id_role) {
       dispatch(getRoom({ id_user: me.id_user, id_role: me.id_role }));
@@ -30,16 +29,15 @@ const Message = () => {
         container
         sx={{
           height: '100%',
-          minWidth: '1600px',
           paddingLeft: '0!important',
           overflowY: 'hidden',
           minHeight: '30px',
         }}
       >
-        <Grid item xs={3}>
+        <Grid item xs={3.5}>
           <SideBar />
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={8.5}>
           <Outlet />
         </Grid>
       </Grid>

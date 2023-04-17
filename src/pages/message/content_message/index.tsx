@@ -102,7 +102,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
 
       {/* Content messages */}
       <Box className={classes.boxContent}>
-        <Box width="88%" mt={2} ml="14px" height="84%">
+        <Box width="98%" mt={2} ml="14px" height="84%">
           <Scrollbars>
             {messages.map((message) => (
               <Box

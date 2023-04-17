@@ -1,5 +1,5 @@
 import { Container } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { dataJobs } from '../home';
 import JobListFilters from './filters';
 import queryString from 'query-string';
@@ -12,7 +12,7 @@ import { useLocation } from 'react-router';
 const JobList = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const stringParams = queryString.parse(location.search);
+  const [isOpenFilters, setIsOpenFilters] = useState<boolean>(false);
   const {
     jobList: { data },
     jobFilters,
@@ -27,7 +27,10 @@ const JobList = () => {
 
   return (
     <Container sx={{ maxWidth: '1500px!important' }}>
-      <JobListFilters />
+      <JobListFilters
+        isOpenFilters={isOpenFilters}
+        onOpenFilters={() => setIsOpenFilters((pre) => !pre)}
+      />
 
       <JobListResults jobList={data} />
     </Container>

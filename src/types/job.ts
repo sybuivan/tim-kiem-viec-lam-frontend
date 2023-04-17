@@ -44,3 +44,8 @@ export interface IPayloadJob {
   created_at?: string | Date | null;
   urgent_recruitment?: number;
 }
+
+export interface IJobDetails {
+  job: IJob;
+  job_suggets: IJob[];
+}

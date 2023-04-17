@@ -90,10 +90,9 @@ const JobDescription = ({
           paddingBottom: '5px',
         },
         '& ul': {
-          fontSize: '16px',
+          fontSize: '14px',
           listStyle: 'inherit',
           paddingLeft: '20px',
-          // fontWeight: '500',
         },
       }}
     >

@@ -1,13 +1,12 @@
-import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import Slider from 'react-slick';
-import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+import { Box, Grid, Typography } from '@mui/material';
+
 import JobItem from 'src/components/job_item';
 import SkeletonJob from 'src/components/skeleton/job';
 import { useGetStatus } from 'src/hooks';
 import { IJob } from 'src/types/job';
 
-const JobList = ({
+const JobSuggetForYou = ({
   jobList,
   icon,
   title,
@@ -16,19 +15,8 @@ const JobList = ({
   icon?: any;
   title?: string;
 }) => {
-  const [isLoading] = useGetStatus('job', 'getJobList');
-  const settings = {
-    dots: true,
-    className: 'center',
-    infinite: true,
-    centerPadding: '60px',
-    slidesToShow: 3,
-    speed: 500,
-    rows: 2,
-    slidesPerRow: 2,
-    nextArrow: <AiOutlineArrowRight />,
-    prevArrow: <AiOutlineArrowLeft />,
-  };
+  const [isLoading] = useGetStatus('user', 'getSuggetJobForYou');
+
   if (isLoading)
     return (
       <>
@@ -47,13 +35,13 @@ const JobList = ({
           {title}
         </Typography>
       </Box>
-      <Slider {...settings}>
+      <Grid container rowSpacing={2} columnSpacing={2}>
         {jobList.map((item, index) => (
-          <JobItem jobItem={item} key={item.id_job} m={2} />
+          <JobItem jobItem={item} key={item.id_job} />
         ))}
-      </Slider>
+      </Grid>
     </Box>
   );
 };
 
-export default JobList;
+export default JobSuggetForYou;

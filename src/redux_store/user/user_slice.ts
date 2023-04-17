@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getLocal, token } from 'src/constants/localstoge';
+import { IJob } from 'src/types/job';
 import {
   IPayLoadCV,
   ISavedList,
@@ -8,6 +9,7 @@ import {
 } from 'src/types/user';
 import {
   loginUser,
+  loginAdmin,
   saveJob,
   updateProfile,
   getSavedListByUser,
@@ -17,12 +19,17 @@ import {
   unFollowCompany,
   getNotification,
   updateNotification,
+  deleteNotification,
+  getSuggetJobForYou,
 } from './user_action';
 
 interface IUserSlice {
   saveJobList: ISavedList;
   followList: IFollowList;
   profileCV: IPayLoadCV;
+  jobSuggets: {
+    job_suggets_for_you: IJob[];
+  };
   notification: {
     notificationList: INotification[];
     total: number;
@@ -48,6 +55,9 @@ const initialState: IUserSlice = {
   saveJobList: {
     savedList: [],
     total: 0,
+  },
+  jobSuggets: {
+    job_suggets_for_you: [],
   },
   followList: {
     followers: [],
@@ -93,6 +103,13 @@ const userSlice = createSlice({
         localStorage.setItem('user_account', JSON.stringify(users));
         localStorage.setItem('token', accessToken);
       })
+      .addCase(loginAdmin.fulfilled, (state, action) => {
+        const { users, accessToken } = action.payload;
+        state.me = users;
+        state.token = accessToken;
+        localStorage.setItem('user_account', JSON.stringify(users));
+        localStorage.setItem('token', accessToken);
+      })
       .addCase(updateProfile.fulfilled, (state, action) => {
         const { users } = action.payload;
         state.me = users;
@@ -119,6 +136,9 @@ const userSlice = createSlice({
       .addCase(getNotification.fulfilled, (state, action) => {
         state.notification = action.payload;
       })
+      .addCase(getSuggetJobForYou.fulfilled, (state, action) => {
+        state.jobSuggets = action.payload;
+      })
       .addCase(updateNotification.fulfilled, (state, action) => {
         const index = state.notification.notificationList.findIndex(
           (item) => item.id_notification === action.payload
@@ -130,6 +150,13 @@ const userSlice = createSlice({
         };
         state.notification.notificationList[index] = newNotification;
         state.notification.total = state.notification.total - 1;
+      })
+      .addCase(deleteNotification.fulfilled, (state, action) => {
+        const newNotificationList = state.notification.notificationList.filter(
+          (item) => item.id_notification !== action.payload
+        );
+
+        state.notification.notificationList = newNotificationList;
       });
   },
 });

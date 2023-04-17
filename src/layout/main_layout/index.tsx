@@ -1,15 +1,17 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Outlet, useLocation } from 'react-router';
 import Header from 'src/components/header';
 
 const MainLayout = () => {
   const location = useLocation();
+  const refScroll = useRef<any>();
 
-  const handleOnScroll = useCallback(() => {
-    window.scrollTo(0, 0);
+  useEffect(() => {
+    refScroll.current?.scrollToTop({ behavior: 'smooth', block: 'start' });
   }, [location]);
+
   return (
     <Box bgcolor="#f2f3f7">
       <Box
@@ -28,7 +30,7 @@ const MainLayout = () => {
           overflowX: 'hidden',
         }}
       >
-        <Scrollbars>
+        <Scrollbars ref={refScroll}>
           <Outlet />
         </Scrollbars>
       </Box>

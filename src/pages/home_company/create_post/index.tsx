@@ -39,6 +39,7 @@ export const CInitValues: IPayloadJob = {
   required_job: '',
   size_number: 0,
   id_field: '',
+  urgent_recruitment: 0,
 };
 
 export const schema = yup.object().shape({

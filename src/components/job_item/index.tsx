@@ -16,10 +16,11 @@ interface IJobItem {
   jobItem: IJob;
   col?: number;
   isPage?: boolean;
+  m?: number;
 }
 
 const JobItem = (props: IJobItem) => {
-  const { jobItem, col = 4, isPage = false } = props;
+  const { jobItem, col = 4, isPage = false, m = 0 } = props;
   const navigate = useNavigate();
   const {
     saveJobList: { savedList },
@@ -38,7 +39,7 @@ const JobItem = (props: IJobItem) => {
 
   return (
     <Grid item xs={col}>
-      <Box position="relative" m={2}>
+      <Box position="relative" m={m}>
         <Box
           sx={{
             border: '1px solid #c1c1c1',
