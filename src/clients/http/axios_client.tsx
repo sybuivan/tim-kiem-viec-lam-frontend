@@ -18,7 +18,10 @@ export const createClient = () => {
   const instance = axios.create({
     baseURL,
     timeout: 10000,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
+    },
   });
 
   instance.interceptors.response.use(

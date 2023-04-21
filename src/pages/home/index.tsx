@@ -10,7 +10,6 @@ import theme from 'src/theme';
 import PostList from './post_list';
 import { getJobList } from 'src/redux_store/job/job_action';
 import { LightModeOutlined } from '@mui/icons-material';
-import { getSuggetJobForYou } from 'src/redux_store/user/user_action';
 import JobSuggetForYou from './job_sugget_for_you';
 
 const Home = () => {
@@ -30,10 +29,6 @@ const Home = () => {
   useEffect(() => {
     dispatch(getCompanyList());
     dispatch(getJobList());
-  }, []);
-
-  useEffect(() => {
-    if (token) dispatch(getSuggetJobForYou());
   }, []);
 
   return (

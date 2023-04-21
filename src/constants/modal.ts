@@ -6,4 +6,5 @@ export const MODAL_IDS = {
   deleteJob: 'deleteJob',
   userMessage: 'userMessage',
   messageApplied: 'messageApplied',
+  profileModal: 'profileModal',
 };

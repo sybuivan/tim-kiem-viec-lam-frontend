@@ -1,51 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Paper, Typography, Grid, Button } from '@mui/material';
 
 import ProfileHeader from 'src/components/profile_bar/header';
 import theme from 'src/theme';
 import { formatPrice } from 'src/utils/function';
-
-const CServices = [
-  {
-    name: 'Đăng tin cơ bản',
-    price: 100000,
-    type: 'tháng',
-    id: 'DTCBM',
-  },
-  {
-    name: 'Đăng tin cơ bản',
-    price: 250000,
-    type: '3 tháng',
-    id: 'DTCBQ',
-  },
-  {
-    name: 'Đăng tin cơ bản',
-    price: 1000000,
-    type: 'năm',
-    id: 'DTCBY',
-  },
-  {
-    name: 'Trang chủ - Tuyển gấp',
-    price: 150000,
-    type: 'tháng',
-    id: 'TCTGM',
-  },
-  {
-    name: 'Trang chủ - Tuyển gấp',
-    price: 350000,
-    type: '3 tháng',
-    id: 'TCTGQ',
-  },
-  {
-    name: 'Trang chủ - Tuyển gấp',
-    price: 1300000,
-    type: 'năm',
-    id: 'TCTGY',
-  },
-];
+import { useAppDispatch, useGetStatus, useAppSelector } from 'src/hooks';
+import { getService } from 'src/redux_store/service/service_action';
+import { IService } from 'src/types/service';
 
 const BuyServices = () => {
-  const [selected, setSelected] = useState(CServices[0].id);
+  const [serviceSelected, setService] = useState<IService>({
+    name_service: '',
+    description: '',
+    id_service: '',
+    number_of_months: 0,
+    price: 0,
+    total_news: 0,
+  });
+  const [isLoading] = useGetStatus('service', 'getService');
+  const dispatch = useAppDispatch();
+  const {
+    serviceList: { services },
+  } = useAppSelector((state) => state.serviceSlice);
+  useEffect(() => {
+    dispatch(getService())
+      .unwrap()
+      .then((data) => {
+        setService(data.services[0]);
+      });
+  }, []);
+
+  if (isLoading) return <h1>Loading.. </h1>;
   return (
     <Box>
       <ProfileHeader fullName="Mua dịch vụ đăng tin tuyển dụng" title="" />
@@ -59,11 +44,12 @@ const BuyServices = () => {
                 </Typography>
               </Box>
               <Box display="flex" gap={2} flexWrap="wrap">
-                {CServices.map((service) => (
+                {services.map((service) => (
                   <BuyServicesItem
+                    key={service.id_service}
                     service={service}
-                    selected={selected}
-                    onSelected={(id: string) => setSelected(id)}
+                    selected={serviceSelected}
+                    onSelected={(service) => setService(service)}
                   />
                 ))}
               </Box>
@@ -77,9 +63,10 @@ const BuyServices = () => {
                 </Box>
                 <Box>
                   <Typography>
-                    <b>Số lượng:</b> 10 tin / 1 tháng
+                    <b>Số lượng:</b> {serviceSelected.total_news} tin /{' '}
+                    {serviceSelected.number_of_months} tháng
                   </Typography>
-                  <Typography>Được đăng trên trang chủ của hệ thông</Typography>
+                  <Typography>{serviceSelected.description}</Typography>
 
                   <Button variant="contained" sx={{ mt: 2 }}>
                     Mua ngay
@@ -101,14 +88,9 @@ const BuyServicesItem = ({
   selected,
   onSelected,
 }: {
-  selected: string;
-  service: {
-    name: string;
-    price: number;
-    id: string;
-    type: string;
-  };
-  onSelected: (id: string) => void;
+  selected: IService;
+  service: IService;
+  onSelected: (service: IService) => void;
 }) => {
   return (
     <Box
@@ -118,7 +100,7 @@ const BuyServicesItem = ({
       flexDirection="column"
       width="48%"
       bgcolor={
-        service.id === selected
+        service.id_service === selected.id_service
           ? theme.palette.primary.contrastText
           : theme.palette.grey[300]
       }
@@ -128,13 +110,13 @@ const BuyServicesItem = ({
         cursor: 'pointer',
         userSelect: 'none',
       }}
-      onClick={() => onSelected(service.id)}
+      onClick={() => onSelected(service)}
     >
       <Typography fontWeight="600" fontSize="14px">
-        Tên dịch vụ: {service.name}
+        Tên dịch vụ: {service.name_service}
       </Typography>
       <Typography fontWeight="600" fontSize="12px">
-        Giá: {formatPrice(service.price)} / {service.type}
+        Giá: {formatPrice(service.price)} / {service.number_of_months} tháng
       </Typography>
     </Box>
   );

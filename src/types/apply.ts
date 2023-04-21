@@ -22,7 +22,7 @@ export interface IApplyUser {
   name_rank?: string;
   file_cv?: string;
   checked?: boolean;
-  status?: number | string;
+  status?: any;
   avatar?: string;
   created_at: Date | string;
 }

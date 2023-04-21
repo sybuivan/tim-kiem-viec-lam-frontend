@@ -23,7 +23,7 @@ import { IPayloadProfile } from 'src/types/profile';
 import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
-import { CGenderOption } from 'src/constants/common';
+import { CGenderOption, phoneRegExp } from 'src/constants/common';
 import moment from 'moment';
 
 const schema = yup.object().shape({
@@ -31,7 +31,12 @@ const schema = yup.object().shape({
   birthDay: yup.string().required(messageRequired('Ngày sinh')),
   city: yup.string().required(messageRequired('Tỉnh thành')),
   address: yup.string().required(messageRequired('Địa chỉ')),
-  phone: yup.string().required(messageRequired('Số điện thoại')),
+  phone: yup
+    .string()
+    .required(messageRequired('Số điện thoại'))
+    .matches(phoneRegExp, 'Không đúng định dạng số điện thoại')
+    .min(9, 'Không đúng định dạng số điện thoại')
+    .max(10, 'Không đúng định dạng số điện thoại'),
   gender: yup.string().required(messageRequired('Giới tính')),
   email: yup
     .string()

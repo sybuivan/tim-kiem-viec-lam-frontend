@@ -46,9 +46,6 @@ const LoginForm = ({ socket }: { socket: any }) => {
       .unwrap()
       .then((data) => {
         toastMessage.success('Đăng nhập tài khoản thành công');
-        dispatch(getProfileCV(data.users.id_user));
-        dispatch(getSavedListByUser(data.users.id_user));
-        dispatch(getApplyList(data.users.id_user));
         dispatch(
           closeModal({
             modalId: MODAL_IDS.login,

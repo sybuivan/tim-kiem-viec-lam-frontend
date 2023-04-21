@@ -10,8 +10,8 @@ export const chatApi = {
   getRoom: (id_user: string, id_role: string) => {
     return client.get<IRoomList>(`/chat/get-room/${id_user}/${id_role}`);
   },
-  getMessages: (id_room: string) => {
-    return client.get<IMessageList>(`/chat/get-messages/${id_room}`);
+  getMessages: (id_room: string, id_role: string) => {
+    return client.get<IMessageList>(`/chat/get-messages/${id_room}/${id_role}`);
   },
 
   createMessage: (data: IMessage) => {

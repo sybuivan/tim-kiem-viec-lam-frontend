@@ -97,7 +97,7 @@ export const CProfileRoute: {
       accordionDetails: [
         {
           icon: <ContentPasteSearchOutlined />,
-          name: 'Nhà tuyển dụng đang theo dõi',
+          name: 'NTD đang theo dõi',
           path: '/thong-tin-ca-nhan/danh-sach-theo-doi',
         },
       ],

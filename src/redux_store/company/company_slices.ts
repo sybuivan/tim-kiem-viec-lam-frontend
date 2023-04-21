@@ -107,6 +107,21 @@ const companySlice = createSlice({
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
     },
+
+    updateStatusApllied: (
+      state,
+      action: { payload: { id_apply: string; status: number } }
+    ) => {
+      const index = state.appliedJob.applied.findIndex(
+        (item) => item.id_apply === action.payload.id_apply
+      );
+      const newApply = {
+        ...state.appliedJob.applied[index],
+        status: action.payload.status,
+      };
+
+      state.appliedJob.applied[index] = newApply;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCompanyList.fulfilled, (state, action) => {
@@ -165,5 +180,6 @@ export const {
   updateFollowere,
   logoutCompany,
   changeFiltersCandidate,
+  updateStatusApllied,
 } = actions;
 export default reducer;

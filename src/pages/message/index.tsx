@@ -11,9 +11,9 @@ const Message = () => {
   const { me } = useAppSelector((state) => state.companySlice);
   console.log('rendermessage !');
   useEffect(() => {
-    if (me.id_user && me.id_role) {
+    if (me?.id_user && me?.id_role) {
       dispatch(getRoom({ id_user: me.id_user, id_role: me.id_role }));
-    } else if (me.id_company && me.id_role) {
+    } else if (me?.id_company && me?.id_role) {
       dispatch(getRoom({ id_user: me.id_company, id_role: me.id_role }));
     }
   }, []);

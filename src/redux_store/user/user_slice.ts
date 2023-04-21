@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { profile } from 'console';
 import { getLocal, token } from 'src/constants/localstoge';
 import { IJob } from 'src/types/job';
 import {
@@ -10,6 +11,7 @@ import {
 import {
   loginUser,
   loginAdmin,
+  getMeUser,
   saveJob,
   updateProfile,
   getSavedListByUser,
@@ -32,7 +34,7 @@ interface IUserSlice {
   };
   notification: {
     notificationList: INotification[];
-    total: number;
+    total_notification: number;
   };
   me: any;
   token: any;
@@ -61,11 +63,11 @@ const initialState: IUserSlice = {
   },
   followList: {
     followers: [],
-    total: 0,
+    total_follow: 0,
   },
   notification: {
     notificationList: [],
-    total: 0,
+    total_notification: 0,
   },
 };
 
@@ -91,15 +93,53 @@ const userSlice = createSlice({
 
     changeNotification: (state, action) => {
       state.notification.notificationList.unshift(action.payload);
-      state.notification.total = state.notification.total + 1;
+      state.notification.total_notification =
+        state.notification.total_notification + 1;
+    },
+
+    resetState: (state) => {
+      state = initialState;
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      const {
+        users,
+        profile_cv,
+        jobSuggets,
+        saveJobList,
+        accessToken,
+        followList,
+        notification,
+      } = action.payload;
+      state.me = users;
+      state.token = accessToken;
+      state.followList = followList;
+      state.profileCV = profile_cv;
+      state.saveJobList = saveJobList;
+      state.jobSuggets = jobSuggets;
+      state.notification = notification;
+      localStorage.setItem('user_account', JSON.stringify(users));
+      localStorage.setItem('token', accessToken);
+    });
     builder
-      .addCase(loginUser.fulfilled, (state, action) => {
-        const { users, accessToken } = action.payload;
+      .addCase(getMeUser.fulfilled, (state, action) => {
+        const {
+          users,
+          profile_cv,
+          jobSuggets,
+          saveJobList,
+          accessToken,
+          followList,
+          notification,
+        } = action.payload;
         state.me = users;
         state.token = accessToken;
+        state.followList = followList;
+        state.profileCV = profile_cv;
+        state.saveJobList = saveJobList;
+        state.jobSuggets = jobSuggets;
+        state.notification = notification;
         localStorage.setItem('user_account', JSON.stringify(users));
         localStorage.setItem('token', accessToken);
       })
@@ -149,7 +189,8 @@ const userSlice = createSlice({
           status: 1,
         };
         state.notification.notificationList[index] = newNotification;
-        state.notification.total = state.notification.total - 1;
+        state.notification.total_notification =
+          state.notification.total_notification - 1;
       })
       .addCase(deleteNotification.fulfilled, (state, action) => {
         const newNotificationList = state.notification.notificationList.filter(
@@ -162,5 +203,6 @@ const userSlice = createSlice({
 });
 
 const { actions, reducer } = userSlice;
-export const { logout, unSaveJobById, changeNotification } = actions;
+export const { logout, unSaveJobById, changeNotification, resetState } =
+  actions;
 export default reducer;

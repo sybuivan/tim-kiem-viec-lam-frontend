@@ -19,3 +19,4 @@ declare module 'react-apexcharts';
 declare module 'apexcharts';
 declare module 'date-fns';
 declare module 'socket.io-client';
+declare module 'pdf-viewer-reactjs';

@@ -8,10 +8,11 @@ import {
   getSavedListByUser,
   getNotification,
   getSuggetJobForYou,
+  getMeUser,
 } from './redux_store/user/user_action';
 import { getApplyList } from './redux_store/apply/apply_actions';
 import { getAllField } from './redux_store/common/field/field_actions';
-import { checkRoleUser } from './utils/common';
+import { checkRoleCompany, checkRoleUser } from './utils/common';
 import { socketIo } from './clients/socket';
 import { toastMessage } from './utils/toast';
 import { changeNotification } from './redux_store/user/user_slice';
@@ -23,12 +24,18 @@ function App() {
   useEffect(() => {
     if (checkRoleUser(me?.id_role, token)) {
       socketIo.emit('user_id', me?.id_user);
-      dispatch(getSavedListByUser(me?.id_user));
-      dispatch(getApplyList(me?.id_user));
-      dispatch(getAllFollowUser(me?.id_user));
       dispatch(getAllField());
-      dispatch(getNotification(me?.id_user));
-      dispatch(getSuggetJobForYou());
+      dispatch(
+        getMeUser({
+          email: me?.email,
+          id_role: me?.id_role,
+        })
+      );
+    }
+
+    if (checkRoleCompany(me?.id_role, token)) {
+      socketIo.emit('user_id', me?.id_company);
+      dispatch(getNotification(me?.id_company));
     }
   }, []);
 

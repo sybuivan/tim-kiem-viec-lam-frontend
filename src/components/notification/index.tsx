@@ -27,6 +27,7 @@ export const NotificationItem = ({ notifi }: { notifi: INotification }) => {
   return (
     <Box
       onClick={handleClick}
+      position="relative"
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -56,7 +57,12 @@ export const NotificationItem = ({ notifi }: { notifi: INotification }) => {
           {getSubTimeFromDayFNS(created_at)}
         </Typography>
       </Box>
-      <Box>
+      <Box       
+        position="absolute" top="50%" sx={{
+          transform:"translateY(-50%)",
+          right:"10px"
+        }}
+      >
         {status === 0 && (
           <CircleIcon
             fontSize="small"

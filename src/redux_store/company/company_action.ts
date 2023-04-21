@@ -200,6 +200,8 @@ export const updateStatusApplied = createAsyncThunk<
   {
     id_apply: string;
     status: number;
+    id_user: string;
+    name_job: string;
   }[]
 >('company/updateStatusApplied', async (payload, { rejectWithValue }) => {
   try {

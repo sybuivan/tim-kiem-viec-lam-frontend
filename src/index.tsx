@@ -9,6 +9,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Provider } from 'react-redux';
 import ModalController from './components/modal/modal_controller';
 import { Toaster } from 'react-hot-toast';
+import { Worker } from '@react-pdf-viewer/core';
 
 import './index.css';
 import App from './App';
@@ -26,7 +27,9 @@ root.render(
         <CssBaseline />
         <BrowserRouter>
           <LocalizationProvider dateAdapter={AdapterMoment}>
-            <App />
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js">
+              <App />
+            </Worker>
           </LocalizationProvider>
           <ModalController />
         </BrowserRouter>

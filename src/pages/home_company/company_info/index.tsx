@@ -18,13 +18,18 @@ import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/company/company_action';
 import { toastMessage } from 'src/utils/toast';
 import ProfileHeader from 'src/components/profile_bar/header';
-import { CPersonnelSize } from 'src/constants/common';
+import { CPersonnelSize, phoneRegExp } from 'src/constants/common';
 import { IPayloadCompanyInfo } from 'src/types/company';
 
 const schema = yup.object().shape({
   fullName: yup.string().required(messageRequired('Họ và tên')),
   city: yup.string().required(messageRequired('Tỉnh thành')),
-  phone: yup.string().required(messageRequired('Số điện thoại')),
+  phone: yup
+    .string()
+    .required(messageRequired('Số điện thoại'))
+    .matches(phoneRegExp, 'Không đúng định dạng số điện thoại')
+    .min(9, 'Không đúng định dạng số điện thoại')
+    .max(10, 'Không đúng định dạng số điện thoại'),
   email: yup
     .string()
     .email('Email không hợp lệ')
@@ -220,6 +225,7 @@ const CompanyInfoAdmin = () => {
                   name="name_company"
                   placeholder="Nhập tên công ty"
                   required
+                  disabled
                 />
               </Grid>
               <Grid item xs={6}>

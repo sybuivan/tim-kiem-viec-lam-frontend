@@ -18,19 +18,19 @@ const Profile = () => {
       <Container
         sx={{
           height: '100%',
-          minWidth: '1600px',
           paddingLeft: '0!important',
           overflowX: 'hidden',
           minHeight: '30px',
+          minWidth: '1300px',
         }}
       >
-        <Grid container columnSpacing={2}>
+        <Grid container columnSpacing={2} justifyContent="space-between">
           <Grid item xs={2.5}>
-            <Box className={classes.root}>
+            <Box position="fixed" left="0">
               <ProfileBar data={CProfileRoute.data} />
             </Box>
           </Grid>
-          <Grid item xs={7.5}>
+          <Grid item xs={9.5}>
             <Box minHeight="90vh">
               <Outlet />
             </Box>

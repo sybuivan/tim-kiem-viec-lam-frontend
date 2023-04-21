@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from 'src/clients/http/user_api';
-import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
+import {
+  IInfoUser,
+  IPayloadLogin,
+  IPayloadRegister,
+  IPayloadGetMe,
+} from 'src/types/auth';
 import {
   IPayloadFollow,
   IPayloadSaveJob,
@@ -9,21 +14,31 @@ import {
 } from 'src/types/user';
 import { toastMessage } from 'src/utils/toast';
 
-export const loginUser = createAsyncThunk<
-  {
-    users: any;
-    accessToken: string;
-  },
-  IPayloadLogin
->('user/loginUser', async (payload, { rejectWithValue }) => {
-  try {
-    const { data } = await userApi.login(payload);
-    return data;
-  } catch (error: any) {
-    toastMessage.setErrors(error);
-    return rejectWithValue(error);
+export const loginUser = createAsyncThunk<IInfoUser, IPayloadLogin>(
+  'user/loginUser',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.login(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
   }
-});
+);
+
+export const getMeUser = createAsyncThunk<IInfoUser, IPayloadGetMe>(
+  'user/getMeUser',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.getMe(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const registerUser = createAsyncThunk<any, IPayloadRegister>(
   'user/registerUser',

@@ -5,10 +5,10 @@ import { checkRoleAdmin, checkRoleCompany } from 'src/utils/common';
 
 export const PrivateCompany = ({ children }: { children: any }) => {
   const { me, token } = useAppSelector((state) => state.companySlice);
-  const id_role = useAppSelector((state) => state.userSlice.me.id_role);
+  const id_role = useAppSelector((state) => state.userSlice.me?.id_role);
   const token_admin = useAppSelector((state) => state.userSlice.token);
 
-  console.log({ id_role, token_admin });
+  console.log({ id_role: me?.id_role, token });
   if (checkRoleCompany(me?.id_role, token)) {
     return <Navigate to="/company/home/ho-so-cong-ty" replace />;
   }

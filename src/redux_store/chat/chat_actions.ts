@@ -28,11 +28,11 @@ export const getRoom = createAsyncThunk<
   }
 });
 
-export const getMessages = createAsyncThunk<IMessageList, string>(
+export const getMessages = createAsyncThunk<IMessageList, {id_room: string;id_role: string}>(
   'chat/getMessages',
-  async (id_room, { rejectWithValue }) => {
+  async ({id_room,id_role}, { rejectWithValue }) => {
     try {
-      const { data } = await chatApi.getMessages(id_room);
+      const { data } = await chatApi.getMessages(id_room, id_role);
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);

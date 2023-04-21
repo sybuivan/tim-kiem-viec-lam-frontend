@@ -18,7 +18,7 @@ export interface IFollowList {
     total_people: number;
     logo: string;
   }[];
-  total: number;
+  total_follow: number;
 }
 
 export interface IPayLoadCV {

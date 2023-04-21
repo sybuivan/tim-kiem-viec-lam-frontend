@@ -1,4 +1,4 @@
-import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
+import { IPayloadGetMe, IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import { IPayloadProfile } from 'src/types/profile';
 import {
   IPayLoadCV,
@@ -14,6 +14,9 @@ const client = createClient();
 export const userApi = {
   login: (payload: IPayloadLogin) => {
     return client.post('/auth/login', payload);
+  },
+  getMe: (payload: IPayloadGetMe) => {
+    return client.post('/auth/get-me', payload);
   },
   loginAdmin: (payload: IPayloadLogin) => {
     return client.post('/auth/admin/login', payload);

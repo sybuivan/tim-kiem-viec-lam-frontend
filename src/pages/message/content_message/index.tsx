@@ -32,7 +32,14 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
   });
 
   useEffect(() => {
-    if (id_room_message) dispatch(getMessages(id_room_message));
+    if (id_room_message) {
+      dispatch(
+        getMessages({
+          id_room: id_room_message,
+          id_role: me?.id_role,
+        })
+      );
+    }
   }, [id_room_message]);
 
   useEffect(() => {

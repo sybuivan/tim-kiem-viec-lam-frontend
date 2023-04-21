@@ -4,7 +4,6 @@ import {
   Avatar,
   Badge,
   Box,
-  Button,
   Container,
   IconButton,
   Menu,
@@ -12,9 +11,8 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import { BsFillChatDotsFill } from 'react-icons/bs';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import { Link, useNavigate } from 'react-router-dom';
@@ -26,7 +24,7 @@ import LoginForm from 'src/pages/auth/login_form';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
 import useStyles from './styles';
-import { logout } from 'src/redux_store/user/user_slice';
+import { logout, resetState } from 'src/redux_store/user/user_slice';
 import { logoutCompany } from 'src/redux_store/company/company_slices';
 import { resetApplyData } from 'src/redux_store/apply/apply_slice';
 import { checkRoleCompany, checkRoleUser } from 'src/utils/common';
@@ -62,7 +60,7 @@ const Header = () => {
   const {
     me,
     token,
-    notification: { total },
+    notification: { total_notification },
   } = useAppSelector((state) => state.userSlice);
   const [anchorNotifi, setAnchorNotifi] =
     React.useState<HTMLButtonElement | null>(null);
@@ -171,7 +169,7 @@ const Header = () => {
                   }}
                 >
                   <IconButton aria-describedby={id} onClick={handleClick}>
-                    <Badge badgeContent={total} color="error">
+                    <Badge badgeContent={total_notification} color="error">
                       <NotificationsNoneOutlined
                         color="action"
                         sx={{
@@ -253,6 +251,7 @@ const Header = () => {
                           } else {
                             dispatch(logout(''));
                             dispatch(resetApplyData());
+                            dispatch(resetState());
                             setAnchorElUser(null);
                             navigate('/');
                           }
@@ -320,19 +319,32 @@ const Header = () => {
 
 export const HeaderCompany = () => {
   const { me, token } = useAppSelector((state) => state.companySlice);
+  const [anchorNotifi, setAnchorNotifi] =
+    React.useState<HTMLButtonElement | null>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const classes = useStyles();
+  const open = Boolean(anchorNotifi);
+  const id = open ? 'simple-popover' : undefined;
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorNotifi(event.currentTarget);
+  };
+  const {
+    notification: { total_notification },
+  } = useAppSelector((state) => state.userSlice);
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleClose = () => {
+    setAnchorNotifi(null);
   };
   return (
     <Box bgcolor={theme.palette.primary.main} height={70} width="100%">
@@ -374,15 +386,22 @@ export const HeaderCompany = () => {
                     },
                   }}
                 >
-                  <Badge badgeContent={4} color="error">
-                    <NotificationsNoneOutlined
-                      color="action"
-                      sx={{
-                        color: theme.palette.common.white,
-                      }}
-                    />
-                  </Badge>
-                  <Typography>Thông báo</Typography>
+                  <IconButton aria-describedby={id} onClick={handleClick}>
+                    <Badge badgeContent={total_notification} color="error">
+                      <NotificationsNoneOutlined
+                        color="action"
+                        sx={{
+                          color: theme.palette.common.white,
+                        }}
+                      />
+                    </Badge>
+                  </IconButton>
+                  <Notification
+                    open={open}
+                    id={id}
+                    handleClose={handleClose}
+                    anchorEl={anchorNotifi}
+                  />
                 </Box>
                 <Box
                   onClick={() => navigate('/company/message')}

@@ -1,6 +1,6 @@
 import { AssignmentOutlined, PreviewOutlined } from '@mui/icons-material';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
-import { Box, Checkbox, Grid, Typography } from '@mui/material';
+import { Box, Checkbox, Chip, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 
 import React from 'react';
@@ -17,6 +17,19 @@ import {
 import theme from 'src/theme';
 import { IApplyUser } from 'src/types/apply';
 import MessageModal from '../message_modal';
+import ProfileModal from '../profile_modal';
+
+const renderLabelStatus = (status: number) => {
+  if (status === 0) return 'Chưa xem';
+  if (status === 1) return 'Đã liên hệ';
+  if (status === 2) return 'Đã xem hồ sơ';
+  if (status === 3) return 'Từ chối';
+};
+const renderColorStatus = (status: number) => {
+  if (status === 0) return theme.palette.grey[200];
+  if (status === 1 || status === 2) return theme.palette.success.main;
+  if (status === 3) return theme.palette.error.main;
+};
 
 const ApplyItem = ({
   apply,
@@ -64,6 +77,16 @@ const ApplyItem = ({
       })
     );
   };
+
+  const handleOpenProfile = () => {
+    dispatch(
+      openModal({
+        dialogComponent: <ProfileModal apply={apply} />,
+        modalId: MODAL_IDS.profileModal,
+      })
+    );
+  };
+
   return (
     <Box
       py={2}
@@ -109,15 +132,28 @@ const ApplyItem = ({
           </Typography>
         </Grid>
         <Grid item xs={1.5}>
-          <FormSelect
-            name={`applied.${index}.status`}
-            placeholder="Chọn"
-            control={control}
-            options={COptionStatusApply}
-            keyOption="status"
-            labelOption="label"
-            handleChange={handleOnChangeSelected}
-          />
+          {apply.checked ? (
+            <FormSelect
+              name={`applied.${index}.status`}
+              placeholder="Chọn"
+              control={control}
+              options={COptionStatusApply}
+              keyOption="status"
+              labelOption="label"
+              handleChange={handleOnChangeSelected}
+            />
+          ) : (
+            <Box textAlign="center">
+              <Chip
+                variant="outlined"
+                label={renderLabelStatus(apply.status)}
+                sx={{
+                  background: renderColorStatus(apply.status),
+                  color: theme.palette.common.white,
+                }}
+              />
+            </Box>
+          )}
         </Grid>
         <Grid item xs={2}>
           <Box display="flex" gap={1} justifyContent="center">
@@ -133,6 +169,7 @@ const ApplyItem = ({
               }
             />
             <IconButtonTooltip
+              onClick={handleOpenProfile}
               title="Xem hồ sơ"
               icon={
                 <PreviewOutlined

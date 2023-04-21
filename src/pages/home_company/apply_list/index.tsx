@@ -60,7 +60,11 @@ const ApplyList = ({ socket }: { socket: any }) => {
   }, []);
 
   useEffect(() => {
-    console.log({ socket });
+    console.log({ applied });
+    replace(applied);
+  }, [applied]);
+
+  useEffect(() => {
     socket.on('data', ({ applied }: any) => {
       console.log({ applied });
     });
@@ -149,11 +153,13 @@ const ApplyList = ({ socket }: { socket: any }) => {
         id_apply: string;
         id_user: string;
         status: number | string | any;
+        name_job: string;
       }[] = selectedApplied.map((item) => {
         return {
           id_apply: item.id_apply,
           status: item.status,
           id_user: item.id_user,
+          name_job: item.name_job,
         };
       });
 
