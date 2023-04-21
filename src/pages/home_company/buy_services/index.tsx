@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Paper, Typography, Grid, Button } from '@mui/material';
+import { Box, Paper, Typography, Grid } from '@mui/material';
+import { useNavigate } from 'react-router';
 
 import ProfileHeader from 'src/components/profile_bar/header';
-import theme from 'src/theme';
-import { formatPrice } from 'src/utils/function';
 import { useAppDispatch, useGetStatus, useAppSelector } from 'src/hooks';
-import { getService } from 'src/redux_store/service/service_action';
-import { IService } from 'src/types/service';
+import { buyService, getService } from 'src/redux_store/service/service_action';
+import { IService, IBuyService } from 'src/types/service';
+import ServiceDetail from './service_detail';
+import BuyButton from './buy_button';
+import { convertToUSD } from 'src/utils/function';
 
 const BuyServices = () => {
   const [serviceSelected, setService] = useState<IService>({
@@ -19,9 +21,11 @@ const BuyServices = () => {
   });
   const [isLoading] = useGetStatus('service', 'getService');
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const {
     serviceList: { services },
   } = useAppSelector((state) => state.serviceSlice);
+  const { me } = useAppSelector((state) => state.companySlice);
   useEffect(() => {
     dispatch(getService())
       .unwrap()
@@ -29,6 +33,19 @@ const BuyServices = () => {
         setService(data.services[0]);
       });
   }, []);
+
+  const handleOnBuyService = async (id_history: string) => {
+    const payload: IBuyService = {
+      id_company: me?.id_company,
+      id_history,
+      id_service: serviceSelected.id_service,
+    };
+    dispatch(buyService(payload))
+      .unwrap()
+      .then(() => {
+        navigate('/company/home/lich-su-mua-hang');
+      });
+  };
 
   if (isLoading) return <h1>Loading.. </h1>;
   return (
@@ -45,7 +62,7 @@ const BuyServices = () => {
               </Box>
               <Box display="flex" gap={2} flexWrap="wrap">
                 {services.map((service) => (
-                  <BuyServicesItem
+                  <ServiceDetail
                     key={service.id_service}
                     service={service}
                     selected={serviceSelected}
@@ -68,9 +85,10 @@ const BuyServices = () => {
                   </Typography>
                   <Typography>{serviceSelected.description}</Typography>
 
-                  <Button variant="contained" sx={{ mt: 2 }}>
-                    Mua ngay
-                  </Button>
+                  <BuyButton
+                    amount={convertToUSD(serviceSelected.price, 23000) + ''}
+                    onBuyService={handleOnBuyService}
+                  />
                 </Box>
               </Box>
             </Grid>
@@ -82,42 +100,3 @@ const BuyServices = () => {
 };
 
 export default BuyServices;
-
-const BuyServicesItem = ({
-  service,
-  selected,
-  onSelected,
-}: {
-  selected: IService;
-  service: IService;
-  onSelected: (service: IService) => void;
-}) => {
-  return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      flexDirection="column"
-      width="48%"
-      bgcolor={
-        service.id_service === selected.id_service
-          ? theme.palette.primary.contrastText
-          : theme.palette.grey[300]
-      }
-      py={2}
-      borderRadius="5px"
-      sx={{
-        cursor: 'pointer',
-        userSelect: 'none',
-      }}
-      onClick={() => onSelected(service)}
-    >
-      <Typography fontWeight="600" fontSize="14px">
-        Tên dịch vụ: {service.name_service}
-      </Typography>
-      <Typography fontWeight="600" fontSize="12px">
-        Giá: {formatPrice(service.price)} / {service.number_of_months} tháng
-      </Typography>
-    </Box>
-  );
-};

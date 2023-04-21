@@ -1,13 +1,37 @@
-import { IServiceList } from 'src/types/service';
+import { IServiceList, IBuyService, IServiceBuyList } from 'src/types/service';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toastMessage } from 'src/utils/toast';
 import { serviceApi } from 'src/clients/http/service_api';
 
 export const getService = createAsyncThunk<IServiceList, void>(
-  'job/getService',
+  'service/getService',
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await serviceApi.getService();
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const buyService = createAsyncThunk<any, IBuyService>(
+  'service/buyService',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await serviceApi.buyService(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const getServiceByCompany = createAsyncThunk<IServiceBuyList, string>(
+  'service/getServiceByCompany',
+  async (id_company, { rejectWithValue }) => {
+    try {
+      const { data } = await serviceApi.getServiceByCompany(id_company);
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);

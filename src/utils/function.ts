@@ -91,3 +91,7 @@ export const getSubTimeFromDayFNS = (date?: string | Date) => {
     });
   }
 };
+
+export const convertToUSD = (vnd: number, exchangeRate: number) => {
+  return (vnd / exchangeRate).toFixed(2);
+};

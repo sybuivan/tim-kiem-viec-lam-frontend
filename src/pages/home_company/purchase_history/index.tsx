@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, Paper, Typography, Grid, Chip } from '@mui/material';
 
-import { useAppSelector } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import ProfileHeader from 'src/components/profile_bar/header';
 import EmptyData from 'src/components/empty_data';
 import theme from 'src/theme';
 import { useNavigate } from 'react-router';
+import { getServiceByCompany } from 'src/redux_store/service/service_action';
+import { resetData } from 'src/redux_store/service/service_slice';
+import { IServiceDetail } from 'src/types/service';
+import moment from 'moment';
 
 const PurchaseHistory = () => {
+  const { me } = useAppSelector((state) => state.companySlice);
+  const {
+    serviceBuyList: { total, services },
+  } = useAppSelector((state) => state.serviceSlice);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getServiceByCompany(me?.id_company));
+
+    return () => {
+      dispatch(resetData());
+    };
+  }, []);
   return (
     <Box>
       <ProfileHeader fullName="Lịch sử mua hàng" title="" />
@@ -36,7 +52,7 @@ const PurchaseHistory = () => {
               Số lần mua dịch vụ
             </Typography>
             <Typography fontWeight="600" fontSize="16px">
-              8
+              {total}
             </Typography>
           </Box>
         </Box>
@@ -58,8 +74,16 @@ const PurchaseHistory = () => {
           </Box>
 
           <Box>
-            <PurchaseHistoryItem name_service="Đăng tin cơ bản" />
-            <PurchaseHistoryItem name_service="Trang chủ - Tuyển gấp" />
+            {services.length > 0 ? (
+              services.map((service) => (
+                <PurchaseHistoryItem
+                  history={service}
+                  key={service.id_history}
+                />
+              ))
+            ) : (
+              <EmptyData title="Chưa mua dịch vụ nào" />
+            )}
           </Box>
         </Box>
       </Paper>
@@ -69,7 +93,8 @@ const PurchaseHistory = () => {
 
 export default PurchaseHistory;
 
-const PurchaseHistoryItem = ({ name_service }: { name_service: string }) => {
+const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
+  const { name_service, created_at, expiry, total_news, activated } = history;
   return (
     <Box
       sx={{
@@ -95,15 +120,15 @@ const PurchaseHistoryItem = ({ name_service }: { name_service: string }) => {
               color: theme.palette.primary.main,
             }}
           >
-            01/10/2021
-          </strong>{' '}
-          - Hạn sử dụng:
+            {moment(expiry).format('DD-MM-YYYY')}{' '}
+          </strong>
+          - Hạn sử dụng:{' '}
           <strong
             style={{
               color: theme.palette.primary.main,
             }}
           >
-            01/10/2021
+            {moment(created_at).format('DD-MM-YYYY')}
           </strong>
         </Typography>
       </Box>
@@ -115,14 +140,15 @@ const PurchaseHistoryItem = ({ name_service }: { name_service: string }) => {
           <Grid item xs={2}>
             <Typography fontWeight="600">Số lượng</Typography>
           </Grid>
-          <Grid item xs={2}>
-            <Typography fontWeight="600">Thời gian</Typography>
-          </Grid>
+
           <Grid item xs={2}>
             <Typography fontWeight="600">Đã sử dụng</Typography>
           </Grid>
           <Grid item xs={2}>
             <Typography fontWeight="600">Chưa sử dụng</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            <Typography fontWeight="600">Trạng thái</Typography>
           </Grid>
         </Grid>
       </Box>
@@ -132,16 +158,32 @@ const PurchaseHistoryItem = ({ name_service }: { name_service: string }) => {
             <Typography>{name_service}</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography>10 Tin</Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography>4 Tuần</Typography>
+            <Typography>{total_news} Tin</Typography>
           </Grid>
           <Grid item xs={2}>
             <Typography>2 Tin</Typography>
           </Grid>
           <Grid item xs={2}>
             <Typography>8 Tin</Typography>
+          </Grid>
+          <Grid item xs={2}>
+            {activated === 0 ? (
+              <Chip
+                label="Chưa kích hoạt"
+                sx={{
+                  color: theme.palette.success.main,
+                  fontWeight: '600',
+                }}
+              />
+            ) : (
+              <Chip
+                label="Đã kich hoạt"
+                sx={{
+                  color: theme.palette.grey[200],
+                  fontWeight: '600',
+                }}
+              />
+            )}
           </Grid>
         </Grid>
       </Box>
