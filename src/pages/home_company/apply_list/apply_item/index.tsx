@@ -10,26 +10,12 @@ import IconButtonTooltip from 'src/components/icon_button_tooltip';
 import { MODAL_IDS } from 'src/constants';
 import { COptionStatusApply } from 'src/constants/common';
 import { useAppDispatch } from 'src/hooks';
-import {
-  openModal,
-  closeModal,
-} from 'src/redux_store/common/modal/modal_slice';
+import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
 import { IApplyUser } from 'src/types/apply';
+import { renderLabelStatus, renderColorStatus } from 'src/utils/function';
 import MessageModal from '../message_modal';
 import ProfileModal from '../profile_modal';
-
-const renderLabelStatus = (status: number) => {
-  if (status === 0) return 'Chưa xem';
-  if (status === 1) return 'Đã liên hệ';
-  if (status === 2) return 'Đã xem hồ sơ';
-  if (status === 3) return 'Từ chối';
-};
-const renderColorStatus = (status: number) => {
-  if (status === 0) return theme.palette.grey[200];
-  if (status === 1 || status === 2) return theme.palette.success.main;
-  if (status === 3) return theme.palette.error.main;
-};
 
 const ApplyItem = ({
   apply,
@@ -51,13 +37,12 @@ const ApplyItem = ({
     file_cv,
     id_apply,
     name_job,
-    checked,
     created_at,
   } = apply;
 
   const dispatch = useAppDispatch();
 
-  const { handleSubmit, reset, getValues } = useForm<any>({
+  const { handleSubmit } = useForm<any>({
     defaultValues: apply,
   });
 

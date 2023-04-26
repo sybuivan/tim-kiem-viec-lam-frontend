@@ -17,7 +17,7 @@ const CustomAccordion = ({ data }: { data: ICustomAccordion }) => {
     <Box
       sx={{
         paddingBottom: '6px',
-        paddingLeft: 7.25,
+        paddingLeft: '20px',
         '& .MuiButtonBase-root': {
           minHeight: '40px!important',
         },
@@ -68,11 +68,7 @@ const CustomAccordion = ({ data }: { data: ICustomAccordion }) => {
 
 const ProfileBar = ({ data }: { data: ICustomAccordion[] }) => {
   return (
-    <Paper
-      sx={{
-        height: '100vh',
-      }}
-    >
+    <Box>
       <Box
         sx={{
           paddingTop: '10px',
@@ -85,7 +81,7 @@ const ProfileBar = ({ data }: { data: ICustomAccordion[] }) => {
           <CustomAccordion data={item} />
         ))}
       </Box>
-    </Paper>
+    </Box>
   );
 };
 

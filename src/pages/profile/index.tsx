@@ -4,6 +4,7 @@ import ProfileBar from '../../components/profile_bar';
 import { Outlet } from 'react-router';
 import { makeStyles } from '@mui/styles';
 import { CProfileRoute } from 'src/constants/profile';
+import theme from 'src/theme';
 
 const useStyles = makeStyles({
   root: {
@@ -25,8 +26,8 @@ const Profile = () => {
         }}
       >
         <Grid container columnSpacing={2} justifyContent="space-between">
-          <Grid item xs={2.5}>
-            <Box position="fixed" left="0">
+          <Grid item xs={2.5} bgcolor={theme.palette.common.white}>
+            <Box>
               <ProfileBar data={CProfileRoute.data} />
             </Box>
           </Grid>

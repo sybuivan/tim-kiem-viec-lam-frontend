@@ -1,8 +1,9 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Outlet, useLocation } from 'react-router';
 import Header from 'src/components/header';
+import Footer from 'src/components/footer';
 
 const MainLayout = () => {
   const location = useLocation();
@@ -11,6 +12,9 @@ const MainLayout = () => {
   useEffect(() => {
     refScroll.current?.scrollToTop({ behavior: 'smooth', block: 'start' });
   }, [location]);
+
+  console.log({ location });
+  const isShow = location.pathname !== '/thong-tin-ca-nhan/ho-so-dinh-kem';
 
   return (
     <Box bgcolor="#f2f3f7">
@@ -32,6 +36,7 @@ const MainLayout = () => {
       >
         <Scrollbars ref={refScroll}>
           <Outlet />
+          {isShow && <Footer />}
         </Scrollbars>
       </Box>
     </Box>

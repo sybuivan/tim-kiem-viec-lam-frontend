@@ -81,6 +81,19 @@ export const createCV = createAsyncThunk<IProfileCV, any>(
   }
 );
 
+export const updateCV = createAsyncThunk<IProfileCV, any>(
+  'user/updateCV',
+  async (payload, { rejectWithValue }) => {
+    try {
+      const { data } = await userApi.updateCV(payload);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const getProfileCV = createAsyncThunk<IProfileCV, string>(
   'user/getProfileCV',
   async (id_user, { rejectWithValue }) => {

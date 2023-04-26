@@ -21,7 +21,7 @@ export interface IInfoUser {
     notificationList: INotification[];
     total_notification: number;
   };
-  profile_cv: IPayLoadCV;
+  profile_cv: IPayLoadCV[];
   jobSuggets: {
     job_suggets_for_you: IJob[];
   };

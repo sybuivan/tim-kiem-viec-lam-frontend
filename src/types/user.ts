@@ -23,6 +23,7 @@ export interface IFollowList {
 
 export interface IPayLoadCV {
   id_user?: string;
+  id_profile?: string;
   id_type_current: string;
   id_type_desired: string;
   career_goals: string;
@@ -34,7 +35,7 @@ export interface IPayLoadCV {
   file_cv?: any;
   file_name?: any;
   created_at?: Date | string;
-  city: string;
+  id_city: string;
 }
 
 export interface IProfileCV {

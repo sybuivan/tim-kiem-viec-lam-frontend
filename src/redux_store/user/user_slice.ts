@@ -28,7 +28,8 @@ import {
 interface IUserSlice {
   saveJobList: ISavedList;
   followList: IFollowList;
-  profileCV: IPayLoadCV;
+  profileCV: IPayLoadCV[];
+  profile_detail?: IPayLoadCV;
   jobSuggets: {
     job_suggets_for_you: IJob[];
   };
@@ -42,7 +43,9 @@ interface IUserSlice {
 
 const initialState: IUserSlice = {
   me: getLocal,
-  profileCV: {
+  profileCV: [],
+  token,
+  profile_detail: {
     career_goals: '',
     desired_salary: 1000000,
     id_company_field: '',
@@ -50,10 +53,9 @@ const initialState: IUserSlice = {
     id_type_current: '',
     id_type_desired: '',
     id_working_form: '',
-    city: '',
+    id_city: '',
     is_public: 0,
   },
-  token,
   saveJobList: {
     savedList: [],
     total: 0,
@@ -99,6 +101,12 @@ const userSlice = createSlice({
 
     resetState: (state) => {
       state = initialState;
+    },
+    setProfileDetail: (state, action) => {
+      state.profile_detail = action.payload;
+    },
+    resetProfileDetails: (state) => {
+      state.profile_detail = initialState.profile_detail;
     },
   },
   extraReducers: (builder) => {
@@ -162,10 +170,10 @@ const userSlice = createSlice({
         state.saveJobList = action.payload;
       })
       .addCase(createCV.fulfilled, (state, action) => {
-        state.profileCV = action.payload.profile_cv;
+        state.profileCV.push(action.payload.profile_cv);
       })
       .addCase(getProfileCV.fulfilled, (state, action) => {
-        state.profileCV = action.payload.profile_cv;
+        // state.profileCV = action.payload.profile_cv;
       })
       .addCase(getAllFollowUser.fulfilled, (state, action) => {
         state.followList = action.payload;
@@ -203,6 +211,12 @@ const userSlice = createSlice({
 });
 
 const { actions, reducer } = userSlice;
-export const { logout, unSaveJobById, changeNotification, resetState } =
-  actions;
+export const {
+  logout,
+  unSaveJobById,
+  changeNotification,
+  resetState,
+  setProfileDetail,
+  resetProfileDetails,
+} = actions;
 export default reducer;

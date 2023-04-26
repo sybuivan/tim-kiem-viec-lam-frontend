@@ -1,15 +1,11 @@
 import React from 'react';
-import { Box, Typography, Chip } from '@mui/material';
-import { IApply } from 'src/types/apply';
 import moment from 'moment';
 import { useNavigate } from 'react-router';
+import { Box, Typography, Chip } from '@mui/material';
 
-const checkStatus = (status: number) => {
-  if (status === 0) return 'Nộp thành công';
-  if (status === 1) return 'Đã liên hệ';
-  if (status === 2) return "'Đã xem hồ sơ";
-  if (status === 3) return 'Từ chối';
-};
+import { IApply } from 'src/types/apply';
+import { renderLabelStatus, renderColorStatus } from 'src/utils/function';
+import theme from 'src/theme';
 
 const JobSave = ({ job }: { job: IApply }) => {
   const {
@@ -90,9 +86,12 @@ const JobSave = ({ job }: { job: IApply }) => {
         </Box>
         <Box flex="0.2">
           <Chip
-            color="success"
             variant="outlined"
-            label={checkStatus(status)}
+            label={renderLabelStatus(status)}
+            sx={{
+              background: renderColorStatus(status),
+              color: theme.palette.common.white,
+            }}
           />
         </Box>
       </Box>

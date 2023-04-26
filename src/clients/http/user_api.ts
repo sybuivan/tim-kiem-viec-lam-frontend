@@ -34,6 +34,11 @@ export const userApi = {
       headers: { 'content-type': 'multipart/form-data' },
     });
   },
+  updateCV: (formData: any) => {
+    return client.put<IProfileCV>('/user/update-profile-cv', formData, {
+      headers: { 'content-type': 'multipart/form-data' },
+    });
+  },
   getProfileCV: (id_user: string) => {
     return client.get<IProfileCV>(`/user/get-profile-cv/${id_user}`);
   },

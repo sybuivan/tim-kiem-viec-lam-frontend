@@ -38,6 +38,8 @@ import ListPost from 'src/pages/admin/list-post';
 import AuthLogin from 'src/pages/admin/auth_login';
 import { io } from 'socket.io-client';
 import { PrivateAdmin, PrivateLoginAdmin } from './private/admin';
+import CreateProfileOnline from 'src/pages/profile/profile_document/create_profile_online';
+import Page404 from 'src/components/notfound';
 
 const socket = io('http://localhost:5000');
 
@@ -107,6 +109,10 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
           {
             path: 'danh-sach-theo-doi',
             element: <CompanyFollow />,
+          },
+          {
+            path: 'them-moi-ho-so',
+            element: <CreateProfileOnline />,
           },
           {
             path: 'ho-so-dinh-kem',
@@ -246,6 +252,10 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
         <AuthLogin />
       </PrivateAdmin>
     ),
+  },
+  {
+    path: '*',
+    element: <Page404 />,
   },
 ];
 

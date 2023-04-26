@@ -27,10 +27,7 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
 
   const [isActive, setIsActive] = useState<boolean>(false);
   const [isActiveFile, setIsActiveFile] = useState<boolean>(false);
-  const {
-    me,
-    profileCV: { file_cv, file_name, created_at },
-  } = useAppSelector((state) => state.userSlice);
+  const { me, profileCV } = useAppSelector((state) => state.userSlice);
 
   const { control, reset, handleSubmit } = useForm<IApply>({});
 
@@ -216,7 +213,7 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
               )}
             </IconButton>
             <Box>
-              <Typography fontWeight="600">{file_name}</Typography>
+              {/* <Typography fontWeight="600">{file_name}</Typography> */}
               <Box display="flex" alignItems="center" gap={1}>
                 <Typography
                   display="flex"
@@ -230,10 +227,10 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
                       fontSize: '14px',
                     }}
                   />
-                  Hồ sơ đính kèm: {moment(created_at).format('DD/MM/YYYY')}
+                  {/* Hồ sơ đính kèm: {moment(created_at).format('DD/MM/YYYY')} */}
                 </Typography>
                 <Link
-                  href={`${file_cv}`}
+                  // href={`${file_cv}`}
                   target="_blank"
                   color="#2c95ff"
                   sx={{

@@ -10,6 +10,7 @@ import {
 } from 'date-fns';
 
 import { vi } from 'date-fns/locale';
+import theme from 'src/theme';
 
 export const findIndexItem = (array: any[], id: string) => {
   const index = array.findIndex((item) => item.id === id);
@@ -94,4 +95,16 @@ export const getSubTimeFromDayFNS = (date?: string | Date) => {
 
 export const convertToUSD = (vnd: number, exchangeRate: number) => {
   return (vnd / exchangeRate).toFixed(2);
+};
+
+export const renderLabelStatus = (status: number) => {
+  if (status === 0) return 'Chưa xem';
+  if (status === 1) return 'Đã liên hệ';
+  if (status === 2) return 'Đã xem hồ sơ';
+  if (status === 3) return 'Từ chối';
+};
+export const renderColorStatus = (status: number) => {
+  if (status === 0) return theme.palette.grey[200];
+  if (status === 1 || status === 2) return theme.palette.success.main;
+  if (status === 3) return theme.palette.error.main;
 };

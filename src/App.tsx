@@ -3,13 +3,7 @@ import { useRoutes } from 'react-router-dom';
 import routes from 'src/routes';
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from './hooks';
-import {
-  getAllFollowUser,
-  getSavedListByUser,
-  getNotification,
-  getSuggetJobForYou,
-  getMeUser,
-} from './redux_store/user/user_action';
+import { getNotification, getMeUser } from './redux_store/user/user_action';
 import { getApplyList } from './redux_store/apply/apply_actions';
 import { getAllField } from './redux_store/common/field/field_actions';
 import { checkRoleCompany, checkRoleUser } from './utils/common';
@@ -25,6 +19,7 @@ function App() {
     if (checkRoleUser(me?.id_role, token)) {
       socketIo.emit('user_id', me?.id_user);
       dispatch(getAllField());
+      dispatch(getApplyList(me?.id_user));
       dispatch(
         getMeUser({
           email: me?.email,

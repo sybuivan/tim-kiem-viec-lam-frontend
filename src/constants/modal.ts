@@ -7,4 +7,7 @@ export const MODAL_IDS = {
   userMessage: 'userMessage',
   messageApplied: 'messageApplied',
   profileModal: 'profileModal',
+
+  userDetailModal: 'userDetailModal',
+  userLockModal: 'userLockModal',
 };

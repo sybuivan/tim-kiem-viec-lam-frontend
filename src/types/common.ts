@@ -100,3 +100,5 @@ export interface IadvancedFilter extends IHomeFilter {
   id_gender?: string;
   page: number;
 }
+
+export type IRole = 'user' | 'admin' | 'company';

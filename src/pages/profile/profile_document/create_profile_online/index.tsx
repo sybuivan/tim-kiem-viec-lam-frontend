@@ -19,7 +19,6 @@ import {
   DeleteForeverOutlined,
   CheckCircleRounded,
 } from '@mui/icons-material';
-import * as yup from 'yup';
 import { toastMessage } from 'src/utils/toast';
 
 import { useAppDispatch, useAppSelector } from 'src/hooks';
@@ -30,13 +29,13 @@ import theme from 'src/theme';
 import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
 
 import moment from 'moment';
+
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IPayLoadCV } from 'src/types/user';
-import { updateCV, getProfileCV } from 'src/redux_store/user/user_action';
-import { resetProfileDetails } from 'src/redux_store/user/user_slice';
+import { createCV, getProfileCV } from 'src/redux_store/user/user_action';
 import { schemaProfileCV, typeFile } from 'src/constants/schema';
 
-const ProfileOnline = () => {
+const CreateProfileOnline = () => {
   const { me, profile_detail } = useAppSelector((state) => state.userSlice);
   const {
     fieldList: {
@@ -67,16 +66,6 @@ const ProfileOnline = () => {
   useEffect(() => {
     dispatch(getProfileCV(me.id_user));
   }, []);
-
-  useEffect(() => {
-    reset({
-      ...profile_detail,
-      is_public: profile_detail?.is_public === 0 ? false : true,
-    });
-    return () => {
-      dispatch(resetProfileDetails());
-    };
-  }, [profile_detail]);
 
   const handleOnChangeFile = (e: any) => {
     if (typeFile.includes(e.target.files[0].type)) {
@@ -121,13 +110,13 @@ const ProfileOnline = () => {
     if (file) {
       formData.append('file_cv', file, file.name);
       formData.append('file_name', file.name);
-      dispatch(updateCV(formData))
+      dispatch(createCV(formData))
         .unwrap()
         .then(() => {
           toastMessage.success('Lưu hồ sơ thành công');
         });
     } else if (profile_detail?.file_name) {
-      dispatch(updateCV(formData))
+      dispatch(createCV(formData))
         .unwrap()
         .then(() => {
           toastMessage.success('Lưu hồ sơ thành công');
@@ -149,7 +138,7 @@ const ProfileOnline = () => {
           Tài khoản của bạn
         </Link>
         <Typography color={theme.palette.primary.main} fontWeight="600">
-          Chỉnh sửa hồ sơ
+          Tạo hồ sơ trực tuyến
         </Typography>
       </Breadcrumbs>
 
@@ -555,4 +544,4 @@ const ProfileOnline = () => {
   );
 };
 
-export default ProfileOnline;
+export default CreateProfileOnline;
