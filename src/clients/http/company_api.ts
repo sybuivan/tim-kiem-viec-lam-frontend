@@ -1,6 +1,7 @@
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import {
   ICandidate,
+  ICandidateDetail,
   ICompanyDetail,
   ICompanyList,
   IParamsCandidate,
@@ -34,6 +35,12 @@ export const companyApi = {
 
   getCompanyList: () => {
     return client.get<ICompanyList>(`/company/get-company-list`);
+  },
+
+  getCandidateDetail: (id_user: string) => {
+    return client.get<{ user_info: ICandidateDetail }>(
+      `/company/get-candidate-detail/${id_user}`
+    );
   },
 
   getAllFolllowUser: (id_company: string) => {

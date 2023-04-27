@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { getAllField } from 'src/redux_store/common/field/field_actions';
 import { checkRoleCompany } from 'src/utils/common';
 import ProfileBar from '../../components/profile_bar';
+import theme from 'src/theme';
 
 const HomeCompany = () => {
   const { me, token } = useAppSelector((state) => state.companySlice);
@@ -28,8 +29,8 @@ const HomeCompany = () => {
         }}
       >
         <Grid container columnSpacing={2} justifyContent="space-between">
-          <Grid item xs={2.5}>
-            <Box position="fixed" left="0">
+          <Grid item xs={2.5} bgcolor={theme.palette.common.white}>
+            <Box>
               <ProfileBar data={CCompanyRoute.data} />
             </Box>
           </Grid>

@@ -10,4 +10,6 @@ export const MODAL_IDS = {
 
   userDetailModal: 'userDetailModal',
   userLockModal: 'userLockModal',
+
+  profileUserModal: 'profileUserModal',
 };

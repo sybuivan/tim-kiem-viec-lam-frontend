@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ICompanyDetail, ICompanyList, ICandidate } from 'src/types/company';
+import {
+  ICompanyDetail,
+  ICompanyList,
+  ICandidate,
+  ICandidateDetail,
+} from 'src/types/company';
 import {
   getCompanyList,
   getCompanyById,
@@ -11,6 +16,7 @@ import {
   followUser,
   getAllJobByIdCompany,
   getProfileAppliedByJob,
+  getCandidateDetail,
 } from './company_action';
 import { getLocal, token } from 'src/constants/localstoge';
 import { IApplyUser } from 'src/types/apply';
@@ -18,6 +24,7 @@ import { IApplyUser } from 'src/types/apply';
 interface ICompanySlice {
   companyList: ICompanyList;
   companyDetail: ICompanyDetail;
+  profileModal: ICandidateDetail;
   followList: {
     followers: ICandidate[];
     total: number;
@@ -50,6 +57,28 @@ const initialState: ICompanySlice = {
   companyList: {
     companyList: [],
     total: 0,
+  },
+  profileModal: {
+    address: '',
+    avatar: '',
+    email: '',
+    fullName: '',
+    id_city: '',
+    birthDay: '',
+    career_goals: '',
+    desired_salary: 0,
+    file_cv: '',
+    file_name: '',
+    gender: '',
+    id_company_field: '',
+    id_experience: '',
+    id_type_current: '',
+    id_type_desired: '',
+    id_working_form: '',
+    name_field: '',
+    id_user: '',
+    phone: '',
+    city: '',
   },
   filtersCandidate: {
     id_city: '',
@@ -160,6 +189,9 @@ const companySlice = createSlice({
       })
       .addCase(getAllJobByIdCompany.fulfilled, (state, action) => {
         state.jobList = action.payload;
+      })
+      .addCase(getCandidateDetail.fulfilled, (state, action) => {
+        state.profileModal = action.payload.user_info;
       })
       .addCase(getProfileAppliedByJob.fulfilled, (state, action) => {
         const newAppliedJob = action.payload.applied.map((apply) => {

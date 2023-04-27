@@ -67,3 +67,19 @@ export interface ICandidate {
   file_cv: string;
   avatar: string;
 }
+
+export interface ICandidateDetail extends ICandidate {
+  gender: string;
+  birthDay: string;
+  address: string;
+  city: string;
+  id_type_current: string;
+  id_type_desired: string;
+  id_city: string;
+  desired_salary: number;
+  file_name: string;
+  career_goals: string;
+  id_company_field: string;
+  id_experience: string;
+  id_working_form: string;
+}

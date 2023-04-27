@@ -6,30 +6,47 @@ import {
   CircleOutlined,
   FileUploadOutlined,
   CheckCircleOutlineOutlined,
-  PictureAsPdfOutlined,
 } from '@mui/icons-material';
-import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
 import { MODAL_IDS } from 'src/constants';
 import theme from 'src/theme';
-import { FormInput } from 'src/components/hook_form';
+import { FormInput, FormTextarea } from 'src/components/hook_form';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
 import { LoadingButton } from '@mui/lab';
-import moment from 'moment';
 import { IApply } from 'src/types/apply';
 import { applyJob } from 'src/redux_store/apply/apply_actions';
 import { toastMessage } from 'src/utils/toast';
+import ChooseFileCV from './choose_file_cv';
 
 const ApplyModal = ({ id_job }: { id_job: string }) => {
   const dispatch = useAppDispatch();
   const [filePdf, setFilePdf] = useState<any>();
 
-  const [isActive, setIsActive] = useState<boolean>(false);
+  const [idProfile, setIdProfile] = useState<string>('');
   const [isActiveFile, setIsActiveFile] = useState<boolean>(false);
   const { me, profileCV } = useAppSelector((state) => state.userSlice);
 
   const { control, reset, handleSubmit } = useForm<IApply>({});
+
+  const renderProfile = () => {
+    if (profileCV.length > 0) {
+      return (
+        <>
+          {profileCV.map((item) => (
+            <ChooseFileCV
+              document={item}
+              onClick={handleClick}
+              idProfile={idProfile}
+              key={item.id_profile}
+            />
+          ))}
+        </>
+      );
+    }
+
+    return <h1>Chọn</h1>;
+  };
 
   useEffect(() => {
     reset(me);
@@ -45,18 +62,18 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
 
   const handleOnChangeFile = (e: any) => {
     setFilePdf(e.target.files[0]);
-    setIsActive(false);
+    setIdProfile('');
     setIsActiveFile(true);
   };
 
-  const handleClick = () => {
-    setIsActive((pre) => !pre);
+  const handleClick = (id_profile: string) => {
+    setIdProfile(id_profile);
     setIsActiveFile(false);
   };
 
   const handleClickFile = () => {
     setIsActiveFile(true);
-    setIsActive(false);
+    setIdProfile('');
   };
 
   const handleOnSubmit = (data: IApply) => {
@@ -65,9 +82,16 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
     if (filePdf) {
       formData.append('cv_file', filePdf, filePdf.name);
     }
+    if (idProfile) {
+      formData.append('id_profile', idProfile);
+    }
+
+    if (!filePdf && !idProfile)
+      return toastMessage.error('File CV không được bỏ trống');
+
     formData.append('id_user', me?.id_user);
     formData.append('id_job', id_job);
-    formData.append('introducing_letter', '123');
+    formData.append('introducing_letter', introducing_letter);
 
     dispatch(applyJob(formData))
       .unwrap()
@@ -181,68 +205,7 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
           </Button>
         )}
 
-        <Box
-          display="flex"
-          alignItems="center"
-          justifyContent="space-between"
-          gap={1}
-          sx={{
-            width: '100%',
-            mb: 2,
-            p: 1,
-            border: '2px solid #2c95ff',
-            borderRadius: '4px',
-          }}
-        >
-          <Box display="flex" alignItems="center" gap={1}>
-            <IconButton onClick={handleClick}>
-              {isActive ? (
-                <CircleRoundedIcon
-                  sx={{
-                    color: '#2c95ff',
-                    cursor: 'pointer',
-                  }}
-                />
-              ) : (
-                <CircleOutlined
-                  sx={{
-                    color: '#2c95ff',
-                    cursor: 'pointer',
-                  }}
-                />
-              )}
-            </IconButton>
-            <Box>
-              {/* <Typography fontWeight="600">{file_name}</Typography> */}
-              <Box display="flex" alignItems="center" gap={1}>
-                <Typography
-                  display="flex"
-                  alignItems="center"
-                  fontSize="14px"
-                  color={theme.palette.secondary.contrastText}
-                >
-                  <PictureAsPdfOutlined
-                    sx={{
-                      color: theme.palette.error.main,
-                      fontSize: '14px',
-                    }}
-                  />
-                  {/* Hồ sơ đính kèm: {moment(created_at).format('DD/MM/YYYY')} */}
-                </Typography>
-                <Link
-                  // href={`${file_cv}`}
-                  target="_blank"
-                  color="#2c95ff"
-                  sx={{
-                    cursor: 'pointer',
-                  }}
-                >
-                  Xem hồ sơ
-                </Link>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
+        {renderProfile()}
 
         <FormInput
           name="fullName"
@@ -256,6 +219,14 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
           control={control}
           label="Số điện thoại"
           disabled
+        />
+        <FormTextarea
+          control={control}
+          name="introducing_letter"
+          label="Thư chào nhà tuyển dụng"
+          placeholder="Nhập thư chào nhà tuyển dụng"
+          minRows={6}
+          required
         />
         <Box display="flex" justifyContent="flex-end">
           <Button

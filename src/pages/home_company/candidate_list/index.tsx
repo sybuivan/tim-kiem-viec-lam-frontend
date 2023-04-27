@@ -8,9 +8,9 @@ import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getCandidateList } from 'src/redux_store/company/company_action';
 import theme from 'src/theme';
 import EmptyData from 'src/components/empty_data';
-import { CandidateInfo } from '../saved_profile';
 import { changeFiltersCandidate } from 'src/redux_store/company/company_slices';
 import { Socket } from 'socket.io-client';
+import { CandidateInfo } from '../saved_profile/candidate_info';
 
 const CandidateList = () => {
   const {

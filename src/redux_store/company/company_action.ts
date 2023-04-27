@@ -8,7 +8,7 @@ import {
   IPayloadRegisterCompany,
   IPayloadCompanyInfo,
   IParamsCandidate,
-  ICandidate,
+  ICandidate,ICandidateDetail
 } from 'src/types/company';
 import { toastMessage } from 'src/utils/toast';
 
@@ -111,6 +111,19 @@ export const getCandidateList = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
+
+export const getCandidateDetail = createAsyncThunk<{ user_info: ICandidateDetail }, string>(
+  'company/getCandidateDetail',
+  async (id_user, { rejectWithValue }) => {
+    try {
+      const { data } = await companyApi.getCandidateDetail(id_user);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const followUser = createAsyncThunk<
   {

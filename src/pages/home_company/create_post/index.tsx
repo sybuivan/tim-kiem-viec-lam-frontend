@@ -1,29 +1,23 @@
 // CreateJobPostings
 
-import React, { useState } from 'react';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Typography, Paper, Button, Grid } from '@mui/material';
 import { DeleteOutlineOutlined, SaveOutlined } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
+import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-
-import theme from 'src/theme';
 import {
   FormDatePicker,
   FormInput,
   FormSelect,
   FormTextarea,
 } from 'src/components/hook_form';
-import { useAppSelector, useAppDispatch, useGetStatus } from 'src/hooks';
-import { messageRequired } from 'src/utils/common';
-import { LoadingButton } from '@mui/lab';
-import { updateProfile } from 'src/redux_store/company/company_action';
-import { toastMessage } from 'src/utils/toast';
-import ProfileHeader from 'src/components/profile_bar/header';
-import { CPersonnelSize } from 'src/constants/common';
-import { IPayloadCompanyInfo } from 'src/types/company';
-import { IJob, IPayloadJob } from 'src/types/job';
+import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
 import { createJob } from 'src/redux_store/job/job_action';
+import { IPayloadJob } from 'src/types/job';
+import { messageRequired } from 'src/utils/common';
+import { toastMessage } from 'src/utils/toast';
+import * as yup from 'yup';
 
 export const CInitValues: IPayloadJob = {
   benefits_job: '',
