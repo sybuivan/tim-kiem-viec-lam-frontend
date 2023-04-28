@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, Container, Paper } from '@mui/material';
-
+import HTMLString from 'react-html-string';
 import theme from 'src/theme';
 import { useAppSelector } from 'src/hooks';
 
@@ -26,10 +26,7 @@ const CompanyIntro = () => {
           <Typography fontWeight="600" fontSize="24px" mb={2}>
             Giới thiệu doanh nghiệp
           </Typography>
-
-          <Typography fontWeight="500" fontSize="16px">
-            {introduce}
-          </Typography>
+          <HTMLString html={introduce} />
         </Box>
       </Container>
     </Paper>

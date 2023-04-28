@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Typography, Paper, Button, Grid } from '@mui/material';
+import { Box, Typography, Paper, Button, Grid, FormLabel } from '@mui/material';
 import {
   AccountCircleOutlined,
   FileUploadOutlined,
@@ -13,37 +13,14 @@ import { useForm } from 'react-hook-form';
 import theme from 'src/theme';
 import { FormInput, FormSelect, FormTextarea } from 'src/components/hook_form';
 import { useAppSelector, useAppDispatch, useGetStatus } from 'src/hooks';
-import { messageRequired } from 'src/utils/common';
 import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/company/company_action';
 import { toastMessage } from 'src/utils/toast';
 import ProfileHeader from 'src/components/profile_bar/header';
-import { CPersonnelSize, phoneRegExp } from 'src/constants/common';
+import { CPersonnelSize } from 'src/constants/common';
 import { IPayloadCompanyInfo } from 'src/types/company';
-
-const schema = yup.object().shape({
-  fullName: yup.string().required(messageRequired('Họ và tên')),
-  city: yup.string().required(messageRequired('Tỉnh thành')),
-  phone: yup
-    .string()
-    .required(messageRequired('Số điện thoại'))
-    .matches(phoneRegExp, 'Không đúng định dạng số điện thoại')
-    .min(9, 'Không đúng định dạng số điện thoại')
-    .max(10, 'Không đúng định dạng số điện thoại'),
-  email: yup
-    .string()
-    .email('Email không hợp lệ')
-    .required(messageRequired('Email')),
-  address: yup.string().required(messageRequired('Địa chỉ')),
-  idCompanyField: yup.string().required(messageRequired('Lĩnh vực hoạt động')),
-  introduce: yup.string().required(messageRequired('Giới thiệu')),
-  name_company: yup.string().required(messageRequired('Tên công ty')),
-  total_people: yup.string().required(messageRequired('Quy mô')),
-  lat: yup.string().required(messageRequired('Kinh độ')),
-  lng: yup.string().required(messageRequired('Vĩ độ')),
-  //   faxCode: yup.string(),
-  //   link_website: yup.string(),
-});
+import { schemaProfileCompany } from 'src/constants/schema';
+import SunEditorComponent from 'src/components/suneditor';
 
 const CompanyInfoAdmin = () => {
   const dispatch = useAppDispatch();
@@ -52,7 +29,7 @@ const CompanyInfoAdmin = () => {
   const { cityfield, companyfield } = useAppSelector(
     (state) => state.commonSlice.fieldList
   );
-
+  const [introduce, setIntroduce] = useState<string>('');
   const [privewImage, setPrivewImage] = useState<string>(me.logo || '');
   const [coverImage, setPreCoverImage] = useState<string>(me.cover_image || '');
 
@@ -61,7 +38,7 @@ const CompanyInfoAdmin = () => {
 
   const { control, handleSubmit } = useForm<IPayloadCompanyInfo>({
     defaultValues: me,
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schemaProfileCompany),
   });
 
   const handleOnChangeFile = (e: any) => {
@@ -74,6 +51,10 @@ const CompanyInfoAdmin = () => {
     setPreCoverImage(URL.createObjectURL(e.target.files[0]));
   };
 
+  const handleChange = (content: string) => {
+    setIntroduce(content);
+  };
+
   const handleOnSubmit = (data: IPayloadCompanyInfo) => {
     const {
       address,
@@ -81,7 +62,6 @@ const CompanyInfoAdmin = () => {
       city,
       email,
       fullName,
-      introduce,
       name_company,
       phone,
       total_people,
@@ -91,6 +71,8 @@ const CompanyInfoAdmin = () => {
       idCompanyField,
     } = data;
     const formData = new FormData();
+    if (!introduce)
+      return toastMessage.error('Giới thiệu công ty không được bỏ trống');
 
     formData.append('city', city);
     formData.append('address', address);
@@ -164,46 +146,83 @@ const CompanyInfoAdmin = () => {
             <Typography fontWeight="600" pb={2}>
               Logo
             </Typography>
-
             <Box display="flex" gap={2} alignItems="center">
-              <Box
-                width="100px"
-                height="100px"
-                sx={{
-                  backgroundColor: theme.palette.grey[100],
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {privewImage ? (
-                  <img src={privewImage} alt="" width="100px" height="100px" />
-                ) : (
-                  <AccountCircleOutlined
-                    sx={{
-                      color: theme.palette.grey[300],
-                      fontSize: '40px',
-                    }}
+              <Box display="flex" gap={2} alignItems="center">
+                <Box
+                  width="100px"
+                  height="100px"
+                  sx={{
+                    backgroundColor: theme.palette.grey[100],
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {privewImage ? (
+                    <img
+                      src={privewImage}
+                      alt=""
+                      width="100px"
+                      height="100px"
+                    />
+                  ) : (
+                    <AccountCircleOutlined
+                      sx={{
+                        color: theme.palette.grey[300],
+                        fontSize: '40px',
+                      }}
+                    />
+                  )}
+                </Box>
+                <Button
+                  variant="contained"
+                  startIcon={<FileUploadOutlined />}
+                  component="label"
+                  sx={{
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.common.white,
+                  }}
+                >
+                  Tải ảnh lên
+                  <input
+                    hidden
+                    accept="image/*"
+                    type="file"
+                    onChange={handleOnChangeFile}
                   />
-                )}
+                </Button>
               </Box>
-              <Button
-                variant="contained"
-                startIcon={<FileUploadOutlined />}
-                component="label"
-                sx={{
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.common.white,
-                }}
-              >
-                Tải ảnh lên
-                <input
-                  hidden
-                  accept="image/*"
-                  type="file"
-                  onChange={handleOnChangeFile}
-                />
-              </Button>
+              <Box display="flex" alignItems="center" gap={2}>
+                <Box>
+                  {coverImage ? (
+                    <img src={coverImage} alt="" height="200" />
+                  ) : (
+                    <AccountCircleOutlined
+                      sx={{
+                        color: theme.palette.grey[300],
+                        fontSize: '40px',
+                      }}
+                    />
+                  )}
+                </Box>
+                <Button
+                  variant="contained"
+                  startIcon={<FileUploadOutlined />}
+                  component="label"
+                  sx={{
+                    backgroundColor: theme.palette.success.main,
+                    color: theme.palette.common.white,
+                  }}
+                >
+                  Tải ảnh bìa
+                  <input
+                    hidden
+                    accept="image/*"
+                    type="file"
+                    onChange={handleOnChangeCoverImage}
+                  />
+                </Button>
+              </Box>
             </Box>
           </Box>
 
@@ -328,53 +347,13 @@ const CompanyInfoAdmin = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormTextarea
-                  control={control}
-                  name="introduce"
+                <SunEditorComponent
+                  onChange={handleChange}
+                  content={me?.introduce}
                   label="Giới thiệu công ty"
-                  placeholder="Nhập giới đoạn văn giới thiệu công ty"
-                  minRows={6}
-                  required
                 />
               </Grid>
-              <Grid item xs={12}>
-                <Box display="flex" alignItems="center" gap={2}>
-                  <Button
-                    variant="contained"
-                    startIcon={<FileUploadOutlined />}
-                    component="label"
-                    sx={{
-                      backgroundColor: theme.palette.success.main,
-                      color: theme.palette.common.white,
-                    }}
-                  >
-                    Tải ảnh bìa
-                    <input
-                      hidden
-                      accept="image/*"
-                      type="file"
-                      onChange={handleOnChangeCoverImage}
-                    />
-                  </Button>
-                  <Box>
-                    {coverImage ? (
-                      <img
-                        src={coverImage}
-                        alt=""
-                        width="500px"
-                        height="300px"
-                      />
-                    ) : (
-                      <AccountCircleOutlined
-                        sx={{
-                          color: theme.palette.grey[300],
-                          fontSize: '40px',
-                        }}
-                      />
-                    )}
-                  </Box>
-                </Box>
-              </Grid>
+              <Grid item xs={12}></Grid>
             </Grid>
 
             <Box display="flex" justifyContent="flex-end" py={2}>

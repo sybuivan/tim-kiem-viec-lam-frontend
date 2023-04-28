@@ -4,14 +4,14 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { DeleteOutlineOutlined, SaveOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   FormDatePicker,
   FormInput,
   FormSelect,
-  FormTextarea,
 } from 'src/components/hook_form';
+import SunEditorComponent from 'src/components/suneditor';
 import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
 import { createJob } from 'src/redux_store/job/job_action';
 import { IPayloadJob } from 'src/types/job';
@@ -20,35 +20,29 @@ import { toastMessage } from 'src/utils/toast';
 import * as yup from 'yup';
 
 export const CInitValues: IPayloadJob = {
-  benefits_job: '',
   city: '',
   deadline: '',
   work_location: '',
-  description_job: '',
   id_experience: '',
   id_range: '',
   id_type: '',
   id_working_form: '',
   name_job: '',
-  required_job: '',
   size_number: 0,
   id_field: '',
   urgent_recruitment: 0,
 };
 
 export const schema = yup.object().shape({
-  benefits_job: yup.string().required(messageRequired('Quyền lợi')),
   city: yup.string().required(messageRequired('Thành phố')),
   deadline: yup.string().required(messageRequired('Hạn nộp')),
   work_location: yup.string().required(messageRequired('Nơi làm việc')),
-  description_job: yup.string().required(messageRequired('Mô tả công việc')),
   id_experience: yup.string().required(messageRequired('Kinh nghiệm')),
   id_field: yup.string().required(messageRequired('Lĩnh vực')),
   id_range: yup.string().required(messageRequired('Mức lương')),
   id_type: yup.string().required(messageRequired('Cập bậc')),
   id_working_form: yup.string().required(messageRequired('Hình thức làm việc')),
   name_job: yup.string().required(messageRequired('Tên công việc')),
-  required_job: yup.string().required(messageRequired('Yêu cầu')),
   size_number: yup
     .number(messageRequired('Số lượng tuyển'))
     .typeError(messageRequired('Số lượng tuyển'))
@@ -59,6 +53,9 @@ export const schema = yup.object().shape({
 
 const CreateJobPostings = () => {
   const dispatch = useAppDispatch();
+  const [description, setDescription] = useState<string>('');
+  const [required, setRequired] = useState<string>('');
+  const [benefits, setBenefits] = useState<string>('');
   const { me } = useAppSelector((state) => state.companySlice);
   const [isLoading] = useGetStatus('job', 'createJob');
   const {
@@ -80,7 +77,23 @@ const CreateJobPostings = () => {
 
   const handleOnSubmit = (data: IPayloadJob) => {
     console.log(data);
-    dispatch(createJob({ id_company: me.id_company, payload: data }))
+    if (!description)
+      return toastMessage.error(messageRequired('Mô tả công việc'));
+    if (!required)
+      return toastMessage.error(messageRequired('Yêu cầu công việc'));
+    if (!benefits) return toastMessage.error(messageRequired('Quyền lợi'));
+
+    dispatch(
+      createJob({
+        id_company: me.id_company,
+        payload: {
+          ...data,
+          benefits_job: benefits,
+          required_job: required,
+          description_job: description,
+        },
+      })
+    )
       .unwrap()
       .then(() => {
         toastMessage.success('Tạo bài đăng tuyển dụng thành công');
@@ -88,8 +101,22 @@ const CreateJobPostings = () => {
           ...CInitValues,
           id_field: me.idCompanyField,
         });
+        setDescription('');
+        setRequired('');
+        setBenefits('');
       });
   };
+
+  const handleChangeDescription = (content: string) => {
+    setDescription(content);
+  };
+  const handleChangeRequired = (content: string) => {
+    setRequired(content);
+  };
+  const handleChangeBenefits = (content: string) => {
+    setBenefits(content);
+  };
+
   return (
     <Box pb="90px">
       <Paper>
@@ -224,33 +251,24 @@ const CreateJobPostings = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormTextarea
-                  control={control}
-                  name="description_job"
-                  label="Mô tả công việc"
-                  placeholder="Nhập mô tả công việc"
-                  minRows={6}
-                  required
+                <SunEditorComponent
+                  onChange={handleChangeDescription}
+                  content={description}
+                  label="Mô tả công việc *"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormTextarea
-                  control={control}
-                  name="required_job"
-                  label="Yêu cầu công việc"
-                  placeholder="Nhập yêu cầu công việc"
-                  minRows={6}
-                  required
+                <SunEditorComponent
+                  onChange={handleChangeRequired}
+                  content={required}
+                  label="Yêu cầu công việc *"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormTextarea
-                  control={control}
-                  name="benefits_job"
-                  label="Quyền lợi"
-                  placeholder="Nhập quyền lợi"
-                  minRows={6}
-                  required
+                <SunEditorComponent
+                  onChange={handleChangeBenefits}
+                  content={benefits}
+                  label="Quyền lợi *"
                 />
               </Grid>
             </Grid>

@@ -4,29 +4,31 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { DeleteOutlineOutlined, SaveOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   FormDatePicker,
   FormInput,
   FormSelect,
-  FormTextarea,
 } from 'src/components/hook_form';
+import SunEditorComponent from 'src/components/suneditor';
 import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
-import {
-  updateJob,
-  getJobById,
-  getJobByIdCompany,
-} from 'src/redux_store/job/job_action';
+import { updateJob, getJobByIdCompany } from 'src/redux_store/job/job_action';
 import { IPayloadJob } from 'src/types/job';
+import { messageRequired } from 'src/utils/common';
 import { toastMessage } from 'src/utils/toast';
 import { schema } from '../create_post';
 
 const UpdateJobPostings = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { me } = useAppSelector((state) => state.companySlice);
   const [isLoading] = useGetStatus('job', 'updateJob');
+  const [isLoadingJob, setIsLoadingJob] = useState<boolean>(true);
+  const [description, setDescription] = useState<string>('');
+  const [required, setRequired] = useState<string>('');
+  const [benefits, setBenefits] = useState<string>('');
   const { id_job } = useParams();
   const {
     cityfield,
@@ -42,25 +44,67 @@ const UpdateJobPostings = () => {
   });
 
   useEffect(() => {
-    if (id_job)
+    if (id_job) {
       dispatch(getJobByIdCompany(id_job))
         .unwrap()
         .then((data) => {
-          const { created_at, urgent_recruitment, ...other } = data.job;
+          const {
+            created_at,
+            urgent_recruitment,
+            description_job,
+            required_job,
+            benefits_job,
+            ...other
+          } = data.job;
           reset({
             ...other,
           });
+          if (description_job) setDescription(description_job);
+          if (required_job) setRequired(required_job);
+          if (benefits_job) setBenefits(benefits_job);
+          setIsLoadingJob(false);
         });
+    }
   }, []);
 
   const handleOnSubmit = (data: IPayloadJob) => {
-    if (id_job)
-      dispatch(updateJob({ id_job, payload: data }))
+    if (id_job) {
+      if (!description)
+        return toastMessage.error(messageRequired('Mô tả công việc'));
+      if (!required)
+        return toastMessage.error(messageRequired('Yêu cầu công việc'));
+      if (!benefits) return toastMessage.error(messageRequired('Quyền lợi'));
+      dispatch(
+        updateJob({
+          id_job,
+          payload: {
+            ...data,
+            description_job: description,
+            required_job: required,
+            benefits_job: benefits,
+          },
+        })
+      )
         .unwrap()
         .then(() => {
           toastMessage.success('Chỉnh sửa bài đăng tuyển dụng thành công');
+          navigate('/company/home/danh-sach-dang-tin');
         });
+    }
   };
+
+  const handleChangeDescription = (content: string) => {
+    setDescription(content);
+  };
+  const handleChangeRequired = (content: string) => {
+    setRequired(content);
+  };
+  const handleChangeBenefits = (content: string) => {
+    setBenefits(content);
+  };
+  console.log('render');
+  if (isLoadingJob) return <h2>Loading...</h2>;
+
   return (
     <Box pb="90px">
       <Paper>
@@ -195,33 +239,24 @@ const UpdateJobPostings = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormTextarea
-                  control={control}
-                  name="description_job"
-                  label="Mô tả công việc"
-                  placeholder="Nhập mô tả công việc"
-                  minRows={6}
-                  required
+                <SunEditorComponent
+                  onChange={handleChangeDescription}
+                  content={description}
+                  label="Mô tả công việc *"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormTextarea
-                  control={control}
-                  name="required_job"
-                  label="Yêu cầu công việc"
-                  placeholder="Nhập yêu cầu công việc"
-                  minRows={6}
-                  required
+                <SunEditorComponent
+                  onChange={handleChangeRequired}
+                  content={required}
+                  label="Yêu cầu công việc *"
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormTextarea
-                  control={control}
-                  name="benefits_job"
-                  label="Quyền lợi"
-                  placeholder="Nhập quyền lợi"
-                  minRows={6}
-                  required
+                <SunEditorComponent
+                  onChange={handleChangeBenefits}
+                  content={benefits}
+                  label="Quyền lợi *"
                 />
               </Grid>
             </Grid>

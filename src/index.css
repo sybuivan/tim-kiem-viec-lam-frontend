@@ -109,3 +109,7 @@ a {
 .slick-next {
   right: -10px;
 }
+
+.sun-editor .se-wrapper .se-wrapper-inner {
+  /* min-height: 200px !important; */
+}

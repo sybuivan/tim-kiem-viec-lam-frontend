@@ -32,9 +32,9 @@ export interface IPayloadJob {
   work_location: string;
   city: string;
   size_number: number;
-  description_job: string;
-  required_job: string;
-  benefits_job: string;
+  description_job?: string;
+  required_job?: string;
+  benefits_job?: string;
   id_field: string;
   id_type: string;
   id_range: string;
