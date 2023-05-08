@@ -1,46 +1,79 @@
-# Getting Started with Create React App
+## Project Name: Website tim kiem viec lam tren toan quoc
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Link source backend: (https://github.com/sybuivan/tim-kiem-viec-lam-backend).
 
-## Available Scripts
+## Description:
 
-In the project directory, you can run:
+The website provides various features for job seekers, including the ability to create an account and log in, save job listings, follow or unfollow employers, submit job applications, communicate with employers via messaging, and receive notifications from employers. These features make it easy for job seekers to stay updated on job opportunities and connect with potential employers.
 
-### `npm start`
+## Technologies Used:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Front-end: React(Typescript), Redux-toolkit, Material UI, socket.io.
+Back-end: NodeJS, Express.js, MySQL, socket.io.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Features:
 
-### `npm test`
+# 1.For Guests:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- View general information about the website
+- Browse job postings
+- Learn about companies
 
-### `npm run build`
+# 2.For Registered Users:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Create an account and log in
+- Save job listings
+- Follow or unfollow employers
+- Submit job applications
+- Communicate with employers via messaging
+- Update personal profile.
+- Update personal CV.
+- Receive notifications from employers
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# 3.For Employers:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Create an account and log in
+- Post job listings
+- Manage job postings
+- View candidate resumes
+- Communicate with candidates via messaging
+- Purchase priority job posting packages
 
-### `npm run eject`
+# 4.For System Administrators:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- Access to all user accounts
+- Approve employer registration requests
+- Manage user and job posting statistics
+- Resolve technical issues
+- Setting system
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+ <p>
+   <strong>Trang chủ</strong>
+   <img src="https://i.imgur.com/3nj9qYM.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/3RbRRkZ.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/bFn6wuj.jpg" width = "1000"/>
+   <strong>Tìm kiếm việc làm:</strong>   
+   <img src="https://i.imgur.com/bmpcrLo.jpg" width = "1000"/>
+   <strong>Chi tiết việc làm:</strong>   
+   <img src="https://i.imgur.com/K6tI53q.jpg" width = "1000"/>
+   <strong>Thông tin công ty:</strong>   
+   <img src="https://i.imgur.com/N9tDEhO.jpg" width = "1000"/>
+   <strong>Cập nhật người dùng:</strong>   
+   <img src="https://i.imgur.com/ApAf50w.jpg" width = "1000"/>
+   <strong>Cập nhật CV:</strong>   
+   <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
+   <strong>Việc làm đã ứng tuyển:</strong>   
+   <img src="https://i.imgur.com/mS6QfR7.jpg" width = "1000"/>
+   <strong>Theo dõi nhà tuyển dụng:</strong>   
+   <img src="https://i.imgur.com/xtLdOPw.jpg" width = "1000"/>
+   <strong>Nhà tuyển dụng:</strong>   
+   <img src="https://i.imgur.com/EJoKGHj.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/nEFdJwd.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/bQp9KGS.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/ZMwb6mA.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/YpIJekA.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/ITSFy1O.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/OOs1Vwt.jpg" width = "1000"/>
+   <img src="https://i.imgur.com/AUut4m2.jpg" width = "1000"/>
+</p>
