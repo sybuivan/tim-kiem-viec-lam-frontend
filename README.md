@@ -47,7 +47,7 @@ Back-end: NodeJS, Express.js, MySQL, socket.io.
 - Resolve technical issues
 - Setting system
 
-# 5. Demo
+## Demo
 
  <p>
    <strong>Người dùng:</strong>
