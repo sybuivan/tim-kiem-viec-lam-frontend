@@ -66,13 +66,6 @@ Back-end: NodeJS, Express.js, MySQL, socket.io.
   <hr>
    <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
   <hr>
-
-   <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
-  <hr>
-
-   <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
-  <hr>
-
    <img src="https://i.imgur.com/eQSgUJB.jpg" width = "1000"/>
    <img src="https://i.imgur.com/NDzIhkw.jpg" width = "1000"/>
   <hr>
