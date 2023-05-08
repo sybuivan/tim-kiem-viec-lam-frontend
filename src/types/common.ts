@@ -102,3 +102,9 @@ export interface IadvancedFilter extends IHomeFilter {
 }
 
 export type IRole = 'user' | 'admin' | 'company';
+export interface IDiscover {
+  title: string;
+  icon: any;
+  count: number;
+  id?: number;
+}

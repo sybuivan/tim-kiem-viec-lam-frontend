@@ -70,8 +70,7 @@ export const CandidateInfo = ({ candidate }: { candidate: ICandidate }) => {
       <Box
         sx={{
           boxShadow: ' rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
-          p: 2,
-
+          p: 1,
           borderRadius: '6px',
         }}
       >

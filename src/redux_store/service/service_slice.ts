@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IServiceList, IServiceBuyList } from 'src/types/service';
-import { getService, getServiceByCompany } from './service_action';
+import {
+  getService,
+  getServiceByCompany,
+  activatedService,
+} from './service_action';
 
 interface IServiceSlice {
   serviceList: IServiceList;
@@ -30,6 +34,13 @@ const serviceSlice = createSlice({
     });
     builder.addCase(getServiceByCompany.fulfilled, (state, action) => {
       state.serviceBuyList = action.payload;
+    });
+    builder.addCase(activatedService.fulfilled, (state, action) => {
+      const index = state.serviceBuyList.services.findIndex(
+        (item) => item.id_history === action.payload
+      );
+
+      state.serviceBuyList.services[index].activated = 1;
     });
   },
 });

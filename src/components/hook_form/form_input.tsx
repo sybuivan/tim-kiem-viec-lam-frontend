@@ -89,6 +89,7 @@ export const FormInput = (props: IProps) => {
           margin={margin}
           sx={sx}
         >
+          <>{console.log({ error })}</>
           <FormLabel
             sx={{
               fontWeight: '600',

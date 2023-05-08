@@ -170,6 +170,11 @@ const userSlice = createSlice({
         state.saveJobList = action.payload;
       })
       .addCase(createCV.fulfilled, (state, action) => {
+        console.log(action.payload.profile_cv);
+        if (!Array.isArray(state.profileCV)) {
+          state.profileCV = []; // Initialize as an empty array
+        }
+        
         state.profileCV.push(action.payload.profile_cv);
       })
       .addCase(getProfileCV.fulfilled, (state, action) => {

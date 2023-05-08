@@ -24,6 +24,8 @@ const CompanyItem = ({ company }: { company: ICompany }) => {
             src={company.logo}
             style={{
               maxHeight: '90px',
+              minHeight: '90px',
+              maxWidth: '90px',
             }}
           />
         </Box>

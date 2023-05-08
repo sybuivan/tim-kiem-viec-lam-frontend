@@ -19,16 +19,15 @@ const JobList = ({
   const [isLoading] = useGetStatus('job', 'getJobList');
   const settings = {
     dots: true,
-    className: 'center',
     infinite: true,
-    centerPadding: '60px',
-    slidesToShow: 3,
+    //  autoplay: true,
     speed: 500,
-    rows: 2,
-    slidesPerRow: 2,
+    slidesToShow: 1,
+    slidesToScroll: 1,
     nextArrow: <AiOutlineArrowRight />,
     prevArrow: <AiOutlineArrowLeft />,
   };
+  console.log('list job', jobList);
   if (isLoading)
     return (
       <>
@@ -47,11 +46,13 @@ const JobList = ({
           {title}
         </Typography>
       </Box>
-      <Slider {...settings}>
+      {/* <Slider {...settings}> */}
+      <Grid container rowSpacing={1} columnSpacing={1}>
         {jobList.map((item, index) => (
-          <JobItem jobItem={item} key={item.id_job} m={2} />
+          <JobItem jobItem={item} key={item.id_job} />
         ))}
-      </Slider>
+      </Grid>
+      {/* </Slider> */}
     </Box>
   );
 };

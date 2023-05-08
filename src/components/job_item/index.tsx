@@ -59,7 +59,19 @@ const JobItem = (props: IJobItem) => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Typography fontWeight="600">{jobItem.name_job}</Typography>
+              <Typography
+                fontWeight="600"
+                sx={{
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  fontSize: '15px',
+                  margin: 0,
+                  maxWidth: '360px',
+                }}
+              >
+                {jobItem.name_job}
+              </Typography>
             </Box>
           )}
 
@@ -73,7 +85,19 @@ const JobItem = (props: IJobItem) => {
                   justifyContent="space-between"
                   alignItems="center"
                 >
-                  <Typography fontWeight="600">{jobItem.name_job}</Typography>
+                  <Typography
+                    fontWeight="600"
+                    sx={{
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                      fontSize: '15px',
+                      margin: 0,
+                      maxWidth: '330px',
+                    }}
+                  >
+                    {jobItem.name_job}
+                  </Typography>
                 </Box>
               )}
               <Typography

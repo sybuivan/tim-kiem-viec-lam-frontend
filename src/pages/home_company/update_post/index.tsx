@@ -7,18 +7,21 @@ import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';
+
 import {
   FormDatePicker,
   FormInput,
   FormSelect,
 } from 'src/components/hook_form';
-import SunEditorComponent from 'src/components/suneditor';
 import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
 import { updateJob, getJobByIdCompany } from 'src/redux_store/job/job_action';
 import { IPayloadJob } from 'src/types/job';
 import { messageRequired } from 'src/utils/common';
 import { toastMessage } from 'src/utils/toast';
 import { schema } from '../create_post';
+
+import SunEditorComponent from 'src/components/suneditor';
+import LoadingLinear from 'src/components/loading/loading_linear';
 
 const UpdateJobPostings = () => {
   const dispatch = useAppDispatch();
@@ -50,7 +53,6 @@ const UpdateJobPostings = () => {
         .then((data) => {
           const {
             created_at,
-            urgent_recruitment,
             description_job,
             required_job,
             benefits_job,
@@ -102,8 +104,7 @@ const UpdateJobPostings = () => {
   const handleChangeBenefits = (content: string) => {
     setBenefits(content);
   };
-  console.log('render');
-  if (isLoadingJob) return <h2>Loading...</h2>;
+  if (isLoadingJob) return <LoadingLinear />;
 
   return (
     <Box pb="90px">

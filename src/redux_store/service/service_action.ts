@@ -27,11 +27,33 @@ export const buyService = createAsyncThunk<any, IBuyService>(
     }
   }
 );
+
 export const getServiceByCompany = createAsyncThunk<IServiceBuyList, string>(
   'service/getServiceByCompany',
   async (id_company, { rejectWithValue }) => {
     try {
       const { data } = await serviceApi.getServiceByCompany(id_company);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+export const activatedService = createAsyncThunk<
+  any,
+  {
+    id_company: string;
+    id_history: string;
+  }
+>(
+  'service/activatedService',
+  async ({ id_company, id_history }, { rejectWithValue }) => {
+    try {
+      const { data } = await serviceApi.activatedService(
+        id_company,
+        id_history
+      );
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);

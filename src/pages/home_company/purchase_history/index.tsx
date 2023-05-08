@@ -1,15 +1,19 @@
 import React, { useEffect } from 'react';
 import { Box, Button, Paper, Typography, Grid, Chip } from '@mui/material';
+import moment from 'moment';
+import { useNavigate } from 'react-router';
 
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import ProfileHeader from 'src/components/profile_bar/header';
 import EmptyData from 'src/components/empty_data';
 import theme from 'src/theme';
-import { useNavigate } from 'react-router';
-import { getServiceByCompany } from 'src/redux_store/service/service_action';
+import {
+  getServiceByCompany,
+  activatedService,
+} from 'src/redux_store/service/service_action';
 import { resetData } from 'src/redux_store/service/service_slice';
 import { IServiceDetail } from 'src/types/service';
-import moment from 'moment';
+import { toastMessage } from 'src/utils/toast';
 
 const PurchaseHistory = () => {
   const { me } = useAppSelector((state) => state.companySlice);
@@ -94,7 +98,24 @@ const PurchaseHistory = () => {
 export default PurchaseHistory;
 
 const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
-  const { name_service, created_at, expiry, total_news, activated } = history;
+  const {
+    name_service,
+    created_at,
+    expiry,
+    total_news,
+    activated,
+    id_company,
+    id_history,
+  } = history;
+  const dispatch = useAppDispatch();
+
+  const handleActivated = () => {
+    dispatch(activatedService({ id_company, id_history }))
+      .unwrap()
+      .then(() => {
+        toastMessage.success('Kích hoạt dịch vụ thành công');
+      });
+  };
   return (
     <Box
       sx={{
@@ -120,7 +141,8 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
               color: theme.palette.primary.main,
             }}
           >
-            {moment(expiry).format('DD-MM-YYYY')}{' '}
+            {' '}
+            {moment(created_at).format('DD-MM-YYYY')}
           </strong>
           - Hạn sử dụng:{' '}
           <strong
@@ -128,13 +150,13 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
               color: theme.palette.primary.main,
             }}
           >
-            {moment(created_at).format('DD-MM-YYYY')}
+            {moment(expiry).format('DD-MM-YYYY')}{' '}
           </strong>
         </Typography>
       </Box>
       <Box p={1} bgcolor={theme.palette.grey[200]}>
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <Typography fontWeight="600">Tên dịch vụ</Typography>
           </Grid>
           <Grid item xs={2}>
@@ -150,11 +172,14 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
           <Grid item xs={2}>
             <Typography fontWeight="600">Trạng thái</Typography>
           </Grid>
+          <Grid item xs={2}>
+            <Typography fontWeight="600">Hành động</Typography>
+          </Grid>
         </Grid>
       </Box>
       <Box p={1}>
         <Grid container>
-          <Grid item xs={4}>
+          <Grid item xs={2}>
             <Typography>{name_service}</Typography>
           </Grid>
           <Grid item xs={2}>
@@ -171,7 +196,7 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
               <Chip
                 label="Chưa kích hoạt"
                 sx={{
-                  color: theme.palette.success.main,
+                  color: theme.palette.error.main,
                   fontWeight: '600',
                 }}
               />
@@ -181,8 +206,16 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
                 sx={{
                   color: theme.palette.grey[200],
                   fontWeight: '600',
+                  background: theme.palette.success.main,
                 }}
               />
+            )}
+          </Grid>
+          <Grid item xs={2}>
+            {activated === 0 && (
+              <Button variant="outlined" onClick={handleActivated}>
+                Kích hoạt
+              </Button>
             )}
           </Grid>
         </Grid>

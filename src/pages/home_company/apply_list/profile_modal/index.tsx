@@ -14,7 +14,8 @@ import { closeModal } from 'src/redux_store/common/modal/modal_slice';
 import { updateStatusApllied } from 'src/redux_store/company/company_slices';
 
 const ProfileModal = ({ apply }: { apply: IApplyUser }) => {
-  const { id_apply, id_user, name_job, fullName, status } = apply;
+  const { id_apply, id_user, name_job, fullName, status, introducing_letter } =
+    apply;
   const dispatch = useAppDispatch();
   const handleOnLoad = () => {
     if (status === 0)
@@ -50,9 +51,27 @@ const ProfileModal = ({ apply }: { apply: IApplyUser }) => {
           fontSize="16px"
           color={theme.palette.primary.main}
           fontWeight="600"
-          my={2}
+          my={1}
         >
           CV ứng viên: {fullName}
+        </Typography>
+
+        <Typography
+          fontSize="16px"
+          color={theme.palette.primary.main}
+          fontWeight="600"
+          my={2}
+        >
+          Thư chào:{' '}
+          <p
+            style={{
+              color: theme.palette.common.black,
+              fontSize: '14px',
+            }}
+          >
+            {' '}
+            {introducing_letter}{' '}
+          </p>
         </Typography>
         <div
           style={{

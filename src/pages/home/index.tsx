@@ -11,6 +11,42 @@ import PostList from './post_list';
 import { getJobList } from 'src/redux_store/job/job_action';
 import { LightModeOutlined } from '@mui/icons-material';
 import JobSuggetForYou from './job_sugget_for_you';
+import ListDiscover from './list_discover';
+import { BsFillBriefcaseFill } from 'react-icons/bs';
+import { IDiscover } from 'src/types/common';
+
+const CData: IDiscover[] = [
+  {
+    icon: <BsFillBriefcaseFill />,
+    title: 'Việc làm Quản lý',
+    count: 1,
+    id: 1,
+  },
+  {
+    icon: <BsFillBriefcaseFill />,
+    title: 'Việc làm lương cao',
+    count: 1,
+    id: 1,
+  },
+  {
+    icon: <BsFillBriefcaseFill />,
+    title: 'Việc làm IT',
+    count: 1,
+    id: 1,
+  },
+  {
+    icon: <BsFillBriefcaseFill />,
+    title: 'Việc làm thực tập sinh',
+    count: 1,
+    id: 1,
+  },
+  {
+    icon: <BsFillBriefcaseFill />,
+    title: 'Việc làm thực tập sinh',
+    count: 1,
+    id: 1,
+  },
+];
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -66,6 +102,18 @@ const Home = () => {
             title="Việc làm gợi ý"
           />
         )}
+        <ListDiscover
+          list={CData}
+          icon={
+            <LightModeOutlined
+              sx={{
+                color: theme.palette.primary.main,
+                fontSize: '30px',
+              }}
+            />
+          }
+          title="Khám phá"
+        />
 
         <PostList />
       </Container>

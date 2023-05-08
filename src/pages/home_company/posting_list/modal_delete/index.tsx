@@ -11,9 +11,13 @@ import { toastMessage } from 'src/utils/toast';
 const ModalDeletePost = ({
   id_job,
   id_company,
+  is_lock,
+  title,
 }: {
   id_job: string;
   id_company: string;
+  is_lock: 0 | 1;
+  title: string;
 }) => {
   const dispatch = useAppDispatch();
   const handelDelete = () => {
@@ -21,11 +25,12 @@ const ModalDeletePost = ({
       deleteJob({
         id_company,
         id_job,
+        is_lock,
       })
     )
       .unwrap()
       .then(() => {
-        toastMessage.success('Đã xóa thành công');
+        toastMessage.success('Đã khóa thành công');
         dispatch(deleteJobById(id_job));
         dispatch(closeModal({ modalId: MODAL_IDS.deleteJob }));
       });
@@ -35,7 +40,7 @@ const ModalDeletePost = ({
       modalId={MODAL_IDS.deleteJob}
       describe={
         <Typography fontWeight="600" textAlign="center" fontSize="20px">
-          Bạn có muốn xóa tin tuyển dụng này không?
+          {title}
         </Typography>
       }
       sliceName="job"

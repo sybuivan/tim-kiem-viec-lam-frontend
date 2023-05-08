@@ -256,7 +256,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
             <Grid item xs={6}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
-                  Khu vực tuyển:
+                  Địa điểm làm việc:
                 </Typography>
                 <Typography fontWeight="600">
                   {jobDetail.work_location}

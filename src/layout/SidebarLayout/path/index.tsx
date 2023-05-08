@@ -55,4 +55,19 @@ export const CPathSideBar: IPathSideBar[] = [
       },
     ],
   },
+  {
+    subheader: 'Cài đặt hệ thống',
+    children: [
+      {
+        icon: <NoteAddOutlined />,
+        label: 'Cài đặt chung',
+        to: '/admin/add-post',
+      },
+      {
+        icon: <ListAltOutlined />,
+        label: 'Ảnh',
+        to: '/admin/list-post',
+      },
+    ],
+  },
 ];

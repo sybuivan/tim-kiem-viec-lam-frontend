@@ -4,6 +4,7 @@ import logo from 'src/assets/images/logo.png';
 
 import SidebarMenu from './sidebar-menu';
 import { useNavigate } from 'react-router';
+import theme from 'src/theme';
 
 const SidebarWrapper = styled(Box)(
   ({ theme }) => `
@@ -15,7 +16,6 @@ const SidebarWrapper = styled(Box)(
 );
 
 function Sidebar() {
-  const theme = useTheme();
   const navigate = useNavigate();
   return (
     <>
@@ -29,22 +29,22 @@ function Sidebar() {
           left: 0,
           top: 0,
           width: '300px',
-          background: '#11192a',
+          background: theme.palette.primary.main,
         }}
       >
         <Scrollbars>
           <Box mt={3}>
             <Box
-              mx={2}
               sx={{
                 width: '100%',
+                display: 'flex',
+                margin: 'auto',
               }}
             >
               <img
                 onClick={() => navigate('/')}
                 src={logo}
                 alt="logo"
-                width="100%"
                 height="60"
                 style={{
                   margin: 'auto',
@@ -64,7 +64,6 @@ function Sidebar() {
         <Divider />
       </SidebarWrapper>
       <Drawer
-        sx={{}}
         anchor={theme.direction === 'rtl' ? 'right' : 'left'}
         variant="temporary"
         elevation={9}

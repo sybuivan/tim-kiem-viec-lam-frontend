@@ -139,7 +139,7 @@ export const CCompanyRoute: {
         {
           icon: <PostAddOutlined />,
           name: 'Tạo tin tuyển dụng',
-          path: '/company/home/tao-tin-tuyen-dung',
+          path: '/company/home/chon-dich-vu',
         },
         {
           icon: <ListAltOutlined />,
@@ -192,7 +192,7 @@ export const CCompanyRoute: {
         },
         {
           icon: <HistoryOutlined />,
-          name: 'Lịch sử mua hàng',
+          name: 'Lịch sử mua',
           path: '/company/home/lich-su-mua-hang',
         },
       ],

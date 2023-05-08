@@ -8,7 +8,8 @@ import {
   IPayloadRegisterCompany,
   IPayloadCompanyInfo,
   IParamsCandidate,
-  ICandidate,ICandidateDetail
+  ICandidate,
+  ICandidateDetail,
 } from 'src/types/company';
 import { toastMessage } from 'src/utils/toast';
 
@@ -112,18 +113,18 @@ export const getCandidateList = createAsyncThunk<
   }
 });
 
-export const getCandidateDetail = createAsyncThunk<{ user_info: ICandidateDetail }, string>(
-  'company/getCandidateDetail',
-  async (id_user, { rejectWithValue }) => {
-    try {
-      const { data } = await companyApi.getCandidateDetail(id_user);
-      return data;
-    } catch (error: any) {
-      toastMessage.setErrors(error);
-      return rejectWithValue(error);
-    }
+export const getCandidateDetail = createAsyncThunk<
+  { user_info: ICandidateDetail },
+  string
+>('company/getCandidateDetail', async (id_user, { rejectWithValue }) => {
+  try {
+    const { data } = await companyApi.getCandidateDetail(id_user);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
   }
-);
+});
 
 export const followUser = createAsyncThunk<
   {
@@ -219,6 +220,21 @@ export const updateStatusApplied = createAsyncThunk<
 >('company/updateStatusApplied', async (payload, { rejectWithValue }) => {
   try {
     const { data } = await companyApi.updateStatusApplied(payload);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});
+
+export const getServiceActivated = createAsyncThunk<
+  {
+    service: any;
+  },
+  string
+>('company/getServiceActivated', async (id_company, { rejectWithValue }) => {
+  try {
+    const { data } = await companyApi.getServiceActivated(id_company);
     return data;
   } catch (error: any) {
     toastMessage.setErrors(error);

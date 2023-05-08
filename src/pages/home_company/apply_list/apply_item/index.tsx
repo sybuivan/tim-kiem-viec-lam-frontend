@@ -134,7 +134,10 @@ const ApplyItem = ({
                 label={renderLabelStatus(apply.status)}
                 sx={{
                   background: renderColorStatus(apply.status),
-                  color: theme.palette.common.white,
+                  color:
+                    apply.status === 0
+                      ? theme.palette.common.black
+                      : theme.palette.common.white,
                 }}
               />
             </Box>

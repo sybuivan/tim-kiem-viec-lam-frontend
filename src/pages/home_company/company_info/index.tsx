@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Typography, Paper, Button, Grid, FormLabel } from '@mui/material';
+import { Box, Typography, Paper, Button, Grid } from '@mui/material';
 import {
   AccountCircleOutlined,
   FileUploadOutlined,
@@ -11,7 +11,7 @@ import {
 import { useForm } from 'react-hook-form';
 
 import theme from 'src/theme';
-import { FormInput, FormSelect, FormTextarea } from 'src/components/hook_form';
+import { FormInput, FormSelect } from 'src/components/hook_form';
 import { useAppSelector, useAppDispatch, useGetStatus } from 'src/hooks';
 import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/company/company_action';
@@ -29,7 +29,7 @@ const CompanyInfoAdmin = () => {
   const { cityfield, companyfield } = useAppSelector(
     (state) => state.commonSlice.fieldList
   );
-  const [introduce, setIntroduce] = useState<string>('');
+  const [introduce, setIntroduce] = useState<string>(me?.introduce);
   const [privewImage, setPrivewImage] = useState<string>(me.logo || '');
   const [coverImage, setPreCoverImage] = useState<string>(me.cover_image || '');
 
@@ -56,6 +56,8 @@ const CompanyInfoAdmin = () => {
   };
 
   const handleOnSubmit = (data: IPayloadCompanyInfo) => {
+    console.log({ data });
+
     const {
       address,
       faxCode,
@@ -123,9 +125,53 @@ const CompanyInfoAdmin = () => {
       }
     }
   };
+
   return (
     <Box>
       <ProfileHeader fullName={me.fullName} />
+      <Box gap={2} position="relative" mb={2}>
+        <Box bgcolor={theme.palette.grey[200]} py={1}>
+          {coverImage ? (
+            <div
+              style={{
+                backgroundImage: `url(${coverImage})`,
+                width: '100%',
+                height: '300px',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundSize: 'contain',
+              }}
+            ></div>
+          ) : (
+            <AccountCircleOutlined
+              sx={{
+                color: theme.palette.grey[300],
+                fontSize: '40px',
+              }}
+            />
+          )}
+        </Box>
+        <Button
+          variant="contained"
+          startIcon={<FileUploadOutlined />}
+          component="label"
+          sx={{
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.common.white,
+            position: 'absolute',
+            bottom: '10px',
+            right: '10px',
+          }}
+        >
+          Tải ảnh bìa
+          <input
+            hidden
+            accept="image/*"
+            type="file"
+            onChange={handleOnChangeCoverImage}
+          />
+        </Button>
+      </Box>
       <Paper>
         <Box
           p={2}
@@ -189,37 +235,6 @@ const CompanyInfoAdmin = () => {
                     accept="image/*"
                     type="file"
                     onChange={handleOnChangeFile}
-                  />
-                </Button>
-              </Box>
-              <Box display="flex" alignItems="center" gap={2}>
-                <Box>
-                  {coverImage ? (
-                    <img src={coverImage} alt="" height="200" />
-                  ) : (
-                    <AccountCircleOutlined
-                      sx={{
-                        color: theme.palette.grey[300],
-                        fontSize: '40px',
-                      }}
-                    />
-                  )}
-                </Box>
-                <Button
-                  variant="contained"
-                  startIcon={<FileUploadOutlined />}
-                  component="label"
-                  sx={{
-                    backgroundColor: theme.palette.success.main,
-                    color: theme.palette.common.white,
-                  }}
-                >
-                  Tải ảnh bìa
-                  <input
-                    hidden
-                    accept="image/*"
-                    type="file"
-                    onChange={handleOnChangeCoverImage}
                   />
                 </Button>
               </Box>
@@ -307,6 +322,7 @@ const CompanyInfoAdmin = () => {
                   keyOption="id_companyField"
                   labelOption="name_field"
                   required
+                  disabled
                 />
               </Grid>
 
@@ -353,7 +369,6 @@ const CompanyInfoAdmin = () => {
                   label="Giới thiệu công ty"
                 />
               </Grid>
-              <Grid item xs={12}></Grid>
             </Grid>
 
             <Box display="flex" justifyContent="flex-end" py={2}>

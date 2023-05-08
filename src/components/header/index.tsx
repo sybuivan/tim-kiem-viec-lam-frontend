@@ -436,7 +436,7 @@ export const HeaderCompany = () => {
                   >
                     <Avatar
                       alt="Remy Sharp"
-                      src={me?.avatar || '/static/images/avatar/2.jpg'}
+                      src={me?.logo || '/static/images/avatar/2.jpg'}
                     />
                     <Typography ml={1} fontWeight="600">
                       {me?.fullName}

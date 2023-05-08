@@ -113,3 +113,8 @@ a {
 .sun-editor .se-wrapper .se-wrapper-inner {
   /* min-height: 200px !important; */
 }
+
+.sun-editor .se-toolbar,
+.sun-editor .se-wrapper {
+  z-index: 0 !important;
+}

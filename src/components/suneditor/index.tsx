@@ -34,7 +34,6 @@ const SunEditorComponent = ({
   content,
   label,
 }: ISunEditorComponent) => {
-  console.log({ content });
   const handleChange = (content: string) => {
     onChange(content);
   };

@@ -59,10 +59,11 @@ const jobSlice = createSlice({
     },
 
     deleteJobById: (state, action) => {
-      const newJobList = state.jobListCompany.data.filter(
-        (job) => job.id_job !== action.payload
+      const index = state.jobListCompany.data.findIndex(
+        (job) => job.id_job === action.payload
       );
-      state.jobListCompany.data = newJobList;
+      state.jobListCompany.data[index].is_lock =
+        state.jobListCompany.data[index].is_lock === 0 ? 1 : 0;
     },
   },
   extraReducers: (builder) => {

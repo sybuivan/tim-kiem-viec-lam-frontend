@@ -25,6 +25,7 @@ export interface IJob extends ICompany {
   required_job?: string;
   benefits_job?: string;
   name_city?: string;
+  is_lock?: 0 | 1;
 }
 
 export interface IPayloadJob {
@@ -36,13 +37,13 @@ export interface IPayloadJob {
   required_job?: string;
   benefits_job?: string;
   id_field: string;
+  id_history?: string;
   id_type: string;
   id_range: string;
   id_experience: string;
   id_working_form: string;
   deadline: string | Date;
   created_at?: string | Date | null;
-  urgent_recruitment?: number;
 }
 
 export interface IJobDetails {

@@ -140,6 +140,8 @@ export const FormSelect = (props: IProps) => {
           size={size}
           error={invalid}
         >
+          {' '}
+          <>{console.log({ error })}</>
           <FormLabel
             sx={{
               fontWeight: '600',
@@ -149,7 +151,6 @@ export const FormSelect = (props: IProps) => {
           >
             {label} {required && '*'}
           </FormLabel>
-
           <Select
             // label={label}
             value={options.length ? value || '' : ''}

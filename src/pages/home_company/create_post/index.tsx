@@ -4,8 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { DeleteOutlineOutlined, SaveOutlined } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 import {
   FormDatePicker,
   FormInput,
@@ -30,7 +31,6 @@ export const CInitValues: IPayloadJob = {
   name_job: '',
   size_number: 0,
   id_field: '',
-  urgent_recruitment: 0,
 };
 
 export const schema = yup.object().shape({
@@ -51,8 +51,9 @@ export const schema = yup.object().shape({
     .nullable(),
 });
 
-const CreateJobPostings = () => {
+const CreateJobPostings = ({ id_history }: { id_history: string }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [description, setDescription] = useState<string>('');
   const [required, setRequired] = useState<string>('');
   const [benefits, setBenefits] = useState<string>('');
@@ -91,6 +92,7 @@ const CreateJobPostings = () => {
           benefits_job: benefits,
           required_job: required,
           description_job: description,
+          id_history,
         },
       })
     )
@@ -104,6 +106,7 @@ const CreateJobPostings = () => {
         setDescription('');
         setRequired('');
         setBenefits('');
+        navigate('/company/home/danh-sach-dang-tin');
       });
   };
 
@@ -273,7 +276,7 @@ const CreateJobPostings = () => {
               </Grid>
             </Grid>
 
-            <Box position="fixed" bottom="0" right="0" left="330px">
+            <Box position="fixed" bottom="0" right="0" left="300px">
               <Paper
                 sx={{
                   p: 2,

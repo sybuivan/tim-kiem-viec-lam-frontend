@@ -40,6 +40,7 @@ import { io } from 'socket.io-client';
 import { PrivateAdmin, PrivateLoginAdmin } from './private/admin';
 import CreateProfileOnline from 'src/pages/profile/profile_document/create_profile_online';
 import Page404 from 'src/components/notfound';
+import ChooseService from 'src/pages/home_company/create_post/choose_service';
 
 const socket = io('http://localhost:5000');
 
@@ -169,8 +170,8 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
             element: <CompanyInfoAdmin />,
           },
           {
-            path: 'tao-tin-tuyen-dung',
-            element: <CreateJobPostings />,
+            path: 'chon-dich-vu',
+            element: <ChooseService />,
           },
           {
             path: 'chinh-sua-tin-tuyen-dung/:id_job',

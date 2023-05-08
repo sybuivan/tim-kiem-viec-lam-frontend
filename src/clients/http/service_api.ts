@@ -15,4 +15,11 @@ export const serviceApi = {
   buyService: (payload: IBuyService) => {
     return client.post<any>('/service/buy-service', payload);
   },
+  activatedService: (id_company: string, id_history: string) => {
+    const payload = {
+      id_company,
+      id_history,
+    };
+    return client.put<any>('/service/activated-service', payload);
+  },
 };

@@ -31,11 +31,10 @@ export const schemaProfileCompany = yup.object().shape({
     .required(messageRequired('Email')),
   address: yup.string().required(messageRequired('Địa chỉ')),
   idCompanyField: yup.string().required(messageRequired('Lĩnh vực hoạt động')),
-  introduce: yup.string().required(messageRequired('Giới thiệu')),
   name_company: yup.string().required(messageRequired('Tên công ty')),
   total_people: yup.string().required(messageRequired('Quy mô')),
-  lat: yup.string().required(messageRequired('Kinh độ')),
-  lng: yup.string().required(messageRequired('Vĩ độ')),
+  lat: yup.number().required(messageRequired('Kinh độ')),
+  lng: yup.number().required(messageRequired('Vĩ độ')),
   //   faxCode: yup.string(),
   //   link_website: yup.string(),
 });

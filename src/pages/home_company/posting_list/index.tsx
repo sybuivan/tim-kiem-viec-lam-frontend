@@ -1,7 +1,16 @@
 import React, { useEffect } from 'react';
-import { Grid, Box, Typography, Paper, IconButton, Chip } from '@mui/material';
+import {
+  Grid,
+  Box,
+  Typography,
+  Paper,
+  IconButton,
+  Chip,
+  Tooltip,
+} from '@mui/material';
 import AutoFixNormalOutlinedIcon from '@mui/icons-material/AutoFixNormalOutlined';
-import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
+import { AutoFixNormalOutlined, LockOpenOutlined } from '@mui/icons-material';
+
 import moment from 'moment';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import ProfileHeader from 'src/components/profile_bar/header';
@@ -66,7 +75,7 @@ const PostingList = () => {
               </Grid>
               <Grid item xs={2}>
                 <Typography fontWeight="600" textAlign="center">
-                  Khác
+                  Hành động
                 </Typography>
               </Grid>
             </Grid>
@@ -98,7 +107,16 @@ const PostItem = ({ job }: { job: IJob }) => {
     dispatch(
       openModal({
         dialogComponent: (
-          <ModalDeletePost id_job={job.id_job} id_company={id_company} />
+          <ModalDeletePost
+            id_job={job.id_job}
+            id_company={id_company}
+            is_lock={job.is_lock === 0 ? 1 : 0}
+            title={
+              job.is_lock === 1
+                ? 'Bạn có mở khóa bài tin này không?'
+                : 'Bạn có muốn khóa tin này không?'
+            }
+          />
         ),
         modalId: MODAL_IDS.deleteJob,
       })
@@ -140,14 +158,21 @@ const PostItem = ({ job }: { job: IJob }) => {
         <Grid item xs={2}>
           <Chip
             variant="outlined"
-            label="Thành công"
+            label={job.is_lock === 0 ? 'Thành công' : 'Đã khóa'}
             sx={{
-              background: theme.palette.success.main,
-              color: theme.palette.common.white,
+              background:
+                job.is_lock === 0
+                  ? theme.palette.success.main
+                  : theme.palette.grey[300],
+              color:
+                job.is_lock === 0
+                  ? theme.palette.common.white
+                  : theme.palette.error.main,
               display: 'flex',
               justifyContent: 'center',
               margin: 'auto',
               maxWidth: '80%',
+              fontWeight: 600,
             }}
           />
         </Grid>
@@ -158,11 +183,24 @@ const PostItem = ({ job }: { job: IJob }) => {
                 navigate(`/company/home/chinh-sua-tin-tuyen-dung/${job.id_job}`)
               }
             >
-              <AutoFixNormalOutlinedIcon />
+              <AutoFixNormalOutlined />
             </IconButton>
-            <IconButton onClick={handelOnpenModalDelete}>
-              <DeleteForeverOutlinedIcon />
-            </IconButton>
+            <Tooltip
+              title={job.is_lock === 0 ? 'Khóa tin' : 'Mở khóa tin'}
+              arrow
+            >
+              <IconButton
+                onClick={handelOnpenModalDelete}
+                sx={{
+                  color:
+                    job.is_lock === 0
+                      ? theme.palette.success.main
+                      : theme.palette.error.main,
+                }}
+              >
+                <LockOpenOutlined />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Grid>
       </Grid>

@@ -9,8 +9,8 @@ interface ICompanyList {
 
 const CompanyList = ({ dataList }: ICompanyList) => {
   return (
-    <Box mb={3}>
-      <Grid container>
+    <Box my={4}>
+      <Grid container columnSpacing={1}>
         {dataList.map((item, index) => (
           <CompanyItem company={item} key={index} />
         ))}

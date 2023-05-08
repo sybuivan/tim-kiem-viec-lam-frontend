@@ -18,7 +18,6 @@ function App() {
   useEffect(() => {
     if (checkRoleUser(me?.id_role, token)) {
       socketIo.emit('user_id', me?.id_user);
-      dispatch(getAllField());
       dispatch(getApplyList(me?.id_user));
       dispatch(
         getMeUser({
@@ -32,6 +31,7 @@ function App() {
       socketIo.emit('user_id', me?.id_company);
       dispatch(getNotification(me?.id_company));
     }
+    dispatch(getAllField());
   }, []);
 
   useEffect(() => {

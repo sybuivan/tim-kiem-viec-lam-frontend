@@ -112,8 +112,10 @@ const CreateProfileOnline = () => {
       formData.append('file_name', file.name);
       dispatch(createCV(formData))
         .unwrap()
-        .then(() => {
+        .then((data) => {
+          console.log({ data });
           toastMessage.success('Lưu hồ sơ thành công');
+          navigate('/thong-tin-ca-nhan/ho-so');
         });
     } else if (profile_detail?.file_name) {
       dispatch(createCV(formData))

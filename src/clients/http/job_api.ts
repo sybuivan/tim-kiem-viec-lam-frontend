@@ -32,9 +32,9 @@ export const jobApi = {
       data
     );
   },
-  deleteJob: (id_company: string, id_job: string) => {
+  deleteJob: (id_company: string, id_job: string, is_lock: 0 | 1) => {
     return client.delete<any>(
-      `/job/delete-job?id_job=${id_job}&id_company=${id_company}`
+      `/job/delete-job?id_job=${id_job}&id_company=${id_company}&is_lock=${is_lock}`
     );
   },
   updateJob: (id_job: string, data: IPayloadJob) => {

@@ -24,6 +24,7 @@ export interface IApplyUser {
   checked?: boolean;
   status?: any;
   avatar?: string;
+  introducing_letter?: string;
   created_at: Date | string;
 }
 

@@ -73,4 +73,9 @@ export const companyApi = {
   updateStatusApplied: (payload: { id_apply: string; status: number }[]) => {
     return client.post(`/company/update-status-applied`, payload);
   },
+  getServiceActivated: (id_company: string) => {
+    return client.get<{
+      service: any;
+    }>(`/company/get-service-activated/${id_company}`);
+  },
 };

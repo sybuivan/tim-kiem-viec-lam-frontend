@@ -59,6 +59,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
     console.log({
       fullName,
       id_room,
+      id_user,
     });
     if (id_room && fullName)
       dispatch(

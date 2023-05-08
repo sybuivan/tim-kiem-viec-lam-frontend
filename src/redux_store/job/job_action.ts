@@ -85,10 +85,11 @@ export const deleteJob = createAsyncThunk<
   {
     id_job: string;
     id_company: string;
+    is_lock: 0 | 1;
   }
->('job/deleteJob', async ({ id_company, id_job }, { rejectWithValue }) => {
+>('job/deleteJob', async ({ id_company, id_job, is_lock }, { rejectWithValue }) => {
   try {
-    const { data } = await jobApi.deleteJob(id_company, id_job);
+    const { data } = await jobApi.deleteJob(id_company, id_job, is_lock);
     return data;
   } catch (error: any) {
     toastMessage.setErrors(error);
