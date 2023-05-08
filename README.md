@@ -55,30 +55,30 @@ Back-end: NodeJS, Express.js, MySQL, socket.io.
    <img src="https://i.imgur.com/3nj9qYM.jpg" width = "1000"/>
    <img src="https://i.imgur.com/3RbRRkZ.jpg" width = "1000"/>
    <img src="https://i.imgur.com/bFn6wuj.jpg" width = "1000"/>
-   <br/>
+   <hr>
    <img src="https://i.imgur.com/bmpcrLo.jpg" width = "1000"/>
-   <br/>
+   <hr>
    <img src="https://i.imgur.com/K6tI53q.jpg" width = "1000"/>
-   <br/>
+  <hr>
    <img src="https://i.imgur.com/N9tDEhO.jpg" width = "1000"/>
-   <br/>
+   <hr>
    <img src="https://i.imgur.com/ApAf50w.jpg" width = "1000"/>
-   <br/>
+  <hr>
    <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
-   <br/>
+  <hr>
 
    <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
-   <br/>
+  <hr>
 
    <img src="https://i.imgur.com/SlNmwPN.jpg" width = "1000"/>
-   <br/>
+  <hr>
 
    <img src="https://i.imgur.com/eQSgUJB.jpg" width = "1000"/>
    <img src="https://i.imgur.com/NDzIhkw.jpg" width = "1000"/>
-   <br/>
+  <hr>
 
    <img src="https://i.imgur.com/mS6QfR7.jpg" width = "1000"/>
-    <br/>
+   <hr>
 
    <img src="https://i.imgur.com/xtLdOPw.jpg" width = "1000"/>
 
