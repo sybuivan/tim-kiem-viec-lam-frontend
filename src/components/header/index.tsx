@@ -253,7 +253,7 @@ const Header = () => {
                             dispatch(resetApplyData());
                             dispatch(resetState());
                             setAnchorElUser(null);
-                            navigate('/');
+                            // navigate('/');
                           }
                         }}
                       >

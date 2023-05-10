@@ -9,7 +9,7 @@ const JobApplied = () => {
   const {
     applyList: { data },
   } = useAppSelector((state) => state.applySlice);
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.userSlice);
   return (
     <Box>
       <ProfileHeader fullName={me.fullName} />

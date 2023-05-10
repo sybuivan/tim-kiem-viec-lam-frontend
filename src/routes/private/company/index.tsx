@@ -8,10 +8,10 @@ export const PrivateCompany = ({ children }: { children: any }) => {
   const id_role = useAppSelector((state) => state.userSlice.me?.id_role);
   const token_admin = useAppSelector((state) => state.userSlice.token);
 
-  console.log({ id_role: me?.id_role, token });
   if (checkRoleCompany(me?.id_role, token)) {
     return <Navigate to="/company/home/ho-so-cong-ty" replace />;
   }
+
   if (checkRoleAdmin(id_role, token_admin)) {
     return <Navigate to="/admin/dashboard" replace />;
   }

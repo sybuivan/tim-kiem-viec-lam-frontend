@@ -12,7 +12,7 @@ const Dashboard = () => {
       spacing={4}
     >
       <Grid item xs={12}>
-        <WatchList />
+        {/* <WatchList /> */}
       </Grid>
     </Grid>
   );

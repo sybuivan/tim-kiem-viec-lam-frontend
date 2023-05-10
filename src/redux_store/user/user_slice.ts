@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { profile } from 'console';
 import { getLocal, token } from 'src/constants/localstoge';
 import { IJob } from 'src/types/job';
 import {
@@ -42,7 +41,7 @@ interface IUserSlice {
 }
 
 const initialState: IUserSlice = {
-  me: getLocal,
+  me: getLocal('user_account'),
   profileCV: [],
   token,
   profile_detail: {
@@ -174,7 +173,7 @@ const userSlice = createSlice({
         if (!Array.isArray(state.profileCV)) {
           state.profileCV = []; // Initialize as an empty array
         }
-        
+
         state.profileCV.push(action.payload.profile_cv);
       })
       .addCase(getProfileCV.fulfilled, (state, action) => {

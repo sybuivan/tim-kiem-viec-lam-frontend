@@ -1,4 +1,4 @@
-import { IUsersList, ILockUser } from 'src/types/admin';
+import { IUsersList, ILockUser, ICompanyList } from 'src/types/admin';
 import { createClient } from './axios_client';
 
 const client = createClient();
@@ -9,5 +9,15 @@ export const adminApi = {
   },
   updateUser: (payload: ILockUser) => {
     return client.put<string>(`/admin/lock-user`, payload);
+  },
+
+  getCompanyRegister: () => {
+    return client.get<ICompanyList>('/admin/get-list-company-register');
+  },
+  updateActiveCompany: (payload: {
+    id_user: string;
+    active_status: number;
+  }) => {
+    return client.put<string>('/admin/update-active-status-company', payload);
   },
 };

@@ -27,12 +27,14 @@ interface ISunEditorComponent {
   onChange: (content: string) => void;
   content?: string;
   label?: string;
+  height?: string;
 }
 
 const SunEditorComponent = ({
   onChange,
   content,
   label,
+  height = '20vh',
 }: ISunEditorComponent) => {
   const handleChange = (content: string) => {
     onChange(content);
@@ -51,7 +53,7 @@ const SunEditorComponent = ({
       <SunEditor
         onChange={handleChange}
         defaultValue={content}
-        height="20vh"
+        height={height}
         setOptions={{
           plugins: [
             align,

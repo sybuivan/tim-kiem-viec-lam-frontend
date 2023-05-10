@@ -37,7 +37,7 @@ import AddPost from 'src/pages/admin/add-post';
 import ListPost from 'src/pages/admin/list-post';
 import AuthLogin from 'src/pages/admin/auth_login';
 import { io } from 'socket.io-client';
-import { PrivateAdmin, PrivateLoginAdmin } from './private/admin';
+import { PrivateAdmin, PrivateDashboard } from './private/admin';
 import CreateProfileOnline from 'src/pages/profile/profile_document/create_profile_online';
 import Page404 from 'src/components/notfound';
 import ChooseService from 'src/pages/home_company/create_post/choose_service';
@@ -210,15 +210,11 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
     path: 'admin',
 
     element: (
-      <PrivateLoginAdmin>
+      <PrivateDashboard>
         <SidebarLayout />
-      </PrivateLoginAdmin>
+      </PrivateDashboard>
     ),
     children: [
-      {
-        path: '',
-        element: <Navigate to="dashboard" replace />,
-      },
       {
         path: 'dashboard',
         element: <Dashboard />,

@@ -12,4 +12,5 @@ export const MODAL_IDS = {
   userLockModal: 'userLockModal',
 
   profileUserModal: 'profileUserModal',
+  companyModal: 'companyModal',
 };

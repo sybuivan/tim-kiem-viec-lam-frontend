@@ -15,6 +15,10 @@ export interface ICompany {
   lng?: number;
   cover_image?: string;
   active_status?: string;
+  phone?: string;
+  fullName?: string;
+  email?: string;
+  name_field?: string;
 }
 
 export interface IPayloadRegisterCompany {

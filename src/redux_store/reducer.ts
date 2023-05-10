@@ -8,6 +8,7 @@ import commonSlice from './common/field/field_slice';
 import chatSlice from './chat/chat_slices';
 import serviceSlice from './service/service_slice';
 import adminSlice from './admin/admin_slice';
+import postSlice from './post/post_slice';
 
 export const reducer = {
   modalSlice,
@@ -20,4 +21,5 @@ export const reducer = {
   chatSlice,
   serviceSlice,
   adminSlice,
+  postSlice,
 };

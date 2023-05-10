@@ -109,7 +109,7 @@ const initialState: ICompanySlice = {
     total: 0,
   },
 
-  me: getLocal,
+  me: getLocal('company_account'),
   token,
 };
 

@@ -42,6 +42,6 @@ export const useStyles = makeStyles({
     transform: 'translateX(-50%)',
     width: '100%',
     margin: 'auto',
-    bottom: '140px',
+    bottom: '168px',
   },
 });

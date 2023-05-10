@@ -1,8 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-export const getClientToken = () => {
-  return axios.defaults.headers.common['Authorization'];
-};
+export const getClientToken = (config: any) => {};
 
 export const setClientToken = (token: string) => {
   if (token) {
@@ -35,10 +33,15 @@ export const createClient = () => {
 
   instance.interceptors.request.use(
     (config: any) => {
-      config.headers = {
-        // Authorization: getClientToken(),
-        ...config.headers,
-      };
+      console.log('localStorage.getItem()', localStorage.getItem('token'));
+      const token = localStorage.getItem('token')
+        ? localStorage.getItem('token') || ''
+        : null;
+
+      console.log({ token });
+      if (token) {
+        config.headers['Authorization'] = 'Bearer ' + token;
+      }
       return config;
     },
     (error) => {

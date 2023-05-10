@@ -1,4 +1,5 @@
 import { IRole } from './common';
+import { ICompany } from './company';
 
 export interface IUser {
   id_user: string;
@@ -19,4 +20,9 @@ export interface IUsersList {
 export interface ILockUser {
   id_user: string;
   is_lock: number;
+}
+
+export interface ICompanyList {
+  company_list: ICompany[];
+  total: number;
 }

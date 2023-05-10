@@ -29,11 +29,6 @@ export const CPathSideBar: IPathSideBar[] = [
     subheader: 'Quản lý nhà tuyển dụng',
     children: [
       {
-        icon: <ListAltOutlined />,
-        label: 'Danh sách nhà tuyển dụng',
-        to: '/admin/list-company',
-      },
-      {
         icon: <HowToRegOutlined />,
         label: 'Danh sách đăng ký',
         to: '/admin/list-register-company',
@@ -44,14 +39,14 @@ export const CPathSideBar: IPathSideBar[] = [
     subheader: 'Quản lý bài viết',
     children: [
       {
-        icon: <NoteAddOutlined />,
-        label: 'Thêm mới bài viết',
-        to: '/admin/add-post',
-      },
-      {
         icon: <ListAltOutlined />,
         label: 'Danh sách bài viết',
         to: '/admin/list-post',
+      },
+      {
+        icon: <NoteAddOutlined />,
+        label: 'Thêm mới bài viết',
+        to: '/admin/add-post',
       },
     ],
   },
