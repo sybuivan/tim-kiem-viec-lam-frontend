@@ -33,14 +33,17 @@ import Dashboard from 'src/pages/admin/dashboard';
 import ManagementUser from 'src/pages/admin/management-user';
 import ListCompany from 'src/pages/admin/list-company';
 import ListRegisterCompany from 'src/pages/admin/list-register-company';
-import AddPost from 'src/pages/admin/add-post';
-import ListPost from 'src/pages/admin/list-post';
 import AuthLogin from 'src/pages/admin/auth_login';
 import { io } from 'socket.io-client';
 import { PrivateAdmin, PrivateDashboard } from './private/admin';
 import CreateProfileOnline from 'src/pages/profile/profile_document/create_profile_online';
 import Page404 from 'src/components/notfound';
 import ChooseService from 'src/pages/home_company/create_post/choose_service';
+import PostList from 'src/pages/home/post_list';
+import PostAdd from 'src/pages/admin/list-post/post-add';
+import PostEdit from 'src/pages/admin/list-post/post-edit';
+import ManagementPostList from 'src/pages/admin/list-post';
+import NewsDetails from 'src/pages/news';
 
 const socket = io('http://localhost:5000');
 
@@ -74,6 +77,10 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
       {
         path: '/co-hoi-viec-lam',
         element: <JobList />,
+      },
+      {
+        path: '/bai-dang-chi-tiet/:id_post',
+        element: <NewsDetails />,
       },
       {
         path: '/viec-lam/:id_job',
@@ -233,11 +240,15 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
       },
       {
         path: 'add-post',
-        element: <AddPost />,
+        element: <PostAdd />,
+      },
+      {
+        path: 'edit-post/:id_post',
+        element: <PostEdit />,
       },
       {
         path: 'list-post',
-        element: <ListPost />,
+        element: <ManagementPostList />,
       },
     ],
   },

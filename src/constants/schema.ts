@@ -39,6 +39,25 @@ export const schemaProfileCompany = yup.object().shape({
   //   link_website: yup.string(),
 });
 
+export const schemaRegister = yup.object().shape({
+  email: yup
+    .string()
+    .email('Email không hợp lệ')
+    .required('Email không được bỏ trống.'),
+  password: yup.string().required('Xin vui lòng nhập lại mật khẩu.').min(6),
+  fullName: yup.string().required('Họ và tên không được bỏ trống'),
+
+  phone: yup.number().required('Số điện thoại không được bỏ trống'),
+  name_company: yup.string().required('Tên công ty không được bỏ trống'),
+  total_people: yup.string().required('Quy mô nhân sự không được bỏ trống'),
+  city: yup.string().required('Địa điểm không được bỏ trống'),
+  address: yup.string().required('Địa chỉ công ty không được bỏ trống'),
+  fieldOfActivity: yup
+    .string()
+    .required('Lĩnh vực hoạt động không được bỏ trống'),
+  faxCode: yup.string().required('Mã thuế không được bỏ trống'),
+});
+
 export const typeFile = [
   'application/pdf',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

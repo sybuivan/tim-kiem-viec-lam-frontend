@@ -14,6 +14,7 @@ export interface IApply {
 
 export interface IApplyUser {
   fullName: string;
+  email: string;
   id_user: string;
   birthDay: Date;
   position_nominee?: string;

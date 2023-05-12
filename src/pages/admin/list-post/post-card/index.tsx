@@ -19,7 +19,7 @@ const CardPost = ({ postItem }: Props) => {
   const navigate = useNavigate();
 
   const moveToEditPost = async (id: string) => {
-    await navigate(`/post_management/edit_post/${id}`);
+    await navigate(`/admin/edit-post/${id}`);
   };
 
   const handleOpenModalDeletePost = (id: string) => {

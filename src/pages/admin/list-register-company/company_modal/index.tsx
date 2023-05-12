@@ -89,6 +89,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     label="Email"
                     name="email"
                     placeholder="Nhập địa chỉ email"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -97,6 +98,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     label="Số điện thoại"
                     name="phone"
                     placeholder="Nhập số điện thoại"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -108,6 +110,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     options={cityfield}
                     keyOption="id_city"
                     labelOption="name_city"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -116,6 +119,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     label="Nhập địa chỉ"
                     name="address"
                     placeholder="Ví dụ: Số nhà 98A, phố Ngụy Như Kon Tum, phường ..."
+                    disabled
                   />
                 </Grid>
 
@@ -127,6 +131,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     keyOption="value"
                     label="Quy mô nhân sự"
                     labelOption="value"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -147,6 +152,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     label="Link website"
                     name="link_website"
                     placeholder="Nhập link website"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -156,6 +162,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     name="lat"
                     placeholder="Nhập kinh độ"
                     type="number"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -165,6 +172,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     name="lng"
                     placeholder="Nhập vĩ độ"
                     type="number"
+                    disabled
                   />
                 </Grid>
                 <Grid item xs={6}>
@@ -173,6 +181,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                     name="faxCode"
                     label="Mã số thuế"
                     placeholder="Nhập mã số thuế"
+                    disabled
                   />
                 </Grid>
               </Grid>

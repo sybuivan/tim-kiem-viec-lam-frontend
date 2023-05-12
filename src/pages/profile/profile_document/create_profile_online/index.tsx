@@ -51,7 +51,6 @@ const CreateProfileOnline = () => {
     handleSubmit,
     setValue,
     getValues,
-    reset,
     formState: { isValid },
   } = useForm<IPayLoadCV>({
     defaultValues: profile_detail,

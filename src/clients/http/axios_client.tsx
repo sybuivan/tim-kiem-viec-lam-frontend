@@ -10,15 +10,12 @@ export const setClientToken = (token: string) => {
   }
 };
 
-export const createClient = () => {
-  const baseURL = 'http://localhost:5000/api/v1';
-
+export const createClient = (baseURL: string, access?: string) => {
   const instance = axios.create({
     baseURL,
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
     },
   });
 

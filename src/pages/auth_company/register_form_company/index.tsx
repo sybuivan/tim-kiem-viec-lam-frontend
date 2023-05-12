@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormInput, FormSelect } from 'src/components/hook_form';
@@ -8,31 +8,24 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { CPersonnelSize } from 'src/constants/common';
-import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useDelayTimeout,
+  useGetStatus,
+} from 'src/hooks';
 import { IPayloadRegisterCompany } from 'src/types/company';
 import { LoadingButton } from '@mui/lab';
-import { registerCompany } from 'src/redux_store/company/company_action';
+import {
+  findCompany,
+  registerCompany,
+} from 'src/redux_store/company/company_action';
 import { toastMessage } from 'src/utils/toast';
-
-const schemaRegister = yup.object().shape({
-  email: yup
-    .string()
-    .email('Email không hợp lệ')
-    .required('Email không được bỏ trống.'),
-  password: yup.string().required('Xin vui lòng nhập lại mật khẩu.').min(6),
-  fullName: yup.string().required('Họ và tên không được bỏ trống'),
-
-  phone: yup.number().required('Số điện thoại không được bỏ trống'),
-  name_company: yup.string().required('Tên công ty không được bỏ trống'),
-  total_people: yup.string().required('Quy mô nhân sự không được bỏ trống'),
-  city: yup.string().required('Địa điểm không được bỏ trống'),
-  address: yup.string().required('Địa chỉ công ty không được bỏ trống'),
-  fieldOfActivity: yup
-    .string()
-    .required('Lĩnh vực hoạt động không được bỏ trống'),
-});
+import { schemaRegister } from 'src/constants/schema';
 
 const RegisterFormCompany = () => {
+  const delay = useDelayTimeout();
+
   const { cityfield, companyfield } = useAppSelector(
     (state) => state.commonSlice.fieldList
   );
@@ -40,30 +33,80 @@ const RegisterFormCompany = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<IPayloadRegisterCompany>({
-    defaultValues: {
-      address: '',
-      city: '',
-      email: '',
-      faxCode: '',
-      fieldOfActivity: '',
-      fullName: '',
-      name_company: '',
-      password: '',
-      total_people: '',
-    },
+  const { control, handleSubmit, resetField, reset, setValue, setError } =
+    useForm<IPayloadRegisterCompany>({
+      defaultValues: {
+        address: '',
+        city: '',
+        email: '',
+        faxCode: '',
+        fieldOfActivity: '',
+        fullName: '',
+        name_company: '',
+        password: '',
+        total_people: '',
+      },
 
-    resolver: yupResolver(schemaRegister),
-  });
+      resolver: yupResolver(schemaRegister),
+    });
 
   const handleOnSubmit = (data: IPayloadRegisterCompany) => {
-    dispatch(registerCompany(data))
+    dispatch(findCompany(data.faxCode))
       .unwrap()
+      .then((result) => {
+        const { data, desc } = result;
+
+        if (data) {
+          setValue('name_company', data.name);
+          setValue('address', data.address);
+        } else {
+          console.log({ data });
+          resetField('name_company');
+          resetField('address');
+          setError('faxCode', {
+            message: desc,
+          });
+        }
+      })
       .then(() => {
-        toastMessage.success('Đăng ký tài khoản thành công');
-        navigate('/company/login');
+        dispatch(registerCompany(data))
+          .unwrap()
+          .then(() => {
+            toastMessage.success('Đăng ký tài khoản thành công');
+            navigate('/company/login');
+          });
       });
   };
+
+  const handleOnChange = (name: string, value: string) => {
+    delay(() => {
+      dispatch(findCompany(value))
+        .unwrap()
+        .then((result) => {
+          const { data, desc } = result;
+
+          if (data) {
+            setValue('name_company', data.name);
+            setValue('address', data.address);
+          } else {
+            console.log({ data });
+            resetField('name_company');
+            resetField('address');
+            setError(
+              'faxCode',
+              {
+                message: desc,
+                type: 'focus',
+              },
+              {
+                shouldFocus: true,
+              }
+            );
+          }
+        });
+    });
+  };
+
   return (
     <Box
       sx={{
@@ -138,16 +181,26 @@ const RegisterFormCompany = () => {
         />
         <FormInput
           control={control}
+          name="faxCode"
+          label="Mã số thuế"
+          placeholder="Nhập mã số thuế"
+          handleChange={handleOnChange}
+        />
+        <FormInput
+          control={control}
           name="name_company"
           label="Tên công ty"
           placeholder="Tên công ty theo giấy phép đăng ký kinh doanh"
           required
+          disabled
         />
         <FormInput
           control={control}
-          name="faxCode"
-          label="Mã số thuế"
-          placeholder="Nhập mã số thuế"
+          name="address"
+          label="Địa chỉ công ty"
+          placeholder="Nhập địa chỉ công ty"
+          required
+          disabled
         />
         <FormSelect
           control={control}
@@ -167,13 +220,7 @@ const RegisterFormCompany = () => {
           labelOption="name_city"
           required
         />
-        <FormInput
-          control={control}
-          name="address"
-          label="Địa chỉ công ty"
-          placeholder="Nhập địa chỉ công ty"
-          required
-        />
+
         <FormSelect
           control={control}
           name="fieldOfActivity"

@@ -1,7 +1,8 @@
 import { IFieldList } from 'src/types/common';
 import { createClient } from './axios_client';
 
-const client = createClient();
+import { baseURL } from 'src/config';
+const client = createClient(baseURL);
 
 export const commonApi = {
   getAllField: () => {

@@ -9,7 +9,7 @@ import { getAllField } from './redux_store/common/field/field_actions';
 import { checkRoleCompany, checkRoleUser } from './utils/common';
 import { socketIo } from './clients/socket';
 import { toastMessage } from './utils/toast';
-import { changeNotification } from './redux_store/user/user_slice';
+import { changeNotification, logout } from './redux_store/user/user_slice';
 import { INotification } from './types/user';
 
 function App() {
@@ -24,7 +24,11 @@ function App() {
           email: me?.email,
           id_role: me?.id_role,
         })
-      );
+      )
+        .unwrap()
+        .catch((e: any) => {
+          dispatch(logout(''));
+        });
     }
 
     if (checkRoleCompany(me?.id_role, token)) {

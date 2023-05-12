@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Typography, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { useForm } from 'react-hook-form';
 import { FormInput } from 'src/components/hook_form';
 import theme from 'src/theme';
 import { IPayloadLogin } from 'src/types/auth';
-import { useAppDispatch } from 'src/hooks';
+import { useAppDispatch, useIsRequestPending } from 'src/hooks';
 import { loginAdmin } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
 import { useNavigate } from 'react-router';
@@ -22,6 +23,7 @@ const schemaLogin = yup.object().shape({
 const AuthLogin = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const isLoading = useIsRequestPending('user', 'loginAdmin');
   const initLoginForm: IPayloadLogin = {
     email: '',
     password: '',
@@ -81,9 +83,10 @@ const AuthLogin = () => {
               label="Nhập mật khẩu"
             />
           </Box>
-          <Button
+          <LoadingButton
             type="submit"
             variant="contained"
+            loading={isLoading}
             sx={{
               width: '100%',
               py: 1.5,
@@ -91,7 +94,7 @@ const AuthLogin = () => {
             }}
           >
             Đăng nhập
-          </Button>
+          </LoadingButton>
         </Box>
       </Box>
     </Box>

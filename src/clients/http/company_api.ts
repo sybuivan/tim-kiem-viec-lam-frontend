@@ -10,10 +10,17 @@ import {
 } from 'src/types/company';
 import { IPayloadProfile } from 'src/types/profile';
 import { createClient } from './axios_client';
+import { baseURL, baseAPI24h } from 'src/config';
+import axios from 'axios';
 
-const client = createClient();
+const client = createClient(baseURL);
+const serverApi = createClient(baseAPI24h);
 
 export const companyApi = {
+  findCompany: (name: string) => {
+    return axios.get(`https://api.vietqr.io/v2/business/${name}`);
+  },
+
   login: (payload: IPayloadLogin) => {
     return client.post('/company/login', payload);
   },
@@ -67,7 +74,11 @@ export const companyApi = {
   getAllJobByIdCompany: (id_company: string) => {
     return client.get(`/company/get-all-job-by-company/${id_company}`);
   },
-  getProfileAppliedByJob: (params: { id_company: string; id_job?: string }) => {
+  getProfileAppliedByJob: (params: {
+    id_company: string;
+    id_job?: string;
+    status_job?: string;
+  }) => {
     return client.get(`/company/get-applied-by-company`, { params });
   },
   updateStatusApplied: (payload: { id_apply: string; status: number }[]) => {

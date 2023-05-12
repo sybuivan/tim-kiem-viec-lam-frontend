@@ -14,6 +14,7 @@ import JobSuggetForYou from './job_sugget_for_you';
 import ListDiscover from './list_discover';
 import { BsFillBriefcaseFill } from 'react-icons/bs';
 import { IDiscover } from 'src/types/common';
+import { getAllPosts } from 'src/redux_store/post/post_actions';
 
 const CData: IDiscover[] = [
   {
@@ -65,6 +66,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(getCompanyList());
     dispatch(getJobList());
+    dispatch(getAllPosts());
   }, []);
 
   return (

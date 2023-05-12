@@ -1,14 +1,24 @@
-import { IPostList } from 'src/types/post';
-import { IServiceList, IBuyService, IServiceBuyList } from 'src/types/service';
+import { IPostList, IPost } from 'src/types/post';
 import { createClient } from './axios_client';
 
-const client = createClient();
+import { baseURL } from 'src/config';
+const client = createClient(baseURL);
 
 export const postApi = {
   getAllPosts: () => {
     return client.get<IPostList>('/post/get-all-posts');
   },
-  createPost: (payload: FormData) => {
-    return client.get<IPostList>('/post/create-post');
+  getPostDetail: (id_post: string) => {
+    return client.get<IPost>(`/post/get-post-detail/${id_post}`);
+  },
+  createPost: (formData: FormData) => {
+    return client.post<any>('/post/create-post', formData, {
+      headers: { 'content-type': 'multipart/form-data' },
+    });
+  },
+  updatePost: (formData: FormData, id_post: string) => {
+    return client.put<any>(`/post/update-post/${id_post}`, formData, {
+      headers: { 'content-type': 'multipart/form-data' },
+    });
   },
 };

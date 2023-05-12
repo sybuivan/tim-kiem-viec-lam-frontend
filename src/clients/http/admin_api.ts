@@ -1,7 +1,8 @@
+import { baseURL } from 'src/config';
 import { IUsersList, ILockUser, ICompanyList } from 'src/types/admin';
 import { createClient } from './axios_client';
 
-const client = createClient();
+const client = createClient(baseURL);
 
 export const adminApi = {
   getAllUsers: (id_role: string) => {

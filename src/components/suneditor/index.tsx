@@ -37,6 +37,7 @@ const SunEditorComponent = ({
   height = '20vh',
 }: ISunEditorComponent) => {
   const handleChange = (content: string) => {
+    console.log({ content });
     onChange(content);
   };
   return (

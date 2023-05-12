@@ -10,7 +10,7 @@ import { resetData } from 'src/redux_store/post/post_slice';
 import CardPost from './post-card';
 import { useStyles } from './styles';
 
-const PostManageMent = () => {
+const ManagementPostList = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -36,45 +36,43 @@ const PostManageMent = () => {
   }, []);
 
   return (
-    <Scrollbars>
-      <Box className={classes.container}>
-        <Box className={classes.body}>
-          <Box className={classes.boxFilter}>
-            <Button
-              variant="outlined"
-              startIcon={<AddOutlined />}
-              sx={{ height: '37px', marginTop: '3px' }}
-              onClick={moveToAddNewPost}
-            >
-              Thêm bài viết
-            </Button>
+    <Box>
+      <Box>
+        <Box mb={2}>
+          <Button
+            variant="outlined"
+            startIcon={<AddOutlined />}
+            sx={{ height: '37px', marginTop: '3px' }}
+            onClick={moveToAddNewPost}
+          >
+            Thêm bài viết
+          </Button>
+        </Box>
+
+        {isLoadingGetData ? (
+          <Box className={classes.boxPostsManageMent}>
+            <LoadingLinear />
           </Box>
-
-          {isLoadingGetData ? (
-            <Box className={classes.boxPostsManageMent}>
-              <LoadingLinear />
-            </Box>
-          ) : post_list.length === 0 ? (
-            <Typography
-              sx={{ textAlign: 'center', fontSize: '15px', marginTop: '10px' }}
-            >
-              Không có dữ liệu
-            </Typography>
-          ) : (
-            <Box className={classes.boxPostsManageMent}>
-              {post_list.map((postItem) => {
-                return <CardPost postItem={postItem} key={postItem.id_post} />;
-              })}
-            </Box>
-          )}
-        </Box>
-
-        <Box className={classes.boxPagination}>
-          <Typography> Tổng số: {total} </Typography>
-        </Box>
+        ) : post_list.length === 0 ? (
+          <Typography
+            sx={{ textAlign: 'center', fontSize: '15px', marginTop: '10px' }}
+          >
+            Không có dữ liệu
+          </Typography>
+        ) : (
+          <Box className={classes.boxPostsManageMent}>
+            {post_list.map((postItem) => {
+              return <CardPost postItem={postItem} key={postItem.id_post} />;
+            })}
+          </Box>
+        )}
       </Box>
-    </Scrollbars>
+
+      <Box className={classes.boxPagination}>
+        <Typography> Tổng số: {total} </Typography>
+      </Box>
+    </Box>
   );
 };
 
-export default PostManageMent;
+export default ManagementPostList;

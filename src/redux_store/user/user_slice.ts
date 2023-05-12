@@ -79,7 +79,7 @@ const userSlice = createSlice({
     logout: (state, action) => {
       state.me = action.payload;
       state.token = '';
-      state.saveJobList = initialState.saveJobList;
+      state = initialState;
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
     },
@@ -99,6 +99,8 @@ const userSlice = createSlice({
     },
 
     resetState: (state) => {
+      localStorage.removeItem('user_account');
+      localStorage.removeItem('token');
       state = initialState;
     },
     setProfileDetail: (state, action) => {

@@ -9,16 +9,10 @@ import { FormInput } from 'src/components/hook_form';
 import theme from 'src/theme';
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
 import { useAppDispatch } from 'src/hooks';
-import {
-  getProfileCV,
-  getSavedListByUser,
-  loginUser,
-  registerUser,
-} from 'src/redux_store/user/user_action';
+import { loginUser, registerUser } from 'src/redux_store/user/user_action';
 import RegisterForm from '../register_form';
 import { toastMessage } from 'src/utils/toast';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
-import { getApplyList } from 'src/redux_store/apply/apply_actions';
 
 const schemaLogin = yup.object().shape({
   email: yup

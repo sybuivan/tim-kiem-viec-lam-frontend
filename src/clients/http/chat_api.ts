@@ -1,7 +1,8 @@
 import { IMessageList, IRoom, IRoomList, IMessage } from 'src/types/chat';
 import { createClient } from './axios_client';
 
-const client = createClient();
+import { baseURL } from 'src/config';
+const client = createClient(baseURL);
 
 export const chatApi = {
   createRoom: (data: IRoom) => {

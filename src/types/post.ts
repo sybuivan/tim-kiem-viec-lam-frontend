@@ -1,10 +1,10 @@
 export interface IPost {
-  id_post: string;
+  id_post?: string;
   title: string;
   description: string;
   content: string;
-  image: string;
-  publishedAt: string | Date;
+  image?: string;
+  publishedAt?: string | Date;
 }
 
 export interface IPostList {

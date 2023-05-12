@@ -29,6 +29,19 @@ export const loginCompany = createAsyncThunk<
   }
 });
 
+export const findCompany = createAsyncThunk<any, string>(
+  'company/findCompany',
+  async (name_company, { rejectWithValue }) => {
+    try {
+      const { data } = await companyApi.findCompany(name_company);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const registerCompany = createAsyncThunk<any, IPayloadRegisterCompany>(
   'company/registerCompany',
   async (payload, { rejectWithValue }) => {
@@ -193,14 +206,16 @@ export const getProfileAppliedByJob = createAsyncThunk<
   {
     id_company: string;
     id_job?: string;
+    status_job?: string;
   }
 >(
   'company/getProfileAppliedByJob',
-  async ({ id_company, id_job }, { rejectWithValue }) => {
+  async ({ id_company, id_job, status_job }, { rejectWithValue }) => {
     try {
       const { data } = await companyApi.getProfileAppliedByJob({
         id_company,
         id_job,
+        status_job,
       });
       return data;
     } catch (error: any) {
