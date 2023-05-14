@@ -19,7 +19,7 @@ import { styled } from '@mui/material/styles';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
-import { logout } from 'src/redux_store/user/user_slice';
+import { logout, resetStateUser } from 'src/redux_store/user/user_slice';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -49,7 +49,7 @@ const UserBoxLabel = styled(Typography)(
 );
 
 function HeaderUserbox() {
-  const { me } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const ref = useRef<any>(null);
@@ -65,6 +65,7 @@ function HeaderUserbox() {
 
   const handleLogout = () => {
     dispatch(logout(''));
+    dispatch(resetStateUser());
     navigate('/auth/admin/login');
   };
   return (

@@ -20,9 +20,9 @@ export const JobCompany = ({ job }: { job: IJob }) => {
 
   const {
     saveJobList: { savedList },
-    me,
-    token,
   } = useAppSelector((state) => state.userSlice);
+  const { me, token } = useAppSelector((state) => state.authSlice);
+
   const { handleOnUnSaved, handleOnSave } = useSaveJob(
     token,
     job.id_job,

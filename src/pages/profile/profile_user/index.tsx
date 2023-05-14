@@ -47,7 +47,7 @@ const schema = yup.object().shape({
 const ProfileUser = () => {
   const dispatch = useAppDispatch();
   const [isLoading] = useGetStatus('user', 'updateProfile');
-  const { me } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const { cityfield } = useAppSelector((state) => state.commonSlice.fieldList);
 
   const [privewImage, setPrivewImage] = useState<string>(me.avatar || '');

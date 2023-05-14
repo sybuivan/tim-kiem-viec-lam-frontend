@@ -1,4 +1,10 @@
-import { IJob, IJobDetails, IJobList, IPayloadJob } from 'src/types/job';
+import {
+  IJob,
+  IJobDetails,
+  IJobList,
+  IJobTop,
+  IPayloadJob,
+} from 'src/types/job';
 import { createClient } from './axios_client';
 import queryString from 'query-string';
 
@@ -40,5 +46,8 @@ export const jobApi = {
   },
   updateJob: (id_job: string, data: IPayloadJob) => {
     return client.put<IJob>(`/job/update-job/${id_job}`, data);
+  },
+  getTopJob: () => {
+    return client.get<{ data: IJobTop[] }>(`/job/get-top-job`);
   },
 };

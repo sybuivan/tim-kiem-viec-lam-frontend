@@ -13,8 +13,9 @@ const MainLayout = () => {
     refScroll.current?.scrollToTop({ behavior: 'smooth', block: 'start' });
   }, [location]);
 
-  console.log({ location });
-  const isShow = location.pathname !== '/thong-tin-ca-nhan/ho-so-dinh-kem';
+  const isShow = location.pathname.includes(
+    '/thong-tin-ca-nhan/ho-so-dinh-kem' || '/user/message'
+  );
 
   return (
     <Box bgcolor="#f2f3f7">

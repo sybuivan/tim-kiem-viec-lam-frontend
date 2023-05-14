@@ -29,10 +29,11 @@ const JobDescription = ({
 }) => {
   const dispatch = useAppDispatch();
   const {
-    token,
-    me,
     saveJobList: { savedList },
   } = useAppSelector((state) => state.userSlice);
+
+  const { token, me } = useAppSelector((state) => state.authSlice);
+
   const {
     applyList: { data },
   } = useAppSelector((state) => state.applySlice);

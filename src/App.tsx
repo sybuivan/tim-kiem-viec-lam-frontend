@@ -10,15 +10,17 @@ import { checkRoleCompany, checkRoleUser } from './utils/common';
 import { socketIo } from './clients/socket';
 import { toastMessage } from './utils/toast';
 import { changeNotification, logout } from './redux_store/user/user_slice';
+import { resetState } from './redux_store/auth/authSlice';
 import { INotification } from './types/user';
 
 function App() {
-  const { token, me } = useAppSelector((state) => state.userSlice);
+  const { token, me } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (checkRoleUser(me?.id_role, token)) {
       socketIo.emit('user_id', me?.id_user);
       dispatch(getApplyList(me?.id_user));
+      dispatch(getAllField());
       dispatch(
         getMeUser({
           email: me?.email,
@@ -28,6 +30,7 @@ function App() {
         .unwrap()
         .catch((e: any) => {
           dispatch(logout(''));
+          dispatch(resetState());
         });
     }
 

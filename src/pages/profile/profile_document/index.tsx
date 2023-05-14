@@ -13,7 +13,8 @@ const ProfileDocument = () => {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const { me, profileCV } = useAppSelector((state) => state.userSlice);
+  const { profileCV } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
 
   useEffect(() => {
     dispatch(getProfileCV(me.id_user));

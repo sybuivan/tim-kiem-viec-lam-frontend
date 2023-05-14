@@ -9,10 +9,11 @@ import { getSubTimeFromDayFNS } from 'src/utils/function';
 
 export const MessageCard = ({ room }: { room: IRoom }) => {
   const { fullName, id_room, message, created_at, avatar } = room;
-  const { me } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const {
     messageList: { messages },
   } = useAppSelector((state) => state.chatSlice);
+
   const { id_room_message } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -54,7 +55,21 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
       />
       <Box>
         <Box display="flex" alignItems="center">
-          <Typography sx={{ fontWeight: '600' }}>{fullName}</Typography>
+          <Typography
+            sx={{
+              fontWeight: '600',
+              whiteSpace: 'nowrap',
+              textOverflow: 'ellipsis',
+              overflow: 'hidden',
+              fontSize: '15px',
+              margin: 0,
+              minWidth: '200px',
+              maxWidth: '200px',
+            }}
+            title={fullName}
+          >
+            {fullName}
+          </Typography>
           <Typography sx={{ color: theme.palette.grey[600], px: 1 }}>
             -
           </Typography>

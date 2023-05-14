@@ -34,7 +34,8 @@ const CompanyInfo = () => {
       followere,
     },
   } = useAppSelector((state) => state.companySlice);
-  const { me } = useAppSelector((state) => state.userSlice);
+
+  const { me } = useAppSelector((state) => state.authSlice);
 
   const handleFollow = () => {
     if (me?.id_user && id_company) {

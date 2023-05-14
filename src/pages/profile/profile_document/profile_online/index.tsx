@@ -19,9 +19,8 @@ import {
   DeleteForeverOutlined,
   CheckCircleRounded,
 } from '@mui/icons-material';
-import * as yup from 'yup';
-import { toastMessage } from 'src/utils/toast';
 
+import { toastMessage } from 'src/utils/toast';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { useNavigate } from 'react-router';
 import { useForm } from 'react-hook-form';
@@ -37,7 +36,8 @@ import { resetProfileDetails } from 'src/redux_store/user/user_slice';
 import { schemaProfileCV, typeFile } from 'src/constants/schema';
 
 const ProfileOnline = () => {
-  const { me, profile_detail } = useAppSelector((state) => state.userSlice);
+  const { profile_detail } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const {
     fieldList: {
       typerankfield,

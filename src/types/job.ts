@@ -15,8 +15,8 @@ export interface IJob extends ICompany {
   name_range: string;
   name_job: string;
   work_location: string;
-  deadline: Date | string;
-  created_at?: Date | string;
+  deadline: Date;
+  created_at: Date;
   name_experience?: string;
   name_rank?: string;
   name_field?: string;
@@ -26,6 +26,7 @@ export interface IJob extends ICompany {
   benefits_job?: string;
   name_city?: string;
   is_lock?: 0 | 1;
+  days_left?: number;
 }
 
 export interface IPayloadJob {
@@ -49,4 +50,10 @@ export interface IPayloadJob {
 export interface IJobDetails {
   job: IJob;
   job_suggets: IJob[];
+}
+
+export interface IJobTop {
+  id_rank: string;
+  name_rank: string;
+  total_count: number;
 }

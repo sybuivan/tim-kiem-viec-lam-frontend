@@ -25,7 +25,8 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
 
   const [idProfile, setIdProfile] = useState<string>('');
   const [isActiveFile, setIsActiveFile] = useState<boolean>(false);
-  const { me, profileCV } = useAppSelector((state) => state.userSlice);
+  const { profileCV } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
 
   const { control, reset, handleSubmit } = useForm<IApply>({});
 

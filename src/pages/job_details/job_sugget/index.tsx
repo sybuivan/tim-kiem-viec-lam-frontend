@@ -27,9 +27,9 @@ const JobItem = ({ job }: { job: IJob }) => {
 
   const {
     saveJobList: { savedList },
-    token,
-    me,
   } = useAppSelector((state) => state.userSlice);
+  const { me, token } = useAppSelector((state) => state.authSlice);
+
   const { handleOnUnSaved, handleOnSave } = useSaveJob(
     token,
     id_job,

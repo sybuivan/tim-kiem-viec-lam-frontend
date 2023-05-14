@@ -36,14 +36,10 @@ interface IUserSlice {
     notificationList: INotification[];
     total_notification: number;
   };
-  me: any;
-  token: any;
 }
 
 const initialState: IUserSlice = {
-  me: getLocal('user_account'),
   profileCV: [],
-  token,
   profile_detail: {
     career_goals: '',
     desired_salary: 1000000,
@@ -77,8 +73,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     logout: (state, action) => {
-      state.me = action.payload;
-      state.token = '';
       state = initialState;
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
@@ -98,7 +92,7 @@ const userSlice = createSlice({
         state.notification.total_notification + 1;
     },
 
-    resetState: (state) => {
+    resetStateUser: (state) => {
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
       state = initialState;
@@ -121,8 +115,6 @@ const userSlice = createSlice({
         followList,
         notification,
       } = action.payload;
-      state.me = users;
-      state.token = accessToken;
       state.followList = followList;
       state.profileCV = profile_cv;
       state.saveJobList = saveJobList;
@@ -142,8 +134,6 @@ const userSlice = createSlice({
           followList,
           notification,
         } = action.payload;
-        state.me = users;
-        state.token = accessToken;
         state.followList = followList;
         state.profileCV = profile_cv;
         state.saveJobList = saveJobList;
@@ -154,14 +144,11 @@ const userSlice = createSlice({
       })
       .addCase(loginAdmin.fulfilled, (state, action) => {
         const { users, accessToken } = action.payload;
-        state.me = users;
-        state.token = accessToken;
         localStorage.setItem('user_account', JSON.stringify(users));
         localStorage.setItem('token', accessToken);
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         const { users } = action.payload;
-        state.me = users;
         localStorage.setItem('user_account', JSON.stringify(users));
       })
       .addCase(saveJob.fulfilled, (state, action) => {
@@ -221,7 +208,7 @@ export const {
   logout,
   unSaveJobById,
   changeNotification,
-  resetState,
+  resetStateUser,
   setProfileDetail,
   resetProfileDetails,
 } = actions;

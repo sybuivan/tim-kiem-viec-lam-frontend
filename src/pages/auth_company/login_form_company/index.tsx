@@ -13,6 +13,7 @@ import { loginCompany } from 'src/redux_store/company/company_action';
 import { toastMessage } from 'src/utils/toast';
 import { useNavigate } from 'react-router-dom';
 import { IPayloadLogin } from 'src/types/auth';
+import { setLoginInfo } from 'src/redux_store/auth/authSlice';
 const schemaRegister = yup.object().shape({
   email: yup
     .string()
@@ -37,7 +38,10 @@ const LoginFormCompany = () => {
   const handleOnSubmit = (data: IPayloadLogin) => {
     dispatch(loginCompany(data))
       .unwrap()
-      .then(() => {
+      .then((data) => {
+        const { users, accessToken } = data;
+        dispatch(setLoginInfo({ users, accessToken }));
+
         toastMessage.success('Đăng nhập tài khoản thành công');
         navigate('/company/home/ho-so-cong-ty');
       });

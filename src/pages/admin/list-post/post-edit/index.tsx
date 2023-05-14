@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router';
 
 import { FormInput, FormTextarea } from 'src/components/hook_form';
-import LoadingLinear from 'src/components/loading/loading_linear';
 import SunEditorComponent from 'src/components/suneditor';
 import { useAppDispatch, useAppSelector, useIsRequestPending } from 'src/hooks';
 import { getPostDetail, updatePost } from 'src/redux_store/post/post_actions';
@@ -20,7 +19,7 @@ const PostEdit = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id_post } = useParams();
-  const { me } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
 
   const [privewImage, setPrivewImage] = useState(
     'https://fucoidannano.com/img/no_img.png'

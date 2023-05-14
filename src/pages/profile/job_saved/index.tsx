@@ -8,8 +8,9 @@ import EmptyData from 'src/components/empty_data';
 const JobSaved = () => {
   const {
     saveJobList: { savedList },
-    me,
   } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
+
   return (
     <Box>
       <ProfileHeader fullName={me.fullName} />

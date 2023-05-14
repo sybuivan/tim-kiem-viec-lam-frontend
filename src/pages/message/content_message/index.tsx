@@ -17,7 +17,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
   const {
     messageList: { messages, room },
   } = useAppSelector((state) => state.chatSlice);
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
 
   const {
@@ -44,7 +44,6 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
 
   useEffect(() => {
     socket.on('new-message', ({ message }: any) => {
-      console.log({ message });
       dispatch(changeRoom(message));
       dispatch(setMessageList(message));
     });
@@ -56,11 +55,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
 
   const handleSentMessage = async ({ message }: { message: string }) => {
     const { id_company, id_user, fullName, id_room } = room;
-    console.log({
-      fullName,
-      id_room,
-      id_user,
-    });
+
     if (id_room && fullName)
       dispatch(
         createMessage({

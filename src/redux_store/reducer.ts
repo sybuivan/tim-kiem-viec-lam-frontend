@@ -9,8 +9,10 @@ import chatSlice from './chat/chat_slices';
 import serviceSlice from './service/service_slice';
 import adminSlice from './admin/admin_slice';
 import postSlice from './post/post_slice';
+import authSlice from './auth/authSlice';
 
 export const reducer = {
+  authSlice,
   modalSlice,
   commonSlice,
   apiSlice,

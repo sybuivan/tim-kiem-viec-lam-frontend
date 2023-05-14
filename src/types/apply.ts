@@ -27,6 +27,8 @@ export interface IApplyUser {
   avatar?: string;
   introducing_letter?: string;
   created_at: Date | string;
+  date?: any;
+  hour?: any;
 }
 
 export interface IApplyList {

@@ -8,15 +8,14 @@ import { SideBar } from './side_bar';
 
 const Message = () => {
   const dispatch = useAppDispatch();
-  const { me } = useAppSelector((state) => state.companySlice);
-  console.log('rendermessage !');
+  const {
+    me: { id_user, id_role },
+  } = useAppSelector((state) => state.authSlice);
+
   useEffect(() => {
-    if (me?.id_user && me?.id_role) {
-      dispatch(getRoom({ id_user: me.id_user, id_role: me.id_role }));
-    } else if (me?.id_company && me?.id_role) {
-      dispatch(getRoom({ id_user: me.id_company, id_role: me.id_role }));
-    }
+    dispatch(getRoom({ id_user, id_role }));
   }, []);
+
   return (
     <Paper
       sx={{

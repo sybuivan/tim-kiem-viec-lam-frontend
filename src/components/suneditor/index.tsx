@@ -40,6 +40,7 @@ const SunEditorComponent = ({
     console.log({ content });
     onChange(content);
   };
+
   return (
     <>
       <FormLabel
@@ -53,6 +54,7 @@ const SunEditorComponent = ({
       </FormLabel>
       <SunEditor
         onChange={handleChange}
+        setContents={content}
         defaultValue={content}
         height={height}
         setOptions={{

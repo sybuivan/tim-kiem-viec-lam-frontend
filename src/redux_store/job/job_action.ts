@@ -1,6 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jobApi } from 'src/clients/http/job_api';
-import { IJob, IJobDetails, IJobList, IPayloadJob } from 'src/types/job';
+import {
+  IJob,
+  IJobDetails,
+  IJobList,
+  IPayloadJob,
+  IJobTop,
+} from 'src/types/job';
 import { toastMessage } from 'src/utils/toast';
 
 export const getJobList = createAsyncThunk<IJobList, void>(
@@ -87,15 +93,18 @@ export const deleteJob = createAsyncThunk<
     id_company: string;
     is_lock: 0 | 1;
   }
->('job/deleteJob', async ({ id_company, id_job, is_lock }, { rejectWithValue }) => {
-  try {
-    const { data } = await jobApi.deleteJob(id_company, id_job, is_lock);
-    return data;
-  } catch (error: any) {
-    toastMessage.setErrors(error);
-    return rejectWithValue(error);
+>(
+  'job/deleteJob',
+  async ({ id_company, id_job, is_lock }, { rejectWithValue }) => {
+    try {
+      const { data } = await jobApi.deleteJob(id_company, id_job, is_lock);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
   }
-});
+);
 export const updateJob = createAsyncThunk<
   IJob,
   {
@@ -111,3 +120,16 @@ export const updateJob = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
+
+export const getTopJob = createAsyncThunk<{ data: IJobTop[] }, void>(
+  'job/getTopJob',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await jobApi.getTopJob();
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);

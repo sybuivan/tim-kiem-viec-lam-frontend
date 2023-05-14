@@ -8,65 +8,32 @@ import JobList from './job_list';
 import { QueryBuilderOutlined } from '@mui/icons-material';
 import theme from 'src/theme';
 import PostList from './post_list';
-import { getJobList } from 'src/redux_store/job/job_action';
+import { getJobList, getTopJob } from 'src/redux_store/job/job_action';
 import { LightModeOutlined } from '@mui/icons-material';
 import JobSuggetForYou from './job_sugget_for_you';
 import ListDiscover from './list_discover';
-import { BsFillBriefcaseFill } from 'react-icons/bs';
-import { IDiscover } from 'src/types/common';
 import { getAllPosts } from 'src/redux_store/post/post_actions';
-
-const CData: IDiscover[] = [
-  {
-    icon: <BsFillBriefcaseFill />,
-    title: 'Việc làm Quản lý',
-    count: 1,
-    id: 1,
-  },
-  {
-    icon: <BsFillBriefcaseFill />,
-    title: 'Việc làm lương cao',
-    count: 1,
-    id: 1,
-  },
-  {
-    icon: <BsFillBriefcaseFill />,
-    title: 'Việc làm IT',
-    count: 1,
-    id: 1,
-  },
-  {
-    icon: <BsFillBriefcaseFill />,
-    title: 'Việc làm thực tập sinh',
-    count: 1,
-    id: 1,
-  },
-  {
-    icon: <BsFillBriefcaseFill />,
-    title: 'Việc làm thực tập sinh',
-    count: 1,
-    id: 1,
-  },
-];
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const {
-    token,
     jobSuggets: { job_suggets_for_you },
   } = useAppSelector((state) => state.userSlice);
+  const { token } = useAppSelector((state) => state.authSlice);
 
   const {
     companyList: { companyList },
   } = useAppSelector((state) => state.companySlice);
   const {
     jobList: { data },
+    jobTop,
   } = useAppSelector((state) => state.jobSlice);
 
   useEffect(() => {
     dispatch(getCompanyList());
     dispatch(getJobList());
     dispatch(getAllPosts());
+    dispatch(getTopJob());
   }, []);
 
   return (
@@ -105,7 +72,7 @@ const Home = () => {
           />
         )}
         <ListDiscover
-          list={CData}
+          list={jobTop.data}
           icon={
             <LightModeOutlined
               sx={{
@@ -114,7 +81,7 @@ const Home = () => {
               }}
             />
           }
-          title="Khám phá"
+          title="Top nhóm ngành nổi bật"
         />
 
         <PostList />

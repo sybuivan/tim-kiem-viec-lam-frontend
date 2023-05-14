@@ -1,16 +1,17 @@
 import React from 'react';
 import { Box, Grid, Typography, Button } from '@mui/material';
 import { AiOutlineArrowRight } from 'react-icons/ai';
+import { BsFillBriefcaseFill } from 'react-icons/bs';
+import { useNavigate } from 'react-router';
 import theme from 'src/theme';
+import { IJobTop } from 'src/types/job';
+import { useAppSelector } from 'src/hooks';
+import queryString from 'query-string';
 
-interface IDiscover {
-  title: string;
-  icon: any;
-  count: number;
-}
-
-const Discover = ({ item }: { item: IDiscover }) => {
-  const { title, icon, count } = item;
+const Discover = ({ item }: { item: IJobTop }) => {
+  const { id_rank, name_rank, total_count } = item;
+  const navigate = useNavigate();
+  const { jobFilters } = useAppSelector((state) => state.jobSlice);
   return (
     <Grid item xs={2.4}>
       <Box
@@ -50,12 +51,12 @@ const Discover = ({ item }: { item: IDiscover }) => {
             },
           }}
         >
-          {icon}
+          <BsFillBriefcaseFill />
         </Box>
         <Typography fontWeight="600" fontSize="18px" py={2}>
-          {title}
+          {name_rank}
         </Typography>
-        <Typography fontSize="16px">({count} việc làm)</Typography>
+        <Typography fontSize="16px">({total_count} việc làm)</Typography>
 
         <Box>
           <Button
@@ -65,6 +66,14 @@ const Discover = ({ item }: { item: IDiscover }) => {
               border: `1px solid ${theme.palette.common.white}`,
               visibility: 'hidden',
               mt: 1,
+            }}
+            onClick={() => {
+              const newJobFilters = {
+                ...jobFilters,
+                id_rank,
+              };
+              const stringifiedParams = queryString.stringify(newJobFilters);
+              navigate(`/co-hoi-viec-lam?${stringifiedParams}`);
             }}
           >
             Khám phá ngay

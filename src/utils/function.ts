@@ -55,9 +55,9 @@ export const findNameJob = (
   return name[0].name_job;
 };
 
-export const getSubTimeFromDayFNS = (date?: string | Date) => {
+export const getSubTimeFromDayFNS = (date?: any) => {
+  const now = moment();
   const locale = vi;
-  const now = moment(); // Lấy thời điểm hiện tại
   const startDate = moment(date); // Ngày bắt đầu tính
   const diffInYears = now.diff(startDate, 'years'); // Tính số năm khác nhau
   const diffInMonths = now.diff(startDate, 'months'); // Tính số tháng khác nhau
@@ -107,4 +107,10 @@ export const renderColorStatus = (status: number) => {
   if (status === 0) return theme.palette.grey[200];
   if (status === 1 || status === 2) return theme.palette.success.main;
   if (status === 3) return theme.palette.error.main;
+};
+
+export const renderColorText = (status: number) => {
+  if (status === 0 || status === 1) return theme.palette.common.black;
+
+  return theme.palette.common.white;
 };

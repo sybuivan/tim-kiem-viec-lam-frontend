@@ -35,13 +35,13 @@ export const createClient = (baseURL: string, access?: string) => {
         ? localStorage.getItem('token') || ''
         : null;
 
-      console.log({ token });
       if (token) {
         config.headers['Authorization'] = 'Bearer ' + token;
       }
       return config;
     },
     (error) => {
+      console.log(error);
       return Promise.reject(error);
     }
   );

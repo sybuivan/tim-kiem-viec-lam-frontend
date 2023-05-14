@@ -49,6 +49,17 @@ interface ICompanySlice {
     applied: IApplyUser[];
     total: number;
   };
+  timeMail: {
+    id_apply: string;
+    email: string;
+    id_user: string;
+    status: number | string | any;
+    name_job: string;
+    fullName: string;
+    date?: any;
+    hour?: any;
+    messageMailer: string;
+  }[];
   me: any;
   token: string;
 }
@@ -108,7 +119,7 @@ const initialState: ICompanySlice = {
     applied: [],
     total: 0,
   },
-
+  timeMail: [],
   me: getLocal('company_account'),
   token,
 };
@@ -133,7 +144,7 @@ const companySlice = createSlice({
     logoutCompany: (state, action) => {
       state.me = action.payload;
       state.token = '';
-      localStorage.removeItem('user_account');
+      localStorage.removeItem('company_account');
       localStorage.removeItem('token');
     },
 
@@ -151,6 +162,26 @@ const companySlice = createSlice({
 
       state.appliedJob.applied[index] = newApply;
     },
+
+    setPayloadMail: (state, action) => {
+      state.timeMail = action.payload;
+    },
+    changePayloadMail: (state, action) => {
+      const { index, date, hour, messageMailer } = action.payload;
+
+      console.log({ paylaod: action.payload });
+      const newPayload = {
+        ...state.timeMail[index],
+        date,
+        hour,
+        messageMailer,
+      };
+      state.timeMail[index] = newPayload;
+    },
+
+    resetMail: (state) => {
+      state.timeMail = [];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getCompanyList.fulfilled, (state, action) => {
@@ -164,13 +195,13 @@ const companySlice = createSlice({
         const { users, accessToken } = action.payload;
         state.me = users;
         state.token = accessToken;
-        localStorage.setItem('user_account', JSON.stringify(users));
+        localStorage.setItem('company_account', JSON.stringify(users));
         localStorage.setItem('token', accessToken);
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         const { company } = action.payload;
         state.me = company;
-        localStorage.setItem('user_account', JSON.stringify(company));
+        localStorage.setItem('company_account', JSON.stringify(company));
       })
       .addCase(getAllFolllowUser.fulfilled, (state, action) => {
         state.followList = action.payload;
@@ -213,5 +244,8 @@ export const {
   logoutCompany,
   changeFiltersCandidate,
   updateStatusApllied,
+  setPayloadMail,
+  changePayloadMail,
+  resetMail,
 } = actions;
 export default reducer;

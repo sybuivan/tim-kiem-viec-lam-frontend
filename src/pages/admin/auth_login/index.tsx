@@ -11,6 +11,7 @@ import { useAppDispatch, useIsRequestPending } from 'src/hooks';
 import { loginAdmin } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
 import { useNavigate } from 'react-router';
+import { setLoginInfo } from 'src/redux_store/auth/authSlice';
 
 const schemaLogin = yup.object().shape({
   email: yup
@@ -37,6 +38,8 @@ const AuthLogin = () => {
     dispatch(loginAdmin(data))
       .unwrap()
       .then((data) => {
+        const { accessToken, users } = data;
+        dispatch(setLoginInfo({ users, accessToken }));
         toastMessage.success('Đăng nhập tài khoản thành công');
         navigate('/admin/dashboard');
       });

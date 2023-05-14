@@ -8,9 +8,9 @@ import { getAllFollowUser } from 'src/redux_store/user/user_action';
 
 const CompanyFollow = () => {
   const {
-    me,
     followList: { followers },
   } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
 
   const dispatch = useAppDispatch();
 

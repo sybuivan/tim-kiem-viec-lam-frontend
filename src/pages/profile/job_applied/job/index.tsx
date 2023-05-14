@@ -4,7 +4,11 @@ import { useNavigate } from 'react-router';
 import { Box, Typography, Chip } from '@mui/material';
 
 import { IApply } from 'src/types/apply';
-import { renderLabelStatus, renderColorStatus } from 'src/utils/function';
+import {
+  renderLabelStatus,
+  renderColorStatus,
+  renderColorText,
+} from 'src/utils/function';
 import theme from 'src/theme';
 
 const JobSave = ({ job }: { job: IApply }) => {
@@ -90,7 +94,7 @@ const JobSave = ({ job }: { job: IApply }) => {
             label={renderLabelStatus(status)}
             sx={{
               background: renderColorStatus(status),
-              color: theme.palette.common.white,
+              color: renderColorText(status),
             }}
           />
         </Box>

@@ -16,8 +16,11 @@ const Company = ({
     logo: string;
   };
 }) => {
-  const { id_user } = useAppSelector((state) => state.userSlice.me);
+  const {
+    me: { id_user },
+  } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
+
   const handleUnFollow = () => {
     dispatch(
       unFollowCompany({

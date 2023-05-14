@@ -1,16 +1,19 @@
-import { Box, Typography, Grid, IconButton } from '@mui/material';
 import React from 'react';
+import { Box, Typography, Grid, IconButton, Chip } from '@mui/material';
 import {
   LocationOnOutlined,
   PaidOutlined,
   FavoriteBorderOutlined,
   FavoriteRounded,
 } from '@mui/icons-material';
+import moment from 'moment';
 import { IJob } from 'src/types/job';
 import theme from 'src/theme';
 import { useNavigate } from 'react-router';
 import { checkIsSaveJob } from 'src/utils/common';
 import { useAppSelector, useSaveJob } from 'src/hooks';
+import { getSubTimeFromDayFNS } from 'src/utils/function';
+import { differenceInDays, parse } from 'date-fns';
 
 interface IJobItem {
   jobItem: IJob;
@@ -24,9 +27,10 @@ const JobItem = (props: IJobItem) => {
   const navigate = useNavigate();
   const {
     saveJobList: { savedList },
-    token,
-    me,
   } = useAppSelector((state) => state.userSlice);
+
+  const { me, token } = useAppSelector((state) => state.authSlice);
+
   const { handleOnUnSaved, handleOnSave } = useSaveJob(
     token,
     jobItem.id_job,
@@ -49,7 +53,7 @@ const JobItem = (props: IJobItem) => {
               border: `1px solid ${theme.palette.primary.dark}`,
               cursor: 'pointer',
             },
-            backgroundColor: isPage ? '#fff5e7' : theme.palette.common.white,
+            backgroundColor: theme.palette.common.white,
           }}
           onClick={handleClick}
         >
@@ -128,6 +132,16 @@ const JobItem = (props: IJobItem) => {
                   {jobItem.name_city}
                 </Typography>
               </Box>
+              {isPage && (
+                <Box mt={1} display="flex" gap={1}>
+                  <Chip
+                    label={`Cập nhật ${getSubTimeFromDayFNS(
+                      jobItem.created_at
+                    )}`}
+                  />
+                  <Chip label={`Còn ${jobItem.days_left} ngày tuyển dụng`} />
+                </Box>
+              )}
             </Box>
           </Box>
         </Box>

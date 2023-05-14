@@ -21,10 +21,9 @@ import ApplyModal from '../apply_modal';
 
 const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
   const {
-    token,
-    me,
     saveJobList: { savedList },
   } = useAppSelector((state) => state.userSlice);
+  const { token, me } = useAppSelector((state) => state.authSlice);
 
   const {
     applyList: { data },

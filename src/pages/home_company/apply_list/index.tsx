@@ -20,19 +20,21 @@ import {
   getAllJobByIdCompany,
   getProfileAppliedByJob,
 } from 'src/redux_store/company/company_action';
+import { setPayloadMail } from 'src/redux_store/company/company_slices';
+
 import { COptionStatusApply } from 'src/constants/common';
 import { IApplyUser } from 'src/types/apply';
 import { findNameJob } from 'src/utils/function';
 import { toastMessage } from 'src/utils/toast';
 import theme from 'src/theme';
 import ApplyItem from './apply_item';
-import MailerModal from './mailer_modal';
+import MailerModal, { messageMail } from './mailer_modal';
 
 const ApplyList = ({ socket }: { socket: any }) => {
   const dispatch = useAppDispatch();
   const [isLoading] = useGetStatus('company', 'getProfileAppliedByJob');
   const {
-    me: { id_company },
+    me: { id_company, name_company, phone, address },
     jobList: { jobs },
     appliedJob: { applied, total },
   } = useAppSelector((state) => state.companySlice);
@@ -160,8 +162,14 @@ const ApplyList = ({ socket }: { socket: any }) => {
     };
     newFields[index] = newSelected;
     replace(newFields);
-    setSelectedApplied(newFields);
+    setSelectedApplied(newFields.filter((item) => item.checked));
   };
+
+  const [times, setTimes] = useState<
+    { id_apply: string; hour: string; date: string }[]
+  >([]);
+
+  const handleChangeTime = (name: string, value: string, index: number) => {};
 
   const handleOpenModal = () => {
     const isStatus =
@@ -178,19 +186,37 @@ const ApplyList = ({ socket }: { socket: any }) => {
         id_user: string;
         status: number | string | any;
         name_job: string;
+        fullName: string;
+        date?: any;
+        hour?: any;
+        messageMailer: string;
       }[] = selectedApplied.map((item) => {
         return {
           id_apply: item.id_apply,
+          fullName: item.fullName,
           status: item.status,
           id_user: item.id_user,
           name_job: item.name_job,
           email: item.email,
+          messageMailer: messageMail(
+            item.status,
+            item.name_job,
+            item.fullName,
+            phone,
+            name_company,
+            address,
+            moment(new Date()).format('DD/MM/YYYY'),
+            moment(new Date()).format('HH:mm')
+          ),
         };
       });
+
+      dispatch(setPayloadMail(payload));
+
       dispatch(
         openModal({
           modalId: MODAL_IDS.mailerModal,
-          dialogComponent: <MailerModal payload={payload} />,
+          dialogComponent: <MailerModal />,
         })
       );
     }

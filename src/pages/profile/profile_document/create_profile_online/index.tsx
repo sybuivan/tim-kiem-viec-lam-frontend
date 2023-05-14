@@ -36,7 +36,8 @@ import { createCV, getProfileCV } from 'src/redux_store/user/user_action';
 import { schemaProfileCV, typeFile } from 'src/constants/schema';
 
 const CreateProfileOnline = () => {
-  const { me, profile_detail } = useAppSelector((state) => state.userSlice);
+  const { profile_detail } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const {
     fieldList: {
       typerankfield,

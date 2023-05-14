@@ -24,7 +24,7 @@ import LoginForm from 'src/pages/auth/login_form';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
 import useStyles from './styles';
-import { logout, resetState } from 'src/redux_store/user/user_slice';
+import { logout, resetStateUser } from 'src/redux_store/user/user_slice';
 import { logoutCompany } from 'src/redux_store/company/company_slices';
 import { resetApplyData } from 'src/redux_store/apply/apply_slice';
 import { checkRoleCompany, checkRoleUser } from 'src/utils/common';
@@ -58,10 +58,11 @@ const settingsCompany: {
 
 const Header = () => {
   const {
-    me,
-    token,
     notification: { total_notification },
   } = useAppSelector((state) => state.userSlice);
+
+  const { me, token } = useAppSelector((state) => state.authSlice);
+
   const [anchorNotifi, setAnchorNotifi] =
     React.useState<HTMLButtonElement | null>(null);
 
@@ -251,7 +252,7 @@ const Header = () => {
                           } else {
                             dispatch(logout(''));
                             dispatch(resetApplyData());
-                            dispatch(resetState());
+                            dispatch(resetStateUser());
                             setAnchorElUser(null);
                             // navigate('/');
                           }

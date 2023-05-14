@@ -141,7 +141,6 @@ export const FormSelect = (props: IProps) => {
           error={invalid}
         >
           {' '}
-          <>{console.log({ error })}</>
           <FormLabel
             sx={{
               fontWeight: '600',

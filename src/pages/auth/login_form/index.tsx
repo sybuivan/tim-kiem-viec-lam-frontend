@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Typography, Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import DialogWrapper from 'src/components/modal/dialog_wrapper';
 import { useForm } from 'react-hook-form';
 import { MODAL_IDS } from 'src/constants';
 import { FormInput } from 'src/components/hook_form';
 import theme from 'src/theme';
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
-import { useAppDispatch } from 'src/hooks';
+import { useAppDispatch, useIsRequestPending } from 'src/hooks';
 import { loginUser, registerUser } from 'src/redux_store/user/user_action';
 import RegisterForm from '../register_form';
 import { toastMessage } from 'src/utils/toast';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
+import { setLoginInfo } from 'src/redux_store/auth/authSlice';
 
 const schemaLogin = yup.object().shape({
   email: yup
@@ -23,6 +25,8 @@ const schemaLogin = yup.object().shape({
 });
 
 const LoginForm = ({ socket }: { socket: any }) => {
+  const isLoading = useIsRequestPending('user', 'loginUser');
+
   const dispatch = useAppDispatch();
   const initLoginForm: IPayloadLogin = {
     email: '',
@@ -39,6 +43,8 @@ const LoginForm = ({ socket }: { socket: any }) => {
     dispatch(loginUser(data))
       .unwrap()
       .then((data) => {
+        const { accessToken, users } = data;
+        dispatch(setLoginInfo({ users, accessToken }));
         toastMessage.success('Đăng nhập tài khoản thành công');
         dispatch(
           closeModal({
@@ -100,8 +106,9 @@ const LoginForm = ({ socket }: { socket: any }) => {
                   label="Nhập mật khẩu"
                 />
               </Box>
-              <Button
+              <LoadingButton
                 type="submit"
+                loading={isLoading}
                 variant="contained"
                 sx={{
                   width: '100%',
@@ -110,7 +117,7 @@ const LoginForm = ({ socket }: { socket: any }) => {
                 }}
               >
                 Đăng nhập
-              </Button>
+              </LoadingButton>
             </>
           )}
 

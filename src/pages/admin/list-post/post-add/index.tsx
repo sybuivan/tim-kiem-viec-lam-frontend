@@ -23,7 +23,7 @@ export const postSchema = yup.object().shape({
 const PostAdd = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { me } = useAppSelector((state) => state.userSlice);
+  const { me } = useAppSelector((state) => state.authSlice);
 
   const [privewImage, setPrivewImage] = useState(
     'https://fucoidannano.com/img/no_img.png'

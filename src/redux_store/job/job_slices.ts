@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { IadvancedFilter } from 'src/types/common';
-import { IJobDetails, IJobList } from 'src/types/job';
+import { IJobDetails, IJobList, IJobTop } from 'src/types/job';
 import {
   getJobById,
   getJobList,
   getJobListFilters,
   getListJobByCompany,
+  getTopJob,
 } from './job_action';
 
 interface ICompanySlice {
@@ -13,6 +14,7 @@ interface ICompanySlice {
   jobDetail: IJobDetails;
   jobFilters: IadvancedFilter;
   jobListCompany: IJobList;
+  jobTop: { data: IJobTop[] };
 }
 
 const initialState: ICompanySlice = {
@@ -23,7 +25,8 @@ const initialState: ICompanySlice = {
   jobListCompany: { data: [], total: 0 },
   jobDetail: {
     job: {
-      deadline: '',
+      deadline: new Date(),
+      created_at: new Date(),
       id_job: '',
       name_job: '',
       name_range: '',
@@ -37,6 +40,7 @@ const initialState: ICompanySlice = {
     companyfield: '',
     page: 1,
   },
+  jobTop: { data: [] },
 };
 
 const jobSlice = createSlice({
@@ -76,6 +80,9 @@ const jobSlice = createSlice({
       })
       .addCase(getListJobByCompany.fulfilled, (state, action) => {
         state.jobListCompany = action.payload;
+      })
+      .addCase(getTopJob.fulfilled, (state, action) => {
+        state.jobTop = action.payload;
       })
       .addCase(getJobById.fulfilled, (state, action) => {
         state.jobDetail = action.payload;
