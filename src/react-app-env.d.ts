@@ -20,3 +20,6 @@ declare module 'apexcharts';
 declare module 'date-fns';
 declare module 'socket.io-client';
 declare module 'pdf-viewer-reactjs';
+declare module 'chart.js';
+declare module 'numeral';
+declare module 'google-map-react';

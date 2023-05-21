@@ -1,25 +1,22 @@
 import React from 'react';
 import { Box, Typography, Button } from '@mui/material';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { unFollowCompany } from 'src/redux_store/user/user_action';
+import { IFollowCompany } from 'src/types/user';
 
-const Company = ({
-  company,
-}: {
-  company: {
-    name_company: string;
-    id_company: string;
-    created_at: string;
-    address: string;
-    total_people: number;
-    logo: string;
-  };
-}) => {
+const Company = ({ company }: { company: IFollowCompany }) => {
   const {
     me: { id_user },
   } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const handleOnNavigate = () => {
+    navigate(`/cong-ty/${company.id_company}`);
+  };
 
   const handleUnFollow = () => {
     dispatch(
@@ -49,7 +46,9 @@ const Company = ({
             style={{
               borderRadius: '10px',
               border: '1px solid #c1c1c1',
+              cursor: 'pointer',
             }}
+            onClick={handleOnNavigate}
           />
           <Box>
             <Typography
@@ -62,7 +61,9 @@ const Company = ({
                 fontSize: '15px',
                 margin: 0,
                 maxWidth: '330px',
+                cursor: 'pointer',
               }}
+              onClick={handleOnNavigate}
             >
               {company.name_company}
             </Typography>
@@ -85,7 +86,9 @@ const Company = ({
         </Box>
 
         <Box flex="0.2">
-          <Typography pl="15px">81 vị trí</Typography>
+          <Typography pl="15px" fontWeight="600">
+            {company.total} vị trí
+          </Typography>
         </Box>
         <Box flex="0.2">
           <Typography pl="10px">

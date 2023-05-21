@@ -27,7 +27,15 @@ const Footer = () => {
                 </li>
                 <li>Địa chỉ: 72 Đinh Tiên Hoàng - Hải Châu - Đà Nẵng</li>
                 <li>
-                  <Link to=""> Website: https://timkiemvieclam.vn</Link>
+                  <Link
+                    to=""
+                    style={{
+                      color: '#fff',
+                    }}
+                  >
+                    {' '}
+                    Website: https://timkiemvieclam.vn
+                  </Link>
                 </li>
                 <li>Email: sybuivan1429@.vn</li>
                 <li>Điện thoại: 0947895039</li>

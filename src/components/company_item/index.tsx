@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router';
 const CompanyItem = ({ company }: { company: ICompany }) => {
   const navigate = useNavigate();
   return (
-    <Grid item xs={2}>
+    <Grid item xs={4} lg={2} md={3} sm={4}>
       <Box
         bgcolor={theme.palette.common.white}
         sx={{

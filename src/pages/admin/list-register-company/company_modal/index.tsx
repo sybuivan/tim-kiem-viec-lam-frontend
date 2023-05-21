@@ -17,7 +17,13 @@ import { CPersonnelSize } from 'src/constants/common';
 import { updateActiveCompany } from 'src/redux_store/admin/admin_actions';
 import { toastMessage } from 'src/utils/toast';
 
-const CompanyModal = ({ company }: { company: ICompany }) => {
+const CompanyModal = ({
+  company,
+  is_show = true,
+}: {
+  company: ICompany;
+  is_show?: boolean;
+}) => {
   const dispatch = useAppDispatch();
   const { control, handleSubmit } = useForm({
     defaultValues: company,
@@ -104,7 +110,7 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                 <Grid item xs={6}>
                   <FormSelect
                     control={control}
-                    name="city"
+                    name="city_company"
                     label="Tỉnh / Thành phố "
                     placeholder="Chọn tỉnh thành phô"
                     options={cityfield}
@@ -190,17 +196,20 @@ const CompanyModal = ({ company }: { company: ICompany }) => {
                 <Box display="flex" gap={2}>
                   <Button
                     variant="outlined"
-                    startIcon={<DeleteOutlineOutlined />}
+                    // startIcon={<DeleteOutlineOutlined />}
+                    onClick={handleClose}
                   >
-                    Hủy
+                    Đóng
                   </Button>
-                  <LoadingButton
-                    startIcon={<SaveOutlined />}
-                    variant="contained"
-                    onClick={handleSubmit(handleOnSubmit)}
-                  >
-                    Xác nhận
-                  </LoadingButton>
+                  {is_show && (
+                    <LoadingButton
+                      startIcon={<SaveOutlined />}
+                      variant="contained"
+                      onClick={handleSubmit(handleOnSubmit)}
+                    >
+                      Xác nhận
+                    </LoadingButton>
+                  )}
                 </Box>
               </Box>
             </Box>

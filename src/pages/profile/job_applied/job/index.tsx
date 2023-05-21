@@ -94,7 +94,10 @@ const JobSave = ({ job }: { job: IApply }) => {
             label={renderLabelStatus(status)}
             sx={{
               background: renderColorStatus(status),
-              color: renderColorText(status),
+              color:
+                status === 0
+                  ? theme.palette.common.black
+                  : theme.palette.common.white,
             }}
           />
         </Box>

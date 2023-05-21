@@ -9,11 +9,15 @@ import { FormSelect } from 'src/components/hook_form';
 import IconButtonTooltip from 'src/components/icon_button_tooltip';
 import { MODAL_IDS } from 'src/constants';
 import { COptionStatusApply } from 'src/constants/common';
-import { useAppDispatch } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
 import { IApplyUser } from 'src/types/apply';
-import { renderLabelStatus, renderColorStatus } from 'src/utils/function';
+import {
+  renderLabelStatus,
+  renderColorStatus,
+  renderOptionsStatus,
+} from 'src/utils/function';
 import MessageModal from '../message_modal';
 import ProfileModal from '../profile_modal';
 
@@ -34,13 +38,17 @@ const ApplyItem = ({
     fullName,
     birthDay,
     name_rank,
-    file_cv,
+    file_desktop,
+    file_online,
     id_apply,
     name_job,
     created_at,
   } = apply;
 
   const dispatch = useAppDispatch();
+  const {
+    appliedJob: { applied },
+  } = useAppSelector((state) => state.companySlice);
 
   const { handleSubmit } = useForm<any>({
     defaultValues: apply,
@@ -81,7 +89,11 @@ const ApplyItem = ({
     >
       <Grid container alignItems="center">
         <Grid item xs={0.5}>
-          <Checkbox checked={apply.checked} onChange={handleOnChange} />
+          <Checkbox
+            checked={apply.checked}
+            onChange={handleOnChange}
+            disabled={apply.status === 4}
+          />
         </Grid>
         <Grid item xs={3}>
           <Box>
@@ -113,16 +125,16 @@ const ApplyItem = ({
         </Grid>
         <Grid item xs={2}>
           <Typography textAlign="center">
-            {file_cv ? 'Nộp file' : 'Nộp trực tuyến'}
+            {file_desktop ? 'Nộp file' : 'Nộp trực tuyến'}
           </Typography>
         </Grid>
         <Grid item xs={1.5}>
           {apply.checked ? (
             <FormSelect
               name={`applied.${index}.status`}
-              placeholder="Chọn"
+              // placeholder="Chọn"
               control={control}
-              options={COptionStatusApply}
+              options={renderOptionsStatus(apply.status)}
               keyOption="status"
               labelOption="label"
               handleChange={handleOnChangeSelected}

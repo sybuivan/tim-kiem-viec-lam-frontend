@@ -20,8 +20,8 @@ export interface IApplyUser {
   position_nominee?: string;
   id_apply: string;
   name_job: string;
+  id_job: string;
   name_rank?: string;
-  file_cv?: string;
   checked?: boolean;
   status?: any;
   avatar?: string;
@@ -29,6 +29,8 @@ export interface IApplyUser {
   created_at: Date | string;
   date?: any;
   hour?: any;
+  file_online?: string;
+  file_desktop?: string;
 }
 
 export interface IApplyList {

@@ -4,9 +4,8 @@ import {
   FavoriteBorderOutlined,
   HourglassBottomOutlined,
   LocationOnOutlined,
-  FavoriteOutlined,
 } from '@mui/icons-material';
-import { Box, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography, Chip, Tooltip } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router';
@@ -46,28 +45,50 @@ export const JobCompany = ({ job }: { job: IJob }) => {
           navigate(`/viec-lam/${job.id_job}`);
         }}
       >
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={0.5}
+        >
           <Typography fontWeight="600" fontSize="16px">
+            {job.urgency === 1 && (
+              <Chip
+                label="Gấp"
+                sx={{
+                  background: theme.palette.error.main,
+                  color: theme.palette.common.white,
+                  mr: 1,
+                  borderRadius: '10px',
+                  height: '25px',
+                }}
+              />
+            )}
             {job?.name_job}
           </Typography>
         </Box>
         <Box display="flex" gap={4}>
-          <Box display="flex" gap={0.5}>
+          <Box display="flex" gap={0.5} flex={0.4}>
             <LocationOnOutlined
               sx={{
                 color: theme.palette.grey[600],
               }}
             />
-            <Typography
-              sx={{
-                color: theme.palette.grey[600],
-              }}
-            >
-              Nơi làm việc:
-            </Typography>
-            <Typography>{job?.work_location}</Typography>
+            {job.cities && job.cities.length > 0 && job.cities[0].name_city}{' '}
+            {job.cities && job.cities?.length - 1 > 0 && (
+              <Tooltip
+                title={job.cities
+                  .slice(1)
+                  .map((item) => item.name_city)
+                  .join(', ')}
+              >
+                <Typography ml={1}>
+                  {'  '}+ {job.cities.length - 1}
+                </Typography>
+              </Tooltip>
+            )}
           </Box>
-          <Box display="flex" gap={0.5}>
+          <Box display="flex" gap={0.5} flex={0.3}>
             <AttachMoneyOutlined
               sx={{
                 color: theme.palette.grey[600],
@@ -82,7 +103,7 @@ export const JobCompany = ({ job }: { job: IJob }) => {
             </Typography>
             <Typography>{job?.name_range}</Typography>
           </Box>
-          <Box display="flex" gap={0.5}>
+          <Box display="flex" gap={0.5} flex={0.3}>
             <HourglassBottomOutlined
               sx={{
                 color: theme.palette.grey[600],
@@ -96,7 +117,7 @@ export const JobCompany = ({ job }: { job: IJob }) => {
               Hạn nộp:
             </Typography>
             <Typography>
-              {moment(job?.deadline).format('DD/MM-YYYY')}{' '}
+              {moment(job?.deadline).format('DD-MM-YYYY')}{' '}
             </Typography>
           </Box>
         </Box>

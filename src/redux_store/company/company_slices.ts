@@ -18,13 +18,15 @@ import {
   getProfileAppliedByJob,
   getCandidateDetail,
 } from './company_action';
-import { getLocal, token } from 'src/constants/localstoge';
 import { IApplyUser } from 'src/types/apply';
 
 interface ICompanySlice {
   companyList: ICompanyList;
   companyDetail: ICompanyDetail;
-  profileModal: ICandidateDetail;
+  profileModal: {
+    user_info: ICandidate;
+    profileCV: ICandidateDetail[];
+  };
   followList: {
     followers: ICandidate[];
     total: number;
@@ -60,8 +62,6 @@ interface ICompanySlice {
     hour?: any;
     messageMailer: string;
   }[];
-  me: any;
-  token: string;
 }
 
 const initialState: ICompanySlice = {
@@ -70,26 +70,20 @@ const initialState: ICompanySlice = {
     total: 0,
   },
   profileModal: {
-    address: '',
-    avatar: '',
-    email: '',
-    fullName: '',
-    id_city: '',
-    birthDay: '',
-    career_goals: '',
-    desired_salary: 0,
-    file_cv: '',
-    file_name: '',
-    gender: '',
-    id_company_field: '',
-    id_experience: '',
-    id_type_current: '',
-    id_type_desired: '',
-    id_working_form: '',
-    name_field: '',
-    id_user: '',
-    phone: '',
-    city: '',
+    user_info: {
+      avatar: '',
+      email: '',
+      file_cv: '',
+      fullName: '',
+      id_user: '',
+      name_field: '',
+      phone: '',
+      address: '',
+      birthDay: '',
+      city: '',
+      gender: '',
+    },
+    profileCV: [],
   },
   filtersCandidate: {
     id_city: '',
@@ -120,8 +114,6 @@ const initialState: ICompanySlice = {
     total: 0,
   },
   timeMail: [],
-  me: getLocal('company_account'),
-  token,
 };
 
 const companySlice = createSlice({
@@ -142,9 +134,7 @@ const companySlice = createSlice({
       state.companyDetail.followere = newFollowere;
     },
     logoutCompany: (state, action) => {
-      state.me = action.payload;
-      state.token = '';
-      localStorage.removeItem('company_account');
+      localStorage.removeItem('user_account');
       localStorage.removeItem('token');
     },
 
@@ -193,15 +183,12 @@ const companySlice = createSlice({
     builder
       .addCase(loginCompany.fulfilled, (state, action) => {
         const { users, accessToken } = action.payload;
-        state.me = users;
-        state.token = accessToken;
-        localStorage.setItem('company_account', JSON.stringify(users));
+        localStorage.setItem('user_account', JSON.stringify(users));
         localStorage.setItem('token', accessToken);
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         const { company } = action.payload;
-        state.me = company;
-        localStorage.setItem('company_account', JSON.stringify(company));
+        localStorage.setItem('user_account', JSON.stringify(company));
       })
       .addCase(getAllFolllowUser.fulfilled, (state, action) => {
         state.followList = action.payload;
@@ -222,7 +209,7 @@ const companySlice = createSlice({
         state.jobList = action.payload;
       })
       .addCase(getCandidateDetail.fulfilled, (state, action) => {
-        state.profileModal = action.payload.user_info;
+        state.profileModal = action.payload;
       })
       .addCase(getProfileAppliedByJob.fulfilled, (state, action) => {
         const newAppliedJob = action.payload.applied.map((apply) => {

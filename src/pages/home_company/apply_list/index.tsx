@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Checkbox,
-  Grid,
-  Paper,
-  Typography,
-  LinearProgress,
-} from '@mui/material';
+import { Box, Button, Checkbox, Grid, Paper, Typography } from '@mui/material';
 import moment from 'moment';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
@@ -14,6 +6,7 @@ import EmptyData from 'src/components/empty_data';
 import { FormSelect } from 'src/components/hook_form';
 import ProfileHeader from 'src/components/profile_bar/header';
 import { MODAL_IDS } from 'src/constants';
+import { COptionStatusApply } from 'src/constants/common';
 import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import {
@@ -21,23 +14,24 @@ import {
   getProfileAppliedByJob,
 } from 'src/redux_store/company/company_action';
 import { setPayloadMail } from 'src/redux_store/company/company_slices';
-
-import { COptionStatusApply } from 'src/constants/common';
+import theme from 'src/theme';
 import { IApplyUser } from 'src/types/apply';
+import { messageMail } from 'src/utils/common';
 import { findNameJob } from 'src/utils/function';
 import { toastMessage } from 'src/utils/toast';
-import theme from 'src/theme';
 import ApplyItem from './apply_item';
-import MailerModal, { messageMail } from './mailer_modal';
+import MailerModal from './mailer_modal';
 
 const ApplyList = ({ socket }: { socket: any }) => {
   const dispatch = useAppDispatch();
   const [isLoading] = useGetStatus('company', 'getProfileAppliedByJob');
   const {
-    me: { id_company, name_company, phone, address },
     jobList: { jobs },
     appliedJob: { applied, total },
   } = useAppSelector((state) => state.companySlice);
+  const {
+    me: { id_company, name_company, phone, address },
+  } = useAppSelector((state) => state.authSlice);
 
   const [selectedApplied, setSelectedApplied] = useState<IApplyUser[]>([]);
   const [statusJob, setStatusJob] = useState<any>('');
@@ -50,7 +44,7 @@ const ApplyList = ({ socket }: { socket: any }) => {
     id_job: '',
   });
 
-  const { handleSubmit, control, watch } = useForm<{
+  const { handleSubmit, control } = useForm<{
     applied: IApplyUser[];
   }>({
     defaultValues: { applied },
@@ -131,15 +125,24 @@ const ApplyList = ({ socket }: { socket: any }) => {
 
   const handleOnSelected = () => {
     const checked = selectedApplied.length === 0 ? true : false;
-    const newApplied = fields.map((field) => {
-      return { ...field, checked };
-    });
-    replace(newApplied);
-    if (selectedApplied.length === 0) setSelectedApplied(newApplied);
-    if (selectedApplied.length > 0) setSelectedApplied([]);
+    console.log({ checked });
+    if (checked) {
+      const newApplied = fields
+        .filter((field) => field.status !== 4)
+        .map((item) => {
+          return { ...item, checked };
+        });
+      replace(newApplied);
+      setSelectedApplied(newApplied);
+    } else {
+      replace(applied);
+      setSelectedApplied([]);
+    }
   };
 
   const handleOnCheck = (id_apply: string, checked: boolean) => {
+    if (!checked) {
+    }
     const newFields = [...fields];
     const index = newFields.findIndex((item) => item.id_apply === id_apply);
     const newSelected = {
@@ -148,6 +151,7 @@ const ApplyList = ({ socket }: { socket: any }) => {
     };
     newFields[index] = newSelected;
     replace(newFields);
+
     setSelectedApplied(newFields.filter((item) => item.checked));
   };
 
@@ -309,6 +313,7 @@ const ApplyList = ({ socket }: { socket: any }) => {
                     color="primary"
                     onChange={handleOnSelected}
                     checked={selectedApplied.length === fields.length}
+                    disabled={statusJob === 3}
                   />
                 </Grid>
                 <Grid item xs={3}>

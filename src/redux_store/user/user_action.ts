@@ -11,6 +11,7 @@ import {
   IPayloadSaveJob,
   IProfileCV,
   ISavedList,
+  IPayLoadCV,
 } from 'src/types/user';
 import { toastMessage } from 'src/utils/toast';
 
@@ -68,6 +69,19 @@ export const updateProfile = createAsyncThunk<
   }
 });
 
+export const updateIsPublicCV = createAsyncThunk<
+  { id_profile: string; is_public: boolean },
+  { id_profile: string; is_public: boolean; id_user: string }
+>('user/updateIsPublicCV', async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await userApi.updateIsPublicCV(payload);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});
+
 export const createCV = createAsyncThunk<IProfileCV, any>(
   'user/createCV',
   async (payload, { rejectWithValue }) => {
@@ -93,12 +107,11 @@ export const updateCV = createAsyncThunk<IProfileCV, any>(
     }
   }
 );
-
-export const getProfileCV = createAsyncThunk<IProfileCV, string>(
-  'user/getProfileCV',
-  async (id_user, { rejectWithValue }) => {
+export const getProfileCVById = createAsyncThunk<IPayLoadCV, string>(
+  'user/getProfileCVById',
+  async (id_profile, { rejectWithValue }) => {
     try {
-      const { data } = await userApi.getProfileCV(id_user);
+      const { data } = await userApi.getProfileCVById(id_profile);
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);
@@ -106,6 +119,19 @@ export const getProfileCV = createAsyncThunk<IProfileCV, string>(
     }
   }
 );
+
+export const getProfileCV = createAsyncThunk<
+  { profile_cv: IPayLoadCV[] },
+  string
+>('user/getProfileCV', async (id_user, { rejectWithValue }) => {
+  try {
+    const { data } = await userApi.getProfileCV(id_user);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});
 export const saveJob = createAsyncThunk<ISavedList, IPayloadSaveJob>(
   'user/saveJob',
   async (payload, { rejectWithValue }) => {

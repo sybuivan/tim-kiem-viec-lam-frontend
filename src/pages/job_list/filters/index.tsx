@@ -66,7 +66,7 @@ const JobListFilters = ({
       <Box display="flex" gap={2} alignItems="center">
         <FormInput
           control={control}
-          name="searchKeyword"
+          name="keyword"
           placeholder="Tìm kiếm cơ hội việc làm"
           sx={{
             backgroundColor: theme.palette.common.white,
@@ -144,6 +144,7 @@ const JobListFilters = ({
           gap={1}
           width="99%"
           left={0}
+          flexWrap="wrap"
         >
           <Typography>Lọc nâng cao:</Typography>
           <Box display="flex" gap={1} flex={1}>
@@ -187,19 +188,7 @@ const JobListFilters = ({
               }}
               handleChange={handleOnChange}
             />
-            <FormSelect
-              control={control}
-              name="id"
-              placeholder="Tất cả trình độ"
-              options={[]}
-              keyOption="id"
-              labelOption="name"
-              sx={{
-                backgroundColor: theme.palette.common.white,
-                borderRadius: '4px',
-                color: theme.palette.common.white,
-              }}
-            />
+
             <FormSelect
               control={control}
               name="id_working_form"

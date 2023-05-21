@@ -22,6 +22,8 @@ import {
   updateNotification,
   deleteNotification,
   getSuggetJobForYou,
+  updateIsPublicCV,
+  getProfileCVById,
 } from './user_action';
 
 interface IUserSlice {
@@ -158,15 +160,16 @@ const userSlice = createSlice({
         state.saveJobList = action.payload;
       })
       .addCase(createCV.fulfilled, (state, action) => {
-        console.log(action.payload.profile_cv);
         if (!Array.isArray(state.profileCV)) {
           state.profileCV = []; // Initialize as an empty array
         }
-
         state.profileCV.push(action.payload.profile_cv);
       })
       .addCase(getProfileCV.fulfilled, (state, action) => {
-        // state.profileCV = action.payload.profile_cv;
+        state.profileCV = action.payload.profile_cv;
+      })
+      .addCase(getProfileCVById.fulfilled, (state, action) => {
+        state.profile_detail = action.payload;
       })
       .addCase(getAllFollowUser.fulfilled, (state, action) => {
         state.followList = action.payload;
@@ -199,6 +202,20 @@ const userSlice = createSlice({
         );
 
         state.notification.notificationList = newNotificationList;
+      })
+      .addCase(updateIsPublicCV.fulfilled, (state, action) => {
+        const { id_profile, is_public } = action.payload;
+        const index = state.profileCV.findIndex(
+          (item) => item.id_profile === id_profile
+        );
+
+        if (index !== -1) {
+          const newPayload = {
+            ...state.profileCV[index],
+            is_public,
+          };
+          state.profileCV[index] = newPayload;
+        }
       });
   },
 });
@@ -209,7 +226,6 @@ export const {
   unSaveJobById,
   changeNotification,
   resetStateUser,
-  setProfileDetail,
   resetProfileDetails,
 } = actions;
 export default reducer;

@@ -21,7 +21,7 @@ interface IService {
 const ChooseService = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const [isLoading] = useGetStatus('company', 'getServiceActivated');
   const [service, setService] = useState<IService[]>([]);
   const [selectedId, setselectedId] = useState<string>('');
@@ -52,22 +52,27 @@ const ChooseService = () => {
                     Danh sách dịch vụ
                   </Typography>
                 </Box>
-                <Grid container columnSpacing={2}>
+                <Grid container columnSpacing={2} rowSpacing={2}>
                   {service.map((item) => (
-                    <Grid item xs={4}>
+                    <Grid item xs={6} lg={3} md={4} sm={4}>
                       <Box
                         p={2}
                         bgcolor={theme.palette.grey[300]}
                         borderRadius={2}
                         sx={{
-                          cursor: 'pointer',
+                          cursor: `${
+                            item.remaining_news === 0 ? 'no-drop' : 'pointer'
+                          }`,
                           userSelect: 'none',
                           '&:hover': {
                             backgroundColor: theme.palette.primary.contrastText,
                             transition: '0.3s all',
                           },
                         }}
-                        onClick={() => setselectedId(item.id_history)}
+                        onClick={() => {
+                          if (item.remaining_news > 0)
+                            setselectedId(item.id_history);
+                        }}
                       >
                         <Typography textAlign="center" fontWeight="600">
                           {item.name_service}

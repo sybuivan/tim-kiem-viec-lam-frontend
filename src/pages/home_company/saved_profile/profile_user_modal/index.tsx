@@ -1,17 +1,22 @@
-import { Box, Button, Typography, Grid, Avatar } from '@mui/material';
+import { Avatar, Box, Button, Grid, Typography, Link } from '@mui/material';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+
+import { ReactComponent as PdfSvg } from 'src/assets/svg/pdf.svg';
 import { LabelOptions } from 'src/components/hook_form/label_options';
 import DialogWrapper from 'src/components/modal/dialog_wrapper';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
 import { getCandidateDetail } from 'src/redux_store/company/company_action';
-import theme from 'src/theme';
-import { ICandidateDetail } from 'src/types/company';
 import { formatPrice } from 'src/utils/function';
+import theme from 'src/theme';
 
 const FieldItem = ({
   title,
@@ -32,27 +37,12 @@ const FieldItem = ({
 
 const ProfileUserModal = ({ id_user }: { id_user: string }) => {
   const dispatch = useAppDispatch();
-  const { profileModal } = useAppSelector((state) => state.companySlice);
+  const [value, setValue] = useState('0');
+
   const {
-    address,
-    avatar,
-    email,
-    fullName,
-    id_city,
-    city,
-    birthDay,
-    career_goals,
-    desired_salary,
-    file_cv,
-    file_name,
-    gender,
-    id_company_field,
-    id_experience,
-    id_type_current,
-    id_type_desired,
-    id_working_form,
-    phone,
-  } = profileModal;
+    profileModal: { profileCV, user_info },
+  } = useAppSelector((state) => state.companySlice);
+
   const {
     fieldList: {
       cityfield,
@@ -62,54 +52,38 @@ const ProfileUserModal = ({ id_user }: { id_user: string }) => {
       typerankfield,
     },
   } = useAppSelector((state) => state.commonSlice);
-  const { control, reset } = useForm({
-    defaultValues: {
-      id_type_current,
-      id_working_form,
-      id_experience,
-      id_type_desired,
-      id_company_field,
-      id_city,
-    },
+  const { reset } = useForm({
+    defaultValues: user_info,
   });
 
   const handleClose = () => [
     dispatch(
       closeModal({
-        modalId: MODAL_IDS.profileModal,
+        modalId: MODAL_IDS.profileUserModal,
       })
     ),
   ];
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
 
   useEffect(() => {
     dispatch(getCandidateDetail(id_user))
       .unwrap()
       .then((data) => {
-        const {
-          user_info: {
-            id_type_current,
-            id_working_form,
-            id_experience,
-            id_type_desired,
-            id_company_field,
-            id_city,
-          },
-        } = data;
-        console.log({ id_company_field });
-        reset({
-          id_type_current,
-          id_working_form,
-          id_experience,
-          id_type_desired,
-          id_company_field,
-          id_city,
-        });
+        const { user_info } = data;
+        reset(user_info);
       });
   }, []);
 
   return (
-    <DialogWrapper modalId={MODAL_IDS.profileUserModal} minWidth={800}>
-      <Box p={6}>
+    <DialogWrapper
+      modalId={MODAL_IDS.profileUserModal}
+      maxWidth={1000}
+      minWidth={1000}
+    >
+      <Box p={2}>
         <Typography
           fontSize="16px"
           color={theme.palette.common.black}
@@ -127,7 +101,7 @@ const ProfileUserModal = ({ id_user }: { id_user: string }) => {
         >
           <Box display="flex" alignItems="center" gap={2} mb={2}>
             <Avatar
-              src={avatar}
+              src={user_info.avatar}
               sx={{
                 width: '100px',
                 height: '100px',
@@ -139,30 +113,30 @@ const ProfileUserModal = ({ id_user }: { id_user: string }) => {
               fontWeight="600"
               my={2}
             >
-              {fullName}
+              {user_info.fullName}
             </Typography>
           </Box>
           <Grid container rowSpacing={2}>
             <Grid item xs={4}>
-              <FieldItem title="Số điện thoại" content={phone} />
+              <FieldItem title="Số điện thoại" content={user_info.phone} />
             </Grid>
             <Grid item xs={4}>
-              <FieldItem title="Email" content={email} />
+              <FieldItem title="Email" content={user_info.email} />
             </Grid>
             <Grid item xs={4}>
               <FieldItem
                 title="Ngày sinh"
-                content={moment(birthDay).format('DD/MM/YYYY')}
+                content={moment(user_info.birthDay).format('DD/MM/YYYY')}
               />
             </Grid>
             <Grid item xs={4}>
-              <FieldItem title="Giới tính" content={gender} />
+              <FieldItem title="Giới tính" content={user_info.gender} />
             </Grid>
             <Grid item xs={4}>
-              <FieldItem title="Tỉnh / Thành phố" content={city} />
+              <FieldItem title="Tỉnh / Thành phố" content={user_info.city} />
             </Grid>
             <Grid item xs={4}>
-              <FieldItem title="Địa chỉ" content={address} />
+              <FieldItem title="Địa chỉ" content={user_info.address} />
             </Grid>
           </Grid>
         </Box>
@@ -176,88 +150,125 @@ const ProfileUserModal = ({ id_user }: { id_user: string }) => {
           >
             Hồ sơ đính kèm
           </Typography>
-          <Box
-            sx={{
-              border: '1px solid #c1c1c1',
-              borderRadius: '8px',
-              p: 2,
-            }}
-          >
-            <Grid container rowSpacing={2}>
-              <Grid item xs={4}>
-                <FieldItem title="Vị trí mong muốn" content={career_goals} />
-              </Grid>
-              <Grid item xs={4}>
-                <LabelOptions
-                  name="id_type_current"
-                  control={control}
-                  options={typerankfield}
-                  title="Cấp bậc hiện tại"
-                  keyOption="id_rank"
-                  labelOption="name_rank"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <LabelOptions
-                  name="id_type_desired"
-                  control={control}
-                  options={typerankfield}
-                  title="Cấp bậc mong muốn"
-                  keyOption="id_rank"
-                  labelOption="name_rank"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FieldItem
-                  title="Mức lương mong muốn"
-                  content={formatPrice(desired_salary)}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <LabelOptions
-                  name="id_experience"
-                  control={control}
-                  options={experiencefield}
-                  title="Số năm kinh nghiệm"
-                  keyOption="id_experience"
-                  labelOption="name_experience"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <LabelOptions
-                  name="id_working_form"
-                  control={control}
-                  options={workingformfield}
-                  title="Hình thức làm việc"
-                  keyOption="id_working_form"
-                  labelOption="name_working_form"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <LabelOptions
-                  name="id_company_field"
-                  control={control}
-                  options={companyfield}
-                  title="Nghề nghiệp"
-                  keyOption="id_companyField"
-                  labelOption="name_field"
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <LabelOptions
-                  name="id_city"
-                  control={control}
-                  options={cityfield}
-                  title="Địa điểm làm việc"
-                  keyOption="id_city"
-                  labelOption="name_city"
-                />
-              </Grid>
-            </Grid>
-          </Box>
+
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList
+                onChange={handleChange}
+                aria-label="lab API tabs example"
+              >
+                {profileCV.map((item, index) => (
+                  <Tab
+                    label={`Hồ sơ ${index + 1}`}
+                    value={`${index}`}
+                    key={item.id_profile}
+                  />
+                ))}
+              </TabList>
+            </Box>
+            {profileCV.map((item, index) => (
+              <TabPanel
+                value={`${index}`}
+                key={item.id_profile}
+                sx={{
+                  px: 0,
+                }}
+              >
+                <Box
+                  sx={{
+                    border: '1px solid #c1c1c1',
+                    borderRadius: '8px',
+                    p: 2,
+                  }}
+                >
+                  <Grid container rowSpacing={2}>
+                    <Grid item xs={4}>
+                      <Box gap={2} display="flex" alignItems="center">
+                        <PdfSvg />
+                        <Box>
+                          <Typography fontWeight="600">
+                            {item.file_name}
+                          </Typography>
+                          <Link href={`${item.file_cv}`} target="_blank">
+                            Xem hồ sơ
+                          </Link>
+                        </Box>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FieldItem
+                        title="Vị trí mong muốn"
+                        content={item.career_goals}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <LabelOptions
+                        value={item.id_type_current}
+                        options={typerankfield}
+                        title="Cấp bậc hiện tại"
+                        keyOption="id_rank"
+                        labelOption="name_rank"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <LabelOptions
+                        value={item.id_type_current}
+                        options={typerankfield}
+                        title="Cấp bậc mong muốn"
+                        keyOption="id_rank"
+                        labelOption="name_rank"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <FieldItem
+                        title="Mức lương mong muốn"
+                        content={formatPrice(item.desired_salary)}
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <LabelOptions
+                        value={item.id_experience}
+                        options={experiencefield}
+                        title="Số năm kinh nghiệm"
+                        keyOption="id_experience"
+                        labelOption="name_experience"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <LabelOptions
+                        value={item.id_working_form}
+                        options={workingformfield}
+                        title="Hình thức làm việc"
+                        keyOption="id_working_form"
+                        labelOption="name_working_form"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <LabelOptions
+                        value={item.id_company_field}
+                        options={companyfield}
+                        title="Nghề nghiệp"
+                        keyOption="id_companyField"
+                        labelOption="name_field"
+                      />
+                    </Grid>
+                    <Grid item xs={4}>
+                      <LabelOptions
+                        value={item.id_city}
+                        options={cityfield}
+                        title="Địa điểm làm việc"
+                        keyOption="id_city"
+                        labelOption="name_city"
+                      />
+                    </Grid>
+                  </Grid>
+                </Box>
+              </TabPanel>
+            ))}
+          </TabContext>
         </Box>
 
-        <Box my={2} display="flex" justifyContent="flex-end" gap={2}>
+        <Box my={1} display="flex" justifyContent="flex-end" gap={2}>
           <Button variant="outlined" sx={{}} onClick={handleClose}>
             Đóng
           </Button>

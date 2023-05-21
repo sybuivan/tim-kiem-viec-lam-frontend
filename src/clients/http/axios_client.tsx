@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import { Navigate } from 'react-router';
 
 export const getClientToken = (config: any) => {};
 
@@ -30,7 +31,6 @@ export const createClient = (baseURL: string, access?: string) => {
 
   instance.interceptors.request.use(
     (config: any) => {
-      console.log('localStorage.getItem()', localStorage.getItem('token'));
       const token = localStorage.getItem('token')
         ? localStorage.getItem('token') || ''
         : null;

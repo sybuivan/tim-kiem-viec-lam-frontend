@@ -10,7 +10,7 @@ interface ICompanyList {
 const CompanyList = ({ dataList }: ICompanyList) => {
   return (
     <Box my={4}>
-      <Grid container columnSpacing={1}>
+      <Grid container columnSpacing={1} rowSpacing={1}>
         {dataList.map((item, index) => (
           <CompanyItem company={item} key={index} />
         ))}

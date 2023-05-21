@@ -28,7 +28,7 @@ const PostingList = () => {
   const dispatch = useAppDispatch();
   const {
     me: { id_company },
-  } = useAppSelector((state) => state.companySlice);
+  } = useAppSelector((state) => state.authSlice);
   const { jobListCompany } = useAppSelector((state) => state.jobSlice);
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const PostingList = () => {
             {jobListCompany.data.length > 0 ? (
               <>
                 {jobListCompany.data.map((job) => (
-                  <PostItem job={job} />
+                  <PostItem job={job} key={job.id_job} />
                 ))}{' '}
               </>
             ) : (
@@ -102,7 +102,8 @@ const PostItem = ({ job }: { job: IJob }) => {
   const navigate = useNavigate();
   const {
     me: { id_company },
-  } = useAppSelector((state) => state.companySlice);
+  } = useAppSelector((state) => state.authSlice);
+
   const handelOnpenModalDelete = () => {
     dispatch(
       openModal({
@@ -152,7 +153,7 @@ const PostItem = ({ job }: { job: IJob }) => {
         </Grid>
         <Grid item xs={1}>
           <Typography fontWeight="500" textAlign="center">
-            20
+            {job.countJob || 0}
           </Typography>
         </Grid>
         <Grid item xs={2}>

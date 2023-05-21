@@ -9,7 +9,7 @@ import ProfileBar from '../../components/profile_bar';
 import theme from 'src/theme';
 
 const HomeCompany = () => {
-  const { me, token } = useAppSelector((state) => state.companySlice);
+  const { me, token } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (checkRoleCompany(me?.id_role, token)) {
@@ -25,16 +25,27 @@ const HomeCompany = () => {
           paddingLeft: '0!important',
           overflowX: 'hidden',
           minHeight: '30px',
-          minWidth: '1300px',
+          [theme.breakpoints.up('lg')]: { minWidth: '1300px' },
         }}
       >
         <Grid container columnSpacing={2} justifyContent="space-between">
-          <Grid item xs={2.5} bgcolor={theme.palette.common.white}>
+          <Grid
+            item
+            lg={2.5}
+            sm={4}
+            md={3}
+            bgcolor={theme.palette.common.white}
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                display: 'none',
+              },
+            }}
+          >
             <Box>
               <ProfileBar data={CCompanyRoute.data} />
             </Box>
           </Grid>
-          <Grid item xs={9.5}>
+          <Grid item lg={9.5} md={9} sm={8} xs={12}>
             <Box minHeight="90vh">
               <Outlet />
             </Box>

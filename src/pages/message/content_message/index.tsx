@@ -3,7 +3,7 @@ import { Avatar, Box, IconButton, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router';
 
 import { FormInputBase } from 'src/components/hook_form/form_input_base';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
@@ -14,6 +14,7 @@ import { useStyles } from './styles';
 
 export const ContentMessage = ({ socket }: { socket: any }) => {
   const { id_room_message } = useParams();
+  const navigate = useNavigate();
   const {
     messageList: { messages, room },
   } = useAppSelector((state) => state.chatSlice);
@@ -38,7 +39,11 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
           id_room: id_room_message,
           id_role: me?.id_role,
         })
-      );
+      )
+        .unwrap()
+        .catch(() => {
+          navigate('/not-found');
+        });
     }
   }, [id_room_message]);
 
@@ -56,7 +61,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
   const handleSentMessage = async ({ message }: { message: string }) => {
     const { id_company, id_user, fullName, id_room } = room;
 
-    if (id_room && fullName)
+    if (id_room && fullName && message)
       dispatch(
         createMessage({
           id_company,
@@ -94,11 +99,11 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
         >
           <Avatar
             alt="Remy Sharp"
-            src={room.avatar}
+            src={room?.avatar}
             sx={{ width: '40px', height: '40px', mr: 2 }}
           />
           <Typography fontSize="16px" fontWeight="600">
-            {room.fullName}
+            {room?.fullName}
           </Typography>
         </Box>
       </Box>
@@ -131,7 +136,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
         <Box
           display="flex"
           justifyContent="space-between"
-          width="88%"
+          width="95%"
           sx={{
             padding: '8px 0',
             border: '1px solid #c1c1c1',

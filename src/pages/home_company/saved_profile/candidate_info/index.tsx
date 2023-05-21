@@ -25,9 +25,9 @@ import ProfileUserModal from '../profile_user_modal';
 export const CandidateInfo = ({ candidate }: { candidate: ICandidate }) => {
   const dispatch = useAppDispatch();
   const {
-    me,
     followList: { followers },
   } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
 
   const { phone, name_field, email, file_cv, fullName, avatar, id_user } =
     candidate;
@@ -66,7 +66,7 @@ export const CandidateInfo = ({ candidate }: { candidate: ICandidate }) => {
   };
 
   return (
-    <Grid item xs={4}>
+    <Grid item xs={12} lg={4} md={6} sm={12}>
       <Box
         sx={{
           boxShadow: ' rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
@@ -122,7 +122,7 @@ export const CandidateInfo = ({ candidate }: { candidate: ICandidate }) => {
                 startIcon={<FavoriteRounded />}
                 onClick={handleUnFollow}
               >
-                Hủy theo dõi
+                Hủy
               </Button>
             ) : (
               <Button

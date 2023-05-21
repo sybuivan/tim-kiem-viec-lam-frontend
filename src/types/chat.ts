@@ -6,6 +6,8 @@ export interface IRoom {
   message?: string;
   created_at?: string;
   avatar?: string;
+  logo?: string;
+  name_job?: string;
 }
 
 export interface IRoomList {
@@ -22,6 +24,7 @@ export interface IMessage {
   id_room?: string;
   fullName?: string;
   created_at?: string;
+  id_job?: string;
 }
 
 export interface IMessageList {

@@ -54,43 +54,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
       );
     }
   };
-  // const handleOnSave = () => {
-  //   if (token) {
-  //     dispatch(
-  //       saveJob({
-  //         id_job: jobDetail.id_job,
-  //         id_user: me?.id_user,
-  //       })
-  //     )
-  //       .unwrap()
-  //       .then(() => {
-  //         toastMessage.success('Lưu thành công');
-  //       });
-  //   } else {
-  //     dispatch(
-  //       openModal({
-  //         modalId: MODAL_IDS.login,
-  //         dialogComponent: <LoginForm />,
-  //       })
-  //     );
-  //   }
-  // };
 
-  // const handleOnUnSaved = () => {
-  //   if (token) {
-  //     dispatch(
-  //       unSavedJob({
-  //         id_job: jobDetail.id_job,
-  //         id_user: me?.id_user,
-  //       })
-  //     )
-  //       .unwrap()
-  //       .then(() => {
-  //         toastMessage.success('Bỏ lưu thành công');
-  //         dispatch(unSaveJobById(jobDetail.id_job));
-  //       });
-  //   }
-  // };
   return (
     <Box>
       <Box
@@ -287,6 +251,16 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 </Typography>
                 <Typography fontWeight="600">
                   {moment(jobDetail.deadline).format('DD/MM/YYYY')}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box display="flex">
+                <Typography fontWeight="500" minWidth="40%">
+                  Tỉnh thành:
+                </Typography>
+                <Typography fontWeight="600">
+                  {jobDetail.cities?.map((item) => item.name_city).join(', ')}
                 </Typography>
               </Box>
             </Grid>

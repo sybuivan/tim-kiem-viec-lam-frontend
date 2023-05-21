@@ -24,15 +24,17 @@ export interface IJob extends ICompany {
   description_job?: string;
   required_job?: string;
   benefits_job?: string;
-  name_city?: string;
   is_lock?: 0 | 1;
   days_left?: number;
+  countJob?: number;
+  cities?: [{ name_city?: string }];
+  urgency?: number;
 }
 
 export interface IPayloadJob {
   name_job: string;
   work_location: string;
-  city: string;
+  city: any;
   size_number: number;
   description_job?: string;
   required_job?: string;

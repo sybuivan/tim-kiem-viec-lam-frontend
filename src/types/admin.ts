@@ -8,8 +8,11 @@ export interface IUser {
   address: string;
   avatar: string;
   logo?: string;
-  name_role: IRole;
+  name_role: '';
+  id_role: IRole;
   is_lock: number;
+  city?: string;
+  city_company?: string;
 }
 
 export interface IUsersList {

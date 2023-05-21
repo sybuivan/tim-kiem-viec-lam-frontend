@@ -78,8 +78,8 @@ export interface ICity {
 }
 
 export interface IFieldList {
-  companyfield: IExperience[];
-  experiencefield: ICompanyField[];
+  companyfield: ICompanyField[];
+  experiencefield: IExperience[];
   rangewagefield: IRangewage[];
   typerankfield: ITypeRank[];
   workingformfield: IWorkingForm[];

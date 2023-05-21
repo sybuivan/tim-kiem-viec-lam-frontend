@@ -9,15 +9,18 @@ export interface ISavedList {
   savedList: IJob[];
   total: number;
 }
+
+export interface IFollowCompany {
+  name_company: string;
+  id_company: string;
+  created_at: string;
+  address: string;
+  total_people: number;
+  logo: string;
+  total: number;
+}
 export interface IFollowList {
-  followers: {
-    name_company: string;
-    id_company: string;
-    created_at: string;
-    address: string;
-    total_people: number;
-    logo: string;
-  }[];
+  followers: IFollowCompany[];
   total_follow: number;
 }
 

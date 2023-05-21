@@ -1,7 +1,7 @@
 import { Box, Container, Paper, Typography } from '@mui/material';
 import React from 'react';
-import { JobCompany } from 'src/components/job_company';
 import { useAppSelector } from 'src/hooks';
+import { JobCompany } from 'src/components/job_company';
 
 const JobList = () => {
   const {

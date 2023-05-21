@@ -14,4 +14,6 @@ export const MODAL_IDS = {
 
   profileUserModal: 'profileUserModal',
   companyModal: 'companyModal',
+  addFiedlModal: 'fiedlModal',
+  updateFiedlModal: 'fiedlModal',
 };

@@ -11,6 +11,7 @@ import {
   FormDatePicker,
   FormInput,
   FormSelect,
+  FormAutocomplete,
 } from 'src/components/hook_form';
 import SunEditorComponent from 'src/components/suneditor';
 import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
@@ -21,7 +22,7 @@ import { toastMessage } from 'src/utils/toast';
 import * as yup from 'yup';
 
 export const CInitValues: IPayloadJob = {
-  city: '',
+  city: [],
   deadline: '',
   work_location: '',
   id_experience: '',
@@ -34,7 +35,7 @@ export const CInitValues: IPayloadJob = {
 };
 
 export const schema = yup.object().shape({
-  city: yup.string().required(messageRequired('Thành phố')),
+  city: yup.array().required(messageRequired('Thành phố')),
   deadline: yup.string().required(messageRequired('Hạn nộp')),
   work_location: yup.string().required(messageRequired('Nơi làm việc')),
   id_experience: yup.string().required(messageRequired('Kinh nghiệm')),
@@ -57,7 +58,7 @@ const CreateJobPostings = ({ id_history }: { id_history: string }) => {
   const [description, setDescription] = useState<string>('');
   const [required, setRequired] = useState<string>('');
   const [benefits, setBenefits] = useState<string>('');
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const [isLoading] = useGetStatus('job', 'createJob');
   const {
     cityfield,
@@ -68,7 +69,7 @@ const CreateJobPostings = ({ id_history }: { id_history: string }) => {
     typerankfield,
   } = useAppSelector((state) => state.commonSlice.fieldList);
 
-  const { control, handleSubmit, reset } = useForm<IPayloadJob>({
+  const { control, handleSubmit, reset, setValue } = useForm<IPayloadJob>({
     defaultValues: {
       ...CInitValues,
       id_field: me.idCompanyField,
@@ -77,7 +78,6 @@ const CreateJobPostings = ({ id_history }: { id_history: string }) => {
   });
 
   const handleOnSubmit = (data: IPayloadJob) => {
-    console.log(data);
     if (!description)
       return toastMessage.error(messageRequired('Mô tả công việc'));
     if (!required)
@@ -93,6 +93,7 @@ const CreateJobPostings = ({ id_history }: { id_history: string }) => {
           required_job: required,
           description_job: description,
           id_history,
+          city: data.city.map((item: any) => item.id_city),
         },
       })
     )
@@ -118,6 +119,10 @@ const CreateJobPostings = ({ id_history }: { id_history: string }) => {
   };
   const handleChangeBenefits = (content: string) => {
     setBenefits(content);
+  };
+
+  const onFilterNotification = (name: string, value: any) => {
+    setValue('city', value);
   };
 
   return (
@@ -182,15 +187,15 @@ const CreateJobPostings = ({ id_history }: { id_history: string }) => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormSelect
+                <FormAutocomplete
                   control={control}
                   name="city"
                   label="Tỉnh / Thành phố "
-                  placeholder="Chọn tỉnh thành phô"
                   options={cityfield}
                   keyOption="id_city"
                   labelOption="name_city"
-                  required
+                  handleChange={onFilterNotification}
+                  isMultiple
                 />
               </Grid>
 

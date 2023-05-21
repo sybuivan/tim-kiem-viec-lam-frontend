@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Typography, Button } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import DialogWrapper from 'src/components/modal/dialog_wrapper';
+import { Box, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { MODAL_IDS } from 'src/constants';
+
 import { FormInput } from 'src/components/hook_form';
+import DialogWrapper from 'src/components/modal/dialog_wrapper';
+import { MODAL_IDS } from 'src/constants';
+import { useAppDispatch, useIsRequestPending } from 'src/hooks';
+import { setLoginInfo } from 'src/redux_store/auth/authSlice';
+import { closeModal } from 'src/redux_store/common/modal/modal_slice';
+import { loginUser, registerUser } from 'src/redux_store/user/user_action';
+import { getApplyList } from 'src/redux_store/apply/apply_actions';
 import theme from 'src/theme';
 import { IPayloadLogin, IPayloadRegister } from 'src/types/auth';
-import { useAppDispatch, useIsRequestPending } from 'src/hooks';
-import { loginUser, registerUser } from 'src/redux_store/user/user_action';
-import RegisterForm from '../register_form';
 import { toastMessage } from 'src/utils/toast';
-import { closeModal } from 'src/redux_store/common/modal/modal_slice';
-import { setLoginInfo } from 'src/redux_store/auth/authSlice';
+import * as yup from 'yup';
+import RegisterForm from '../register_form';
 
 const schemaLogin = yup.object().shape({
   email: yup
@@ -45,6 +47,7 @@ const LoginForm = ({ socket }: { socket: any }) => {
       .then((data) => {
         const { accessToken, users } = data;
         dispatch(setLoginInfo({ users, accessToken }));
+        dispatch(getApplyList(users.id_user));
         toastMessage.success('Đăng nhập tài khoản thành công');
         dispatch(
           closeModal({

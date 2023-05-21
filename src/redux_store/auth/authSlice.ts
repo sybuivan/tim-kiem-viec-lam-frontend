@@ -26,7 +26,8 @@ const authSlice = createSlice({
     resetState: (state) => {
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
-      state = initialState;
+      state.me = '';
+      state.token = '';
     },
   },
 });

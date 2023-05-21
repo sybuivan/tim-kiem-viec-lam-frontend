@@ -3,9 +3,13 @@ import React from 'react';
 import Slider from 'react-slick';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 import JobItem from 'src/components/job_item';
+import JobsSlider from 'src/components/jobs_slider';
 import SkeletonJob from 'src/components/skeleton/job';
 import { useGetStatus } from 'src/hooks';
 import { IJob } from 'src/types/job';
+import { useJobSlice } from 'src/hooks/use_job_slice';
+
+const LIMIT = 15;
 
 const JobList = ({
   jobList,
@@ -16,18 +20,43 @@ const JobList = ({
   icon?: any;
   title?: string;
 }) => {
+  const results = useJobSlice(jobList, LIMIT);
+
   const [isLoading] = useGetStatus('job', 'getJobList');
   const settings = {
     dots: true,
     infinite: true,
-    //  autoplay: true,
+    centerPadding: '60px',
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
     nextArrow: <AiOutlineArrowRight />,
     prevArrow: <AiOutlineArrowLeft />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 720,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
-  console.log('list job', jobList);
   if (isLoading)
     return (
       <>
@@ -46,13 +75,11 @@ const JobList = ({
           {title}
         </Typography>
       </Box>
-      {/* <Slider {...settings}> */}
-      <Grid container rowSpacing={1} columnSpacing={1}>
-        {jobList.map((item, index) => (
-          <JobItem jobItem={item} key={item.id_job} />
+      <Slider {...settings}>
+        {results.map((item, index) => (
+          <JobsSlider jobList={item} key={index} />
         ))}
-      </Grid>
-      {/* </Slider> */}
+      </Slider>
     </Box>
   );
 };

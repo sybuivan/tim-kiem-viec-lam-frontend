@@ -58,7 +58,7 @@ const Home = () => {
           title="Việc làm tuyển gấp"
         />
         {token && (
-          <JobSuggetForYou
+          <JobList
             jobList={job_suggets_for_you}
             icon={
               <LightModeOutlined

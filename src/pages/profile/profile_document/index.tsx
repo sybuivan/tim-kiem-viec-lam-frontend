@@ -1,17 +1,27 @@
-import React, { useEffect } from 'react';
-import { Box, Typography, Button, Link } from '@mui/material';
 import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
 import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
-import theme from 'src/theme';
+import {
+  Box,
+  Button,
+  Link,
+  Typography,
+  FormControlLabel,
+  Switch,
+} from '@mui/material';
+
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+
+import { ReactComponent as PdfSvg } from 'src/assets/svg/pdf.svg';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { getProfileCV } from 'src/redux_store/user/user_action';
-import { PictureAsPdfOutlined } from '@mui/icons-material';
-import { setProfileDetail } from 'src/redux_store/user/user_slice';
+import {
+  getProfileCV,
+  updateIsPublicCV,
+} from 'src/redux_store/user/user_action';
+import theme from 'src/theme';
 
 const ProfileDocument = () => {
   const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
   const { profileCV } = useAppSelector((state) => state.userSlice);
   const { me } = useAppSelector((state) => state.authSlice);
@@ -19,6 +29,19 @@ const ProfileDocument = () => {
   useEffect(() => {
     dispatch(getProfileCV(me.id_user));
   }, []);
+
+  const handleOnChangeIsPublic = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id_profile: string
+  ) => {
+    dispatch(
+      updateIsPublicCV({
+        id_profile,
+        id_user: me.id_user,
+        is_public: e.target.checked,
+      })
+    );
+  };
 
   return (
     <Box>
@@ -51,12 +74,7 @@ const ProfileDocument = () => {
               }}
             >
               <Box gap={2} display="flex" alignItems="center">
-                <PictureAsPdfOutlined
-                  sx={{
-                    color: theme.palette.error.main,
-                    fontSize: '30px',
-                  }}
-                />
+                <PdfSvg />
                 <Box>
                   <Typography fontWeight="600">{item.file_name}</Typography>
                   <Link href={`${item.file_cv}`} target="_blank">
@@ -64,22 +82,43 @@ const ProfileDocument = () => {
                   </Link>
                 </Box>
               </Box>
-              <Button
-                variant="outlined"
-                startIcon={
-                  <AutoFixHighOutlinedIcon
-                    sx={{
-                      color: theme.palette.primary.main,
-                    }}
+              <Box display="flex" gap={1}>
+                <Box borderRight="2px solid #c1c1c1">
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        size="medium"
+                        checked={item.is_public}
+                        onChange={(e) => {
+                          if (item.id_profile)
+                            handleOnChangeIsPublic(e, item.id_profile);
+                        }}
+                      />
+                    }
+                    label="Cho phép tìm kiếm "
                   />
-                }
-                onClick={() => {
-                  navigate(`/thong-tin-ca-nhan/ho-so-dinh-kem`);
-                  dispatch(setProfileDetail(item));
-                }}
-              >
-                Cập nhật hồ sơ
-              </Button>
+                </Box>
+                <Button
+                  variant="outlined"
+                  startIcon={
+                    <AutoFixHighOutlinedIcon
+                      sx={{
+                        color: theme.palette.primary.main,
+                      }}
+                    />
+                  }
+                  onClick={() => {
+                    navigate(
+                      `/thong-tin-ca-nhan/ho-so-dinh-kem/${item.id_profile}`
+                    );
+                  }}
+                  sx={{
+                    ml: 1,
+                  }}
+                >
+                  Cập nhật hồ sơ
+                </Button>
+              </Box>
             </Box>
           </Box>
         ))}

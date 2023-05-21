@@ -14,7 +14,7 @@ import { closeModal } from 'src/redux_store/common/modal/modal_slice';
 
 const MessageModal = ({ apply }: { apply: IApplyUser }) => {
   const dispatch = useAppDispatch();
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const {
     control,
     handleSubmit,
@@ -32,6 +32,7 @@ const MessageModal = ({ apply }: { apply: IApplyUser }) => {
         id_user: apply.id_user,
         message,
         sender: 'company',
+        id_job: apply.id_job,
       })
     )
       .unwrap()

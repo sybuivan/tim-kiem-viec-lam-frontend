@@ -65,7 +65,7 @@ const SliderService = () => {
       >
         <FormInput
           control={control}
-          name="searchKeyword"
+          name="keyword"
           placeholder="Tìm kiếm cơ hội việc làm"
           sx={{
             backgroundColor: theme.palette.common.white,
@@ -152,8 +152,8 @@ const SliderHome = () => {
     <div>
       <Slider {...settings}>
         <div>
-          <div
-            style={{
+          <Box
+            sx={{
               borderRadius: '10px',
               backgroundPosition: 'center',
               backgroundSize: 'contain',
@@ -162,10 +162,16 @@ const SliderHome = () => {
 
               height: '20rem',
               backgroundImage: `url(${Banner})`,
+              [theme.breakpoints.down('sm')]: {
+                backgroundSize: 'cover',
+              },
+              [theme.breakpoints.up('sm')]: {
+                backgroundSize: 'cover',
+              },
             }}
           >
             <SliderService />
-          </div>
+          </Box>
         </div>
         <div>
           <div

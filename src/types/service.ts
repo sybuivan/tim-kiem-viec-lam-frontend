@@ -28,10 +28,12 @@ export interface IServiceDetail {
   number_of_months: 1;
   total_news: number;
   description?: string;
+  remaining_news?: number;
+  used?: number;
   price?: number;
 }
 
 export interface IServiceBuyList {
-  services:IServiceDetail[];
-  total: number
+  services: IServiceDetail[];
+  total: number;
 }

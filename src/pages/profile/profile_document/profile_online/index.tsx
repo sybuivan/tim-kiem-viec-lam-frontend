@@ -31,7 +31,11 @@ import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
 import moment from 'moment';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { IPayLoadCV } from 'src/types/user';
-import { updateCV, getProfileCV } from 'src/redux_store/user/user_action';
+import {
+  updateCV,
+  getProfileCV,
+  createCV,
+} from 'src/redux_store/user/user_action';
 import { resetProfileDetails } from 'src/redux_store/user/user_slice';
 import { schemaProfileCV, typeFile } from 'src/constants/schema';
 
@@ -117,20 +121,14 @@ const ProfileOnline = () => {
     formData.append('id_city', id_city);
     if (profile_detail?.id_profile)
       formData.append('id_profile', profile_detail?.id_profile);
-    console.log({ data });
     if (file) {
       formData.append('file_cv', file, file.name);
       formData.append('file_name', file.name);
-      dispatch(updateCV(formData))
+      dispatch(createCV(formData))
         .unwrap()
         .then(() => {
           toastMessage.success('Lưu hồ sơ thành công');
-        });
-    } else if (profile_detail?.file_name) {
-      dispatch(updateCV(formData))
-        .unwrap()
-        .then(() => {
-          toastMessage.success('Lưu hồ sơ thành công');
+          navigate('/thong-tin-ca-nhan/ho-so');
         });
     } else {
       toastMessage.error('File CV không được bỏ trống');
@@ -291,7 +289,7 @@ const ProfileOnline = () => {
                   borderRadius: '50%',
                 }}
                 alt=""
-                src="https://cdn1.vieclam24h.vn/images/default/2023/02/28/B%C3%B9i%20V%C4%83n%20S%E1%BB%B7%20-%20Intern%20%20FE%20Nodejs%20-%20%C4%90%C3%A0%20N%E1%BA%B5ng_167755333021.jpg"
+                src={me.avatar}
               />
 
               <Box>

@@ -1,30 +1,66 @@
-import { SendOutlined } from '@mui/icons-material';
-import { Box, Avatar, Typography, Button } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import { Viewer } from '@react-pdf-viewer/core';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import React, { useState } from 'react';
 import DialogWrapper from 'src/components/modal/dialog_wrapper';
 import { MODAL_IDS } from 'src/constants';
-import { Viewer } from '@react-pdf-viewer/core';
-import theme from 'src/theme';
-
-import '@react-pdf-viewer/core/lib/styles/index.css';
-import { IApplyUser } from 'src/types/apply';
-import { useAppDispatch } from 'src/hooks';
-import { updateStatusApplied } from 'src/redux_store/company/company_action';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
+import { updateStatusApplied } from 'src/redux_store/company/company_action';
 import { updateStatusApllied } from 'src/redux_store/company/company_slices';
+import theme from 'src/theme';
+import { IApplyUser } from 'src/types/apply';
+import { messageMail } from 'src/utils/common';
 
 const ProfileModal = ({ apply }: { apply: IApplyUser }) => {
-  const { id_apply, id_user, name_job, fullName, status, introducing_letter } =
-    apply;
+  const {
+    id_apply,
+    id_user,
+    name_job,
+    fullName,
+    status,
+    introducing_letter,
+    email,
+    file_online,
+    file_desktop,
+  } = apply;
+  const {
+    me: { phone, name_company, address },
+  } = useAppSelector((state) => state.authSlice);
+  const [file, setFile] = useState<any>(() => {
+    if (file_online) {
+      return file_online;
+    } else {
+      return file_desktop;
+    }
+  });
+
   const dispatch = useAppDispatch();
   const handleOnLoad = () => {
     if (status === 0)
       dispatch(
-        updateStatusApplied([{ id_apply, status: 2, id_user, name_job }])
+        updateStatusApplied([
+          {
+            id_apply,
+            status: 1,
+            id_user,
+            name_job,
+            email,
+            fullName,
+            messageMailer: messageMail(
+              1,
+              name_job,
+              fullName,
+              phone,
+              name_company,
+              address
+            ),
+          },
+        ])
       )
         .unwrap()
         .then(() => {
-          dispatch(updateStatusApllied({ id_apply, status: 2 }));
+          dispatch(updateStatusApllied({ id_apply, status: 1 }));
         });
   };
 
@@ -37,12 +73,33 @@ const ProfileModal = ({ apply }: { apply: IApplyUser }) => {
   ];
 
   const handleOnRefuse = () => {
-    dispatch(updateStatusApplied([{ id_apply, status: 3, id_user, name_job }]))
+    dispatch(
+      updateStatusApplied([
+        {
+          id_apply,
+          status: 4,
+          id_user,
+          name_job,
+          email,
+          fullName,
+          messageMailer: messageMail(
+            status,
+            name_job,
+            fullName,
+            phone,
+            name_company,
+            address
+          ),
+        },
+      ])
+    )
       .unwrap()
       .then(() => {
-        dispatch(updateStatusApllied({ id_apply, status: 3 }));
+        dispatch(updateStatusApllied({ id_apply, status: 4 }));
       });
   };
+
+  console.log({ file });
 
   return (
     <DialogWrapper modalId={MODAL_IDS.profileModal} minWidth={800}>
@@ -79,10 +136,7 @@ const ProfileModal = ({ apply }: { apply: IApplyUser }) => {
             height: '500px',
           }}
         >
-          <Viewer
-            fileUrl="https://arxiv.org/pdf/quant-ph/0410100.pdf"
-            onDocumentLoad={handleOnLoad}
-          />
+          <Viewer fileUrl={file} onDocumentLoad={handleOnLoad} />
         </div>
 
         <Box my={2} display="flex" justifyContent="flex-end" gap={2}>

@@ -56,12 +56,12 @@ export const CPathSideBar: IPathSideBar[] = [
       {
         icon: <NoteAddOutlined />,
         label: 'Cài đặt chung',
-        to: '/admin/add-post',
+        to: '/admin/setting-system',
       },
       {
         icon: <ListAltOutlined />,
         label: 'Ảnh',
-        to: '/admin/list-post',
+        to: '/admin/setting-image',
       },
     ],
   },

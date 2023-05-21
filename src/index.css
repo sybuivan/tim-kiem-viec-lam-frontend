@@ -11,6 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+html {
+  overflow-y: hidden;
+}
 
 a {
   text-decoration: none;
@@ -101,13 +104,14 @@ a {
   transform: translateY(-50%);
   cursor: pointer;
   border: none;
+  z-index: 1;
 }
 .slick-prev {
-  left: -10px;
+  left: -15px;
 }
 
 .slick-next {
-  right: -10px;
+  right: -15px;
 }
 
 .sun-editor .se-wrapper .se-wrapper-inner {

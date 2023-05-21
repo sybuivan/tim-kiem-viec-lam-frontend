@@ -5,7 +5,6 @@ import {
   ICompanyDetail,
   ICompanyList,
   IParamsCandidate,
-  IPayloadCompanyInfo,
   IPayloadRegisterCompany,
 } from 'src/types/company';
 import { IPayloadProfile } from 'src/types/profile';
@@ -14,7 +13,6 @@ import { baseURL, baseAPI24h } from 'src/config';
 import axios from 'axios';
 
 const client = createClient(baseURL);
-const serverApi = createClient(baseAPI24h);
 
 export const companyApi = {
   findCompany: (name: string) => {
@@ -45,7 +43,7 @@ export const companyApi = {
   },
 
   getCandidateDetail: (id_user: string) => {
-    return client.get<{ user_info: ICandidateDetail }>(
+    return client.get<{ user_info: ICandidate; profileCV: ICandidateDetail[] }>(
       `/company/get-candidate-detail/${id_user}`
     );
   },

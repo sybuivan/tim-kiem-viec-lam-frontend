@@ -16,7 +16,8 @@ import { IServiceDetail } from 'src/types/service';
 import { toastMessage } from 'src/utils/toast';
 
 const PurchaseHistory = () => {
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
+
   const {
     serviceBuyList: { total, services },
   } = useAppSelector((state) => state.serviceSlice);
@@ -106,6 +107,8 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
     activated,
     id_company,
     id_history,
+    remaining_news,
+    used,
   } = history;
   const dispatch = useAppDispatch();
 
@@ -116,17 +119,54 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
         toastMessage.success('Kích hoạt dịch vụ thành công');
       });
   };
+
+  const renderStatus = (activated: number, remaining_news?: any) => {
+    if (activated === 0)
+      return (
+        <Chip
+          label="Chưa kích hoạt"
+          sx={{
+            color: theme.palette.error.main,
+            fontWeight: '600',
+          }}
+        />
+      );
+
+    if (activated === 1)
+      return (
+        <Chip
+          label="Đã kich hoạt"
+          sx={{
+            color: theme.palette.grey[200],
+            fontWeight: '600',
+            background: theme.palette.success.main,
+          }}
+        />
+      );
+    if (activated === 1 && remaining_news === 0)
+      return (
+        <Chip
+          label="Đã hết tin"
+          sx={{
+            color: theme.palette.grey[200],
+            fontWeight: '600',
+            background: theme.palette.error.main,
+          }}
+        />
+      );
+  };
   return (
     <Box
       sx={{
         boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px',
-        p: 2,
+        px: 2,
+        pt: 1,
         borderRadius: '6px',
         mb: 2,
       }}
     >
       <Chip
-        label="MP-011121212"
+        label={id_history}
         sx={{
           color: theme.palette.primary.main,
           fontWeight: '600',
@@ -141,8 +181,7 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
               color: theme.palette.primary.main,
             }}
           >
-            {' '}
-            {moment(created_at).format('DD-MM-YYYY')}
+            {created_at && moment(created_at).format('DD-MM-YYYY')}
           </strong>
           - Hạn sử dụng:{' '}
           <strong
@@ -150,7 +189,7 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
               color: theme.palette.primary.main,
             }}
           >
-            {moment(expiry).format('DD-MM-YYYY')}{' '}
+            {expiry && moment(expiry).format('DD-MM-YYYY')}
           </strong>
         </Typography>
       </Box>
@@ -186,30 +225,13 @@ const PurchaseHistoryItem = ({ history }: { history: IServiceDetail }) => {
             <Typography>{total_news} Tin</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography>2 Tin</Typography>
+            <Typography>{used} Tin</Typography>
           </Grid>
           <Grid item xs={2}>
-            <Typography>8 Tin</Typography>
+            <Typography>{remaining_news} Tin</Typography>
           </Grid>
           <Grid item xs={2}>
-            {activated === 0 ? (
-              <Chip
-                label="Chưa kích hoạt"
-                sx={{
-                  color: theme.palette.error.main,
-                  fontWeight: '600',
-                }}
-              />
-            ) : (
-              <Chip
-                label="Đã kich hoạt"
-                sx={{
-                  color: theme.palette.grey[200],
-                  fontWeight: '600',
-                  background: theme.palette.success.main,
-                }}
-              />
-            )}
+            {renderStatus(activated, remaining_news)}
           </Grid>
           <Grid item xs={2}>
             {activated === 0 && (

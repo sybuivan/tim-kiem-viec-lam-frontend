@@ -25,7 +25,7 @@ import SunEditorComponent from 'src/components/suneditor';
 const CompanyInfoAdmin = () => {
   const dispatch = useAppDispatch();
   const [isLoading] = useGetStatus('user', 'updateProfile');
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const { cityfield, companyfield } = useAppSelector(
     (state) => state.commonSlice.fieldList
   );
@@ -360,6 +360,7 @@ const CompanyInfoAdmin = () => {
                   name="faxCode"
                   label="Mã số thuế"
                   placeholder="Nhập mã số thuế"
+                  disabled
                 />
               </Grid>
               <Grid item xs={12}>

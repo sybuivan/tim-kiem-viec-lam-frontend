@@ -25,7 +25,8 @@ const BuyServices = () => {
   const {
     serviceList: { services },
   } = useAppSelector((state) => state.serviceSlice);
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
+
   useEffect(() => {
     dispatch(getService())
       .unwrap()
@@ -53,8 +54,8 @@ const BuyServices = () => {
       <ProfileHeader fullName="Mua dịch vụ đăng tin tuyển dụng" title="" />
       <Paper>
         <Box p={2}>
-          <Grid container columnSpacing={1}>
-            <Grid item xs={6}>
+          <Grid container columnSpacing={1} rowSpacing={1}>
+            <Grid item xs={12} lg={6} md={6} sm={12}>
               <Box display="flex" gap={2} alignItems="center" pb={2}>
                 <Typography fontWeight="600" fontSize="16px">
                   Danh sách dịch vụ
@@ -71,7 +72,7 @@ const BuyServices = () => {
                 ))}
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} lg={6} md={6} sm={12}>
               <Box>
                 <Box display="flex" gap={2} alignItems="center" pb={2}>
                   <Typography fontWeight="600" fontSize="16px">

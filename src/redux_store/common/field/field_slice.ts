@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IApplyList } from 'src/types/apply';
 import { IFieldList } from 'src/types/common';
 import { getAllField } from './field_actions';
 
@@ -21,7 +20,23 @@ const initialState: ICommonSlice = {
 const commonSlice = createSlice({
   name: 'common',
   initialState,
-  reducers: {},
+  reducers: {
+    setCommonField: (state, action) => {
+      const { type, data } = action.payload;
+      switch (type) {
+        case 'companyfield': {
+          state.fieldList.companyfield.push(data);
+          break;
+        }
+        case 'rangewage': {
+          state.fieldList.rangewagefield.push(data);
+          break;
+        }
+        default:
+          break;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getAllField.fulfilled, (state, action) => {
       state.fieldList = action.payload;
@@ -30,4 +45,5 @@ const commonSlice = createSlice({
 });
 
 const { actions, reducer } = commonSlice;
+export const { setCommonField } = actions;
 export default reducer;

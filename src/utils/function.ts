@@ -12,6 +12,8 @@ import {
 import { vi } from 'date-fns/locale';
 import theme from 'src/theme';
 
+import { COptionStatusApply } from 'src/constants/common';
+
 export const findIndexItem = (array: any[], id: string) => {
   const index = array.findIndex((item) => item.id === id);
 
@@ -99,18 +101,94 @@ export const convertToUSD = (vnd: number, exchangeRate: number) => {
 
 export const renderLabelStatus = (status: number) => {
   if (status === 0) return 'Chưa xem';
-  if (status === 1) return 'Đã liên hệ';
-  if (status === 2) return 'Đã xem hồ sơ';
-  if (status === 3) return 'Từ chối';
+  if (status === 1) return 'Đã xem hồ sơ';
+  if (status === 2) return 'Đã liên hệ';
+  if (status === 3) return 'Đã test';
+  if (status === 4) return 'Từ chối';
 };
+
 export const renderColorStatus = (status: number) => {
   if (status === 0) return theme.palette.grey[200];
-  if (status === 1 || status === 2) return theme.palette.success.main;
-  if (status === 3) return theme.palette.error.main;
+  if (status === 1) return theme.palette.success.main;
+  if (status === 2) return theme.palette.warning.main;
+  if (status === 3) return theme.palette.secondary.main;
+  if (status === 4) return theme.palette.error.main;
 };
 
 export const renderColorText = (status: number) => {
-  if (status === 0 || status === 1) return theme.palette.common.black;
+  if (status === 0 || status === 1) return theme.palette.common.white;
 
   return theme.palette.common.white;
+};
+
+export const renderColors = (numColors: number) => {
+  var colors = [];
+  var usedColors = new Set(); // Tạo một Set để lưu trữ các mã màu đã sử dụng
+
+  while (colors.length < numColors) {
+    var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+    if (!usedColors.has(color)) {
+      colors.push(color);
+      usedColors.add(color);
+    }
+  }
+
+  return colors;
+};
+
+export const renderOptionsStatus = (status: number) => {
+  const options = [...COptionStatusApply];
+  const index = options.findIndex((item) => item.status === status);
+  if (index !== -1) {
+    options.splice(0, index);
+  }
+  return options;
+};
+
+export const renderdata = ({
+  labels,
+  colors,
+  data,
+  title,
+  label,
+}: {
+  labels: string[];
+  colors: string[];
+  data: number[];
+  title: string;
+  label: string;
+}) => {
+  return {
+    labels,
+    datasets: [
+      {
+        label,
+        data,
+        backgroundColor: colors,
+        borderColor: colors,
+        borderWidth: 1,
+      },
+    ],
+
+    title: {
+      display: true,
+      text: title,
+    },
+  };
+};
+
+export const optionsDoughnut = (title: string) => {
+  return {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+      },
+      title: {
+        display: true,
+        text: title,
+      },
+    },
+  };
 };

@@ -9,9 +9,10 @@ import { CandidateInfo } from './candidate_info';
 const SavedProfile = () => {
   const dispatch = useAppDispatch();
   const {
-    me,
     followList: { followers, total },
   } = useAppSelector((state) => state.companySlice);
+
+  const { me } = useAppSelector((state) => state.authSlice);
 
   useEffect(() => {
     dispatch(getAllFolllowUser(me.id_company));

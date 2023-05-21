@@ -4,16 +4,15 @@ import { Controller } from 'react-hook-form';
 import theme from 'src/theme';
 
 interface IProps {
-  title: string;
-  control: any;
-  name: string;
+  title?: string;
   options: any[];
   keyOption: string;
   labelOption: string;
+  value: string;
 }
 
 export const LabelOptions = (props: IProps) => {
-  const { control, name, options, keyOption, labelOption, title } = props;
+  const { options, keyOption, labelOption, title, value } = props;
 
   const renderOptions = (value: string) => {
     return options.map((option, index) => (
@@ -24,18 +23,9 @@ export const LabelOptions = (props: IProps) => {
   };
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({
-        field: { value, onChange },
-        fieldState: { error, invalid },
-      }) => (
-        <Box>
-          <Typography fontWeight="600">{title}</Typography>
-          {renderOptions(value)}
-        </Box>
-      )}
-    />
+    <Box>
+      <Typography fontWeight="600">{title}</Typography>
+      {renderOptions(value)}
+    </Box>
   );
 };

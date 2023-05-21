@@ -26,6 +26,7 @@ import theme from 'src/theme';
 import useStyles from './styles';
 import { logout, resetStateUser } from 'src/redux_store/user/user_slice';
 import { logoutCompany } from 'src/redux_store/company/company_slices';
+import { resetState } from 'src/redux_store/auth/authSlice';
 import { resetApplyData } from 'src/redux_store/apply/apply_slice';
 import { checkRoleCompany, checkRoleUser } from 'src/utils/common';
 import { socketIo } from 'src/clients/socket';
@@ -105,7 +106,7 @@ const Header = () => {
       <Container
         sx={{
           height: '100%',
-          minWidth: '1300px',
+          [theme.breakpoints.up('lg')]: { minWidth: '1300px' },
         }}
       >
         <Box
@@ -253,6 +254,7 @@ const Header = () => {
                             dispatch(logout(''));
                             dispatch(resetApplyData());
                             dispatch(resetStateUser());
+                            dispatch(resetState());
                             setAnchorElUser(null);
                             // navigate('/');
                           }
@@ -319,7 +321,7 @@ const Header = () => {
 };
 
 export const HeaderCompany = () => {
-  const { me, token } = useAppSelector((state) => state.companySlice);
+  const { me, token } = useAppSelector((state) => state.authSlice);
   const [anchorNotifi, setAnchorNotifi] =
     React.useState<HTMLButtonElement | null>(null);
   const dispatch = useAppDispatch();
@@ -468,6 +470,7 @@ export const HeaderCompany = () => {
                       onClickCapture={() => {
                         dispatch(logoutCompany(''));
                         setAnchorElUser(null);
+                        dispatch(resetState());
                       }}
                     >
                       {setting.icon}

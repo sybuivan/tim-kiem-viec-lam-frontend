@@ -1,23 +1,22 @@
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-
+import EmptyData from 'src/components/empty_data';
 import { FormInput, FormSelect } from 'src/components/hook_form';
 import ProfileHeader from 'src/components/profile_bar/header';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getCandidateList } from 'src/redux_store/company/company_action';
-import theme from 'src/theme';
-import EmptyData from 'src/components/empty_data';
 import { changeFiltersCandidate } from 'src/redux_store/company/company_slices';
-import { Socket } from 'socket.io-client';
+import theme from 'src/theme';
 import { CandidateInfo } from '../saved_profile/candidate_info';
 
 const CandidateList = () => {
   const {
-    me,
     candidateList: { data },
     filtersCandidate,
   } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
+
   const { companyfield, cityfield } = useAppSelector(
     (state) => state.commonSlice.fieldList
   );

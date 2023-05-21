@@ -16,7 +16,7 @@ export const useStyles = makeStyles({
     marginBottom: '10px',
     '& > p': {
       maxWidth: '80%',
-      backgroundColor: theme.palette.primary.contrastText,
+      backgroundColor: 'rgba(34, 51, 84, 0.1);',
       border: '1px solid #c1c1c1',
     },
   },
@@ -32,7 +32,8 @@ export const useStyles = makeStyles({
     marginRight: '14px',
     '& > p': {
       maxWidth: '80%',
-      backgroundColor: theme.palette.grey[400],
+      backgroundColor: '#5569ff',
+      color: theme.palette.common.white,
     },
   },
 
@@ -42,6 +43,6 @@ export const useStyles = makeStyles({
     transform: 'translateX(-50%)',
     width: '100%',
     margin: 'auto',
-    bottom: '168px',
+    bottom: '140px',
   },
 });

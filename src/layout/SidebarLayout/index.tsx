@@ -1,6 +1,8 @@
 import { Box, useTheme } from '@mui/material';
 import { FC, ReactNode } from 'react';
+import Scrollbars from 'react-custom-scrollbars-2';
 import { Outlet } from 'react-router-dom';
+
 import Header from './Header';
 import Sidebar from './Sidebar';
 
@@ -39,11 +41,20 @@ const SidebarLayout: FC<SidebarLayoutProps> = () => {
             [theme.breakpoints.up('lg')]: {
               ml: `${theme.spacing(2)}`,
             },
-            top: '60px',
           }}
         >
           <Box display="block">
-            <Outlet />
+            <Box
+              pt="70px"
+              height="100vh"
+              sx={{
+                overflowX: 'hidden',
+              }}
+            >
+              <Scrollbars>
+                <Outlet />
+              </Scrollbars>
+            </Box>
           </Box>
         </Box>
       </Box>

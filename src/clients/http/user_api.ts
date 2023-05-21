@@ -30,6 +30,16 @@ export const userApi = {
       headers: { 'content-type': 'multipart/form-data' },
     });
   },
+  updateIsPublicCV: (formData: {
+    id_profile: string;
+    is_public: boolean;
+    id_user: string;
+  }) => {
+    return client.put<{ id_profile: string; is_public: boolean }>(
+      '/user/update-is-public',
+      formData
+    );
+  },
   createCV: (formData: any) => {
     return client.post<IProfileCV>('/user/create-profile-cv', formData, {
       headers: { 'content-type': 'multipart/form-data' },
@@ -41,7 +51,13 @@ export const userApi = {
     });
   },
   getProfileCV: (id_user: string) => {
-    return client.get<IProfileCV>(`/user/get-profile-cv/${id_user}`);
+    return client.get<{ profile_cv: IPayLoadCV[] }>(
+      `/user/get-profile-cv/${id_user}`
+    );
+  },
+
+  getProfileCVById: (id_profile: string) => {
+    return client.get<IPayLoadCV>(`/user/get-cv-by-id/${id_profile}`);
   },
 
   saveJob: (payload: IPayloadSaveJob) => {

@@ -77,8 +77,8 @@ const ProfileBar = ({ data }: { data: ICustomAccordion[] }) => {
           },
         }}
       >
-        {data.map((item) => (
-          <CustomAccordion data={item} />
+        {data.map((item, index) => (
+          <CustomAccordion data={item} key={index} />
         ))}
       </Box>
     </Box>

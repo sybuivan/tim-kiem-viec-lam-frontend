@@ -1,43 +1,47 @@
-import React, { useEffect, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import {
+  ArrowBackIosNewOutlined,
+  CheckCircleRounded,
+  ContactPageOutlined,
+  DeleteForeverOutlined,
+  EditOutlined,
+  FileUploadOutlined,
+  WorkOutlineOutlined,
+} from '@mui/icons-material';
 import {
   Box,
   Breadcrumbs,
-  Link,
-  Typography,
-  IconButton,
-  Grid,
-  Paper,
   Button,
   Chip,
+  Grid,
+  IconButton,
+  Link,
+  Paper,
+  Typography,
 } from '@mui/material';
-import {
-  ArrowBackIosNewOutlined,
-  FileUploadOutlined,
-  EditOutlined,
-  ContactPageOutlined,
-  WorkOutlineOutlined,
-  DeleteForeverOutlined,
-  CheckCircleRounded,
-} from '@mui/icons-material';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router';
+import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
+import { schemaProfileCV, typeFile } from 'src/constants/schema';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import { getProfileCVById, updateCV } from 'src/redux_store/user/user_action';
+import theme from 'src/theme';
+import { IPayLoadCV } from 'src/types/user';
 import { toastMessage } from 'src/utils/toast';
 
-import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { useNavigate } from 'react-router';
-import { useForm } from 'react-hook-form';
+const UpdateProfileOnline = () => {
+  const { id_profile } = useParams();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-import theme from 'src/theme';
-import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
+  const [isInvalidFile, setIsInvalidFile] = useState<boolean>(false);
+  const [file, setFile] = useState<any>();
 
-import moment from 'moment';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-import { IPayLoadCV } from 'src/types/user';
-import { createCV, getProfileCV } from 'src/redux_store/user/user_action';
-import { schemaProfileCV, typeFile } from 'src/constants/schema';
-
-const CreateProfileOnline = () => {
-  const { profile_detail } = useAppSelector((state) => state.userSlice);
   const { me } = useAppSelector((state) => state.authSlice);
+  const { profile_detail } = useAppSelector((state) => state.userSlice);
+
   const {
     fieldList: {
       typerankfield,
@@ -52,24 +56,24 @@ const CreateProfileOnline = () => {
     handleSubmit,
     setValue,
     getValues,
+    reset,
     formState: { isValid },
   } = useForm<IPayLoadCV>({
     defaultValues: profile_detail,
     resolver: yupResolver(schemaProfileCV),
   });
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [isInvalidFile, setIsInvalidFile] = useState<boolean>(false);
-  const [file, setFile] = useState<any>();
-
   useEffect(() => {
-    dispatch(getProfileCV(me.id_user));
-  }, []);
+    if (id_profile)
+      dispatch(getProfileCVById(id_profile))
+        .unwrap()
+        .then((profile_cv) => {
+          reset(profile_cv);
+        });
+  }, [id_profile]);
 
   const handleOnChangeFile = (e: any) => {
     if (typeFile.includes(e.target.files[0].type)) {
-      //
       setFile(e.target.files[0]);
       setIsInvalidFile(false);
     } else {
@@ -90,6 +94,7 @@ const CreateProfileOnline = () => {
       career_goals,
       is_public,
       id_city,
+      file_name,
     } = data;
     const is_publicCV: any = is_public ? 1 : 0;
     const formData = new FormData();
@@ -106,26 +111,20 @@ const CreateProfileOnline = () => {
     formData.append('id_city', id_city);
     if (profile_detail?.id_profile)
       formData.append('id_profile', profile_detail?.id_profile);
-    console.log({ data });
+
+    if (!getValues('file_name'))
+      return toastMessage.error('File CV không được bỏ trống');
+
     if (file) {
       formData.append('file_cv', file, file.name);
       formData.append('file_name', file.name);
-      dispatch(createCV(formData))
-        .unwrap()
-        .then((data) => {
-          console.log({ data });
-          toastMessage.success('Lưu hồ sơ thành công');
-          navigate('/thong-tin-ca-nhan/ho-so');
-        });
-    } else if (profile_detail?.file_name) {
-      dispatch(createCV(formData))
-        .unwrap()
-        .then(() => {
-          toastMessage.success('Lưu hồ sơ thành công');
-        });
-    } else {
-      toastMessage.error('File CV không được bỏ trống');
     }
+    dispatch(updateCV(formData))
+      .unwrap()
+      .then((data) => {
+        toastMessage.success('Lưu hồ sơ thành công');
+        navigate('/thong-tin-ca-nhan/ho-so');
+      });
   };
 
   return (
@@ -140,7 +139,7 @@ const CreateProfileOnline = () => {
           Tài khoản của bạn
         </Link>
         <Typography color={theme.palette.primary.main} fontWeight="600">
-          Tạo hồ sơ trực tuyến
+          Chỉnh sửa hồ sơ trực tuyến
         </Typography>
       </Breadcrumbs>
 
@@ -149,7 +148,7 @@ const CreateProfileOnline = () => {
           <ArrowBackIosNewOutlined />
         </IconButton>
 
-        <Typography fontSize="20px">Tạo hồ sơ đính kèm</Typography>
+        <Typography fontSize="20px">Chỉnh sửa hồ sơ đính kèm</Typography>
       </Box>
 
       <Grid container columnSpacing={3}>
@@ -546,4 +545,4 @@ const CreateProfileOnline = () => {
   );
 };
 
-export default CreateProfileOnline;
+export default UpdateProfileOnline;

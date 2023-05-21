@@ -6,27 +6,27 @@ import { LoadingButton } from '@mui/lab';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
+  FormAutocomplete,
   FormDatePicker,
   FormInput,
   FormSelect,
 } from 'src/components/hook_form';
+import LoadingLinear from 'src/components/loading/loading_linear';
+import SunEditorComponent from 'src/components/suneditor';
 import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
-import { updateJob, getJobByIdCompany } from 'src/redux_store/job/job_action';
+import { getJobByIdCompany, updateJob } from 'src/redux_store/job/job_action';
 import { IPayloadJob } from 'src/types/job';
 import { messageRequired } from 'src/utils/common';
 import { toastMessage } from 'src/utils/toast';
 import { schema } from '../create_post';
 
-import SunEditorComponent from 'src/components/suneditor';
-import LoadingLinear from 'src/components/loading/loading_linear';
-
 const UpdateJobPostings = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { me } = useAppSelector((state) => state.companySlice);
+  const { me } = useAppSelector((state) => state.authSlice);
   const [isLoading] = useGetStatus('job', 'updateJob');
   const [isLoadingJob, setIsLoadingJob] = useState<boolean>(true);
   const [description, setDescription] = useState<string>('');
@@ -84,6 +84,7 @@ const UpdateJobPostings = () => {
             description_job: description,
             required_job: required,
             benefits_job: benefits,
+            city: data.city.map((item: any) => item.id_city),
           },
         })
       )
@@ -104,6 +105,7 @@ const UpdateJobPostings = () => {
   const handleChangeBenefits = (content: string) => {
     setBenefits(content);
   };
+
   if (isLoadingJob) return <LoadingLinear />;
 
   return (
@@ -168,15 +170,14 @@ const UpdateJobPostings = () => {
                 />
               </Grid>
               <Grid item xs={6}>
-                <FormSelect
+                <FormAutocomplete
                   control={control}
                   name="city"
                   label="Tỉnh / Thành phố "
-                  placeholder="Chọn tỉnh thành phô"
                   options={cityfield}
                   keyOption="id_city"
                   labelOption="name_city"
-                  required
+                  isMultiple
                 />
               </Grid>
 
@@ -262,7 +263,7 @@ const UpdateJobPostings = () => {
               </Grid>
             </Grid>
 
-            <Box position="fixed" bottom="0" right="0" left="330px">
+            <Box position="fixed" bottom="0" right="0" left="300px">
               <Paper
                 sx={{
                   p: 2,

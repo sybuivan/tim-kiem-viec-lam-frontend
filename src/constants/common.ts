@@ -30,16 +30,20 @@ export const ROLE_ADMIN = 'admin';
 
 export const COptionStatusApply = [
   {
-    label: 'Đã liên hệ',
+    label: 'Đã xem hồ sơ',
     status: 1,
   },
   {
-    label: 'Đã xem hồ sơ',
+    label: 'Đã liên hệ',
     status: 2,
   },
   {
-    label: 'Từ chối',
+    label: 'Đã test',
     status: 3,
+  },
+  {
+    label: 'Từ chối',
+    status: 4,
   },
 ];
 

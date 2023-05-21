@@ -19,7 +19,7 @@ const PostList = () => {
       >
         Cẩm nang nghề nghiệp
       </Typography>
-      <Grid container columnSpacing={6}>
+      <Grid container columnSpacing={6} rowSpacing={2}>
         {post_list.map((post) => (
           <PostItem key={post.id_post} post={post} />
         ))}

@@ -57,10 +57,12 @@ export const NotificationItem = ({ notifi }: { notifi: INotification }) => {
           {getSubTimeFromDayFNS(created_at)}
         </Typography>
       </Box>
-      <Box       
-        position="absolute" top="50%" sx={{
-          transform:"translateY(-50%)",
-          right:"10px"
+      <Box
+        position="absolute"
+        top="50%"
+        sx={{
+          transform: 'translateY(-50%)',
+          right: '10px',
         }}
       >
         {status === 0 && (

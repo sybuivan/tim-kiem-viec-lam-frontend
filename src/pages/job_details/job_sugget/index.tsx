@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, IconButton } from '@mui/material';
+import { Box, Typography, IconButton, Chip } from '@mui/material';
 import {
   LocationOnOutlined,
   AttachMoneyOutlined,
@@ -23,7 +23,10 @@ const JobItem = ({ job }: { job: IJob }) => {
     name_job,
     work_location,
     id_job,
+    urgency,
   } = job;
+
+  console.log({ logo });
 
   const {
     saveJobList: { savedList },
@@ -65,7 +68,20 @@ const JobItem = ({ job }: { job: IJob }) => {
                 margin: 0,
                 maxWidth: '330px',
               }}
+              title={name_job}
             >
+              {urgency === 1 && (
+                <Chip
+                  label="Gấp"
+                  sx={{
+                    background: theme.palette.error.main,
+                    color: theme.palette.common.white,
+                    mr: 1,
+                    borderRadius: '10px',
+                    height: '25px',
+                  }}
+                />
+              )}
               {name_job}
             </Typography>
 

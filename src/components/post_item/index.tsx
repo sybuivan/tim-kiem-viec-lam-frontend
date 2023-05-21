@@ -7,7 +7,7 @@ const PostItem = ({ post }: { post: IPost }) => {
   const { image, title, description, id_post } = post;
   const navigate = useNavigate();
   return (
-    <Grid item xs={4}>
+    <Grid item xs={12} lg={4} md={6} sm={6}>
       <Box
         sx={{ cursor: 'pointer' }}
         onClick={() => navigate(`/bai-dang-chi-tiet/${id_post}`)}

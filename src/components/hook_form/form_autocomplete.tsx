@@ -1,11 +1,20 @@
-import { Autocomplete, Box, Chip, FormControl, SxProps, TextField } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Chip,
+  FormControl,
+  FormLabel,
+  SxProps,
+  TextField,
+} from '@mui/material';
 import _ from 'lodash';
 import React from 'react';
 import { Control, Controller } from 'react-hook-form';
+import theme from 'src/theme';
 
 interface IProps {
   isMultiple?: boolean;
-  control: Control<any, any>;
+  control: any;
   name: string;
   label: string;
   options: any[];
@@ -55,7 +64,10 @@ export const FormAutocomplete = (props: IProps) => {
           return required ? !_.isEmpty(option) : true;
         },
       }}
-      render={({ field: { value, onChange }, fieldState: { error, invalid } }) => (
+      render={({
+        field: { value, onChange },
+        fieldState: { error, invalid },
+      }) => (
         <FormControl
           sx={sx}
           size={size}
@@ -64,6 +76,15 @@ export const FormAutocomplete = (props: IProps) => {
           error={invalid}
           required={required}
         >
+          <FormLabel
+            sx={{
+              fontWeight: '600',
+              color: theme.palette.common.black,
+              pb: label ? 0.5 : 0,
+            }}
+          >
+            {label} {required && '*'}
+          </FormLabel>
           <Autocomplete
             multiple={isMultiple}
             fullWidth
@@ -111,8 +132,10 @@ export const FormAutocomplete = (props: IProps) => {
                 <TextField
                   {...params}
                   error={invalid}
-                  helperText={error ? error.message || 'Vui lòng chọn trường này' : null}
-                  label={label}
+                  helperText={
+                    error ? error.message || 'Vui lòng chọn trường này' : null
+                  }
+                  placeholder={label}
                   disabled={disabled}
                   variant={variant}
                 />

@@ -19,6 +19,7 @@ export interface ICompany {
   fullName?: string;
   email?: string;
   name_field?: string;
+  city_company?: string;
 }
 
 export interface IPayloadRegisterCompany {
@@ -70,14 +71,15 @@ export interface ICandidate {
   name_field: string;
   file_cv: string;
   avatar: string;
-}
-
-export interface ICandidateDetail extends ICandidate {
   gender: string;
   birthDay: string;
   address: string;
   city: string;
+}
+export interface ICandidateDetail {
   id_type_current: string;
+  id_profile: string;
+  file_cv: string;
   id_type_desired: string;
   id_city: string;
   desired_salary: number;

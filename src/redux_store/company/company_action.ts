@@ -127,7 +127,7 @@ export const getCandidateList = createAsyncThunk<
 });
 
 export const getCandidateDetail = createAsyncThunk<
-  { user_info: ICandidateDetail },
+  { user_info: ICandidate; profileCV: ICandidateDetail[] },
   string
 >('company/getCandidateDetail', async (id_user, { rejectWithValue }) => {
   try {
@@ -231,6 +231,9 @@ export const updateStatusApplied = createAsyncThunk<
     status: number;
     id_user: string;
     name_job: string;
+    email: string;
+    fullName: string;
+    messageMailer: string;
   }[]
 >('company/updateStatusApplied', async (payload, { rejectWithValue }) => {
   try {

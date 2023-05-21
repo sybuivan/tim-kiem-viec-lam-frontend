@@ -6,38 +6,58 @@ import {
   IconButton,
   Avatar,
 } from '@mui/material';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import { PreviewOutlined, LockOpenOutlined } from '@mui/icons-material';
 import React from 'react';
 
 import { IUser } from 'src/types/admin';
 import theme from 'src/theme';
-import { useAppDispatch } from 'src/hooks';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import { getUserCompanyById } from 'src/redux_store/admin/admin_actions';
 import { MODAL_IDS } from 'src/constants';
 import UserDetailModal from '../user_modal/user_detail';
 import UserLockModal from '../user_modal/user_lock';
+import { LabelOptions } from 'src/components/hook_form/label_options';
+import CompanyModal from '../../list-register-company/company_modal';
 
 const UserItem = ({ user }: { user: IUser }) => {
   const {
+    fieldList: { cityfield },
+  } = useAppSelector((state) => state.commonSlice);
+  const {
     email,
     fullName,
-    address,
     avatar,
     id_user,
     name_role,
     logo,
     is_lock,
+    city,
+    city_company,
+    id_role,
   } = user;
   const dispatch = useAppDispatch();
 
   const handleOpenUserDetailModal = () => {
-    dispatch(
-      openModal({
-        modalId: MODAL_IDS.userDetailModal,
-        dialogComponent: <UserDetailModal user={user} />,
-      })
-    );
+    if (id_role === 'user' || id_role === 'admin')
+      dispatch(
+        openModal({
+          modalId: MODAL_IDS.userDetailModal,
+          dialogComponent: <UserDetailModal user={user} />,
+        })
+      );
+    else {
+      dispatch(getUserCompanyById(id_user))
+        .unwrap()
+        .then((data) =>
+          dispatch(
+            openModal({
+              modalId: MODAL_IDS.companyModal,
+              dialogComponent: <CompanyModal company={data} is_show={false} />,
+            })
+          )
+        );
+    }
   };
 
   const handleOpenUserLockModal = () => {
@@ -88,9 +108,22 @@ const UserItem = ({ user }: { user: IUser }) => {
         </Typography>
       </TableCell>
       <TableCell>
-        <Typography variant="body2" color="text.secondary" noWrap>
-          {address}
-        </Typography>
+        {city && (
+          <LabelOptions
+            value={city}
+            options={cityfield}
+            keyOption="id_city"
+            labelOption="name_city"
+          />
+        )}
+        {city_company && (
+          <LabelOptions
+            value={city_company}
+            options={cityfield}
+            keyOption="id_city"
+            labelOption="name_city"
+          />
+        )}
       </TableCell>
       <TableCell align="right">
         <Typography
@@ -119,18 +152,7 @@ const UserItem = ({ user }: { user: IUser }) => {
             <PreviewOutlined fontSize="small" />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Chỉnh sửa" arrow>
-          <IconButton
-            sx={{
-              '&:hover': {},
-              color: theme.palette.primary.main,
-            }}
-            color="inherit"
-            size="small"
-          >
-            <EditTwoToneIcon fontSize="small" />
-          </IconButton>
-        </Tooltip>
+
         <Tooltip title={is_lock === 0 ? 'Khóa người dùng' : 'Mở khóa '} arrow>
           <IconButton
             sx={{

@@ -1,7 +1,9 @@
 import { Box, Typography, Grid } from '@mui/material';
+import queryString from 'query-string';
 
+import { useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router';
 import React from 'react';
-import { useNavigate } from 'react-router';
 import JobItem from 'src/components/job_item';
 import PaginationComponent from 'src/components/pagination';
 import SkeletonJob from 'src/components/skeleton/job';
@@ -11,6 +13,7 @@ import { changeHomeFilter } from 'src/redux_store/job/job_slices';
 import { IJob, IJobList } from 'src/types/job';
 
 const JobListResults = ({ jobList }: { jobList: IJob[] }) => {
+  const navigate = useNavigate();
   const {
     jobFilters,
     jobList: { total },
@@ -24,6 +27,9 @@ const JobListResults = ({ jobList }: { jobList: IJob[] }) => {
       ...jobFilters,
       page: newPage,
     };
+    const stringifiedParams = queryString.stringify({ ...newFilters });
+    navigate(`/co-hoi-viec-lam?${stringifiedParams}`);
+
     dispatch(getJobListFilters(newFilters));
     dispatch(changeHomeFilter(newFilters));
   };

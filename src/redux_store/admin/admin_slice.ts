@@ -5,11 +5,31 @@ import {
   updateUser,
   getCompanyRegister,
   updateActiveCompany,
+  statistical,
 } from './admin_actions';
 
 interface IAdminSlice {
   usersList: IUsersList;
   companyList: ICompanyList;
+  statistical: {
+    total_revenue: number;
+    jobs_by_industry: {
+      name_field: string;
+      job_count: number;
+    }[];
+    users_by_industry: {
+      name_role: string;
+      user_count: number;
+    }[];
+    city_by_industry: {
+      name_city: string;
+      city_count: number;
+    }[];
+    total_data_month: {
+      month: string;
+      total_revenue: number;
+    }[];
+  };
 }
 
 const initialState: IAdminSlice = {
@@ -17,6 +37,13 @@ const initialState: IAdminSlice = {
   companyList: {
     company_list: [],
     total: 0,
+  },
+  statistical: {
+    jobs_by_industry: [],
+    users_by_industry: [],
+    city_by_industry: [],
+    total_revenue: 0,
+    total_data_month: [],
   },
 };
 
@@ -47,6 +74,9 @@ const adminSlice = createSlice({
         (item) => item.id_company !== action.payload
       );
       state.companyList.company_list = newData;
+    });
+    builder.addCase(statistical.fulfilled, (state, action) => {
+      state.statistical = action.payload;
     });
   },
 });
