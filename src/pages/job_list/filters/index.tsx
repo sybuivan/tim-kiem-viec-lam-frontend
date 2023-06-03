@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Grid } from '@mui/material';
 import React from 'react';
 import queryString from 'query-string';
 
@@ -63,74 +63,93 @@ const JobListFilters = ({
       mt={2}
       position="relative"
     >
-      <Box display="flex" gap={2} alignItems="center">
-        <FormInput
-          control={control}
-          name="keyword"
-          placeholder="Tìm kiếm cơ hội việc làm"
-          sx={{
-            backgroundColor: theme.palette.common.white,
-            borderRadius: '4px',
-          }}
-          handleChange={handleOnChange}
-        />
-        <FormSelect
-          control={control}
-          name="companyfield"
-          placeholder="Tất cả nghề nghiệp"
-          options={companyfield}
-          keyOption="id_companyField"
-          labelOption="name_field"
-          sx={{
-            backgroundColor: theme.palette.common.white,
-            borderRadius: '4px',
-          }}
-          handleChange={handleOnChange}
-        />
-        <FormSelect
-          control={control}
-          name="city"
-          placeholder="Tất cả tỉnh thành"
-          options={cityfield}
-          keyOption="id_city"
-          labelOption="name_city"
-          sx={{
-            backgroundColor: theme.palette.common.white,
-            borderRadius: '4px',
-            color: theme.palette.common.white,
-          }}
-          handleChange={handleOnChange}
-        />
-        <Box height="38px">
-          <Button
-            variant="contained"
+      <Grid container gap={2} alignItems="center">
+        <Grid item lg={2.5} md={2.5}>
+          <FormInput
+            control={control}
+            name="keyword"
+            placeholder="Tìm kiếm cơ hội việc làm"
             sx={{
-              padding: '8px',
-              minWidth: '100px!important',
-              backgroundColor: '#2c95ff',
+              backgroundColor: theme.palette.common.white,
+              borderRadius: '4px',
             }}
-            onClick={handleOnSearch}
-          >
-            Tìm kiếm
-          </Button>
-        </Box>
-        <Box height="37px">
-          <Button
-            variant="contained"
+            handleChange={handleOnChange}
+          />
+        </Grid>
+
+        <Grid item lg={2.5} md={2.5}>
+          <FormSelect
+            control={control}
+            name="companyfield"
+            placeholder="Tất cả nghề nghiệp"
+            options={companyfield}
+            keyOption="id_companyField"
+            labelOption="name_field"
             sx={{
-              padding: '8px',
-              minWidth: '200px!important',
-              backgroundColor: '#5c27d6',
-              '&:hover': {
-                backgroundColor: '#5c27d6',
-              },
+              backgroundColor: theme.palette.common.white,
+              borderRadius: '4px',
             }}
-            onClick={() => onOpenFilters()}
-          >
-            Tìm kiếm nâng cao
-          </Button>
-        </Box>
-      </Box>
+            handleChange={handleOnChange}
+          />
+        </Grid>
+
+        <Grid item lg={2.5} md={2.5}>
+          <FormSelect
+            control={control}
+            name="city"
+            placeholder="Tất cả tỉnh thành"
+            options={cityfield}
+            keyOption="id_city"
+            labelOption="name_city"
+            sx={{
+              backgroundColor: theme.palette.common.white,
+              borderRadius: '4px',
+              color: theme.palette.common.white,
+            }}
+            handleChange={handleOnChange}
+          />
+        </Grid>
+
+        <Grid item lg={3.5} md={3.5} sm={12} xs={12}>
+          <Grid container columnSpacing={2}>
+            <Grid item lg={5} md={5} xs={6} sm={6}>
+              <Box height="38px">
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: '100%',
+                    padding: '8px',
+                    minWidth: '100px!important',
+                    backgroundColor: '#2c95ff',
+                  }}
+                  onClick={handleOnSearch}
+                >
+                  Tìm kiếm
+                </Button>
+              </Box>
+            </Grid>
+
+            <Grid item lg={7} md={7} xs={6} sm={6}>
+              <Box height="37px">
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: '100%',
+                    padding: '8px',
+                    backgroundColor: '#5c27d6',
+                    '&:hover': {
+                      backgroundColor: '#5c27d6',
+                    },
+                  }}
+                  onClick={() => onOpenFilters()}
+                >
+                  Tìm kiếm nâng cao
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
       {isOpenFilters && (
         <Box
           display="flex"

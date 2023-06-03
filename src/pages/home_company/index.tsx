@@ -34,10 +34,11 @@ const HomeCompany = () => {
             lg={2.5}
             sm={4}
             md={3}
+            xs={12}
             bgcolor={theme.palette.common.white}
             sx={{
               [theme.breakpoints.down('sm')]: {
-                display: 'none',
+                mb: 2,
               },
             }}
           >

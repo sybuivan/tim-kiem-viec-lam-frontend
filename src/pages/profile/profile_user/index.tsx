@@ -171,7 +171,7 @@ const ProfileUser = () => {
 
           <Box>
             <Grid container columnSpacing={3} rowSpacing={2}>
-              <Grid item xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormInput
                   control={control}
                   label="Họ và tên"
@@ -179,14 +179,14 @@ const ProfileUser = () => {
                   placeholder="Nhập họ và tên"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormDatePicker
                   control={control}
                   label="Ngày sinh"
                   name="birthDay"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormSelect
                   control={control}
                   name="city"
@@ -197,7 +197,7 @@ const ProfileUser = () => {
                   labelOption="name_city"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormInput
                   control={control}
                   label="Nhập địa chỉ"
@@ -205,7 +205,7 @@ const ProfileUser = () => {
                   placeholder="Ví dụ: Số nhà 98A, phố Ngụy Như Kon Tum, phường ..."
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormInput
                   control={control}
                   label="Số điện thoại"
@@ -213,7 +213,7 @@ const ProfileUser = () => {
                   placeholder="Nhập số điện thoại"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormSelect
                   control={control}
                   name="gender"
@@ -224,7 +224,7 @@ const ProfileUser = () => {
                   labelOption="label"
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item lg={6} md={6} sm={12} xs={12}>
                 <FormInput
                   control={control}
                   label="Email"

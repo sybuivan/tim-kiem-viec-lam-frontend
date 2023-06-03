@@ -125,7 +125,13 @@ const Header = () => {
               <img src={logo} alt="logo" width="100" height="60" />
             </Link>
           </Box>
-          <Box>
+          <Box
+            sx={{
+              [theme.breakpoints.down('md')]: {
+                display: 'none',
+              },
+            }}
+          >
             <ul
               style={{
                 display: 'flex',
@@ -159,58 +165,62 @@ const Header = () => {
             {checkRoleUser(me?.id_role, token) ? (
               <>
                 <Box
-                  display="flex"
-                  color={theme.palette.common.white}
-                  alignItems="center"
-                  gap={1}
                   sx={{
+                    [theme.breakpoints.down('md')]: {
+                      display: 'none',
+                    },
                     cursor: 'pointer',
                     '& p': {
                       fontWeight: 600,
                     },
                   }}
+                  display="flex"
+                  color={theme.palette.common.white}
+                  alignItems="center"
+                  gap={1}
                 >
-                  <IconButton aria-describedby={id} onClick={handleClick}>
-                    <Badge badgeContent={total_notification} color="error">
-                      <NotificationsNoneOutlined
-                        color="action"
-                        sx={{
-                          color: theme.palette.common.white,
+                  <Box>
+                    <IconButton aria-describedby={id} onClick={handleClick}>
+                      <Badge badgeContent={total_notification} color="error">
+                        <NotificationsNoneOutlined
+                          color="action"
+                          sx={{
+                            color: theme.palette.common.white,
+                          }}
+                        />
+                      </Badge>
+                    </IconButton>
+                  </Box>
+
+                  <Notification
+                    open={open}
+                    id={id}
+                    handleClose={handleClose}
+                    anchorEl={anchorNotifi}
+                  />
+
+                  <Box
+                    onClick={() => navigate('/users/message')}
+                    display="flex"
+                    color={theme.palette.common.white}
+                    alignItems="center"
+                    gap={1}
+                    sx={{
+                      cursor: 'pointer',
+                      '& p': {
+                        fontWeight: 600,
+                      },
+                    }}
+                  >
+                    <Badge badgeContent={4} color="error">
+                      <BsFillChatDotsFill
+                        style={{
+                          fontSize: '25px',
                         }}
                       />
                     </Badge>
-                  </IconButton>
+                  </Box>
                 </Box>
-
-                <Notification
-                  open={open}
-                  id={id}
-                  handleClose={handleClose}
-                  anchorEl={anchorNotifi}
-                />
-
-                <Box
-                  onClick={() => navigate('/users/message')}
-                  display="flex"
-                  color={theme.palette.common.white}
-                  alignItems="center"
-                  gap={1}
-                  sx={{
-                    cursor: 'pointer',
-                    '& p': {
-                      fontWeight: 600,
-                    },
-                  }}
-                >
-                  <Badge badgeContent={4} color="error">
-                    <BsFillChatDotsFill
-                      style={{
-                        fontSize: '25px',
-                      }}
-                    />
-                  </Badge>
-                </Box>
-
                 <Box sx={{ flexGrow: 0 }}>
                   <Tooltip title="Quản lý hồ sơ">
                     <IconButton

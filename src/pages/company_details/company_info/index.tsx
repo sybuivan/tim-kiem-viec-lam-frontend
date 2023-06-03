@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Button, Container, Paper } from '@mui/material';
+import { Box, Typography, Button, Container, Paper, Grid } from '@mui/material';
 import {
   LocationOnOutlined,
   LanguageOutlined,
@@ -106,12 +106,8 @@ const CompanyInfo = () => {
             maxWidth: '1000px!important',
           }}
         >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Box display="flex" gap={2}>
+          <Grid container>
+            <Grid item lg={8} md={9} sm={12} xs={12}>
               <Box
                 width="150px"
                 height="150px"
@@ -152,37 +148,51 @@ const CompanyInfo = () => {
                   </Box>
                 </Box>
               </Box>
-            </Box>
-            {checkIsFollow(followere, me?.id_user) ? (
-              <Button
-                onClick={handleUnFollow}
-                startIcon={<DoneOutlined />}
-                variant="outlined"
-                sx={{
-                  color: theme.palette.success.main,
-                  border: `1px solid ${theme.palette.success.main}`,
-                  px: 4,
-                  py: 1,
-                }}
-              >
-                Đang theo dõi •{followere?.length > 0 && followere?.length}
-              </Button>
-            ) : (
-              <Button
-                onClick={handleFollow}
-                startIcon={<RemoveRedEyeOutlined />}
-                variant="contained"
-                sx={{
-                  backgroundColor: theme.palette.primary.main,
-                  color: theme.palette.common.white,
-                  px: 4,
-                  py: 1,
-                }}
-              >
-                Theo dõi •{followere?.length > 0 && followere?.length}
-              </Button>
-            )}
-          </Box>
+            </Grid>
+
+            <Grid
+              item
+              lg={4}
+              md={3}
+              sm={12}
+              xs={12}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'end',
+              }}
+            >
+              {checkIsFollow(followere, me?.id_user) ? (
+                <Button
+                  onClick={handleUnFollow}
+                  startIcon={<DoneOutlined />}
+                  variant="outlined"
+                  sx={{
+                    color: theme.palette.success.main,
+                    border: `1px solid ${theme.palette.success.main}`,
+                    px: 4,
+                    py: 1,
+                  }}
+                >
+                  Đang theo dõi •{followere?.length > 0 && followere?.length}
+                </Button>
+              ) : (
+                <Button
+                  onClick={handleFollow}
+                  startIcon={<RemoveRedEyeOutlined />}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: theme.palette.primary.main,
+                    color: theme.palette.common.white,
+                    px: 4,
+                    py: 1,
+                  }}
+                >
+                  Theo dõi •{followere?.length > 0 && followere?.length}
+                </Button>
+              )}
+            </Grid>
+          </Grid>
         </Container>
       </Box>
     </Paper>

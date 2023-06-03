@@ -16,6 +16,7 @@ export const getAllUsers = createAsyncThunk<IUsersList, string>(
     }
   }
 );
+
 export const updateUser = createAsyncThunk<string, ILockUser>(
   'admin/updateUser',
   async (payload, { rejectWithValue }) => {

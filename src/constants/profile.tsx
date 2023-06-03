@@ -59,7 +59,7 @@ export const CProfileRoute: {
           icon: <ArticleOutlined />,
           name: 'Hồ sơ của bạn',
           path: '/thong-tin-ca-nhan/ho-so',
-          nested: '/thong-tin-ca-nhan/ho-so-dinh-kem',
+          nested: '/thong-tin-ca-nhan/them-moi-ho-so',
         },
       ],
     },

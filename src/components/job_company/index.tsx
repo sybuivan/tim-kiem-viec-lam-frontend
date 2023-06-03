@@ -5,7 +5,14 @@ import {
   HourglassBottomOutlined,
   LocationOnOutlined,
 } from '@mui/icons-material';
-import { Box, IconButton, Typography, Chip, Tooltip } from '@mui/material';
+import {
+  Box,
+  IconButton,
+  Typography,
+  Chip,
+  Tooltip,
+  Grid,
+} from '@mui/material';
 import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router';
@@ -67,8 +74,21 @@ export const JobCompany = ({ job }: { job: IJob }) => {
             {job?.name_job}
           </Typography>
         </Box>
-        <Box display="flex" gap={4}>
-          <Box display="flex" gap={0.5} flex={0.4}>
+        <Grid container>
+          <Grid
+            item
+            lg={4}
+            md={4}
+            sm={6}
+            xs={12}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              [theme.breakpoints.down('sm')]: {
+                flex: 0.6,
+              },
+            }}
+          >
             <LocationOnOutlined
               sx={{
                 color: theme.palette.grey[600],
@@ -87,8 +107,18 @@ export const JobCompany = ({ job }: { job: IJob }) => {
                 </Typography>
               </Tooltip>
             )}
-          </Box>
-          <Box display="flex" gap={0.5} flex={0.3}>
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            md={4}
+            sm={6}
+            xs={12}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             <AttachMoneyOutlined
               sx={{
                 color: theme.palette.grey[600],
@@ -97,13 +127,26 @@ export const JobCompany = ({ job }: { job: IJob }) => {
             <Typography
               sx={{
                 color: theme.palette.grey[600],
+                [theme.breakpoints.down('sm')]: {
+                  display: 'none',
+                },
               }}
             >
               Lương:
             </Typography>
             <Typography>{job?.name_range}</Typography>
-          </Box>
-          <Box display="flex" gap={0.5} flex={0.3}>
+          </Grid>
+          <Grid
+            item
+            lg={4}
+            md={4}
+            sm={6}
+            xs={12}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             <HourglassBottomOutlined
               sx={{
                 color: theme.palette.grey[600],
@@ -112,6 +155,9 @@ export const JobCompany = ({ job }: { job: IJob }) => {
             <Typography
               sx={{
                 color: theme.palette.grey[600],
+                [theme.breakpoints.down('sm')]: {
+                  display: 'none',
+                },
               }}
             >
               Hạn nộp:
@@ -119,8 +165,8 @@ export const JobCompany = ({ job }: { job: IJob }) => {
             <Typography>
               {moment(job?.deadline).format('DD-MM-YYYY')}{' '}
             </Typography>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Box>
       <Box position="absolute" top="2px" right="10px">
         {checkIsSaveJob(savedList, job.id_job) ? (

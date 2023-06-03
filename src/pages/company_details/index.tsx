@@ -38,12 +38,12 @@ const CompanyDetails = () => {
         }}
         columnSpacing={1}
       >
-        <Grid item xs={8}>
+        <Grid item lg={8} md={8} sm={12} xs={12}>
           <JobList />
 
           <CompanyIntro />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item lg={4} md={4} sm={12} xs={12}>
           <Paper
             sx={{
               mt: 5,

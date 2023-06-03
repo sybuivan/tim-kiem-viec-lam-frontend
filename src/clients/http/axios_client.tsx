@@ -34,7 +34,6 @@ export const createClient = (baseURL: string, access?: string) => {
       const token = localStorage.getItem('token')
         ? localStorage.getItem('token') || ''
         : null;
-
       if (token) {
         config.headers['Authorization'] = 'Bearer ' + token;
       }

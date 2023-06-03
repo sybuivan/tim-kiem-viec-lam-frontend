@@ -43,7 +43,7 @@ const JobDetails = () => {
 
     return (
       <Grid container columnSpacing={4}>
-        <Grid item xs={8}>
+        <Grid item lg={8} sm={12} md={12} xs={12}>
           <Paper
             sx={{
               p: 4,
@@ -66,7 +66,7 @@ const JobDetails = () => {
             />
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item lg={4} sm={12} md={12} xs={12}>
           <JobSugget job_suggets={job_suggets} />
         </Grid>
       </Grid>

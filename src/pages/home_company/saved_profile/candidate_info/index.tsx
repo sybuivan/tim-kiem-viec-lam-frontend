@@ -72,6 +72,11 @@ export const CandidateInfo = ({ candidate }: { candidate: ICandidate }) => {
           boxShadow: ' rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
           p: 1,
           borderRadius: '6px',
+          [theme.breakpoints.down('sm')]: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          },
         }}
       >
         <img

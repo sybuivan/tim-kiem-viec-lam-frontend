@@ -49,6 +49,7 @@ const PostingList = () => {
             py={2}
             sx={{
               borderBottom: '1px solid #c1c1c1',
+              [theme.breakpoints.down('md')]: { display: 'none' },
             }}
           >
             <Grid container>
@@ -82,11 +83,13 @@ const PostingList = () => {
           </Box>
           <Box>
             {jobListCompany.data.length > 0 ? (
-              <>
+              <Grid container columnSpacing={1}>
                 {jobListCompany.data.map((job) => (
-                  <PostItem job={job} key={job.id_job} />
+                  <Grid item lg={12} md={12} sm={6} xs={6}>
+                    <PostItem job={job} key={job.id_job} />
+                  </Grid>
                 ))}{' '}
-              </>
+              </Grid>
             ) : (
               <EmptyData title="Chưa có bài đăng tuyển dụng nào" />
             )}
@@ -131,32 +134,49 @@ const PostItem = ({ job }: { job: IJob }) => {
       }}
     >
       <Grid container alignItems="center">
-        <Grid item xs={4}>
+        <Grid item lg={4} md={4} sm={12} xs={12}>
           <Box>
-            <Typography fontWeight="600">{job.name_job}</Typography>
+            <Typography
+              fontWeight="600"
+              sx={{
+                [theme.breakpoints.down('md')]: {
+                  display: '-webkit-box',
+                  '-webkit-line-clamp': '2',
+                  '-webkit-box-orient': 'vertical',
+                  overflow: 'hidden',
+                  minHeight: '42px',
+                },
+              }}
+            >
+              {job.name_job}
+            </Typography>
 
             <Box display="flex" gap={1}>
               Mã tin: <Typography fontWeight="600">{job.id_job}</Typography>
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={1}>
+        <Grid item lg={1} md={1} sm={12} xs={12}>
           <Typography fontWeight="500">
             {moment(job.created_at).format('DD/MM/YYYY')}
           </Typography>
         </Grid>
-        <Grid item xs={2}>
-          {' '}
-          <Typography fontWeight="500" textAlign="center">
+        <Grid item lg={2} md={2} sm={12} xs={12}>
+          <Typography
+            fontWeight="500"
+            sx={{
+              [theme.breakpoints.up('md')]: {
+                textAlign: 'center',
+              },
+            }}
+          >
             {moment(job.deadline).format('DD/MM/YYYY')}
           </Typography>
         </Grid>
-        <Grid item xs={1}>
-          <Typography fontWeight="500" textAlign="center">
-            {job.countJob || 0}
-          </Typography>
+        <Grid item lg={1} md={1} sm={12} xs={12}>
+          <Typography fontWeight="500">{job.countJob || 0}</Typography>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item lg={2} md={2} sm={12} xs={12}>
           <Chip
             variant="outlined"
             label={job.is_lock === 0 ? 'Thành công' : 'Đã khóa'}
@@ -177,7 +197,7 @@ const PostItem = ({ job }: { job: IJob }) => {
             }}
           />
         </Grid>
-        <Grid item xs={2}>
+        <Grid item lg={2} md={2} sm={12} xs={12}>
           <Box display="flex" gap={2} justifyContent="center">
             <IconButton
               onClick={() =>

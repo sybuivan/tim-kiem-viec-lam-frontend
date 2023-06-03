@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { FormSelect } from 'src/components/hook_form';
 import IconButtonTooltip from 'src/components/icon_button_tooltip';
 import { MODAL_IDS } from 'src/constants';
-import { COptionStatusApply } from 'src/constants/common';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
@@ -87,17 +86,24 @@ const ApplyItem = ({
         borderBottom: '1px solid #c1c1c1',
       }}
     >
-      <Grid container alignItems="center">
-        <Grid item xs={0.5}>
+      <Grid container alignItems="center" rowSpacing={0.5}>
+        <Grid item lg={0.5} xs={2}>
           <Checkbox
             checked={apply.checked}
             onChange={handleOnChange}
             disabled={apply.status === 4}
           />
         </Grid>
-        <Grid item xs={3}>
-          <Box>
-            <Box display="flex" gap={1}>
+        <Grid item lg={3} xs={10}>
+          <Box
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                display: 'flex',
+                gap: 1,
+              },
+            }}
+          >
+            <Box gap={1} display="flex">
               <Typography fontWeight="600">{fullName}</Typography>
               <Typography fontWeight="500" color={theme.palette.grey[500]}>
                 {moment(birthDay).format('DD/MM/YYYY')}
@@ -114,21 +120,33 @@ const ApplyItem = ({
             </Box>
           </Box>
         </Grid>
-        <Grid item xs={2}>
+        <Grid item lg={2} xs={10}>
           <Typography fontWeight="500">{name_job}</Typography>
         </Grid>
 
-        <Grid item xs={1}>
-          <Typography textAlign="center">
+        <Grid item lg={1} xs={2}>
+          <Typography
+            sx={{
+              [theme.breakpoints.up('md')]: {
+                textAlign: 'center',
+              },
+            }}
+          >
             {moment(created_at).format('MM/DD/YYYY')}
           </Typography>
         </Grid>
-        <Grid item xs={2}>
-          <Typography textAlign="center">
+        <Grid item lg={2} xs={4}>
+          <Typography
+            sx={{
+              [theme.breakpoints.up('md')]: {
+                textAlign: 'center',
+              },
+            }}
+          >
             {file_desktop ? 'Nộp file' : 'Nộp trực tuyến'}
           </Typography>
         </Grid>
-        <Grid item xs={1.5}>
+        <Grid item lg={1.5} xs={4}>
           {apply.checked ? (
             <FormSelect
               name={`applied.${index}.status`}
@@ -155,7 +173,7 @@ const ApplyItem = ({
             </Box>
           )}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item lg={2}>
           <Box display="flex" gap={1} justifyContent="center">
             <IconButtonTooltip
               onClick={handleOpenModal}

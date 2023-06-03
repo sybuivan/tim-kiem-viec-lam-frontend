@@ -304,10 +304,20 @@ const ApplyList = ({ socket }: { socket: any }) => {
             <Box
               py={2}
               sx={{
+                [theme.breakpoints.down('sm')]: {
+                  borderBottom: 'none',
+                },
                 borderBottom: '1px solid #c1c1c1',
               }}
             >
-              <Grid container>
+              <Grid
+                container
+                sx={{
+                  [theme.breakpoints.down('sm')]: {
+                    display: 'none',
+                  },
+                }}
+              >
                 <Grid item xs={0.5}>
                   <Checkbox
                     color="primary"

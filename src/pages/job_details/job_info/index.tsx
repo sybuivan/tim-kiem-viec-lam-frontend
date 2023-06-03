@@ -175,8 +175,18 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
           borderBottom={`1px solid ${theme.palette.primary.dark}`}
           display="flex"
           justifyContent="space-between"
+          flexWrap="wrap"
         >
-          <Box py={2} borderRight="1px solid #c1c1c1" pr="110px">
+          <Box
+            py={2}
+            borderRight="1px solid #c1c1c1"
+            pr="110px"
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                border: 'none',
+              },
+            }}
+          >
             <Typography color={theme.palette.grey[600]} pb={2}>
               Yêu cầu kinh nghiệm
             </Typography>
@@ -184,13 +194,31 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
               {jobDetail.name_experience}
             </Typography>
           </Box>
-          <Box py={2} borderRight="1px solid #c1c1c1" pr="45px">
+          <Box
+            py={2}
+            borderRight="1px solid #c1c1c1"
+            pr="45px"
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                border: 'none',
+              },
+            }}
+          >
             <Typography color={theme.palette.grey[600]} pb={2}>
               Mức lương
             </Typography>
             <Typography fontWeight="600">{jobDetail.name_range}</Typography>
           </Box>
-          <Box py={2} borderRight="1px solid #c1c1c1" pr="45px">
+          <Box
+            py={2}
+            borderRight="1px solid #c1c1c1"
+            pr="45px"
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                border: 'none',
+              },
+            }}
+          >
             <Typography color={theme.palette.grey[600]} pb={2}>
               Cấp bậc
             </Typography>
@@ -208,7 +236,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
           <Typography fontWeight="600">Thông tin</Typography>
 
           <Grid container columnSpacing={1} rowSpacing={2}>
-            <Grid item xs={6}>
+            <Grid item lg={6} sm={6} xs={6}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
                   Nghề nghiệp:
@@ -216,7 +244,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 <Typography fontWeight="600">{jobDetail.name_field}</Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} sm={6} xs={6}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
                   Địa điểm làm việc:
@@ -226,7 +254,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} sm={6} xs={6}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
                   Số lượng tuyển:
@@ -236,7 +264,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} sm={6} xs={6}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
                   Yêu cầu bằng cấp:
@@ -244,7 +272,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 <Typography fontWeight="600">Cao đẳng</Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} sm={6} xs={6}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
                   Hạn nộp hồ sơ:
@@ -254,7 +282,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item lg={6} sm={6} xs={6}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
                   Tỉnh thành:

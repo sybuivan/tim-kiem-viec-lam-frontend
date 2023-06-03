@@ -22,16 +22,22 @@ const Profile = () => {
           paddingLeft: '0!important',
           overflowX: 'hidden',
           minHeight: '30px',
-          minWidth: '1300px',
         }}
       >
         <Grid container columnSpacing={2} justifyContent="space-between">
-          <Grid item xs={2.5} bgcolor={theme.palette.common.white}>
+          <Grid
+            item
+            lg={2.5}
+            md={3}
+            sm={12}
+            xs={12}
+            bgcolor={theme.palette.common.white}
+          >
             <Box>
               <ProfileBar data={CProfileRoute.data} />
             </Box>
           </Grid>
-          <Grid item xs={9.5}>
+          <Grid item lg={9.5} md={9} sm={12} xs={12}>
             <Box minHeight="90vh">
               <Outlet />
             </Box>

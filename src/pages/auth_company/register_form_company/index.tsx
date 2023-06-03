@@ -33,22 +33,29 @@ const RegisterFormCompany = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { control, handleSubmit, resetField, reset, setValue, setError } =
-    useForm<IPayloadRegisterCompany>({
-      defaultValues: {
-        address: '',
-        city: '',
-        email: '',
-        faxCode: '',
-        fieldOfActivity: '',
-        fullName: '',
-        name_company: '',
-        password: '',
-        total_people: '',
-      },
+  const {
+    control,
+    handleSubmit,
+    resetField,
+    reset,
+    setValue,
+    setError,
+    clearErrors,
+  } = useForm<IPayloadRegisterCompany>({
+    defaultValues: {
+      address: '',
+      city: '',
+      email: '',
+      faxCode: '',
+      fieldOfActivity: '',
+      fullName: '',
+      name_company: '',
+      password: '',
+      total_people: '',
+    },
 
-      resolver: yupResolver(schemaRegister),
-    });
+    resolver: yupResolver(schemaRegister),
+  });
 
   const handleOnSubmit = (data: IPayloadRegisterCompany) => {
     dispatch(findCompany(data.faxCode))
@@ -59,8 +66,8 @@ const RegisterFormCompany = () => {
         if (data) {
           setValue('name_company', data.name);
           setValue('address', data.address);
+          clearErrors('faxCode');
         } else {
-          console.log({ data });
           resetField('name_company');
           resetField('address');
           setError('faxCode', {

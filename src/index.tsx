@@ -20,6 +20,7 @@ import GlobalDndContext from './dnd-context';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <Provider store={store}>
     <GlobalDndContext>

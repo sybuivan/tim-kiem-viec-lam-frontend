@@ -68,7 +68,14 @@ const JobList = ({
       </>
     );
   return (
-    <Box mb={5}>
+    <Box
+      mb={5}
+      sx={{
+        '& .slick-track, & .slick-slide': {
+          width: '100%!important',
+        },
+      }}
+    >
       <Box display="flex" alignItems="center" gap={1} my={4}>
         {icon}
         <Typography fontSize="30px" fontWeight="800">

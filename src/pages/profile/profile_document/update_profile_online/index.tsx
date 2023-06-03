@@ -313,7 +313,7 @@ const UpdateProfileOnline = () => {
 
             <Box p={2} alignItems="center">
               <Grid container rowSpacing={1} columnSpacing={2}>
-                <Grid item xs={12}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormInput
                     control={control}
                     label="Vị trí mong muốn"
@@ -321,7 +321,7 @@ const UpdateProfileOnline = () => {
                     placeholder="E.g. Nhân viên kinh doanh"
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormSelect
                     control={control}
                     name="id_company_field"
@@ -333,7 +333,7 @@ const UpdateProfileOnline = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormSelect
                     control={control}
                     name="id_type_current"
@@ -344,7 +344,7 @@ const UpdateProfileOnline = () => {
                     labelOption="name_rank"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormSelect
                     control={control}
                     name="id_type_desired"
@@ -355,7 +355,7 @@ const UpdateProfileOnline = () => {
                     labelOption="name_rank"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormInput
                     control={control}
                     label="Mức lương mong muốn"
@@ -365,7 +365,7 @@ const UpdateProfileOnline = () => {
                   />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormSelect
                     control={control}
                     name="id_experience"
@@ -376,7 +376,7 @@ const UpdateProfileOnline = () => {
                     labelOption="name_experience"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormSelect
                     control={control}
                     name="id_city"
@@ -387,7 +387,7 @@ const UpdateProfileOnline = () => {
                     labelOption="name_city"
                   />
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item lg={6} md={6} sm={12} xs={12}>
                   <FormSelect
                     control={control}
                     name="id_working_form"
@@ -514,7 +514,17 @@ const UpdateProfileOnline = () => {
         </Grid>
       </Grid>
 
-      <Box position="fixed" bottom="0" right="0" left="300px">
+      <Box
+        position="fixed"
+        bottom="0"
+        right="0"
+        sx={{
+          left: '300px',
+          [theme.breakpoints.down('md')]: {
+            left: 0,
+          },
+        }}
+      >
         <Paper
           sx={{
             p: 2,

@@ -159,32 +159,62 @@ const JobItem = (props: IJobItem) => {
         </Grid>
       );
     return (
-      <Box position="relative" m={m}>
-        <Box
-          sx={{
-            border: '1px solid #c1c1c1',
-            borderRadius: '4px',
-            padding: 1,
-            '&:hover': {
-              border: `1px solid ${theme.palette.primary.dark}`,
-              cursor: 'pointer',
-            },
-            backgroundColor: theme.palette.common.white,
-          }}
-          onClick={handleClick}
-        >
-          <Box display="flex" gap={1}>
-            <img alt="" src={jobItem.logo} width="88" height="88" />
+      <Grid item xs={12} lg={4} md={6} sm={12}>
+        <Box position="relative" m={m}>
+          <Box
+            sx={{
+              border: '1px solid #c1c1c1',
+              borderRadius: '4px',
+              padding: 1,
+              '&:hover': {
+                border: `1px solid ${theme.palette.primary.dark}`,
+                cursor: 'pointer',
+              },
+              backgroundColor: theme.palette.common.white,
+            }}
+            onClick={handleClick}
+          >
+            <Box display="flex" gap={1}>
+              <img alt="" src={jobItem.logo} width="88" height="88" />
 
-            <Box flex="1">
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-              >
+              <Box flex="1">
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <Typography
+                    fontWeight="600"
+                    title={jobItem.name_job}
+                    sx={{
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                      fontSize: '15px',
+                      margin: 0,
+                      maxWidth: '265px',
+                    }}
+                  >
+                    {jobItem.urgency === 1 && (
+                      <Chip
+                        label="Gấp"
+                        sx={{
+                          background: theme.palette.error.main,
+                          color: theme.palette.common.white,
+                          mr: 1,
+                          borderRadius: '10px',
+                          height: '25px',
+                        }}
+                      />
+                    )}
+                    {jobItem.name_job}
+                  </Typography>
+                </Box>
                 <Typography
+                  pb={isPage ? 1 : 2.5}
+                  color={theme.palette.grey[600]}
+                  title={jobItem.name_company}
                   fontWeight="600"
-                  title={jobItem.name_job}
                   sx={{
                     whiteSpace: 'nowrap',
                     textOverflow: 'ellipsis',
@@ -194,102 +224,74 @@ const JobItem = (props: IJobItem) => {
                     maxWidth: '265px',
                   }}
                 >
-                  {jobItem.urgency === 1 && (
-                    <Chip
-                      label="Gấp"
-                      sx={{
-                        background: theme.palette.error.main,
-                        color: theme.palette.common.white,
-                        mr: 1,
-                        borderRadius: '10px',
-                        height: '25px',
-                      }}
-                    />
-                  )}
-                  {jobItem.name_job}
+                  {jobItem.name_company}
                 </Typography>
-              </Box>
-              <Typography
-                pb={isPage ? 1 : 2.5}
-                color={theme.palette.grey[600]}
-                title={jobItem.name_company}
-                fontWeight="600"
-                sx={{
-                  whiteSpace: 'nowrap',
-                  textOverflow: 'ellipsis',
-                  overflow: 'hidden',
-                  fontSize: '15px',
-                  margin: 0,
-                  maxWidth: '265px',
-                }}
-              >
-                {jobItem.name_company}
-              </Typography>
-              <Box
-                display="flex"
-                alignItems="center"
-                gap={1}
-                justifyContent="space-between"
-              >
-                <Typography
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  gap={1}
+                  justifyContent="space-between"
                 >
-                  <PaidOutlined />
-                  {jobItem.name_range}
-                </Typography>
-                <Typography
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    whiteSpace: 'nowrap',
-                    textOverflow: 'ellipsis',
-                    overflow: 'hidden',
-                    fontSize: '15px',
-                    margin: 0,
-                    maxWidth: '180px',
-                    mr: 1,
-                  }}
-                >
-                  <LocationOnOutlined />
-                  {jobItem.cities &&
-                    jobItem.cities.length > 0 &&
-                    jobItem.cities[0].name_city}{' '}
-                  {jobItem.cities && jobItem.cities?.length - 1 > 0 && (
-                    <Tooltip
-                      title={jobItem.cities
-                        .slice(1)
-                        .map((item) => item.name_city)
-                        .join(', ')}
-                    >
-                      <Typography ml={1}>
-                        {'  '}+ {jobItem.cities.length - 1}
-                      </Typography>
-                    </Tooltip>
-                  )}
-                </Typography>
+                  <Typography
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <PaidOutlined />
+                    {jobItem.name_range}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      overflow: 'hidden',
+                      fontSize: '15px',
+                      margin: 0,
+                      maxWidth: '180px',
+                      mr: 1,
+                    }}
+                  >
+                    <LocationOnOutlined />
+                    {jobItem.cities &&
+                      jobItem.cities.length > 0 &&
+                      jobItem.cities[0].name_city}{' '}
+                    {jobItem.cities && jobItem.cities?.length - 1 > 0 && (
+                      <Tooltip
+                        title={jobItem.cities
+                          .slice(1)
+                          .map((item) => item.name_city)
+                          .join(', ')}
+                      >
+                        <Typography ml={1}>
+                          {'  '}+ {jobItem.cities.length - 1}
+                        </Typography>
+                      </Tooltip>
+                    )}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
+          <Box position="absolute" top="2px" right="10px">
+            {checkIsSaveJob(savedList, jobItem.id_job) ? (
+              <IconButton onClick={handleOnUnSaved}>
+                <FavoriteRounded
+                  sx={{
+                    color: theme.palette.primary.main,
+                  }}
+                />
+              </IconButton>
+            ) : (
+              <IconButton onClick={handleOnSave}>
+                <FavoriteBorderOutlined />
+              </IconButton>
+            )}
+          </Box>
         </Box>
-        <Box position="absolute" top="2px" right="10px">
-          {checkIsSaveJob(savedList, jobItem.id_job) ? (
-            <IconButton onClick={handleOnUnSaved}>
-              <FavoriteRounded
-                sx={{
-                  color: theme.palette.primary.main,
-                }}
-              />
-            </IconButton>
-          ) : (
-            <IconButton onClick={handleOnSave}>
-              <FavoriteBorderOutlined />
-            </IconButton>
-          )}
-        </Box>
-      </Box>
+      </Grid>
     );
   };
 
