@@ -221,20 +221,6 @@ const JobListFilters = ({
               }}
               handleChange={handleOnChange}
             />
-            <FormSelect
-              control={control}
-              name="id_gender"
-              placeholder="Tất cả giới tính"
-              options={CGenderOption}
-              keyOption="value"
-              labelOption="label"
-              sx={{
-                backgroundColor: theme.palette.common.white,
-                borderRadius: '4px',
-                color: theme.palette.common.white,
-                maxWidth: '165px',
-              }}
-            />
           </Box>
           <Box display="flex">
             <Box

@@ -161,26 +161,7 @@ const CompanyModal = ({
                     disabled
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <FormInput
-                    control={control}
-                    label="Lat"
-                    name="lat"
-                    placeholder="Nhập kinh độ"
-                    type="number"
-                    disabled
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <FormInput
-                    control={control}
-                    label="Lng"
-                    name="lng"
-                    placeholder="Nhập vĩ độ"
-                    type="number"
-                    disabled
-                  />
-                </Grid>
+
                 <Grid item xs={6}>
                   <FormInput
                     control={control}

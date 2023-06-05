@@ -58,12 +58,7 @@ const JobDetails = () => {
               p: 4,
             }}
           >
-            <JobDescription
-              required_job={job.required_job}
-              description_job={job.description_job}
-              benefits_job={job.benefits_job}
-              id_job={job.id_job}
-            />
+            <JobDescription job={job} />
           </Paper>
         </Grid>
         <Grid item lg={4} sm={12} md={12} xs={12}>

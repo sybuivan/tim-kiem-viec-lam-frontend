@@ -107,6 +107,7 @@ export const FormInput = (props: IProps) => {
             variant={variant}
             disabled={disabled}
             // label={label}
+
             placeholder={placeholder}
             error={invalid}
             helperText={error ? error.message : null}

@@ -12,7 +12,7 @@ import { useLocation } from 'react-router';
 const JobList = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  const [isOpenFilters, setIsOpenFilters] = useState<boolean>(false);
+  const [isOpenFilters, setIsOpenFilters] = useState<boolean>(true);
   const {
     jobList: { data },
     jobFilters,

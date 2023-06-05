@@ -19,7 +19,15 @@ import { applyJob } from 'src/redux_store/apply/apply_actions';
 import { toastMessage } from 'src/utils/toast';
 import ChooseFileCV from './choose_file_cv';
 
-const ApplyModal = ({ id_job }: { id_job: string }) => {
+const ApplyModal = ({
+  id_job,
+  name_company,
+  name_job,
+}: {
+  id_job: string;
+  name_company: string;
+  name_job: string;
+}) => {
   const dispatch = useAppDispatch();
   const [filePdf, setFilePdf] = useState<any>();
 
@@ -124,14 +132,14 @@ const ApplyModal = ({ id_job }: { id_job: string }) => {
           Ứng tuyển vào vị trí
         </Typography>
         <Typography fontWeight="600" fontSize="16px" py={1}>
-          Nhân Viên Chăm Sóc Khách Hàng - Đi Làm Ngay
+          {name_job}
         </Typography>
         <Typography
           fontWeight="600"
           fontSize="12px"
           color={theme.palette.secondary.contrastText}
         >
-          Công Ty TNHH Dksh Việt Nam
+          {name_company}
         </Typography>
       </BootstrapDialogTitle>
       <Box p={2} component="form" onSubmit={handleSubmit(handleOnSubmit)}>

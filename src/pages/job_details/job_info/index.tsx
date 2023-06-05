@@ -38,11 +38,17 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
   );
 
   const handleOnpenApply = () => {
-    if (me?.id_user) {
+    if (me?.id_user && jobDetail.name_company) {
       dispatch(
         openModal({
           modalId: MODAL_IDS.apply,
-          dialogComponent: <ApplyModal id_job={jobDetail.id_job} />,
+          dialogComponent: (
+            <ApplyModal
+              id_job={jobDetail.id_job}
+              name_company={jobDetail.name_company}
+              name_job={jobDetail.name_job}
+            />
+          ),
         })
       );
     } else {

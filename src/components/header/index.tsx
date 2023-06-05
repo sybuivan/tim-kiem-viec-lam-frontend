@@ -212,7 +212,7 @@ const Header = () => {
                       },
                     }}
                   >
-                    <Badge badgeContent={4} color="error">
+                    <Badge color="error">
                       <BsFillChatDotsFill
                         style={{
                           fontSize: '25px',
@@ -429,7 +429,7 @@ export const HeaderCompany = () => {
                     },
                   }}
                 >
-                  <Badge badgeContent={4} color="error">
+                  <Badge color="error">
                     <BsFillChatDotsFill
                       style={{
                         fontSize: '25px',

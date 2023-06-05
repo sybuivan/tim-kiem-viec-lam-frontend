@@ -1,32 +1,30 @@
+import { FavoriteBorderOutlined, FavoriteRounded } from '@mui/icons-material';
+import { Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import HTMLString from 'react-html-string';
-import { Box, Paper, Typography, Button } from '@mui/material';
-import { FavoriteBorderOutlined } from '@mui/icons-material';
-
-import theme from 'src/theme';
-import ApplyModal from '../apply_modal';
-import { MODAL_IDS } from 'src/constants';
-import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { openModal } from 'src/redux_store/common/modal/modal_slice';
-import { FavoriteRounded } from '@mui/icons-material';
-import { checkIsApply, checkIsSaveJob } from 'src/utils/common';
-import LoginForm from 'src/pages/auth/login_form';
-import { saveJob, unSavedJob } from 'src/redux_store/user/user_action';
-import { toastMessage } from 'src/utils/toast';
-import { unSaveJobById } from 'src/redux_store/user/user_slice';
 import { socketIo } from 'src/clients/socket';
 
-const JobDescription = ({
-  description_job,
-  benefits_job,
-  required_job,
-  id_job,
-}: {
-  required_job?: string;
-  description_job?: string;
-  benefits_job?: string;
-  id_job: string;
-}) => {
+import { MODAL_IDS } from 'src/constants';
+import { useAppDispatch, useAppSelector } from 'src/hooks';
+import LoginForm from 'src/pages/auth/login_form';
+import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import { saveJob, unSavedJob } from 'src/redux_store/user/user_action';
+import { unSaveJobById } from 'src/redux_store/user/user_slice';
+import theme from 'src/theme';
+import { IJob } from 'src/types/job';
+import { checkIsApply, checkIsSaveJob } from 'src/utils/common';
+import { toastMessage } from 'src/utils/toast';
+import ApplyModal from '../apply_modal';
+
+const JobDescription = ({ job }: { job: IJob }) => {
+  const {
+    required_job,
+    benefits_job,
+    description_job,
+    id_job,
+    name_job,
+    name_company,
+  } = job;
   const dispatch = useAppDispatch();
   const {
     saveJobList: { savedList },
@@ -39,12 +37,19 @@ const JobDescription = ({
   } = useAppSelector((state) => state.applySlice);
 
   const handleOnpenApply = () => {
-    dispatch(
-      openModal({
-        modalId: MODAL_IDS.apply,
-        dialogComponent: <ApplyModal id_job={id_job} />,
-      })
-    );
+    if (name_company)
+      dispatch(
+        openModal({
+          modalId: MODAL_IDS.apply,
+          dialogComponent: (
+            <ApplyModal
+              id_job={id_job}
+              name_job={name_job}
+              name_company={name_company}
+            />
+          ),
+        })
+      );
   };
   const handleOnSave = () => {
     if (token) {

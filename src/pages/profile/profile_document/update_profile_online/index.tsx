@@ -27,6 +27,7 @@ import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
 import { schemaProfileCV, typeFile } from 'src/constants/schema';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getProfileCVById, updateCV } from 'src/redux_store/user/user_action';
+import { resetProfileDetails } from 'src/redux_store/user/user_slice';
 import theme from 'src/theme';
 import { IPayLoadCV } from 'src/types/user';
 import { toastMessage } from 'src/utils/toast';
@@ -70,6 +71,10 @@ const UpdateProfileOnline = () => {
         .then((profile_cv) => {
           reset(profile_cv);
         });
+
+    return () => {
+      dispatch(resetProfileDetails());
+    };
   }, [id_profile]);
 
   const handleOnChangeFile = (e: any) => {

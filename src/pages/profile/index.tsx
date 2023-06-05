@@ -22,6 +22,9 @@ const Profile = () => {
           paddingLeft: '0!important',
           overflowX: 'hidden',
           minHeight: '30px',
+          minWidth: {
+            lg: '1300px',
+          },
         }}
       >
         <Grid container columnSpacing={2} justifyContent="space-between">

@@ -3,6 +3,7 @@ import { Popover, Box, IconButton, Typography } from '@mui/material';
 import { CloseOutlined } from '@mui/icons-material';
 import CircleIcon from '@mui/icons-material/Circle';
 import Scrollbars from 'react-custom-scrollbars-2';
+import { useNavigate } from 'react-router-dom';
 import theme from 'src/theme';
 import { getSubTimeFromDayFNS } from 'src/utils/function';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
@@ -11,11 +12,39 @@ import {
   updateNotification,
 } from 'src/redux_store/user/user_action';
 import { INotification } from 'src/types/user';
+import ProfileUserModal from 'src/pages/home_company/saved_profile/profile_user_modal';
+import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import { MODAL_IDS } from 'src/constants';
 
 export const NotificationItem = ({ notifi }: { notifi: INotification }) => {
-  const { content, id_notification, status, created_at } = notifi;
+  const {
+    content,
+    id_notification,
+    status,
+    id_job,
+    id_user_follow,
+    created_at,
+    type_notification,
+  } = notifi;
+  const { me } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleClick = () => {
+    if (type_notification === 'job') {
+      navigate(`/viec-lam/${id_job}`);
+    } else if (type_notification === 'follow' && id_user_follow) {
+      if (me.id_role === 'user') return navigate(`/cong-ty/${id_user_follow}`);
+      else {
+        return dispatch(
+          openModal({
+            modalId: MODAL_IDS.profileUserModal,
+            dialogComponent: <ProfileUserModal id_user={id_user_follow} />,
+          })
+        );
+      }
+    } else {
+      navigate('/');
+    }
     if (status === 0) {
       dispatch(updateNotification(id_notification));
     }

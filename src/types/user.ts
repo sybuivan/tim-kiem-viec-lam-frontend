@@ -52,7 +52,12 @@ export interface IPayloadFollow {
 
 export interface INotification {
   id_notification: string;
+  type_notification: INotificationType;
   status: number;
   content: string;
   created_at: string | Date;
+  id_job?: string;
+  id_user_follow?: string;
 }
+
+export type INotificationType = 'apply' | 'follow' | 'job';

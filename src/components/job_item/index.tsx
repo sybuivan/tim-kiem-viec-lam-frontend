@@ -250,7 +250,7 @@ const JobItem = (props: IJobItem) => {
                       overflow: 'hidden',
                       fontSize: '15px',
                       margin: 0,
-                      maxWidth: '180px',
+                      maxWidth: '190px',
                       mr: 1,
                     }}
                   >
