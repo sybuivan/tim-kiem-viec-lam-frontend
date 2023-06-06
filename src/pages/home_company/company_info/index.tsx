@@ -56,8 +56,6 @@ const CompanyInfoAdmin = () => {
   };
 
   const handleOnSubmit = (data: IPayloadCompanyInfo) => {
-    console.log({ data });
-
     const {
       address,
       faxCode,
@@ -86,8 +84,6 @@ const CompanyInfoAdmin = () => {
     formData.append('introduce', introduce);
     formData.append('name_company', name_company);
     formData.append('total_people', total_people);
-    formData.append('lat', lat?.toString() ?? '');
-    formData.append('lng', lng?.toString() ?? '');
     formData.append('link_website', link_website ?? '');
     formData.append('id_company', me.id_company);
 
@@ -332,26 +328,6 @@ const CompanyInfoAdmin = () => {
                   label="Link website"
                   name="link_website"
                   placeholder="Nhập link website"
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormInput
-                  control={control}
-                  label="Lat"
-                  name="lat"
-                  placeholder="Nhập kinh độ"
-                  type="number"
-                  required
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <FormInput
-                  control={control}
-                  label="Lng"
-                  name="lng"
-                  placeholder="Nhập vĩ độ"
-                  type="number"
-                  required
                 />
               </Grid>
               <Grid item xs={6}>

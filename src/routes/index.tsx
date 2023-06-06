@@ -30,6 +30,7 @@ import SavedProfile from 'src/pages/home_company/saved_profile';
 import UpdateJobPostings from 'src/pages/home_company/update_post';
 import JobDetails from 'src/pages/job_details';
 import JobList from 'src/pages/job_list';
+import CompanyList from 'src/pages/company_list';
 import Message from 'src/pages/message';
 import { ContentMessage } from 'src/pages/message/content_message';
 import NewsDetails from 'src/pages/news';
@@ -77,6 +78,10 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
       {
         path: '/co-hoi-viec-lam',
         element: <JobList />,
+      },
+      {
+        path: '/danh-sach-cong-ty',
+        element: <CompanyList />,
       },
       {
         path: '/bai-dang-chi-tiet/:id_post',

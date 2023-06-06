@@ -1,16 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import {
-  Box,
-  Button,
-  Chip,
-  TextField,
-  Typography,
-  Tooltip,
-} from '@mui/material';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import { Box, Button, Chip, Tooltip, Typography } from '@mui/material';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import moment from 'moment';
 import React, { useState } from 'react';
@@ -56,37 +45,12 @@ const MailerModal = () => {
       });
   };
 
-  const handleOnChangeDate = (
-    newDate: any,
-    name: string,
-    index: number,
-    item: any
-  ) => {
-    const newPayload = {
-      ...timeMail[index],
-      [name]: newDate,
-      index,
-      messageMailer: messageMail(
-        item.status,
-        item.name_job,
-        item.fullName,
-        phone,
-        name_company,
-        address,
-        moment(name === 'date' ? newDate : item.date).format('DD/MM/YYYY'),
-        moment(name === 'hour' ? newDate : item.hour).format('HH:mm')
-      ),
-    };
-
-    dispatch(changePayloadMail(newPayload));
-  };
   const handleOnChange = (value: string, index: number) => {
     const newPayload = {
       ...timeMail[index],
       index,
       messageMailer: value,
     };
-    console.log({ newPayload });
     dispatch(changePayloadMail(newPayload));
   };
 
@@ -123,39 +87,6 @@ const MailerModal = () => {
             ))}
           </Box>
         </Box>
-
-        {timeMail.map((item, index) => (
-          <>
-            {item.status === 2 && indexSelected === index && (
-              <Box display="flex" gap={2} my={2}>
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                  <DatePicker
-                    minDate={new Date()}
-                    label="Chọn ngày phỏng vấn"
-                    value={item.date}
-                    onChange={(newValue) => {
-                      handleOnChangeDate(newValue, 'date', index, item);
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} placeholder="DD/MM/YYYY" />
-                    )}
-                  />{' '}
-                </LocalizationProvider>
-
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                  <MobileTimePicker
-                    label="Chọn giờ"
-                    value={item.hour}
-                    onChange={(newValue) => {
-                      handleOnChangeDate(newValue, 'hour', index, item);
-                    }}
-                    renderInput={(params) => <TextField {...params} />}
-                  />
-                </LocalizationProvider>
-              </Box>
-            )}
-          </>
-        ))}
 
         {timeMail.map((item, index) => (
           <>

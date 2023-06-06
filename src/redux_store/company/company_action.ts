@@ -55,11 +55,11 @@ export const registerCompany = createAsyncThunk<any, IPayloadRegisterCompany>(
   }
 );
 
-export const getCompanyList = createAsyncThunk<ICompanyList, void>(
+export const getCompanyList = createAsyncThunk<ICompanyList, number>(
   'company/getCompanyList',
-  async (_, { rejectWithValue }) => {
+  async (limit, { rejectWithValue }) => {
     try {
-      const { data } = await companyApi.getCompanyList();
+      const { data } = await companyApi.getCompanyList(limit);
       return data;
     } catch (error: any) {
       toastMessage.setErrors(error);

@@ -12,10 +12,10 @@ import {
   Typography,
 } from '@mui/material';
 import { BsFillChatDotsFill } from 'react-icons/bs';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { PersonOutlineOutlined, LogoutOutlined } from '@mui/icons-material';
 import logo from 'src/assets/images/logo.png';
 import { MODAL_IDS } from 'src/constants';
@@ -54,6 +54,21 @@ const settingsCompany: {
   {
     icon: <LogoutOutlined />,
     title: 'Đăng xuất',
+  },
+];
+
+const CPathRouter = [
+  {
+    path: '/co-hoi-viec-lam',
+    title: 'Cơ hội việc làm',
+  },
+  {
+    path: '/danh-sach-cong-ty',
+    title: 'Công ty',
+  },
+  {
+    path: '/tin-tuc',
+    title: 'Tin tức',
   },
 ];
 
@@ -101,6 +116,9 @@ const Header = () => {
     );
   };
 
+  const location = useLocation();
+  console.log({ location });
+
   return (
     <Box bgcolor={theme.palette.primary.main} height={70} width="100%">
       <Container
@@ -139,26 +157,22 @@ const Header = () => {
                 gap: '10px',
               }}
             >
-              <li className={classes.liItem}>
-                <Link to="/co-hoi-viec-lam">
-                  <Typography fontWeight="600" fontSize="16px">
-                    Cơ hội việc làm
-                  </Typography>
-                </Link>
-              </li>
-              <li className={classes.liItem}>
-                <Link
-                  to=""
+              {CPathRouter.map((item) => (
+                <li
+                  className={classes.liItem}
+                  key={item.path}
                   style={{
-                    fontWeight: 600,
-                    fontSize: '15px',
+                    background:
+                      item.path === location.pathname ? '#341678' : '',
                   }}
                 >
-                  <Typography fontWeight="600" fontSize="16px">
-                    Tin tức
-                  </Typography>
-                </Link>
-              </li>
+                  <Link to={item.path}>
+                    <Typography fontWeight="600" fontSize="16px">
+                      {item.title}
+                    </Typography>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </Box>
           <Box display="flex" justifyContent="flex-end" gap="30px" flex="1">

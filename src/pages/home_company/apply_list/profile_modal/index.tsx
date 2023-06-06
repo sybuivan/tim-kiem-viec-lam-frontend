@@ -140,16 +140,18 @@ const ProfileModal = ({ apply }: { apply: IApplyUser }) => {
         </div>
 
         <Box my={2} display="flex" justifyContent="flex-end" gap={2}>
-          <Button
-            variant="outlined"
-            sx={{
-              color: theme.palette.error.main,
-            }}
-            onClick={handleOnRefuse}
-            disabled={status === 3}
-          >
-            Từ chối
-          </Button>
+          {status !== 4 && (
+            <Button
+              variant="outlined"
+              sx={{
+                color: theme.palette.error.main,
+              }}
+              onClick={handleOnRefuse}
+              disabled={status === 3}
+            >
+              Từ chối
+            </Button>
+          )}
           <Button variant="outlined" sx={{}} onClick={handleClose}>
             Đóng
           </Button>

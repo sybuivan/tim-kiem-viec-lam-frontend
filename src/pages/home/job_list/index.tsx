@@ -8,6 +8,7 @@ import SkeletonJob from 'src/components/skeleton/job';
 import { useGetStatus } from 'src/hooks';
 import { IJob } from 'src/types/job';
 import { useJobSlice } from 'src/hooks/use_job_slice';
+import HeadTitle from 'src/components/head_title';
 
 const LIMIT = 15;
 
@@ -17,8 +18,8 @@ const JobList = ({
   title,
 }: {
   jobList: IJob[];
-  icon?: any;
-  title?: string;
+  icon: any;
+  title: string;
 }) => {
   const results = useJobSlice(jobList, LIMIT);
 
@@ -76,12 +77,7 @@ const JobList = ({
         },
       }}
     >
-      <Box display="flex" alignItems="center" gap={1} my={4}>
-        {icon}
-        <Typography fontSize="30px" fontWeight="800">
-          {title}
-        </Typography>
-      </Box>
+      <HeadTitle title={title} icon={icon} />
       <Slider {...settings}>
         {results.map((item, index) => (
           <JobsSlider jobList={item} key={index} />

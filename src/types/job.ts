@@ -29,6 +29,7 @@ export interface IJob extends ICompany {
   countJob?: number;
   cities?: [{ name_city?: string }];
   urgency?: number;
+  is_future_deadline?: number;
 }
 
 export interface IPayloadJob {
@@ -47,6 +48,8 @@ export interface IPayloadJob {
   id_working_form: string;
   deadline: string | Date;
   created_at?: string | Date | null;
+  is_lock?: number;
+  is_future_deadline?: number;
 }
 
 export interface IJobDetails {

@@ -58,11 +58,11 @@ export const CPathSideBar: IPathSideBar[] = [
         label: 'Cài đặt chung',
         to: '/admin/setting-system',
       },
-      {
-        icon: <ListAltOutlined />,
-        label: 'Ảnh',
-        to: '/admin/setting-image',
-      },
+      // {
+      //   icon: <ListAltOutlined />,
+      //   label: 'Ảnh',
+      //   to: '/admin/setting-image',
+      // },
     ],
   },
 ];

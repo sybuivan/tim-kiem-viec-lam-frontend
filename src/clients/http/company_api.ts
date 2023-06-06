@@ -38,8 +38,8 @@ export const companyApi = {
     );
   },
 
-  getCompanyList: () => {
-    return client.get<ICompanyList>(`/company/get-company-list`);
+  getCompanyList: (limit: number) => {
+    return client.get<ICompanyList>(`/company/get-company-list/${limit}`);
   },
 
   getCandidateDetail: (id_user: string) => {

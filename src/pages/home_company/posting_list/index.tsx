@@ -126,6 +126,7 @@ const PostItem = ({ job }: { job: IJob }) => {
       })
     );
   };
+
   return (
     <Box
       py={2}
@@ -179,16 +180,22 @@ const PostItem = ({ job }: { job: IJob }) => {
         <Grid item lg={2} md={2} sm={12} xs={12}>
           <Chip
             variant="outlined"
-            label={job.is_lock === 0 ? 'Thành công' : 'Đã khóa'}
+            label={
+              job.is_lock === 0 && job.is_future_deadline === 0
+                ? 'Thành công'
+                : job.is_future_deadline === 1 && job.is_lock === 0
+                ? 'Hết hạn'
+                : 'Đã khóa'
+            }
             sx={{
               background:
-                job.is_lock === 0
+                job.is_lock === 0 && job.is_future_deadline === 0
                   ? theme.palette.success.main
-                  : theme.palette.grey[300],
-              color:
-                job.is_lock === 0
-                  ? theme.palette.common.white
                   : theme.palette.error.main,
+              color:
+                job.is_future_deadline === 1 && job.is_lock === 0
+                  ? theme.palette.common.white
+                  : theme.palette.common.white,
               display: 'flex',
               justifyContent: 'center',
               margin: 'auto',
@@ -200,9 +207,13 @@ const PostItem = ({ job }: { job: IJob }) => {
         <Grid item lg={2} md={2} sm={12} xs={12}>
           <Box display="flex" gap={2} justifyContent="center">
             <IconButton
-              onClick={() =>
-                navigate(`/company/home/chinh-sua-tin-tuyen-dung/${job.id_job}`)
-              }
+              disabled={job.is_future_deadline === 1}
+              onClick={() => {
+                if (job.is_future_deadline === 0)
+                  navigate(
+                    `/company/home/chinh-sua-tin-tuyen-dung/${job.id_job}`
+                  );
+              }}
             >
               <AutoFixNormalOutlined />
             </IconButton>

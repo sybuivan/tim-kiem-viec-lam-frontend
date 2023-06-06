@@ -5,6 +5,8 @@ import {
   NotificationsOutlined,
   TimerOutlined,
 } from '@mui/icons-material';
+import { BsFillChatDotsFill } from 'react-icons/bs';
+
 import { Box, Button, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
@@ -18,6 +20,8 @@ import theme from 'src/theme';
 import { IJob } from 'src/types/job';
 import { checkIsApply, checkIsSaveJob } from 'src/utils/common';
 import ApplyModal from '../apply_modal';
+import { IMessageJob } from 'src/types/chat';
+import MessageJob from 'src/components/message_job';
 
 const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
   const {
@@ -52,6 +56,34 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
         })
       );
     } else {
+      dispatch(
+        openModal({
+          modalId: MODAL_IDS.login,
+          dialogComponent: <LoginForm socket={socketIo} />,
+        })
+      );
+    }
+  };
+
+  const handleOpenMessage = () => {
+    const { logo, name_job, name_company, id_company, id_job } = jobDetail;
+    if (me?.id_user && name_company && logo && id_company) {
+      const messageJob: IMessageJob = {
+        id_company,
+        id_job,
+        id_user: me.id_user,
+        logo,
+        name_company,
+        name_job,
+      };
+
+      dispatch(
+        openModal({
+          dialogComponent: <MessageJob job={messageJob} />,
+          modalId: MODAL_IDS.messageJob,
+        })
+      );
+    }else {
       dispatch(
         openModal({
           modalId: MODAL_IDS.login,
@@ -105,10 +137,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 Hạn nộp hồ sơ: {moment(jobDetail.deadline).format('DD/MM/YYYY')}
               </Typography>
             </Box>
-            <Box display="flex" alignItems="center" gap={0.5}>
-              <NotificationsOutlined />
-              <Typography>Lượt xem: 1495</Typography>
-            </Box>
+
             <Box display="flex" alignItems="center" gap={0.5}>
               <TimerOutlined />
               <Typography>
@@ -174,6 +203,16 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
               </Button>
             </>
           )}
+          <Button
+            startIcon={<BsFillChatDotsFill />}
+            variant="outlined"
+            sx={{
+              px: 5,
+            }}
+            onClick={handleOpenMessage}
+          >
+            Nhăn tin
+          </Button>
         </Box>
         <Box
           borderTop={`1px solid ${theme.palette.primary.dark}`}
@@ -268,14 +307,6 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
                 <Typography fontWeight="600">
                   {jobDetail.size_number}
                 </Typography>
-              </Box>
-            </Grid>
-            <Grid item lg={6} sm={6} xs={6}>
-              <Box display="flex">
-                <Typography fontWeight="500" minWidth="40%">
-                  Yêu cầu bằng cấp:
-                </Typography>
-                <Typography fontWeight="600">Cao đẳng</Typography>
               </Box>
             </Grid>
             <Grid item lg={6} sm={6} xs={6}>

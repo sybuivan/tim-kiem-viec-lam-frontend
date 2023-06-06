@@ -13,7 +13,7 @@ export const useStyles = makeStyles({
   client: {
     display: 'flex',
     justifyContent: 'flex-start',
-    marginBottom: '10px',
+    marginBottom: '5px',
     '& > p': {
       maxWidth: '80%',
       backgroundColor: 'rgba(34, 51, 84, 0.1);',
@@ -28,7 +28,7 @@ export const useStyles = makeStyles({
   user: {
     display: 'flex',
     justifyContent: 'flex-end',
-    marginBottom: '1rem',
+    marginBottom: '8px',
     marginRight: '14px',
     '& > p': {
       maxWidth: '80%',

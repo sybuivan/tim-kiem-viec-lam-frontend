@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 
 import Banner from 'src/assets/images/banner.png';
 import { changeHomeFilter } from 'src/redux_store/job/job_slices';
-import Banne2 from 'src/assets/images/banner2.png';
+import Banner2 from 'src/assets/images/banner2.png';
 import theme from 'src/theme';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { IHomeFilter } from 'src/types/common';
@@ -43,7 +43,7 @@ const SliderService = () => {
     <Box
       sx={{
         width: '500px',
-        backgroundColor: 'transparent',
+        backgroundColor: "rgba(0,0,0,.24)",
         borderRadius: 1,
         padding: 2,
         border: '1px solid #c1c1c1',
@@ -54,6 +54,7 @@ const SliderService = () => {
         top: '50%',
         transform: 'translateY(-50%)',
         left: '30px',
+  backdropFilter: "blur(48px)",
       }}
     >
       <Box
@@ -149,7 +150,9 @@ const SliderHome = () => {
     slidesToScroll: 1,
   };
   return (
-    <div>
+    <Box sx={{
+      mt: 1
+    }}>
       <Slider {...settings}>
         <div>
           <Box
@@ -160,7 +163,7 @@ const SliderHome = () => {
               backgroundRepeat: 'no-repeat',
               position: 'relative',
 
-              height: '20rem',
+              height: '25rem',
               backgroundImage: `url(${Banner})`,
               [theme.breakpoints.down('sm')]: {
                 backgroundSize: 'cover',
@@ -174,22 +177,29 @@ const SliderHome = () => {
           </Box>
         </div>
         <div>
-          <div
-            style={{
+          <Box
+            sx={{
+             borderRadius: '10px',
               backgroundPosition: 'center',
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',
-              height: '20rem',
               position: 'relative',
 
-              backgroundImage: `url(${Banne2})`,
+              height: '25rem',
+              backgroundImage: `url(${Banner2})`,
+              [theme.breakpoints.down('sm')]: {
+                backgroundSize: 'cover',
+              },
+              [theme.breakpoints.up('sm')]: {
+                backgroundSize: 'cover',
+              },
             }}
           >
             <SliderService />
-          </div>
+          </Box>
         </div>
       </Slider>
-    </div>
+    </Box>
   );
 };
 

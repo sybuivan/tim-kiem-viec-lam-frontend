@@ -84,6 +84,7 @@ const Money = ({
           variant="elevation"
           sx={{
             borderRadius: 2,
+            height: '100%',
           }}
         >
           <Box p={4}>

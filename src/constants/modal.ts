@@ -16,4 +16,5 @@ export const MODAL_IDS = {
   companyModal: 'companyModal',
   addFiedlModal: 'fiedlModal',
   updateFiedlModal: 'fiedlModal',
+  messageJob: 'messageJob',
 };

@@ -31,3 +31,12 @@ export interface IMessageList {
   messages: IMessage[];
   room: IRoom;
 }
+
+export interface IMessageJob {
+  id_company: string;
+  id_user: string;
+  id_job: string;
+  logo: string;
+  name_company: string;
+  name_job: string;
+}

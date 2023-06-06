@@ -14,6 +14,8 @@ import JobSuggetForYou from './job_sugget_for_you';
 import ListDiscover from './list_discover';
 import { getAllPosts } from 'src/redux_store/post/post_actions';
 
+const CLIMIT: number = 6;
+
 const Home = () => {
   const dispatch = useAppDispatch();
   const {
@@ -30,7 +32,7 @@ const Home = () => {
   } = useAppSelector((state) => state.jobSlice);
 
   useEffect(() => {
-    dispatch(getCompanyList());
+    dispatch(getCompanyList(CLIMIT));
     dispatch(getJobList());
     dispatch(getAllPosts());
     dispatch(getTopJob());

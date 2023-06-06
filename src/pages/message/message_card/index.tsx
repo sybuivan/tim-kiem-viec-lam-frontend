@@ -36,7 +36,6 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
         alignItems: 'center',
         cursor: 'pointer',
         padding: '8px',
-        marginTop: '4px',
         userSelect: 'none',
         background:
           id_room === id_room_message
@@ -46,6 +45,7 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
           background: theme.palette.grey[200],
           transition: 'all 0.4s',
         },
+        borderBottom: '1px solid #c1c1c1',
       }}
       onClick={handleOnClick}
     >
@@ -77,7 +77,7 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
           <Typography
             sx={{ color: theme.palette.primary.main }}
             fontWeight="600"
-            fontSize="12px"
+            fontSize="11px"
           >
             {getSubTimeFromDayFNS(created_at)}
           </Typography>

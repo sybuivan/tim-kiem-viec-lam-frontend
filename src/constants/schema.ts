@@ -33,8 +33,6 @@ export const schemaProfileCompany = yup.object().shape({
   idCompanyField: yup.string().required(messageRequired('Lĩnh vực hoạt động')),
   name_company: yup.string().required(messageRequired('Tên công ty')),
   total_people: yup.string().required(messageRequired('Quy mô')),
-  lat: yup.number().required(messageRequired('Kinh độ')),
-  lng: yup.number().required(messageRequired('Vĩ độ')),
   //   faxCode: yup.string(),
   //   link_website: yup.string(),
 });
@@ -47,7 +45,12 @@ export const schemaRegister = yup.object().shape({
   password: yup.string().required('Xin vui lòng nhập lại mật khẩu.').min(6),
   fullName: yup.string().required('Họ và tên không được bỏ trống'),
 
-  phone: yup.number().required('Số điện thoại không được bỏ trống'),
+  phone: yup
+    .string()
+    .required(messageRequired('Số điện thoại'))
+    .matches(phoneRegExp, 'Không đúng định dạng số điện thoại')
+    .min(9, 'Không đúng định dạng số điện thoại')
+    .max(10, 'Không đúng định dạng số điện thoại'),
   name_company: yup.string().required('Tên công ty không được bỏ trống'),
   total_people: yup.string().required('Quy mô nhân sự không được bỏ trống'),
   city: yup.string().required('Địa điểm không được bỏ trống'),

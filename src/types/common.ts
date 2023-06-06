@@ -97,7 +97,6 @@ export interface IadvancedFilter extends IHomeFilter {
   id_range?: string;
   id_rank?: string;
   id_working_form?: string;
-  id_gender?: string;
   page: number;
 }
 

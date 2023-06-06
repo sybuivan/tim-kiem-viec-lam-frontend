@@ -7,9 +7,20 @@ import { useLocation, useNavigate } from 'react-router';
 import { FormInput, FormSelect } from 'src/components/hook_form';
 import { CGenderOption } from 'src/constants/common';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { changeHomeFilter } from 'src/redux_store/job/job_slices';
+import { changeHomeFilter, resetFilter } from 'src/redux_store/job/job_slices';
 import theme from 'src/theme';
 import { getJobListFilters } from 'src/redux_store/job/job_action';
+import { IadvancedFilter } from 'src/types/common';
+const CInitAdvancedFilter: IadvancedFilter = {
+  city: '',
+  companyfield: '',
+  keyword: '',
+  page: 1,
+  id_experience: '',
+  id_range: '',
+  id_rank: '',
+  id_working_form: '',
+};
 
 const JobListFilters = ({
   isOpenFilters,
@@ -19,7 +30,7 @@ const JobListFilters = ({
   onOpenFilters: () => void;
 }) => {
   const location = useLocation();
-  const { control } = useForm({
+  const { control, reset } = useForm<IadvancedFilter>({
     defaultValues: queryString.parse(location.search),
   });
   const dispatch = useAppDispatch();
@@ -53,6 +64,14 @@ const JobListFilters = ({
       })
     );
     dispatch(getJobListFilters({ ...jobFilters, page: 1 }));
+  };
+
+  const handleClearFilter = () => {
+    dispatch(resetFilter());
+    const stringifiedParams = queryString.stringify({ ...CInitAdvancedFilter });
+    navigate(`/co-hoi-viec-lam?${stringifiedParams}`);
+    reset(CInitAdvancedFilter);
+    dispatch(getJobListFilters({ ...CInitAdvancedFilter }));
   };
 
   return (
@@ -231,6 +250,7 @@ const JobListFilters = ({
                 pr: 1,
                 borderRight: '2px solid #c1c1c1',
               }}
+              onClick={handleClearFilter}
             >
               Xóa chọn
             </Box>

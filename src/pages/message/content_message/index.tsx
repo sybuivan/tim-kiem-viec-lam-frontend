@@ -4,12 +4,14 @@ import React, { useEffect } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 
 import { FormInputBase } from 'src/components/hook_form/form_input_base';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { createMessage, getMessages } from 'src/redux_store/chat/chat_actions';
 import { setMessageList, changeRoom } from 'src/redux_store/chat/chat_slices';
 import theme from 'src/theme';
+import { getSubTimeFromDayFNS } from 'src/utils/function';
 import { useStyles } from './styles';
 
 export const ContentMessage = ({ socket }: { socket: any }) => {
@@ -112,7 +114,8 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
       <Box className={classes.boxContent}>
         <Box width="98%" mt={2} ml="14px" height="84%">
           <Scrollbars>
-            {messages.map((message) => (
+            {messages.map((message, index) => (
+              <Box>
               <Box
                 className={
                   message.sender === me.id_role ? classes.user : classes.client
@@ -122,6 +125,20 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
                 <Typography className={classes.textMessage}>
                   {message.message}
                 </Typography>
+              </Box>
+              <Box className={
+                  message.sender === me.id_role ? classes.user : classes.client
+                }>
+                {
+messages.length -1 === index &&
+                
+                <Box display="flex" alignItems="center" gap={0.5} sx={{
+                  color: theme.palette.grey[600],
+                  fontSize: "12px"
+                }}>
+                  <AccessAlarmIcon /> {getSubTimeFromDayFNS(message.created_at)}
+                </Box> }
+                </Box>
               </Box>
             ))}
           </Scrollbars>

@@ -33,9 +33,10 @@ export const NotificationItem = ({ notifi }: { notifi: INotification }) => {
     if (type_notification === 'job') {
       navigate(`/viec-lam/${id_job}`);
     } else if (type_notification === 'follow' && id_user_follow) {
-      if (me.id_role === 'user') return navigate(`/cong-ty/${id_user_follow}`);
-      else {
-        return dispatch(
+      if (me.id_role === 'user') {
+        navigate(`/cong-ty/${id_user_follow}`);
+      } else {
+        dispatch(
           openModal({
             modalId: MODAL_IDS.profileUserModal,
             dialogComponent: <ProfileUserModal id_user={id_user_follow} />,
@@ -45,6 +46,7 @@ export const NotificationItem = ({ notifi }: { notifi: INotification }) => {
     } else {
       navigate('/');
     }
+
     if (status === 0) {
       dispatch(updateNotification(id_notification));
     }
@@ -54,56 +56,67 @@ export const NotificationItem = ({ notifi }: { notifi: INotification }) => {
     dispatch(deleteNotification(id_notification));
   };
   return (
-    <Box
-      onClick={handleClick}
-      position="relative"
-      sx={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 1,
-        px: 1,
-        py: 1.5,
-        background:
-          status === 0 ? theme.palette.grey[200] : theme.palette.common.white,
-        borderBottom: '1px solid #c1c1c1',
-        '&:hover': {
-          background: theme.palette.grey[200],
-          cursor: 'pointer',
-        },
-      }}
-      title={status === 0 ? 'Chưa đọc' : 'Đã đọc'}
-    >
-      <IconButton size="small" title="Xóa" onClick={handleDeleteNofitication}>
-        <CloseOutlined />
-      </IconButton>
-      <Box>
-        <Typography>{content}</Typography>
-        <Typography
-          sx={{ color: theme.palette.primary.main }}
-          fontWeight="600"
-          fontSize="12px"
-        >
-          {getSubTimeFromDayFNS(created_at)}
-        </Typography>
-      </Box>
+    <Box position="relative">
       <Box
-        position="absolute"
-        top="50%"
+        onClick={handleClick}
         sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          pl: 6,
+          py: 1.5,
+          background:
+            status === 0 ? theme.palette.grey[200] : theme.palette.common.white,
+          borderBottom: '1px solid #c1c1c1',
+          '&:hover': {
+            background: theme.palette.grey[200],
+            cursor: 'pointer',
+          },
+        }}
+        title={status === 0 ? 'Chưa đọc' : 'Đã đọc'}
+      >
+        <Box>
+          <Typography>{content}</Typography>
+          <Typography
+            sx={{ color: theme.palette.primary.main }}
+            fontWeight="600"
+            fontSize="12px"
+          >
+            {getSubTimeFromDayFNS(created_at)}
+          </Typography>
+        </Box>
+        <Box
+          position="absolute"
+          top="50%"
+          sx={{
+            transform: 'translateY(-50%)',
+            right: '10px',
+          }}
+        >
+          {status === 0 && (
+            <CircleIcon
+              fontSize="small"
+              sx={{
+                color: theme.palette.primary.main,
+                fontSize: '14px',
+              }}
+            />
+          )}
+        </Box>
+      </Box>
+      <IconButton
+        size="small"
+        title="Xóa"
+        onClick={handleDeleteNofitication}
+        sx={{
+          position: 'absolute',
+          top: '50%',
           transform: 'translateY(-50%)',
-          right: '10px',
+          left: '10px',
         }}
       >
-        {status === 0 && (
-          <CircleIcon
-            fontSize="small"
-            sx={{
-              color: theme.palette.primary.main,
-              fontSize: '14px',
-            }}
-          />
-        )}
-      </Box>
+        <CloseOutlined />
+      </IconButton>
     </Box>
   );
 };

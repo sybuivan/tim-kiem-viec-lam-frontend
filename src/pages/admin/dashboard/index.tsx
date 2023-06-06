@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from 'chart.js';
 import React, { useEffect } from 'react';
-import { Doughnut, Bar } from 'react-chartjs-2';
+import { Doughnut, Bar, Line } from 'react-chartjs-2';
 import LoadingLinear from 'src/components/loading/loading_linear';
 import { useAppDispatch, useAppSelector, useIsRequestPending } from 'src/hooks';
 import { statistical } from 'src/redux_store/admin/admin_actions';
@@ -56,9 +56,9 @@ const Dashboard = () => {
       alignItems="stretch"
       rowSpacing={2}
       columnSpacing={2}
-      mb={2}
+      my={2}
     >
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12} lg={5.5}>
         <Paper
           sx={{
             borderRadius: 2,
@@ -76,7 +76,7 @@ const Dashboard = () => {
           />
         </Paper>
       </Grid>
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12} lg={5.5}>
         <Paper>
           <Doughnut
             options={optionsDoughnut('Thông kê người dùng hệ thống')}
@@ -90,9 +90,9 @@ const Dashboard = () => {
           />
         </Paper>
       </Grid>
-      <Grid item xs={12} lg={4}>
+      <Grid item xs={12} lg={11}>
         <Paper>
-          <Doughnut
+          <Line
             options={optionsDoughnut('Thông kê công việc tỉnh thành')}
             data={renderdata({
               data: city_by_industry.map((item) => item.city_count),
@@ -105,7 +105,7 @@ const Dashboard = () => {
         </Paper>
       </Grid>
 
-      <Grid item lg={12}>
+      <Grid item lg={11}>
         <Money
           total_revenue={total_revenue}
           total_data_month={total_data_month}

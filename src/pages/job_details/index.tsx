@@ -4,7 +4,6 @@ import {
   Container,
   Paper,
   Breadcrumbs,
-  Link,
   Typography,
   Grid,
   Box,
@@ -13,6 +12,7 @@ import JobInfo from './job_info';
 import JobDescription from './job_description';
 import JobSugget from './job_sugget';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector, useGetStatus } from 'src/hooks';
 import { getJobById } from 'src/redux_store/job/job_action';
 import LoadingAnimation from 'src/components/loading/loading_animation';
@@ -86,16 +86,8 @@ const JobDetails = () => {
           my: 2,
         }}
       >
-        <Link underline="hover" color="inherit" href="/">
-          Trang chủ
-        </Link>
-        <Link
-          underline="hover"
-          color="inherit"
-          href="/material-ui/getting-started/installation/"
-        >
-          Việc làm
-        </Link>
+        <Link to="/">Trang chủ</Link>
+        <Link to="/co-hoi-viec-lam">Việc làm</Link>
         {job.name_job && (
           <Typography color="text.primary">{job.name_job}</Typography>
         )}

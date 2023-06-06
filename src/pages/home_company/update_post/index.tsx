@@ -32,6 +32,8 @@ const UpdateJobPostings = () => {
   const [description, setDescription] = useState<string>('');
   const [required, setRequired] = useState<string>('');
   const [benefits, setBenefits] = useState<string>('');
+  const [is_lock, setIsLock] = useState<number>();
+  const [is_future_deadline, setIsFutureDeadline] = useState<number>();
   const { id_job } = useParams();
   const {
     cityfield,
@@ -56,6 +58,8 @@ const UpdateJobPostings = () => {
             description_job,
             required_job,
             benefits_job,
+            is_lock,
+            is_future_deadline,
             ...other
           } = data.job;
           reset({
@@ -64,6 +68,8 @@ const UpdateJobPostings = () => {
           if (description_job) setDescription(description_job);
           if (required_job) setRequired(required_job);
           if (benefits_job) setBenefits(benefits_job);
+          setIsLock(is_lock);
+          setIsFutureDeadline(is_future_deadline);
           setIsLoadingJob(false);
         });
     }
@@ -84,6 +90,7 @@ const UpdateJobPostings = () => {
             description_job: description,
             required_job: required,
             benefits_job: benefits,
+            is_lock,
             city: data.city.map((item: any) => item.id_city),
           },
         })
@@ -274,7 +281,8 @@ const UpdateJobPostings = () => {
                   <Box display="flex" gap={2} justifyContent="flex-end">
                     <Button
                       variant="outlined"
-                      startIcon={<DeleteOutlineOutlined />}
+                      // startIcon={<DeleteOutlineOutlined />}
+                      onClick={() => navigate(-1)}
                     >
                       Hủy
                     </Button>
@@ -283,6 +291,7 @@ const UpdateJobPostings = () => {
                       startIcon={<SaveOutlined />}
                       variant="contained"
                       onClick={handleSubmit(handleOnSubmit)}
+                      disabled={is_future_deadline === 1 || is_lock === 1}
                     >
                       Chỉnh sủa tin
                     </LoadingButton>

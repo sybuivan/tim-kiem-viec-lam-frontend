@@ -202,6 +202,8 @@ const userSlice = createSlice({
         );
 
         state.notification.notificationList = newNotificationList;
+        state.notification.total_notification =
+          state.notification.total_notification - 1;
       })
       .addCase(updateIsPublicCV.fulfilled, (state, action) => {
         const { id_profile, is_public } = action.payload;

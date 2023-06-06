@@ -5,6 +5,7 @@ import JobItem from 'src/components/job_item';
 import SkeletonJob from 'src/components/skeleton/job';
 import { useGetStatus } from 'src/hooks';
 import { IJob } from 'src/types/job';
+import HeadTitle from 'src/components/head_title';
 
 const JobSuggetForYou = ({
   jobList,
@@ -12,8 +13,8 @@ const JobSuggetForYou = ({
   title,
 }: {
   jobList: IJob[];
-  icon?: any;
-  title?: string;
+  icon: any;
+  title: string;
 }) => {
   const [isLoading] = useGetStatus('user', 'getSuggetJobForYou');
 
@@ -29,14 +30,10 @@ const JobSuggetForYou = ({
     );
   return (
     <Box mb={5}>
-      <Box display="flex" alignItems="center" gap={1} my={4}>
-        {icon}
-        <Typography fontSize="30px" fontWeight="800">
-          {title}
-        </Typography>
-      </Box>
+      <HeadTitle title={title} icon={icon} />
+
       <Grid container rowSpacing={2} columnSpacing={2}>
-        {jobList.map((item, index) => (
+        {jobList.map((item) => (
           <JobItem jobItem={item} key={item.id_job} />
         ))}
       </Grid>
