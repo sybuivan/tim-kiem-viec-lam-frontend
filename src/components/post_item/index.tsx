@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Typography, Grid } from '@mui/material';
 import { IPost } from 'src/types/post';
 import { useNavigate } from 'react-router';
+import { baseURL } from 'src/config';
 
 const PostItem = ({ post }: { post: IPost }) => {
   const { image, title, description, id_post } = post;
@@ -12,7 +13,7 @@ const PostItem = ({ post }: { post: IPost }) => {
         sx={{ cursor: 'pointer' }}
         onClick={() => navigate(`/bai-dang-chi-tiet/${id_post}`)}
       >
-        <img src={image} alt={title} width="100%" />
+        <img src={`${baseURL}/${image}`} alt={title} width="100%" />
 
         <Typography
           variant="h5"

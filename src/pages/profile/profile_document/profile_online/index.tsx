@@ -38,6 +38,7 @@ import {
 } from 'src/redux_store/user/user_action';
 import { resetProfileDetails } from 'src/redux_store/user/user_slice';
 import { schemaProfileCV, typeFile } from 'src/constants/schema';
+import { baseURL } from 'src/config';
 
 const ProfileOnline = () => {
   const { profile_detail } = useAppSelector((state) => state.userSlice);
@@ -289,7 +290,7 @@ const ProfileOnline = () => {
                   borderRadius: '50%',
                 }}
                 alt=""
-                src={me.avatar}
+                src={`${baseURL}/${me.avatar}`}
               />
 
               <Box>

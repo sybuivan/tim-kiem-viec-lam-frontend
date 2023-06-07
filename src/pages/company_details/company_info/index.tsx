@@ -25,6 +25,7 @@ import {
   updateFollowere,
 } from 'src/redux_store/company/company_slices';
 import { socketIo } from 'src/clients/socket';
+import { baseURL } from 'src/config';
 
 const CompanyInfo = () => {
   const dispatch = useAppDispatch();
@@ -117,7 +118,12 @@ const CompanyInfo = () => {
                   bottom: '20px',
                 }}
               >
-                <img alt="" src={logo} width="100%" height="100%" />
+                <img
+                  alt=""
+                  src={`${baseURL}/${logo}`}
+                  width="100%"
+                  height="100%"
+                />
               </Box>
 
               <Box

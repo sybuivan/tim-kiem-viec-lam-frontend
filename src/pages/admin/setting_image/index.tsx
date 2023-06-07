@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Paper, Grid, Typography } from '@mui/material';
 import logo from 'src/assets/images/logo.png';
 import Banne2 from 'src/assets/images/banner2.png';
+import { baseURL } from 'src/config';
 
 const SettingImage = () => {
   return (
@@ -24,7 +25,7 @@ const SettingImage = () => {
             >
               Logo
             </Typography>
-            <img src={logo} alt="" width="100%" />
+            <img src={`${baseURL}/${logo}`} alt="" width="100%" />
           </Paper>
         </Grid>
         <Grid item xs={9}>

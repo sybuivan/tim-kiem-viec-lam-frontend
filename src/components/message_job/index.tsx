@@ -12,6 +12,7 @@ import theme from 'src/theme';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
 import { IMessageJob } from 'src/types/chat';
 import { useNavigate } from 'react-router';
+import { baseURL } from 'src/config';
 
 const MessageJob = ({ job }: { job: IMessageJob }) => {
   const { id_user, id_company, id_job, logo, name_company, name_job } = job;
@@ -73,7 +74,7 @@ const MessageJob = ({ job }: { job: IMessageJob }) => {
             >
               <Avatar
                 alt="Remy Sharp"
-                src={logo}
+                src={`${baseURL}/${logo}`}
                 sx={{
                   width: '60px',
                   height: '60px',

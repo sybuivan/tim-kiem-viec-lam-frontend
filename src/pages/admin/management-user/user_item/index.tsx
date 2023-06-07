@@ -19,6 +19,7 @@ import UserDetailModal from '../user_modal/user_detail';
 import UserLockModal from '../user_modal/user_lock';
 import { LabelOptions } from 'src/components/hook_form/label_options';
 import CompanyModal from '../../list-register-company/company_modal';
+import { baseURL } from 'src/config';
 
 const UserItem = ({ user }: { user: IUser }) => {
   const {
@@ -137,7 +138,7 @@ const UserItem = ({ user }: { user: IUser }) => {
         </Typography>
       </TableCell>
       <TableCell>
-        <Avatar src={avatar || logo} />
+        <Avatar src={`${baseURL}/${avatar || logo}`} />
       </TableCell>
       <TableCell align="right">
         <Tooltip title="Xem chi tiết" arrow>

@@ -21,6 +21,7 @@ import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import { useAppSelector, useAppDispatch } from 'src/hooks';
 import { logout, resetStateUser } from 'src/redux_store/user/user_slice';
 import { resetState } from 'src/redux_store/auth/authSlice';
+import { baseURL } from 'src/config';
 
 const UserBoxButton = styled(Button)(
   ({ theme }) => `
@@ -72,7 +73,11 @@ function HeaderUserbox() {
   return (
     <>
       <UserBoxButton color="secondary" ref={ref} onClick={handleOpen}>
-        <Avatar variant="rounded" alt={me.fullName} src={me.avatar} />
+        <Avatar
+          variant="rounded"
+          alt={me.fullName}
+          src={`${baseURL}/${me?.avatar}`}
+        />
         <Hidden mdDown>
           <UserBoxText>
             <UserBoxLabel variant="body1">{me.fullName}</UserBoxLabel>

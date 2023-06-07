@@ -9,10 +9,10 @@ import {
 } from 'src/types/company';
 import { IPayloadProfile } from 'src/types/profile';
 import { createClient } from './axios_client';
-import { baseURL, baseAPI24h } from 'src/config';
+import { mainURL, baseAPI24h } from 'src/config';
 import axios from 'axios';
 
-const client = createClient(baseURL);
+const client = createClient(mainURL);
 
 export const companyApi = {
   findCompany: (name: string) => {

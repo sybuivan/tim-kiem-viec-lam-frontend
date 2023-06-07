@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router';
+import { baseURL } from 'src/config';
 import { useAppSelector, useSaveJob } from 'src/hooks';
 import theme from 'src/theme';
 import { IJob } from 'src/types/job';
@@ -65,7 +66,12 @@ const JobItem = (props: IJobItem) => {
               onClick={handleClick}
             >
               <Box display="flex" gap={1}>
-                <img alt="" src={jobItem.logo} width="88" height="88" />
+                <img
+                  alt=""
+                  src={`${baseURL}/${jobItem.logo}`}
+                  width="88"
+                  height="88"
+                />
 
                 <Box flex="1">
                   <Box
@@ -175,7 +181,12 @@ const JobItem = (props: IJobItem) => {
             onClick={handleClick}
           >
             <Box display="flex" gap={1}>
-              <img alt="" src={jobItem.logo} width="88" height="88" />
+              <img
+                alt=""
+                src={`${baseURL}/${jobItem.logo}`}
+                width="88"
+                height="88"
+              />
 
               <Box flex="1">
                 <Box

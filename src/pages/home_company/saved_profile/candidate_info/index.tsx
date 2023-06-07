@@ -9,6 +9,7 @@ import {
 } from '@mui/icons-material';
 import { Box, Button, Grid, Typography } from '@mui/material';
 import React from 'react';
+import { baseURL } from 'src/config';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
@@ -87,7 +88,7 @@ export const CandidateInfo = ({ candidate }: { candidate: ICandidate }) => {
             display: 'flex',
             margin: '8px auto',
           }}
-          src={avatar}
+          src={`${baseURL}/${avatar}`}
           alt={fullName}
         />
         <Box

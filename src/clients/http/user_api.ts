@@ -9,8 +9,8 @@ import {
 } from 'src/types/user';
 import { createClient } from './axios_client';
 
-import { baseURL } from 'src/config';
-const client = createClient(baseURL);
+import { mainURL } from 'src/config';
+const client = createClient(mainURL);
 
 export const userApi = {
   login: (payload: IPayloadLogin) => {

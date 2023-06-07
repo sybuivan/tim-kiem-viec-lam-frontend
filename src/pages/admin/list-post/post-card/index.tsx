@@ -4,6 +4,7 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Box, IconButton, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { baseURL } from 'src/config';
 
 import { IPost } from 'src/types/post';
 import { useAppDispatch } from 'src/redux_store';
@@ -37,7 +38,7 @@ const CardPost = ({ postItem }: Props) => {
     <Box className={classes.container}>
       <Box className={classes.image}>
         <img
-          src={postItem.image}
+          src={`${baseURL}/${postItem.image}`}
           style={{ width: '120px', objectFit: 'cover' }}
           alt=""
         />

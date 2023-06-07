@@ -21,6 +21,7 @@ import { CPersonnelSize } from 'src/constants/common';
 import { IPayloadCompanyInfo } from 'src/types/company';
 import { schemaProfileCompany } from 'src/constants/schema';
 import SunEditorComponent from 'src/components/suneditor';
+import { baseURL } from 'src/config';
 
 const CompanyInfoAdmin = () => {
   const dispatch = useAppDispatch();
@@ -30,7 +31,9 @@ const CompanyInfoAdmin = () => {
     (state) => state.commonSlice.fieldList
   );
   const [introduce, setIntroduce] = useState<string>(me?.introduce);
-  const [privewImage, setPrivewImage] = useState<string>(me.logo || '');
+  const [privewImage, setPrivewImage] = useState<string>(
+    `${baseURL}/${me.logo}` || ''
+  );
   const [coverImage, setPreCoverImage] = useState<string>(me.cover_image || '');
 
   const [file, setFile] = useState<any>();

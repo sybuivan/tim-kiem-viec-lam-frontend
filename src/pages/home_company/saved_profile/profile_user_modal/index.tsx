@@ -17,6 +17,7 @@ import { closeModal } from 'src/redux_store/common/modal/modal_slice';
 import { getCandidateDetail } from 'src/redux_store/company/company_action';
 import { formatPrice } from 'src/utils/function';
 import theme from 'src/theme';
+import { baseURL } from 'src/config';
 
 const FieldItem = ({
   title,
@@ -101,7 +102,7 @@ const ProfileUserModal = ({ id_user }: { id_user: string }) => {
         >
           <Box display="flex" alignItems="center" gap={2} mb={2}>
             <Avatar
-              src={user_info.avatar}
+              src={`${baseURL}/${user_info.avatar}`}
               sx={{
                 width: '100px',
                 height: '100px',

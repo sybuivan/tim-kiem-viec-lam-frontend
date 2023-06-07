@@ -11,6 +11,7 @@ import { createNewMessage } from 'src/redux_store/chat/chat_actions';
 import theme from 'src/theme';
 import { IApplyUser } from 'src/types/apply';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
+import { baseURL } from 'src/config';
 
 const MessageModal = ({ apply }: { apply: IApplyUser }) => {
   const dispatch = useAppDispatch();
@@ -71,7 +72,7 @@ const MessageModal = ({ apply }: { apply: IApplyUser }) => {
             >
               <Avatar
                 alt="Remy Sharp"
-                src={apply.avatar}
+                src={`${baseURL}/${apply.avatar}`}
                 sx={{ width: '40px', height: '40px', mr: 2 }}
               />
               <Box>

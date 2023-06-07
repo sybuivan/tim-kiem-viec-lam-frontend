@@ -1,6 +1,7 @@
 import { Box, Avatar, Typography } from '@mui/material';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { baseURL } from 'src/config';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { setUserRoom } from 'src/redux_store/chat/chat_slices';
 import theme from 'src/theme';
@@ -51,7 +52,7 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
     >
       <Avatar
         alt="Remy Sharp"
-        src={avatar || logo}
+        src={`${baseURL}/${avatar || logo}`}
         sx={{ width: '50px', height: '50px', mr: 2 }}
       />
       <Box>

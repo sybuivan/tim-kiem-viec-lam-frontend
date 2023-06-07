@@ -8,6 +8,7 @@ import { getCompanyList } from 'src/redux_store/company/company_action';
 import { ICompany } from 'src/types/company';
 import theme from 'src/theme';
 import { useNavigate } from 'react-router';
+import { baseURL } from 'src/config';
 
 const CLIMIT: number = 20;
 
@@ -31,7 +32,7 @@ const CompanyInfo = ({ company }: { company: ICompany }) => {
         <Box display="flex" justifyContent="center">
           <img
             alt=""
-            src={company.logo}
+            src={`${baseURL}/${company.logo}`}
             style={{
               maxHeight: '90px',
               minHeight: '90px',

@@ -8,8 +8,8 @@ import {
 import { createClient } from './axios_client';
 import queryString from 'query-string';
 
-import { baseURL } from 'src/config';
-const client = createClient(baseURL);
+import { mainURL } from 'src/config';
+const client = createClient(mainURL);
 
 export const jobApi = {
   getJobList: () => {

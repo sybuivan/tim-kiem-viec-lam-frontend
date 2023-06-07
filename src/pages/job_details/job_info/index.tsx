@@ -22,6 +22,7 @@ import { checkIsApply, checkIsSaveJob } from 'src/utils/common';
 import ApplyModal from '../apply_modal';
 import { IMessageJob } from 'src/types/chat';
 import MessageJob from 'src/components/message_job';
+import { baseURL } from 'src/config';
 
 const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
   const {
@@ -83,7 +84,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
           modalId: MODAL_IDS.messageJob,
         })
       );
-    }else {
+    } else {
       dispatch(
         openModal({
           modalId: MODAL_IDS.login,
@@ -108,7 +109,7 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
         }}
       >
         <img
-          src={jobDetail.logo}
+          src={`${baseURL}/${jobDetail.logo}`}
           alt=""
           width="100"
           height="100"

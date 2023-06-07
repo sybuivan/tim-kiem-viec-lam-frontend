@@ -1,8 +1,8 @@
 import { IServiceList, IBuyService, IServiceBuyList } from 'src/types/service';
 import { createClient } from './axios_client';
 
-import { baseURL } from 'src/config';
-const client = createClient(baseURL);
+import { mainURL } from 'src/config';
+const client = createClient(mainURL);
 
 export const serviceApi = {
   getService: () => {

@@ -1,8 +1,8 @@
 import { IPostList, IPost } from 'src/types/post';
 import { createClient } from './axios_client';
 
-import { baseURL } from 'src/config';
-const client = createClient(baseURL);
+import { mainURL } from 'src/config';
+const client = createClient(mainURL);
 
 export const postApi = {
   getAllPosts: () => {

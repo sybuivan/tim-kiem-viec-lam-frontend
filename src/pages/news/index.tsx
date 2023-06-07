@@ -6,6 +6,7 @@ import { useIsRequestPending, useAppDispatch, useAppSelector } from 'src/hooks';
 import { getPostDetail } from 'src/redux_store/post/post_actions';
 import LoadingLinear from 'src/components/loading/loading_linear';
 import { formatDate } from 'src/utils/function';
+import { baseURL } from 'src/config';
 
 const NewsDetails = () => {
   const { id_post } = useParams();
@@ -32,7 +33,7 @@ const NewsDetails = () => {
       >
         <Grid item xs={8}>
           <div>
-            <img src={image} alt={title} />
+            <img src={`${baseURL}/${image}`} alt={title} />
             <h3 style={{ fontSize: '18px', fontWeight: 600 }}>{title}</h3>
             <p>
               <i>Ngày đăng:{publishedAt && formatDate(publishedAt)} </i>

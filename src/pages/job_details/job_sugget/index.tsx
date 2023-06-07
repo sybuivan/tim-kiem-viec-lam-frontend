@@ -13,6 +13,7 @@ import { IJob } from 'src/types/job';
 import { useAppSelector, useSaveJob } from 'src/hooks';
 import { FavoriteRounded } from '@mui/icons-material';
 import { checkIsSaveJob } from 'src/utils/common';
+import { baseURL } from 'src/config';
 
 const JobItem = ({ job }: { job: IJob }) => {
   const {
@@ -56,7 +57,7 @@ const JobItem = ({ job }: { job: IJob }) => {
         onClick={handleOnClick}
       >
         <Box display="flex" gap={2}>
-          <img width="50" height="50" alt="" src={logo} />
+          <img width="50" height="50" alt="" src={`${baseURL}/${logo}`} />
           <Box>
             <Typography
               fontWeight="600"

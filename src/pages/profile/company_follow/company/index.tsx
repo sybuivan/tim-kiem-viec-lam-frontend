@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { unFollowCompany } from 'src/redux_store/user/user_action';
 import { IFollowCompany } from 'src/types/user';
+import { baseURL } from 'src/config';
 
 const Company = ({ company }: { company: IFollowCompany }) => {
   const {
@@ -39,7 +40,7 @@ const Company = ({ company }: { company: IFollowCompany }) => {
       <Box display="flex" gap={5} alignItems="center">
         <Box flex="0.7" display="flex" gap={2}>
           <img
-            src={company.logo}
+            src={`${baseURL}/${company.logo}`}
             alt=""
             width="100px"
             height="100px"

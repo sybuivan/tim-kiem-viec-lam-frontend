@@ -31,6 +31,7 @@ import { resetApplyData } from 'src/redux_store/apply/apply_slice';
 import { checkRoleCompany, checkRoleUser } from 'src/utils/common';
 import { socketIo } from 'src/clients/socket';
 import Notification from '../notification';
+import { baseURL } from 'src/config';
 
 const settings: {
   icon: any;
@@ -463,7 +464,10 @@ export const HeaderCompany = () => {
                   >
                     <Avatar
                       alt="Remy Sharp"
-                      src={me?.logo || '/static/images/avatar/2.jpg'}
+                      src={
+                        `${baseURL}/${me?.logo}` ||
+                        '/static/images/avatar/2.jpg'
+                      }
                     />
                     <Typography ml={1} fontWeight="600">
                       {me?.fullName}

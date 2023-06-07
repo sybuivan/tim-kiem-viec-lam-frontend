@@ -25,6 +25,7 @@ import { updateProfile } from 'src/redux_store/user/user_action';
 import { toastMessage } from 'src/utils/toast';
 import { CGenderOption, phoneRegExp } from 'src/constants/common';
 import moment from 'moment';
+import { baseURL } from 'src/config';
 
 const schema = yup.object().shape({
   fullName: yup.string().required(messageRequired('Họ và tên')),
@@ -50,7 +51,9 @@ const ProfileUser = () => {
   const { me } = useAppSelector((state) => state.authSlice);
   const { cityfield } = useAppSelector((state) => state.commonSlice.fieldList);
 
-  const [privewImage, setPrivewImage] = useState<string>(me.avatar || '');
+  const [privewImage, setPrivewImage] = useState<string>(
+    `${baseURL}/${me.avatar}` || ''
+  );
   const [file, setFile] = useState<any>();
 
   const { control, handleSubmit } = useForm<IPayloadProfile>({

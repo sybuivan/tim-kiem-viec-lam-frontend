@@ -2,8 +2,8 @@ import { IApply, IApplyList } from 'src/types/apply';
 import { IJob, IJobList } from 'src/types/job';
 import { createClient } from './axios_client';
 
-import { baseURL } from 'src/config';
-const client = createClient(baseURL);
+import { mainURL } from 'src/config';
+const client = createClient(mainURL);
 
 export const applyApi = {
   applyJob: (formData: FormData) => {

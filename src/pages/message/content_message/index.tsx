@@ -13,6 +13,7 @@ import { setMessageList, changeRoom } from 'src/redux_store/chat/chat_slices';
 import theme from 'src/theme';
 import { getSubTimeFromDayFNS } from 'src/utils/function';
 import { useStyles } from './styles';
+import { baseURL } from 'src/config';
 
 export const ContentMessage = ({ socket }: { socket: any }) => {
   const { id_room_message } = useParams();
@@ -101,7 +102,7 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
         >
           <Avatar
             alt="Remy Sharp"
-            src={room?.avatar}
+            src={`${baseURL}/${room?.avatar}`}
             sx={{ width: '40px', height: '40px', mr: 2 }}
           />
           <Typography fontSize="16px" fontWeight="600">
@@ -116,28 +117,39 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
           <Scrollbars>
             {messages.map((message, index) => (
               <Box>
-              <Box
-                className={
-                  message.sender === me.id_role ? classes.user : classes.client
-                }
-                key={message.id_chat}
-              >
-                <Typography className={classes.textMessage}>
-                  {message.message}
-                </Typography>
-              </Box>
-              <Box className={
-                  message.sender === me.id_role ? classes.user : classes.client
-                }>
-                {
-messages.length -1 === index &&
-                
-                <Box display="flex" alignItems="center" gap={0.5} sx={{
-                  color: theme.palette.grey[600],
-                  fontSize: "12px"
-                }}>
-                  <AccessAlarmIcon /> {getSubTimeFromDayFNS(message.created_at)}
-                </Box> }
+                <Box
+                  className={
+                    message.sender === me.id_role
+                      ? classes.user
+                      : classes.client
+                  }
+                  key={message.id_chat}
+                >
+                  <Typography className={classes.textMessage}>
+                    {message.message}
+                  </Typography>
+                </Box>
+                <Box
+                  className={
+                    message.sender === me.id_role
+                      ? classes.user
+                      : classes.client
+                  }
+                >
+                  {messages.length - 1 === index && (
+                    <Box
+                      display="flex"
+                      alignItems="center"
+                      gap={0.5}
+                      sx={{
+                        color: theme.palette.grey[600],
+                        fontSize: '12px',
+                      }}
+                    >
+                      <AccessAlarmIcon />{' '}
+                      {getSubTimeFromDayFNS(message.created_at)}
+                    </Box>
+                  )}
                 </Box>
               </Box>
             ))}
