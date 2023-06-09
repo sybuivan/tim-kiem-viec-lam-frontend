@@ -82,16 +82,12 @@ Back-end: NodeJS, Express.js, MySQL, socket.io.
 9. Using SQL in XAMPP
    <code>
 
-   1. Open a web browser and navigate to http://localhost/phpmyadmin.
-
-   2. On the MySQL database management interface (phpMyAdmin), click on the "Database" tab.
-
-   3. Enter the new database name as "db_tim-kiem-viec-lam" in the "Create database" field.
-
-   4. Click on the "Create" button to create the new database.
-
-   5. import database
-      </code>
+   - Open a web browser and navigate to http://localhost/phpmyadmin.
+   - On the MySQL database management interface (phpMyAdmin), click on the "Database" tab.
+   - Enter the new database name as "db_tim-kiem-viec-lam" in the "Create database" field.
+   - Click on the "Create" button to create the new database.
+   - import database
+     </code>
 
 10. Config env
     <code>
