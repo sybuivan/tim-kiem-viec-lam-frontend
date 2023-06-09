@@ -48,7 +48,61 @@ Back-end: NodeJS, Express.js, MySQL, socket.io.
 - Setting system
 
 ## ERD
+
 <img src="https://i.imgur.com/AS2CgQe.jpg" width="1000"/>
+
+## Installation
+
+## Front end
+
+1. Clone the repository:
+   <code>git clone https://github.com/sybuivan/tim-kiem-viec-lam-frontend</code>
+2. Clone the repository:
+   <code>cd tim-kiem-viec-lam-frontend</code>
+3. Install the dependencies:
+   <code>Yarn or npm install</code>
+4. Config env
+   <code>
+   Change file .env
+   REACT_APP_NODE_ENV= development
+   </code>
+5. Start the application:
+   <code>Yarn start or npm start</code>
+
+   The application will run at (https://localhost:3000)
+
+## Backend
+
+6. Install source backend
+   <code>git clone https://github.com/sybuivan/tim-kiem-viec-lam-backend</code>
+7. Clone the repository:
+   <code>cd tim-kiem-viec-lam-backend</code>
+8. Download file db_tim-kiem-viec-lam.sql.
+   <code>https://drive.google.com/file/d/1vrp5-qDYZHlVx1IN9vOaQJaJNGLCudNL/view?usp=sharing</code>
+9. Using SQL in XAMPP
+   <code>
+
+   1. Open a web browser and navigate to http://localhost/phpmyadmin.
+
+   2. On the MySQL database management interface (phpMyAdmin), click on the "Database" tab.
+
+   3. Enter the new database name as "db_tim-kiem-viec-lam" in the "Create database" field.
+
+   4. Click on the "Create" button to create the new database.
+
+   5. import database
+      </code>
+
+10. Config env
+    <code>
+    Change file .env
+    NODEJS_APP_NODE_ENV= development
+    </code>
+
+11. Start server:
+    <code>
+    npm run dev
+    </code>
 
 ## Demo
 

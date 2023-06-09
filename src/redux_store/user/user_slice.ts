@@ -97,7 +97,11 @@ const userSlice = createSlice({
     resetStateUser: (state) => {
       localStorage.removeItem('user_account');
       localStorage.removeItem('token');
-      state = initialState;
+      state.followList = initialState.followList;
+      state.jobSuggets = initialState.jobSuggets;
+      state.notification = initialState.notification;
+      state.saveJobList = initialState.saveJobList;
+      state.profile_detail = initialState.profile_detail;
     },
     setProfileDetail: (state, action) => {
       state.profile_detail = action.payload;
