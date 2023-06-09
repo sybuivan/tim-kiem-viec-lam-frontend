@@ -45,8 +45,9 @@ import ProfileUser from 'src/pages/profile/profile_user';
 import { PrivateAdmin, PrivateDashboard } from './private/admin';
 import { PrivateCompany, PrivateLoginCompany } from './private/company';
 import { PrivateUser } from './private/user';
+import { baseURL } from 'src/config';
 
-const socket = io('http://localhost:5000');
+const socket = io(baseURL);
 
 let routes: (token: string) => RouteObject[] = (token: string) => [
   {
