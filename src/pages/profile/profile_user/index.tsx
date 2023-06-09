@@ -54,6 +54,9 @@ const ProfileUser = () => {
   const [privewImage, setPrivewImage] = useState<string>(
     `${baseURL}/${me.avatar}` || ''
   );
+
+  console.log({ privewImage, baseURL });
+
   const [file, setFile] = useState<any>();
 
   const { control, handleSubmit } = useForm<IPayloadProfile>({

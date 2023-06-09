@@ -7,7 +7,7 @@ import {
 } from '@mui/icons-material';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router';
@@ -130,6 +130,18 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
         <Box my={2}>
           <Typography fontSize="20px" fontWeight="600" py={2}>
             {jobDetail.name_job}
+            {jobDetail.urgency === 1 && (
+              <Chip
+                label="Tuyển gấp"
+                sx={{
+                  background: theme.palette.error.main,
+                  color: theme.palette.common.white,
+                  ml: 1,
+                  borderRadius: '10px',
+                  height: '25px',
+                }}
+              />
+            )}
           </Typography>
           <Box display="flex" gap={2}>
             <Box display="flex" alignItems="center" gap={0.5}>

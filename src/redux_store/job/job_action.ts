@@ -86,6 +86,19 @@ export const getListJobByCompany = createAsyncThunk<IJobList, string>(
   }
 );
 
+export const getJobNews = createAsyncThunk<IJobList, void>(
+  'job/getJobNews',
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await jobApi.getJobNews();
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const deleteJob = createAsyncThunk<
   any,
   {

@@ -1,12 +1,13 @@
-import { Box, Grid } from '@mui/material';
 import React from 'react';
+
+import { Box, Grid } from '@mui/material';
 import HeadTitle from 'src/components/head_title';
 import JobItem from 'src/components/job_item';
 import SkeletonJob from 'src/components/skeleton/job';
 import { useGetStatus } from 'src/hooks';
 import { IJob } from 'src/types/job';
 
-const JobSuggetForYou = ({
+const JobNews = ({
   jobList,
   icon,
   title,
@@ -40,4 +41,4 @@ const JobSuggetForYou = ({
   );
 };
 
-export default JobSuggetForYou;
+export default JobNews;

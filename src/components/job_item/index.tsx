@@ -218,6 +218,18 @@ const JobItem = (props: IJobItem) => {
                         }}
                       />
                     )}
+                    {jobItem.is_new && (
+                      <Chip
+                        label="Mới"
+                        sx={{
+                          background: theme.palette.success.main,
+                          color: theme.palette.common.white,
+                          mr: 1,
+                          borderRadius: '10px',
+                          height: '25px',
+                        }}
+                      />
+                    )}
                     {jobItem.name_job}
                   </Typography>
                 </Box>

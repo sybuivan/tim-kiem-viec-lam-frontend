@@ -8,7 +8,11 @@ import JobList from './job_list';
 import { QueryBuilderOutlined } from '@mui/icons-material';
 import theme from 'src/theme';
 import PostList from './post_list';
-import { getJobList, getTopJob } from 'src/redux_store/job/job_action';
+import {
+  getJobList,
+  getTopJob,
+  getJobNews,
+} from 'src/redux_store/job/job_action';
 import { LightModeOutlined } from '@mui/icons-material';
 import JobSuggetForYou from './job_sugget_for_you';
 import ListDiscover from './list_discover';
@@ -29,6 +33,7 @@ const Home = () => {
   const {
     jobList: { data },
     jobTop,
+    jobNews,
   } = useAppSelector((state) => state.jobSlice);
 
   useEffect(() => {
@@ -36,6 +41,7 @@ const Home = () => {
     dispatch(getJobList());
     dispatch(getAllPosts());
     dispatch(getTopJob());
+    dispatch(getJobNews());
   }, []);
 
   return (
@@ -73,6 +79,18 @@ const Home = () => {
             title="Việc làm gợi ý"
           />
         )}
+        <JobList
+          jobList={jobNews.data}
+          icon={
+            <LightModeOutlined
+              sx={{
+                color: theme.palette.primary.main,
+                fontSize: '30px',
+              }}
+            />
+          }
+          title="Việc làm mới đăng"
+        />
         <ListDiscover
           list={jobTop.data}
           icon={

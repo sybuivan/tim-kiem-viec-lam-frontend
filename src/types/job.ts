@@ -30,6 +30,7 @@ export interface IJob extends ICompany {
   cities?: [{ name_city?: string }];
   urgency?: number;
   is_future_deadline?: number;
+  is_new?: boolean;
 }
 
 export interface IPayloadJob {

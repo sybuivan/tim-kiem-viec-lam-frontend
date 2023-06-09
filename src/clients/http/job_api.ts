@@ -50,4 +50,7 @@ export const jobApi = {
   getTopJob: () => {
     return client.get<{ data: IJobTop[] }>(`/job/get-top-job`);
   },
+  getJobNews: () => {
+    return client.get<IJobList>(`/job/get-job-news`);
+  },
 };

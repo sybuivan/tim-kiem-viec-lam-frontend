@@ -7,18 +7,24 @@ import {
   getJobListFilters,
   getListJobByCompany,
   getTopJob,
+  getJobNews,
 } from './job_action';
 
 interface ICompanySlice {
   jobList: IJobList;
   jobDetail: IJobDetails;
   jobFilters: IadvancedFilter;
+  jobNews: IJobList;
   jobListCompany: IJobList;
   jobTop: { data: IJobTop[] };
 }
 
 const initialState: ICompanySlice = {
   jobList: {
+    data: [],
+    total: 0,
+  },
+  jobNews: {
     data: [],
     total: 0,
   },
@@ -86,6 +92,17 @@ const jobSlice = createSlice({
       })
       .addCase(getJobById.fulfilled, (state, action) => {
         state.jobDetail = action.payload;
+      })
+      .addCase(getJobNews.fulfilled, (state, action) => {
+        const { data, total } = action.payload;
+        state.jobNews.data = data.map((item) => {
+          return {
+            ...item,
+            is_new: true,
+          };
+        });
+
+        state.jobNews.total = total;
       });
   },
 });
