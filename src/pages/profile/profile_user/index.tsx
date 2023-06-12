@@ -22,6 +22,7 @@ import { messageRequired } from 'src/utils/common';
 import { IPayloadProfile } from 'src/types/profile';
 import { LoadingButton } from '@mui/lab';
 import { updateProfile } from 'src/redux_store/user/user_action';
+import { updateProfileUser } from 'src/redux_store/auth/authSlice';
 import { toastMessage } from 'src/utils/toast';
 import { CGenderOption, phoneRegExp } from 'src/constants/common';
 import moment from 'moment';
@@ -54,8 +55,6 @@ const ProfileUser = () => {
   const [privewImage, setPrivewImage] = useState<string>(
     `${baseURL}/${me.avatar}` || ''
   );
-
-  console.log({ privewImage, baseURL });
 
   const [file, setFile] = useState<any>();
 
@@ -92,7 +91,8 @@ const ProfileUser = () => {
       if (me.avatar) {
         dispatch(updateProfile(formData))
           .unwrap()
-          .then(() => {
+          .then((data) => {
+            dispatch(updateProfileUser(data.users));
             toastMessage.success('Chỉnh sửa thông tin tài khoản thành công');
           });
       } else {

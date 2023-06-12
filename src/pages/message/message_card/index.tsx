@@ -19,7 +19,6 @@ export const MessageCard = ({ room }: { room: IRoom }) => {
   const { id_room_message } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  console.log({ created_at });
   const handleOnClick = () => {
     if (me.id_role === 'user') {
       navigate(`/users/message/${id_room}`);

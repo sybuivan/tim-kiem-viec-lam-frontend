@@ -57,6 +57,7 @@ const SettingField = ({
             name={name}
             id={id}
             field={field}
+            type={type}
           />
         ),
       })
@@ -95,14 +96,14 @@ const SettingField = ({
                     }}
                   />
                 </IconButton>
-                <IconButton color="inherit" size="small">
+                {/* <IconButton color="inherit" size="small">
                   <DeleteForeverOutlined
                     fontSize="small"
                     sx={{
                       color: theme.palette.error.main,
                     }}
                   />
-                </IconButton>
+                </IconButton> */}
               </Box>
             </Box>
           </Box>

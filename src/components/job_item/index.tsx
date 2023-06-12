@@ -216,6 +216,7 @@ const JobItem = (props: IJobItem) => {
                           borderRadius: '10px',
                           height: '25px',
                         }}
+                        size="small"
                       />
                     )}
                     {jobItem.is_new && (
@@ -228,6 +229,7 @@ const JobItem = (props: IJobItem) => {
                           borderRadius: '10px',
                           height: '25px',
                         }}
+                        size="small"
                       />
                     )}
                     {jobItem.name_job}

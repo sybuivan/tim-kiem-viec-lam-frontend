@@ -31,7 +31,7 @@ const NewsDetails = () => {
         }}
         columnSpacing={1}
       >
-        <Grid item xs={8}>
+        <Grid item xs={12}>
           <div>
             <img src={`${baseURL}/${image}`} alt={title} />
             <h3 style={{ fontSize: '18px', fontWeight: 600 }}>{title}</h3>

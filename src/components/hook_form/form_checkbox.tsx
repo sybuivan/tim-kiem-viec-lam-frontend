@@ -28,7 +28,6 @@ const FormCheckbox = ({
         control={control}
         render={({ field }) => (
           <>
-            <>{console.log(field.value)}</>
             <FormControlLabel
               control={
                 <Checkbox

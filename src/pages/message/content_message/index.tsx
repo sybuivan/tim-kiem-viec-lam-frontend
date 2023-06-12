@@ -14,6 +14,7 @@ import theme from 'src/theme';
 import { getSubTimeFromDayFNS } from 'src/utils/function';
 import { useStyles } from './styles';
 import { baseURL } from 'src/config';
+import { Link } from 'react-router-dom';
 
 export const ContentMessage = ({ socket }: { socket: any }) => {
   const { id_room_message } = useParams();
@@ -109,6 +110,22 @@ export const ContentMessage = ({ socket }: { socket: any }) => {
             {room?.fullName}
           </Typography>
         </Box>
+      </Box>
+      <Box
+        borderBottom="1px solid #c2c2c2"
+        sx={{
+          p: 2,
+        }}
+      >
+        <Link
+          to={`/viec-lam/${room.id_job}`}
+          style={{
+            fontSize: '14px',
+            fontWeight: '600',
+          }}
+        >
+          {room?.name_job}
+        </Link>
       </Box>
 
       {/* Content messages */}

@@ -16,7 +16,6 @@ import { INotification } from './types/user';
 function App() {
   const { token, me } = useAppSelector((state) => state.authSlice);
   const dispatch = useAppDispatch();
-  console.log(process.env.REACT_APP_DEV_API_URL);
   useEffect(() => {
     if (checkRoleUser(me?.id_role, token)) {
       socketIo.emit('user_id', me?.id_user);

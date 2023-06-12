@@ -124,7 +124,6 @@ const companySlice = createSlice({
       state.companyDetail.followere.push(action.payload);
     },
     changeFiltersCandidate: (state, action) => {
-      console.log(action.payload);
       state.filtersCandidate = action.payload;
     },
     updateFollowere: (state, action) => {
@@ -159,7 +158,6 @@ const companySlice = createSlice({
     changePayloadMail: (state, action) => {
       const { index, date, hour, messageMailer } = action.payload;
 
-      console.log({ paylaod: action.payload });
       const newPayload = {
         ...state.timeMail[index],
         date,

@@ -98,6 +98,7 @@ export interface IadvancedFilter extends IHomeFilter {
   id_rank?: string;
   id_working_form?: string;
   page: number;
+  created?: string;
 }
 
 export type IRole = 'user' | 'admin' | 'company';

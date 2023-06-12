@@ -27,7 +27,6 @@ const AddFieldModal = ({
   const { handleSubmit, control, setError } = useForm();
   const dispatch = useAppDispatch();
   const handleOnSubmit = (data: any) => {
-    console.log({ data });
     dispatch(
       settingCommon({
         type: type,

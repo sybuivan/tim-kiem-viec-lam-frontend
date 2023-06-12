@@ -60,14 +60,11 @@ const ApplyList = ({ socket }: { socket: any }) => {
   }, []);
 
   useEffect(() => {
-    console.log({ applied });
     replace(applied);
   }, [applied]);
 
   useEffect(() => {
-    socket.on('data', ({ applied }: any) => {
-      console.log({ applied });
-    });
+    socket.on('data', ({ applied }: any) => {});
   }, [socket]);
 
   useEffect(() => {
@@ -125,7 +122,6 @@ const ApplyList = ({ socket }: { socket: any }) => {
 
   const handleOnSelected = () => {
     const checked = selectedApplied.length === 0 ? true : false;
-    console.log({ checked });
     if (checked) {
       const newApplied = fields
         .filter((field) => field.status !== 4)

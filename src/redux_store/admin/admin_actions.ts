@@ -78,12 +78,26 @@ export const statistical = createAsyncThunk<any, void>(
     }
   }
 );
+
 export const settingCommon = createAsyncThunk<
   any,
   { type: string; id: string; name: string }
 >('admin/settingCommon', async (payload, { rejectWithValue }) => {
   try {
     const { data } = await adminApi.settingCommon(payload);
+    return data;
+  } catch (error: any) {
+    toastMessage.setErrors(error);
+    return rejectWithValue(error);
+  }
+});
+
+export const updateSettingCommon = createAsyncThunk<
+  any,
+  { type: string; id: string; name: string }
+>('admin/updateSettingCommon', async (payload, { rejectWithValue }) => {
+  try {
+    const { data } = await adminApi.updateSettingCommon(payload);
     return data;
   } catch (error: any) {
     toastMessage.setErrors(error);

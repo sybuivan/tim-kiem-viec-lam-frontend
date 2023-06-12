@@ -118,7 +118,6 @@ const Header = () => {
   };
 
   const location = useLocation();
-  console.log({ location });
 
   return (
     <Box bgcolor={theme.palette.primary.main} height={70} width="100%">

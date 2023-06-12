@@ -28,8 +28,6 @@ const ButtonWrapper: React.FC<ButtonWrapperProps> = ({
   // This is the main reason to wrap the PayPalButtons in a new component
   const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
 
-  console.log({ amount });
-
   useEffect(() => {
     dispatch({
       type: 'resetOptions',

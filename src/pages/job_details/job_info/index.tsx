@@ -286,7 +286,9 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
             <Typography color={theme.palette.grey[600]} pb={2}>
               Hình thức làm việc
             </Typography>
-            <Typography fontWeight="600">Toàn thời gian cố định</Typography>
+            <Typography fontWeight="600">
+              {jobDetail.name_working_form}
+            </Typography>
           </Box>
         </Box>
 

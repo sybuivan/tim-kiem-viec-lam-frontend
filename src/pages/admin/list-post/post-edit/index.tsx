@@ -35,7 +35,6 @@ const PostEdit = () => {
 
   const handleOnSubmit = async (data: IPost) => {
     const { title, description } = data;
-    console.log({ content });
     if (!content) {
       return toastMessage.error(messageRequired('Nội dung'));
     }

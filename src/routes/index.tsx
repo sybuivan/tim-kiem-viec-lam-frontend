@@ -46,6 +46,7 @@ import { PrivateAdmin, PrivateDashboard } from './private/admin';
 import { PrivateCompany, PrivateLoginCompany } from './private/company';
 import { PrivateUser } from './private/user';
 import { baseURL } from 'src/config';
+import NewList from 'src/pages/new_list';
 
 const socket = io(baseURL);
 
@@ -91,6 +92,10 @@ let routes: (token: string) => RouteObject[] = (token: string) => [
       {
         path: '/viec-lam/:id_job',
         element: <JobDetails />,
+      },
+      {
+        path: '/tin-tuc',
+        element: <NewList />,
       },
       {
         path: '/cong-ty/:id_company',

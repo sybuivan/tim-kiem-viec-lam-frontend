@@ -10,17 +10,21 @@ import { FormInput } from 'src/components/hook_form';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch } from 'src/hooks';
 import { closeModal } from 'src/redux_store/common/modal/modal_slice';
+import { updateSettingCommon } from 'src/redux_store/admin/admin_actions';
+import { toastMessage } from 'src/utils/toast';
 
 const UpdateFieldModal = ({
   title_field,
   id,
   name,
   field,
+  type,
 }: {
   title_field: string;
   id: string;
   name: string;
   field: any;
+  type: string;
 }) => {
   const { handleSubmit, control } = useForm({
     defaultValues: {
@@ -29,7 +33,20 @@ const UpdateFieldModal = ({
     },
   });
   const dispatch = useAppDispatch();
-  const handleOnSubmit = () => {};
+  const handleOnSubmit = (data: any) => {
+    dispatch(
+      updateSettingCommon({
+        type: type,
+        id: data[id],
+        name: data[name],
+      })
+    )
+      .unwrap()
+      .then(() => {
+        toastMessage.success('Sửa thành công');
+        handleClose();
+      });
+  };
   const handleClose = () => {
     dispatch(
       closeModal({
@@ -59,6 +76,7 @@ const UpdateFieldModal = ({
                   label={`Mã ${title_field}`}
                   name={id}
                   placeholder={`Nhập mã ${title_field}`}
+                  disabled
                 />
               </Grid>
               <Grid item xs={12}>

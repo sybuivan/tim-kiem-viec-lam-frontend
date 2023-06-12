@@ -34,7 +34,9 @@ const CompanyInfoAdmin = () => {
   const [privewImage, setPrivewImage] = useState<string>(
     `${baseURL}/${me.logo}` || ''
   );
-  const [coverImage, setPreCoverImage] = useState<string>(me.cover_image || '');
+  const [coverImage, setPreCoverImage] = useState<string>(
+    `${baseURL}/${me.cover_image}` || ''
+  );
 
   const [file, setFile] = useState<any>();
   const [fileCover, setFileCover] = useState<any>();

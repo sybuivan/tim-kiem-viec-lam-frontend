@@ -96,7 +96,6 @@ const RegisterFormCompany = () => {
             setValue('name_company', data.name);
             setValue('address', data.address);
           } else {
-            console.log({ data });
             resetField('name_company');
             resetField('address');
             setError(

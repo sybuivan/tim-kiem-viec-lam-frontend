@@ -41,15 +41,6 @@ export const SideBar = () => {
         }}
       >
         Danh sách tin nhắn
-        {/* <Box ml={4}>
-          <IconButtonTooltip
-            onClick={handleClick}
-            title="Thêm tin nhắn"
-            icon={<AddOutlinedIcon fontSize="large" />}
-            size="small"
-            style={{ color: theme.palette.primary.main }}
-          />
-        </Box> */}
       </Box>
 
       <List sx={{ height: '100vh' }}>

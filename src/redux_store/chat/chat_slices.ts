@@ -50,13 +50,9 @@ const chatSlice = createSlice({
     changeRoom: (state, action) => {
       const { message, created_at, id_room } = action.payload;
 
-      console.log({ id_room });
-
       const index = state.roomList.rooms.findIndex(
         (room) => room.id_room === id_room
       );
-
-      console.log({ index });
 
       const newRoom: IRoom = {
         ...state.roomList.rooms[index],

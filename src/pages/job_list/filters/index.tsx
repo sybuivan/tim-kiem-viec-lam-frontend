@@ -20,7 +20,19 @@ const CInitAdvancedFilter: IadvancedFilter = {
   id_range: '',
   id_rank: '',
   id_working_form: '',
+  created: 'DESC',
 };
+
+const optionTimes = [
+  {
+    id_created: 'DESC',
+    name_created: 'Mới nhất',
+  },
+  {
+    id_created: 'ASC',
+    name_created: 'Cũ nhất',
+  },
+];
 
 const JobListFilters = ({
   isOpenFilters,
@@ -234,6 +246,19 @@ const JobListFilters = ({
               options={workingformfield}
               keyOption="id_working_form"
               labelOption="name_working_form"
+              sx={{
+                backgroundColor: theme.palette.common.white,
+                borderRadius: '4px',
+              }}
+              handleChange={handleOnChange}
+            />
+            <FormSelect
+              control={control}
+              name="created"
+              placeholder="Ngày đăng"
+              options={optionTimes}
+              keyOption="id_created"
+              labelOption="name_created"
               sx={{
                 backgroundColor: theme.palette.common.white,
                 borderRadius: '4px',

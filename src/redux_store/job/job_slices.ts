@@ -45,6 +45,7 @@ const initialState: ICompanySlice = {
     city: '',
     companyfield: '',
     page: 1,
+    created: 'DESC',
   },
   jobTop: { data: [] },
 };

@@ -31,6 +31,7 @@ export interface IApplyUser {
   hour?: any;
   file_online?: string;
   file_desktop?: string;
+  id_profile?: string;
 }
 
 export interface IApplyList {

@@ -18,6 +18,7 @@ export interface IJob extends ICompany {
   deadline: Date;
   created_at: Date;
   name_experience?: string;
+  name_working_form?: string;
   name_rank?: string;
   name_field?: string;
   size_number?: number;

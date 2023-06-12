@@ -8,6 +8,7 @@ export interface IRoom {
   avatar?: string;
   logo?: string;
   name_job?: string;
+  id_job?: string;
 }
 
 export interface IRoomList {

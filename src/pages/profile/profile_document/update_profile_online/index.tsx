@@ -24,6 +24,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router';
 import { FormInput, FormSelect, FormSwitch } from 'src/components/hook_form';
+import { baseURL } from 'src/config';
 import { schemaProfileCV, typeFile } from 'src/constants/schema';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getProfileCVById, updateCV } from 'src/redux_store/user/user_action';
@@ -286,7 +287,7 @@ const UpdateProfileOnline = () => {
                   borderRadius: '50%',
                 }}
                 alt=""
-                src="https://cdn1.vieclam24h.vn/images/default/2023/02/28/B%C3%B9i%20V%C4%83n%20S%E1%BB%B7%20-%20Intern%20%20FE%20Nodejs%20-%20%C4%90%C3%A0%20N%E1%BA%B5ng_167755333021.jpg"
+                src={`${baseURL}/${me?.avatar}`}
               />
 
               <Box>

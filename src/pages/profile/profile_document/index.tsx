@@ -19,6 +19,7 @@ import {
   updateIsPublicCV,
 } from 'src/redux_store/user/user_action';
 import theme from 'src/theme';
+import { baseURL } from 'src/config';
 
 const ProfileDocument = () => {
   const navigate = useNavigate();
@@ -77,7 +78,7 @@ const ProfileDocument = () => {
                 <PdfSvg />
                 <Box>
                   <Typography fontWeight="600">{item.file_name}</Typography>
-                  <Link href={`${item.file_cv}`} target="_blank">
+                  <Link href={`${baseURL}/${item.file_cv}`} target="_blank">
                     Xem hồ sơ
                   </Link>
                 </Box>

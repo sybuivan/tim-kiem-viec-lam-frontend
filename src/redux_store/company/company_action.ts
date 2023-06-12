@@ -11,6 +11,8 @@ import {
   ICandidate,
   ICandidateDetail,
 } from 'src/types/company';
+import { IPayLoadCV } from 'src/types/user';
+
 import { toastMessage } from 'src/utils/toast';
 
 export const loginCompany = createAsyncThunk<
@@ -259,3 +261,16 @@ export const getServiceActivated = createAsyncThunk<
     return rejectWithValue(error);
   }
 });
+
+export const getProfileCVById = createAsyncThunk<IPayLoadCV, string>(
+  'company/getProfileCVById',
+  async (id_profile, { rejectWithValue }) => {
+    try {
+      const { data } = await companyApi.getProfileCVById(id_profile);
+      return data;
+    } catch (error: any) {
+      toastMessage.setErrors(error);
+      return rejectWithValue(error);
+    }
+  }
+);

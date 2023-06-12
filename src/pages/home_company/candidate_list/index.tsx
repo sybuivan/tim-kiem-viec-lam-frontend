@@ -24,7 +24,6 @@ const CandidateList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log({ filtersCandidate });
     dispatch(getCandidateList(filtersCandidate));
   }, []);
 

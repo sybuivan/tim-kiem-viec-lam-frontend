@@ -11,6 +11,7 @@ import { IPayloadProfile } from 'src/types/profile';
 import { createClient } from './axios_client';
 import { mainURL, baseAPI24h } from 'src/config';
 import axios from 'axios';
+import { IPayLoadCV } from 'src/types/user';
 
 const client = createClient(mainURL);
 
@@ -26,7 +27,6 @@ export const companyApi = {
     return client.post<any>('/company/register', payload);
   },
   updateProfile: (id_company: string, payload: FormData) => {
-    console.log({ id_company });
     return client.put<any>(`/company/update-profile/${id_company}`, payload, {
       headers: { 'content-type': 'multipart/form-data' },
     });
@@ -86,5 +86,8 @@ export const companyApi = {
     return client.get<{
       service: any;
     }>(`/company/get-service-activated/${id_company}`);
+  },
+  getProfileCVById: (id_profile: string) => {
+    return client.get<IPayLoadCV>(`/user/get-cv-by-id/${id_profile}`);
   },
 };

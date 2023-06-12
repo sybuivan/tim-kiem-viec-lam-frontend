@@ -51,7 +51,6 @@ export const findNameJob = (
   applied: { id_job: string; name_job: string }[],
   id_job: string
 ) => {
-  console.log({ applied });
   const name = applied.filter((item) => item.id_job === id_job);
 
   return name[0].name_job;

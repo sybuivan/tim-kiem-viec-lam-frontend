@@ -40,7 +40,6 @@ export const createClient = (baseURL: string, access?: string) => {
       return config;
     },
     (error) => {
-      console.log(error);
       return Promise.reject(error);
     }
   );

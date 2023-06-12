@@ -149,6 +149,18 @@ const PostItem = ({ job }: { job: IJob }) => {
                 },
               }}
             >
+              {job.urgency === 1 && (
+                <Chip
+                  label="Gấp"
+                  sx={{
+                    background: theme.palette.error.main,
+                    color: theme.palette.common.white,
+                    mr: 1,
+                    borderRadius: '10px',
+                  }}
+                  size="small"
+                />
+              )}
               {job.name_job}
             </Typography>
 

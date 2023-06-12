@@ -31,4 +31,11 @@ export const adminApi = {
   settingCommon: (payload: { type: string; id: string; name: string }) => {
     return client.post<string>('/admin/setting/common', payload);
   },
+  updateSettingCommon: (payload: {
+    type: string;
+    id: string;
+    name: string;
+  }) => {
+    return client.post<string>('/admin/setting/update-common', payload);
+  },
 };

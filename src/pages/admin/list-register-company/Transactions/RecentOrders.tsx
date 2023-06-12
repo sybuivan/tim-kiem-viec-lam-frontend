@@ -8,7 +8,6 @@ function RecentOrders() {
     companyList: { company_list },
   } = useAppSelector((state) => state.adminSlice);
 
-  console.log({ company_list });
   return (
     <Card>
       <RecentOrdersTable companyList={company_list} />

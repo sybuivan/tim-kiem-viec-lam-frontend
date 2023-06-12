@@ -19,7 +19,7 @@ import { formatPrice } from 'src/utils/function';
 import theme from 'src/theme';
 import { baseURL } from 'src/config';
 
-const FieldItem = ({
+export const FieldItem = ({
   title,
   content,
 }: {

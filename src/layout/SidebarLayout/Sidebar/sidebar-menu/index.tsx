@@ -6,7 +6,6 @@ import { MenuWrapper, SubMenuWrapper } from './styles';
 
 function SidebarMenu() {
   const location = useLocation();
-  console.log(location.pathname === '/admin/dashboard');
   return (
     <>
       <MenuWrapper>

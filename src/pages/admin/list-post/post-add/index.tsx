@@ -42,7 +42,6 @@ const PostAdd = () => {
 
   const handleOnSubmit = async (data: IPost) => {
     const { title, description } = data;
-    console.log({ data });
     if (!content) {
       return toastMessage.error(messageRequired('Nội dung'));
     }

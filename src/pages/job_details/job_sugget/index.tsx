@@ -27,8 +27,6 @@ const JobItem = ({ job }: { job: IJob }) => {
     urgency,
   } = job;
 
-  console.log({ logo });
-
   const {
     saveJobList: { savedList },
   } = useAppSelector((state) => state.userSlice);
