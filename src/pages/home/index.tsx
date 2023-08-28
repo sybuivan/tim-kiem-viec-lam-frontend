@@ -79,7 +79,7 @@ const Home = () => {
             title="Việc làm gợi ý"
           />
         )}
-        <JobList
+        {/* <JobList
           jobList={jobNews.data}
           icon={
             <LightModeOutlined
@@ -90,7 +90,7 @@ const Home = () => {
             />
           }
           title="Việc làm mới đăng"
-        />
+        /> */}
         <ListDiscover
           list={jobTop.data}
           icon={

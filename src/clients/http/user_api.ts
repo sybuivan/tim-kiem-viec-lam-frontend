@@ -16,14 +16,14 @@ export const userApi = {
   login: (payload: IPayloadLogin) => {
     return client.post('/auth/login', payload);
   },
-  getMe: (payload: IPayloadGetMe) => {
-    return client.post('/auth/get-me', payload);
-  },
   loginAdmin: (payload: IPayloadLogin) => {
     return client.post('/auth/admin/login', payload);
   },
   register: (payload: IPayloadRegister) => {
     return client.post<any>('/auth/register', payload);
+  },
+  getMe: (payload: IPayloadGetMe) => {
+    return client.post('/user/get-me', payload);
   },
   updateProfile: (formData: any) => {
     return client.put<any>('/user/update-profile', formData, {
@@ -51,9 +51,7 @@ export const userApi = {
     });
   },
   getProfileCV: (id_user: string) => {
-    return client.get<{ profile_cv: IPayLoadCV[] }>(
-      `/user/get-profile-cv/${id_user}`
-    );
+    return client.get<{ profile_cv: IPayLoadCV[] }>(`/user/get-profile-cv`);
   },
 
   getProfileCVById: (id_profile: string) => {
@@ -82,10 +80,10 @@ export const userApi = {
   },
 
   getAllFollowUser: (id_user: string) => {
-    return client.get(`/user/get-all-follow-user/${id_user}`);
+    return client.get(`/user/get-all-follow-users`);
   },
   getNotification: (id_user: string) => {
-    return client.get(`/user/get-notification/${id_user}`);
+    return client.get(`/user/get-notification`);
   },
   updateNotification: (id_notification: string) => {
     return client.put(`/user/update-notification/${id_notification}`);

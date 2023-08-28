@@ -92,11 +92,11 @@ export const FormSelect = (props: IProps) => {
       return <Loading marginTop={1} />;
     }
 
-    if (options.length === 0) {
+    if (options?.length === 0) {
       return <MenuItem disabled>Không có lựa chọn</MenuItem>;
     }
 
-    return options.map((option, index) => (
+    return options?.map((option, index) => (
       <MenuItem
         key={index}
         disabled={
@@ -150,7 +150,7 @@ export const FormSelect = (props: IProps) => {
           </FormLabel>
           <Select
             // label={label}
-            value={options.length ? value || '' : ''}
+            value={options?.length ? value || '' : ''}
             onChange={(e) => {
               if (_.isEqual(value, e.target.value) || loading) return;
               onChange(e);

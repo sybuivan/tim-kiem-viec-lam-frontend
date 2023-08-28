@@ -1,14 +1,14 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import React from 'react';
-import Slider from 'react-slick';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
-import JobItem from 'src/components/job_item';
+import Slider from 'react-slick';
+import HeadTitle from 'src/components/head_title';
+import EmptyData from 'src/components/empty_data';
 import JobsSlider from 'src/components/jobs_slider';
 import SkeletonJob from 'src/components/skeleton/job';
 import { useGetStatus } from 'src/hooks';
-import { IJob } from 'src/types/job';
 import { useJobSlice } from 'src/hooks/use_job_slice';
-import HeadTitle from 'src/components/head_title';
+import { IJob } from 'src/types/job';
 
 const LIMIT = 15;
 
@@ -68,6 +68,10 @@ const JobList = ({
         </Grid>
       </>
     );
+
+  if (jobList.length < 0)
+    return <EmptyData title="Không có tin tuyển dụng nào" />;
+
   return (
     <Box
       mb={5}
