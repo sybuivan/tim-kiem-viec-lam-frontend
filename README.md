@@ -1,6 +1,7 @@
 ## Project Name: Website tim kiem viec lam tren toan quoc
 
 ## Link source backend: (https://github.com/sybuivan/tim-kiem-viec-lam-backend).
+## Link deploy frontend: (https://tim-kiem-viec-lam-frontend.vercel.app/).
 
 ## Description:
 
