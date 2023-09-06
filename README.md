@@ -2,7 +2,17 @@
 
 ## Link source backend: (https://github.com/sybuivan/tim-kiem-viec-lam-backend).
 ## Link deploy frontend: (https://tim-kiem-viec-lam-frontend.vercel.app/).
-
+   ## Link admin: (https://tim-kiem-viec-lam-frontend.vercel.app/auth/admin/login)
+   ## Info account:
+      - company: 
+         + email: nguyenhoaiduc@gmail.com
+         + password: admin@danateq.vn
+      - admin
+         + email: admin123@gmail.com
+         + password: admin@danateq.vn
+      - user
+         + email: sybuivan1429@gmail.com
+         + password: admin@danateq.vn
 ## Description:
 
 The website provides various features for job seekers, including the ability to create an account and log in, save job listings, follow or unfollow employers, submit job applications, communicate with employers via messaging, and receive notifications from employers. These features make it easy for job seekers to stay updated on job opportunities and connect with potential employers.
