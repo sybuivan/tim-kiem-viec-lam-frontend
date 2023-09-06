@@ -73,7 +73,15 @@ const LoginForm = ({ socket }: { socket: any }) => {
       });
   };
   return (
-    <DialogWrapper modalId={MODAL_IDS.login} minWidth={875}>
+    <DialogWrapper
+      modalId={MODAL_IDS.login}
+      minWidth={875}
+      sx={{
+        [theme.breakpoints.down('md')]: {
+          minWidth: 0,
+        },
+      }}
+    >
       <Box
         display="flex"
         alignItems="center"
@@ -141,7 +149,15 @@ const LoginForm = ({ socket }: { socket: any }) => {
             </Typography>
           </Typography>
         </Box>
-        <Box flex="1" height="395px">
+        <Box
+          flex="1"
+          height="395px"
+          sx={{
+            [theme.breakpoints.down('sm')]: {
+              display: 'none',
+            },
+          }}
+        >
           <img
             width="100%"
             src="https://img.timvieckysu.com/2021/08/quy-trinh-tuyen-dung.jpg"

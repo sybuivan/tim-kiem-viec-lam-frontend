@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios';
 import { Navigate } from 'react-router';
+import { toastMessage } from 'src/utils/toast';
 
 export const getClientToken = (config: any) => {};
 
@@ -40,7 +41,11 @@ export const createClient = (baseURL: string, access?: string) => {
       return config;
     },
     (error) => {
-      return Promise.reject(error);
+      if (axios.isCancel(error)) {
+        toastMessage.error(error.message || 'Lỗi hệ thống!');
+      } else {
+        return Promise.reject(error);
+      }
     }
   );
 
