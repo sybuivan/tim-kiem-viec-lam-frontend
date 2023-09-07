@@ -95,7 +95,7 @@ const CompanyInfo = () => {
             backgroundSize: 'cover',
             backgroundPosition: '50%',
             backgroundImage: `url("${
-              cover_image ||
+              `${baseURL}/${logo}` ||
               'https://cdn1.vieclam24h.vn/images/assets/img/generic_19.jpg'
             }")`,
             borderRadius: '0 0 20px 20px',

@@ -19,7 +19,7 @@ const ServiceDetail = ({
       justifyContent="center"
       alignItems="center"
       flexDirection="column"
-      width="48%"
+      width="100%"
       bgcolor={
         service.id_service === selected.id_service
           ? theme.palette.primary.contrastText
