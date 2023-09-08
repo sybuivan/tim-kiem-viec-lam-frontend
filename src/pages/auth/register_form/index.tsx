@@ -4,8 +4,10 @@ import { Box, Button } from '@mui/material';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { useAppDispatch, useIsRequestPending } from 'src/hooks';
 import { FormInput } from 'src/components/hook_form';
 import { IPayloadRegister } from 'src/types/auth';
+import { LoadingButton } from '@mui/lab';
 
 const initRegisterForm: IPayloadRegister = {
   email: '',
@@ -38,6 +40,8 @@ const RegisterForm = ({
 }: {
   onSubmit: (data: IPayloadRegister) => void;
 }) => {
+  const isLoading = useIsRequestPending('user', 'registerUser');
+
   const { control, handleSubmit } = useForm({
     defaultValues: initRegisterForm,
     resolver: yupResolver(schemaRegister),
@@ -72,9 +76,11 @@ const RegisterForm = ({
         name="confirmPassword"
         label="Nhập lại mật khẩu"
       />
-      <Button
+      <LoadingButton
         onClick={handleSubmit(handleOnSubmit)}
         variant="contained"
+        loading={isLoading}
+        type="submit"
         sx={{
           width: '100%',
           py: 1.5,
@@ -82,7 +88,7 @@ const RegisterForm = ({
         }}
       >
         Đăng ký
-      </Button>
+      </LoadingButton>
     </Box>
   );
 };

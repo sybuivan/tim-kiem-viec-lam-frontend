@@ -70,6 +70,7 @@ const LoginForm = ({ socket }: { socket: any }) => {
       .unwrap()
       .then((data) => {
         toastMessage.success('Đăng ký tài khoản thành công');
+        setIsRegister(false);
       });
   };
   return (
