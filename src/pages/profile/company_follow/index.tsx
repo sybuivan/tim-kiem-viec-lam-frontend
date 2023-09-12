@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography, Grid } from '@mui/material';
 import ProfileHeader from '../../../components/profile_bar/header';
 import Company from './company';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import EmptyData from 'src/components/empty_data';
 import { getAllFollowUser } from 'src/redux_store/user/user_action';
+import theme from 'src/theme';
 
 const CompanyFollow = () => {
   const {
@@ -36,27 +37,30 @@ const CompanyFollow = () => {
             p: 2,
           }}
         >
-          <Box
-            display="flex"
-            gap={5}
+          <Grid
+            container
             sx={{
               borderBottom: '1px solid #adbebf',
               py: 2,
               mb: 2,
+              textAlign: 'center',
+              [theme.breakpoints.down('md')]: {
+                display: 'none',
+              },
             }}
           >
-            <Box flex="0.5">
+            <Grid item lg={6} md={6}>
               <Typography fontWeight="600">Công ty</Typography>
-            </Box>
-            <Box flex="0.2">
+            </Grid>
+            <Grid item lg={2} md={2}>
               <Typography fontWeight="600" textAlign="center">
                 Đang tuyển
               </Typography>
-            </Box>
-            <Box flex="0.35" fontWeight="600">
+            </Grid>
+            <Grid item lg={4} md={4} fontWeight="600">
               Ngày theo dõi
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
           {followers.length > 0 ? (
             followers.map((item) => <Company company={item} />)
           ) : (

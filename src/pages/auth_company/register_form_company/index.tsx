@@ -1,27 +1,25 @@
-import React, { useEffect } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
 import { Box, Typography } from '@mui/material';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { FormInput, FormSelect } from 'src/components/hook_form';
-import { useForm } from 'react-hook-form';
-import theme from 'src/theme';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import { CPersonnelSize } from 'src/constants/common';
+import { schemaRegister } from 'src/constants/schema';
 import {
   useAppDispatch,
   useAppSelector,
   useDelayTimeout,
   useGetStatus,
 } from 'src/hooks';
-import { IPayloadRegisterCompany } from 'src/types/company';
-import { LoadingButton } from '@mui/lab';
 import {
   findCompany,
   registerCompany,
 } from 'src/redux_store/company/company_action';
+import theme from 'src/theme';
+import { IPayloadRegisterCompany } from 'src/types/company';
 import { toastMessage } from 'src/utils/toast';
-import { schemaRegister } from 'src/constants/schema';
 
 const RegisterFormCompany = () => {
   const delay = useDelayTimeout();
@@ -116,7 +114,7 @@ const RegisterFormCompany = () => {
   return (
     <Box
       sx={{
-        width: '35rem',
+        width: '50%',
         borderRadius: 2,
         padding: 3,
         bgcolor: theme.palette.common.white,
@@ -124,6 +122,9 @@ const RegisterFormCompany = () => {
         mt: '1rem',
         '& .MuiFormLabel-asterisk': {
           color: theme.palette.error.main,
+        },
+        [theme.breakpoints.down('md')]: {
+          width: '90%',
         },
       }}
     >

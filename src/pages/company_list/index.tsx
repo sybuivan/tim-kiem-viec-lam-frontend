@@ -16,7 +16,7 @@ const CompanyInfo = ({ company }: { company: ICompany }) => {
   const navigate = useNavigate();
 
   return (
-    <Grid item xs={4} lg={3} md={3} sm={4}>
+    <Grid item lg={3} md={3} sm={6} xs={12}>
       <Box
         bgcolor={theme.palette.common.white}
         sx={{

@@ -15,7 +15,7 @@ export const setClientToken = (token: string) => {
 export const createClient = (baseURL: string, access?: string) => {
   const instance = axios.create({
     baseURL,
-    timeout: 10000,
+    timeout: 100000,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -26,7 +26,21 @@ export const createClient = (baseURL: string, access?: string) => {
       return response;
     },
     (error: AxiosError) => {
-      return Promise.reject(error.response?.data);
+      if (error.response) {
+        // Handle specific HTTP error codes, e.g., unauthorized (401)
+        if (error.response.status === 401) {
+          // Redirect to login page using React Router
+          return Promise.reject(error.response.data);
+        }
+        // Handle other error codes or display a generic error message
+        else {
+          toastMessage.error('Something went wrong');
+          return Promise.reject(error.response.data);
+        }
+      } else {
+        // Handle network errors or other unexpected errors
+        return Promise.reject(error);
+      }
     }
   );
 
@@ -42,7 +56,7 @@ export const createClient = (baseURL: string, access?: string) => {
     },
     (error) => {
       if (axios.isCancel(error)) {
-        toastMessage.error(error.message || 'Lỗi hệ thống!');
+        // toastMessage.error(error.message || 'Lỗi hệ thống!');
       } else {
         return Promise.reject(error);
       }

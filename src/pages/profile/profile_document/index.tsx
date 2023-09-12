@@ -66,12 +66,15 @@ const ProfileDocument = () => {
                 border: '1px solid rgba(234,240,246,1)',
                 px: 2,
                 py: 1,
-                mb: 2,
                 borderRadius: '4px',
                 fontWeight: '600',
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                [theme.breakpoints.down('md')]: {
+                  flexDirection: 'column',
+                  alignItems: 'start',
+                },
               }}
             >
               <Box gap={2} display="flex" alignItems="center">

@@ -47,6 +47,7 @@ const JobItem = (props: IJobItem) => {
     navigate(`/viec-lam/${jobItem.id_job}`);
   };
 
+  console.log(window.innerWidth);
   const renderJobItem = () => {
     if (isPage)
       return (
@@ -76,9 +77,26 @@ const JobItem = (props: IJobItem) => {
                 <Box flex="1">
                   <Box
                     display="flex"
-                    justifyContent="space-between"
                     alignItems="center"
+                    sx={{
+                      [theme.breakpoints.down('sm')]: {
+                        flexDirection: 'column',
+                        alignItems: 'start',
+                      },
+                    }}
                   >
+                    {jobItem.urgency === 1 && (
+                      <Chip
+                        label="Gấp"
+                        sx={{
+                          background: theme.palette.error.main,
+                          color: theme.palette.common.white,
+                          mr: 1,
+                          borderRadius: '10px',
+                          height: '25px',
+                        }}
+                      />
+                    )}
                     <Typography
                       fontWeight="600"
                       sx={{
@@ -87,23 +105,12 @@ const JobItem = (props: IJobItem) => {
                         overflow: 'hidden',
                         fontSize: '15px',
                         margin: 0,
-                        [theme.breakpoints.up('xs')]: {
-                          maxWidth: '300px',
+                        [theme.breakpoints.down('md')]: {
+                          maxWidth: 'none',
+                          whiteSpace: 'pre-wrap',
                         },
                       }}
                     >
-                      {jobItem.urgency === 1 && (
-                        <Chip
-                          label="Gấp"
-                          sx={{
-                            background: theme.palette.error.main,
-                            color: theme.palette.common.white,
-                            mr: 1,
-                            borderRadius: '10px',
-                            height: '25px',
-                          }}
-                        />
-                      )}
                       {jobItem.name_job}
                     </Typography>
                   </Box>
@@ -165,7 +172,7 @@ const JobItem = (props: IJobItem) => {
         </Grid>
       );
     return (
-      <Grid item xs={12} lg={4} md={6} sm={12}>
+      <Grid item lg={4} md={6} sm={12} xs={12}>
         <Box position="relative" m={m}>
           <Box
             sx={{
@@ -191,9 +198,41 @@ const JobItem = (props: IJobItem) => {
               <Box flex="1">
                 <Box
                   display="flex"
-                  justifyContent="space-between"
                   alignItems="center"
+                  gap={1}
+                  sx={{
+                    [theme.breakpoints.down('sm')]: {
+                      flexDirection: 'column',
+                      alignItems: 'start',
+                    },
+                  }}
                 >
+                  {jobItem.urgency === 1 && (
+                    <Chip
+                      label="Gấp"
+                      sx={{
+                        background: theme.palette.error.main,
+                        color: theme.palette.common.white,
+                        mr: 1,
+                        borderRadius: '10px',
+                        height: '25px',
+                      }}
+                      size="small"
+                    />
+                  )}
+                  {jobItem.is_new && (
+                    <Chip
+                      label="Mới"
+                      sx={{
+                        background: theme.palette.success.main,
+                        color: theme.palette.common.white,
+                        mr: 1,
+                        borderRadius: '10px',
+                        height: '25px',
+                      }}
+                      size="small"
+                    />
+                  )}
                   <Typography
                     fontWeight="600"
                     title={jobItem.name_job}
@@ -203,35 +242,13 @@ const JobItem = (props: IJobItem) => {
                       overflow: 'hidden',
                       fontSize: '15px',
                       margin: 0,
-                      maxWidth: '265px',
+                      maxWidth: '225px',
+                      [theme.breakpoints.down('md')]: {
+                        maxWidth: 'none',
+                        whiteSpace: 'pre-wrap',
+                      },
                     }}
                   >
-                    {jobItem.urgency === 1 && (
-                      <Chip
-                        label="Gấp"
-                        sx={{
-                          background: theme.palette.error.main,
-                          color: theme.palette.common.white,
-                          mr: 1,
-                          borderRadius: '10px',
-                          height: '25px',
-                        }}
-                        size="small"
-                      />
-                    )}
-                    {jobItem.is_new && (
-                      <Chip
-                        label="Mới"
-                        sx={{
-                          background: theme.palette.success.main,
-                          color: theme.palette.common.white,
-                          mr: 1,
-                          borderRadius: '10px',
-                          height: '25px',
-                        }}
-                        size="small"
-                      />
-                    )}
                     {jobItem.name_job}
                   </Typography>
                 </Box>
@@ -246,7 +263,7 @@ const JobItem = (props: IJobItem) => {
                     overflow: 'hidden',
                     fontSize: '15px',
                     margin: 0,
-                    maxWidth: '265px',
+                    maxWidth: '225px',
                   }}
                 >
                   {jobItem.name_company}

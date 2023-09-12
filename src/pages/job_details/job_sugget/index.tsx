@@ -57,6 +57,18 @@ const JobItem = ({ job }: { job: IJob }) => {
         <Box display="flex" gap={2}>
           <img width="50" height="50" alt="" src={`${baseURL}/${logo}`} />
           <Box>
+            {urgency === 1 && (
+              <Chip
+                label="Gấp"
+                sx={{
+                  background: theme.palette.error.main,
+                  color: theme.palette.common.white,
+                  mr: 1,
+                  borderRadius: '10px',
+                  height: '25px',
+                }}
+              />
+            )}
             <Typography
               fontWeight="600"
               sx={{
@@ -66,21 +78,13 @@ const JobItem = ({ job }: { job: IJob }) => {
                 fontSize: '15px',
                 margin: 0,
                 maxWidth: '330px',
+                [theme.breakpoints.down('md')]: {
+                  maxWidth: 'none',
+                  whiteSpace: 'pre-wrap',
+                },
               }}
               title={name_job}
             >
-              {urgency === 1 && (
-                <Chip
-                  label="Gấp"
-                  sx={{
-                    background: theme.palette.error.main,
-                    color: theme.palette.common.white,
-                    mr: 1,
-                    borderRadius: '10px',
-                    height: '25px',
-                  }}
-                />
-              )}
               {name_job}
             </Typography>
 

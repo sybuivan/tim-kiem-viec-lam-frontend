@@ -2,27 +2,25 @@ import {
   DateRangeOutlined,
   FavoriteBorderOutlined,
   FavoriteRounded,
-  NotificationsOutlined,
   TimerOutlined,
 } from '@mui/icons-material';
-import { BsFillChatDotsFill } from 'react-icons/bs';
-
 import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
+import { BsFillChatDotsFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 import { socketIo } from 'src/clients/socket';
+import MessageJob from 'src/components/message_job';
+import { baseURL } from 'src/config';
 import { MODAL_IDS } from 'src/constants';
 import { useAppDispatch, useAppSelector, useSaveJob } from 'src/hooks';
 import LoginForm from 'src/pages/auth/login_form';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
+import { IMessageJob } from 'src/types/chat';
 import { IJob } from 'src/types/job';
 import { checkIsApply, checkIsSaveJob } from 'src/utils/common';
 import ApplyModal from '../apply_modal';
-import { IMessageJob } from 'src/types/chat';
-import MessageJob from 'src/components/message_job';
-import { baseURL } from 'src/config';
 
 const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
   const {
@@ -160,7 +158,15 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
           </Box>
         </Box>
 
-        <Box display="flex" gap={2}>
+        <Box
+          display="flex"
+          gap={2}
+          sx={{
+            [theme.breakpoints.down('sm')]: {
+              flexDirection: 'column',
+            },
+          }}
+        >
           {checkIsApply(data, jobDetail.id_job) ? (
             <Box
               sx={{

@@ -1,29 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getLocal, token } from 'src/constants/localstoge';
 import { IJob } from 'src/types/job';
 import {
-  IPayLoadCV,
-  ISavedList,
   IFollowList,
   INotification,
+  IPayLoadCV,
+  ISavedList,
 } from 'src/types/user';
 import {
-  loginUser,
-  loginAdmin,
-  getMeUser,
-  saveJob,
-  updateProfile,
-  getSavedListByUser,
   createCV,
-  getProfileCV,
-  getAllFollowUser,
-  unFollowCompany,
-  getNotification,
-  updateNotification,
   deleteNotification,
-  getSuggetJobForYou,
-  updateIsPublicCV,
+  getAllFollowUser,
+  getMeUser,
+  getNotification,
+  getProfileCV,
   getProfileCVById,
+  getSavedListByUser,
+  getSuggetJobForYou,
+  loginAdmin,
+  loginUser,
+  saveJob,
+  unFollowCompany,
+  updateIsPublicCV,
+  updateNotification,
+  updateProfile,
 } from './user_action';
 
 interface IUserSlice {
@@ -146,7 +145,6 @@ const userSlice = createSlice({
         state.jobSuggets = jobSuggets;
         state.notification = notification;
         localStorage.setItem('user_account', JSON.stringify(users));
-        localStorage.setItem('token', accessToken);
       })
       .addCase(loginAdmin.fulfilled, (state, action) => {
         const { users, accessToken } = action.payload;

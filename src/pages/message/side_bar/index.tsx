@@ -43,7 +43,14 @@ export const SideBar = () => {
         Danh sách tin nhắn
       </Box>
 
-      <List sx={{ height: '100vh' }}>
+      <List
+        sx={{
+          height: '100vh',
+          [theme.breakpoints.down('sm')]: {
+            height: '200px',
+          },
+        }}
+      >
         <Scrollbars>
           {rooms.length > 0 ? (
             rooms.map((room) => <MessageCard key={room.id_room} room={room} />)

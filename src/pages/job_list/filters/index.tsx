@@ -94,8 +94,8 @@ const JobListFilters = ({
       mt={2}
       position="relative"
     >
-      <Grid container gap={2} alignItems="center">
-        <Grid item lg={2.5} md={2.5}>
+      <Grid container columnSpacing={2} alignItems="center">
+        <Grid item lg={2.5} md={2.5} sm={4} xs={12}>
           <FormInput
             control={control}
             name="keyword"
@@ -108,7 +108,7 @@ const JobListFilters = ({
           />
         </Grid>
 
-        <Grid item lg={2.5} md={2.5}>
+        <Grid item lg={2.5} md={2.5} sm={4} xs={12}>
           <FormSelect
             control={control}
             name="companyfield"
@@ -124,7 +124,7 @@ const JobListFilters = ({
           />
         </Grid>
 
-        <Grid item lg={2.5} md={2.5}>
+        <Grid item lg={2.5} md={2.5} sm={4} xs={12}>
           <FormSelect
             control={control}
             name="city"
@@ -182,91 +182,110 @@ const JobListFilters = ({
         </Grid>
       </Grid>
       {isOpenFilters && (
-        <Box
-          display="flex"
+        <Grid
           bgcolor={theme.palette.common.white}
           borderRadius="10px"
-          alignItems="center"
           padding={1}
           position="absolute"
           bottom="-50px"
           boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-          gap={1}
-          width="99%"
+          columnSpacing={1}
+          width="100%"
           left={0}
-          flexWrap="wrap"
+          container
+          alignItems="center"
+          sx={{
+            [theme.breakpoints.down('md')]: {
+              position: 'static',
+              mt: '1rem',
+            },
+          }}
         >
-          <Typography>Lọc nâng cao:</Typography>
-          <Box display="flex" gap={1} flex={1}>
-            <FormSelect
-              control={control}
-              name="id_experience"
-              placeholder="Tất cả kinh nghiệm"
-              options={experiencefield}
-              keyOption="id_experience"
-              labelOption="name_experience"
-              sx={{
-                backgroundColor: theme.palette.common.white,
-                borderRadius: '4px',
-              }}
-              handleChange={handleOnChange}
-            />
-            <FormSelect
-              control={control}
-              name="id_range"
-              placeholder="Tất cả mức lương"
-              options={rangewagefield}
-              keyOption="id_range"
-              labelOption="name_range"
-              sx={{
-                backgroundColor: theme.palette.common.white,
-                borderRadius: '4px',
-                color: theme.palette.common.white,
-              }}
-              handleChange={handleOnChange}
-            />
-            <FormSelect
-              control={control}
-              name="id_rank"
-              placeholder="Tất cả cấp bậc"
-              options={typerankfield}
-              keyOption="id_rank"
-              labelOption="name_rank"
-              sx={{
-                backgroundColor: theme.palette.common.white,
-                borderRadius: '4px',
-              }}
-              handleChange={handleOnChange}
-            />
+          <Grid item lg={1} md={1} sm={12}>
+            <Typography>Lọc nâng cao:</Typography>
+          </Grid>
+          <Grid item lg={10} md={10} sm={12}>
+            <Grid container columnSpacing={1}>
+              <Grid item lg={2.4} md={2.4} sm={6} xs={12}>
+                <FormSelect
+                  control={control}
+                  name="id_experience"
+                  placeholder="Tất cả kinh nghiệm"
+                  options={experiencefield}
+                  keyOption="id_experience"
+                  labelOption="name_experience"
+                  sx={{
+                    backgroundColor: theme.palette.common.white,
+                    borderRadius: '4px',
+                  }}
+                  handleChange={handleOnChange}
+                />
+              </Grid>
+              <Grid item lg={2.4} md={2.4} sm={6} xs={12}>
+                <FormSelect
+                  control={control}
+                  name="id_range"
+                  placeholder="Tất cả mức lương"
+                  options={rangewagefield}
+                  keyOption="id_range"
+                  labelOption="name_range"
+                  sx={{
+                    backgroundColor: theme.palette.common.white,
+                    borderRadius: '4px',
+                    color: theme.palette.common.white,
+                  }}
+                  handleChange={handleOnChange}
+                />
+              </Grid>
 
-            <FormSelect
-              control={control}
-              name="id_working_form"
-              placeholder="Loại công việc"
-              options={workingformfield}
-              keyOption="id_working_form"
-              labelOption="name_working_form"
-              sx={{
-                backgroundColor: theme.palette.common.white,
-                borderRadius: '4px',
-              }}
-              handleChange={handleOnChange}
-            />
-            <FormSelect
-              control={control}
-              name="created"
-              placeholder="Ngày đăng"
-              options={optionTimes}
-              keyOption="id_created"
-              labelOption="name_created"
-              sx={{
-                backgroundColor: theme.palette.common.white,
-                borderRadius: '4px',
-              }}
-              handleChange={handleOnChange}
-            />
-          </Box>
-          <Box display="flex">
+              <Grid item lg={2.4} md={2.4} sm={6} xs={12}>
+                <FormSelect
+                  control={control}
+                  name="id_rank"
+                  placeholder="Tất cả cấp bậc"
+                  options={typerankfield}
+                  keyOption="id_rank"
+                  labelOption="name_rank"
+                  sx={{
+                    backgroundColor: theme.palette.common.white,
+                    borderRadius: '4px',
+                  }}
+                  handleChange={handleOnChange}
+                />
+              </Grid>
+              <Grid item lg={2.4} md={2.4} sm={6} xs={12}>
+                <FormSelect
+                  control={control}
+                  name="id_working_form"
+                  placeholder="Loại công việc"
+                  options={workingformfield}
+                  keyOption="id_working_form"
+                  labelOption="name_working_form"
+                  sx={{
+                    backgroundColor: theme.palette.common.white,
+                    borderRadius: '4px',
+                  }}
+                  handleChange={handleOnChange}
+                />
+              </Grid>
+              <Grid item lg={2.4} md={2.4} sm={6} xs={12}>
+                <FormSelect
+                  control={control}
+                  name="created"
+                  placeholder="Ngày đăng"
+                  options={optionTimes}
+                  keyOption="id_created"
+                  labelOption="name_created"
+                  sx={{
+                    backgroundColor: theme.palette.common.white,
+                    borderRadius: '4px',
+                  }}
+                  handleChange={handleOnChange}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item lg={1} md={1} sm={12} display="flex" alignItems="center">
             <Box
               sx={{
                 color: theme.palette.error.main,
@@ -290,8 +309,8 @@ const JobListFilters = ({
             >
               Đóng
             </Box>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       )}
     </Box>
   );

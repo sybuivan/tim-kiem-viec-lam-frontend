@@ -44,5 +44,8 @@ export const useStyles = makeStyles({
     width: '100%',
     margin: 'auto',
     bottom: '140px',
+    [theme.breakpoints.down('sm')]: {
+      bottom: '1rem!important',
+    },
   },
 });

@@ -1,9 +1,11 @@
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import React, { useEffect, useRef } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Outlet, useLocation, useParams } from 'react-router';
+import VerticalAlignTopOutlinedIcon from '@mui/icons-material/VerticalAlignTopOutlined';
 import Header from 'src/components/header';
 import Footer from 'src/components/footer';
+import theme from 'src/theme';
 
 const MainLayout = () => {
   const location = useLocation();
@@ -47,6 +49,31 @@ const MainLayout = () => {
           {!isShow && <Footer />}
         </Scrollbars>
       </Box>
+      <IconButton
+        onClick={() => {
+          refScroll.current?.scrollToTop({
+            behavior: 'smooth',
+            block: 'start',
+          });
+        }}
+        sx={{
+          position: 'fixed',
+          zIndex: 1000,
+          bottom: '3rem',
+          fontSize: '3rem',
+          right: '3rem',
+          background: theme.palette.primary.main,
+          color: theme.palette.common.white,
+          '&:hover': {
+            background: theme.palette.primary.main,
+            color: theme.palette.common.white,
+          },
+          // display: `${window.scrollY > 90 ? 'block' : 'none'}`,
+          // display: 'block',
+        }}
+      >
+        <VerticalAlignTopOutlinedIcon />
+      </IconButton>
     </Box>
   );
 };

@@ -1,39 +1,52 @@
-import { KeyboardArrowDown } from '@mui/icons-material';
-import { LocationCity, NotificationsNoneOutlined } from '@mui/icons-material';
+import {
+  KeyboardArrowDown,
+  LocationCity,
+  LogoutOutlined,
+  NotificationsNoneOutlined,
+  PersonOutlineOutlined,
+} from '@mui/icons-material';
+import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
+import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 import {
   Avatar,
   Badge,
   Box,
   Container,
+  Divider,
+  Drawer,
   IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
   Menu,
   MenuItem,
   Tooltip,
   Typography,
 } from '@mui/material';
+import React, { useState } from 'react';
 import { BsFillChatDotsFill } from 'react-icons/bs';
-import React, { useMemo } from 'react';
-import Groups2OutlinedIcon from '@mui/icons-material/Groups2Outlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { PersonOutlineOutlined, LogoutOutlined } from '@mui/icons-material';
+import { BiLogInCircle } from 'react-icons/bi';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from 'src/assets/images/logo.png';
+import { socketIo } from 'src/clients/socket';
+import { baseURL } from 'src/config';
 import { MODAL_IDS } from 'src/constants';
+import { CPathRouter } from 'src/constants/common';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import LoginForm from 'src/pages/auth/login_form';
-import { openModal } from 'src/redux_store/common/modal/modal_slice';
-import theme from 'src/theme';
-import useStyles from './styles';
-import { logout, resetStateUser } from 'src/redux_store/user/user_slice';
-import { logoutCompany } from 'src/redux_store/company/company_slices';
-import { resetState } from 'src/redux_store/auth/authSlice';
 import { resetApplyData } from 'src/redux_store/apply/apply_slice';
-import { checkRoleCompany, checkRoleUser } from 'src/utils/common';
-import { socketIo } from 'src/clients/socket';
+import { resetState } from 'src/redux_store/auth/authSlice';
+import { openModal } from 'src/redux_store/common/modal/modal_slice';
+import { logout, resetStateUser } from 'src/redux_store/user/user_slice';
+import theme from 'src/theme';
+import { checkRoleUser } from 'src/utils/common';
 import Notification from '../notification';
-import { baseURL } from 'src/config';
+import useStyles from './styles';
 
-const settings: {
+export const settings: {
   icon: any;
   title: string;
   path?: string;
@@ -44,44 +57,29 @@ const settings: {
     path: '/thong-tin-ca-nhan',
   },
   {
-    icon: <LogoutOutlined />,
-    title: 'Đăng xuất',
+    icon: <ChatBubbleOutlineOutlinedIcon />,
+    title: 'Tin nhắn',
+    path: '/users/message',
   },
-];
-const settingsCompany: {
-  icon: any;
-  title: string;
-}[] = [
   {
     icon: <LogoutOutlined />,
     title: 'Đăng xuất',
-  },
-];
-
-const CPathRouter = [
-  {
-    path: '/co-hoi-viec-lam',
-    title: 'Cơ hội việc làm',
-  },
-  {
-    path: '/danh-sach-cong-ty',
-    title: 'Công ty',
-  },
-  {
-    path: '/tin-tuc',
-    title: 'Tin tức',
   },
 ];
 
 const Header = () => {
+  const location = useLocation();
   const {
     notification: { total_notification },
   } = useAppSelector((state) => state.userSlice);
 
   const { me, token } = useAppSelector((state) => state.authSlice);
 
-  const [anchorNotifi, setAnchorNotifi] =
-    React.useState<HTMLButtonElement | null>(null);
+  const [anchorNotifi, setAnchorNotifi] = useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const [openSideBar, setOpenSidebar] = useState<boolean>(false);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorNotifi(event.currentTarget);
@@ -117,8 +115,109 @@ const Header = () => {
     );
   };
 
-  const location = useLocation();
+  const toggleDrawer =
+    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
 
+      setOpenSidebar(open);
+    };
+  const list = () => (
+    <Box
+      sx={{ width: 300 }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List>
+        {CPathRouter.map((item, index) => (
+          <ListItem
+            key={item.title}
+            disablePadding
+            onClick={() => navigate(`${item.path}`)}
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <ArrowRightOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={item.title}
+                sx={{
+                  '& span': {
+                    fontSize: '16px',
+                  },
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <List>
+        {token ? (
+          <>
+            {settings.map((item, index) => (
+              <ListItem
+                key={index}
+                disablePadding
+                onClick={() => navigate(`${item.path}`)}
+              >
+                <ListItemButton>
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText
+                    primary={item.title}
+                    sx={{
+                      '& span': {
+                        fontSize: '16px',
+                      },
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </>
+        ) : (
+          <>
+            <ListItem disablePadding onClick={handleOpenClick}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <BiLogInCircle fontSize="1.8rem" />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Đăng nhập/ Đăng ký"
+                  sx={{
+                    '& span': {
+                      fontSize: '16px',
+                    },
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding onClick={() => navigate('/company')}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <LocationCity />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Đăng ký nhà tuyển dụng"
+                  sx={{
+                    '& span': {
+                      fontSize: '16px',
+                    },
+                  }}
+                />
+              </ListItemButton>
+            </ListItem>
+          </>
+        )}
+      </List>
+    </Box>
+  );
   return (
     <Box bgcolor={theme.palette.primary.main} height={70} width="100%">
       <Container
@@ -175,7 +274,13 @@ const Header = () => {
               ))}
             </ul>
           </Box>
-          <Box display="flex" justifyContent="flex-end" gap="30px" flex="1">
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            gap="30px"
+            flex="1"
+            alignItems="center"
+          >
             {checkRoleUser(me?.id_role, token) ? (
               <>
                 <Box
@@ -283,7 +388,6 @@ const Header = () => {
                             dispatch(resetStateUser());
                             dispatch(resetState());
                             setAnchorElUser(null);
-                            // navigate('/');
                           }
                         }}
                       >
@@ -297,7 +401,14 @@ const Header = () => {
                 </Box>
               </>
             ) : (
-              <Box display="flex">
+              <Box
+                display="flex"
+                sx={{
+                  [theme.breakpoints.down('sm')]: {
+                    display: 'none',
+                  },
+                }}
+              >
                 <Box
                   display="flex"
                   alignItems="center"
@@ -330,6 +441,9 @@ const Header = () => {
                 '& p': {
                   fontWeight: 600,
                 },
+                [theme.breakpoints.down('sm')]: {
+                  display: 'none',
+                },
               }}
               color={theme.palette.common.white}
               onClick={() => navigate('/company')}
@@ -340,227 +454,31 @@ const Header = () => {
                 <Typography>Đăng ký</Typography>
               </Box>
             </Box>
-          </Box>
-        </Box>
-      </Container>
-    </Box>
-  );
-};
-
-export const HeaderCompany = () => {
-  const { me, token } = useAppSelector((state) => state.authSlice);
-  const [anchorNotifi, setAnchorNotifi] =
-    React.useState<HTMLButtonElement | null>(null);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const classes = useStyles();
-  const open = Boolean(anchorNotifi);
-  const id = open ? 'simple-popover' : undefined;
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorNotifi(event.currentTarget);
-  };
-  const {
-    notification: { total_notification },
-  } = useAppSelector((state) => state.userSlice);
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleClose = () => {
-    setAnchorNotifi(null);
-  };
-  return (
-    <Box bgcolor={theme.palette.primary.main} height={70} width="100%">
-      <Container
-        sx={{
-          height: '100%',
-          minWidth: '1300px',
-        }}
-      >
-        <Box
-          display="flex"
-          alignItems="center"
-          height="100%"
-          sx={{
-            '& a': {
-              color: theme.palette.common.white,
-              fontWeight: 600,
-            },
-          }}
-        >
-          <Box mr={5}>
-            <Link to="/">
-              <img src={logo} alt="logo" width="100" height="60" />
-            </Link>
-          </Box>
-
-          <Box display="flex" justifyContent="flex-end" gap="20px" flex="1">
-            {checkRoleCompany(me?.id_role, token) && (
-              <>
-                <Box
-                  display="flex"
-                  color={theme.palette.common.white}
-                  alignItems="center"
-                  gap={1}
-                  sx={{
-                    cursor: 'pointer',
-                    '& p': {
-                      fontWeight: 600,
-                    },
-                  }}
-                >
-                  <IconButton aria-describedby={id} onClick={handleClick}>
-                    <Badge badgeContent={total_notification} color="error">
-                      <NotificationsNoneOutlined
-                        color="action"
-                        sx={{
-                          color: theme.palette.common.white,
-                        }}
-                      />
-                    </Badge>
-                  </IconButton>
-                  <Notification
-                    open={open}
-                    id={id}
-                    handleClose={handleClose}
-                    anchorEl={anchorNotifi}
-                  />
-                </Box>
-                <Box
-                  onClick={() => navigate('/company/message')}
-                  display="flex"
-                  color={theme.palette.common.white}
-                  alignItems="center"
-                  gap={1}
-                  sx={{
-                    cursor: 'pointer',
-                    '& p': {
-                      fontWeight: 600,
-                    },
-                  }}
-                >
-                  <Badge color="error">
-                    <BsFillChatDotsFill
-                      style={{
-                        fontSize: '25px',
-                      }}
-                    />
-                  </Badge>
-                </Box>
-              </>
-            )}
-
-            {checkRoleCompany(me?.id_role, token) ? (
-              <Box sx={{ flexGrow: 0 }}>
-                <Tooltip title="Quản lý tài khoản">
-                  <IconButton
-                    onClick={handleOpenUserMenu}
-                    sx={{ p: 0, color: theme.palette.common.white }}
-                  >
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={
-                        `${baseURL}/${me?.logo}` ||
-                        '/static/images/avatar/2.jpg'
-                      }
-                    />
-                    <Typography ml={1} fontWeight="600">
-                      {me?.fullName}
-                    </Typography>
-                    <KeyboardArrowDown />
-                  </IconButton>
-                </Tooltip>
-                <Menu
-                  sx={{ mt: '45px' }}
-                  id="menu-appbar"
-                  anchorEl={anchorElUser}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={Boolean(anchorElUser)}
-                  onClose={handleCloseUserMenu}
-                >
-                  {settingsCompany.map((setting) => (
-                    <MenuItem
-                      key={setting.title}
-                      onClick={handleCloseUserMenu}
-                      onClickCapture={() => {
-                        dispatch(logoutCompany(''));
-                        setAnchorElUser(null);
-                        dispatch(resetState());
-                      }}
-                    >
-                      {setting.icon}
-                      <Typography textAlign="center">
-                        {setting.title}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
-            ) : (
-              <Box display="flex">
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  gap={1}
-                  className={classes.liItem}
-                  sx={{
-                    borderRight: '1px solid #fff',
-                  }}
-                >
-                  <Typography
-                    fontWeight="600"
-                    fontSize="16px"
-                    color={theme.palette.common.white}
-                  >
-                    Đăng nhập
-                  </Typography>
-                  <AccountCircleOutlinedIcon
-                    sx={{
-                      color: theme.palette.common.white,
-                    }}
-                  />
-                </Box>
-
-                <Box
-                  display="flex"
-                  alignItems="center"
-                  gap={1}
-                  sx={{
-                    cursor: 'pointer',
-                    pl: 1,
-                  }}
-                  onClick={() => navigate('/')}
-                >
-                  <Groups2OutlinedIcon
-                    sx={{
-                      color: theme.palette.primary.contrastText,
-                    }}
-                  />
-                  <Typography
-                    fontWeight="600"
-                    fontSize="16px"
-                    color={theme.palette.common.white}
-                  >
-                    Người tìm việc
-                  </Typography>
-                </Box>
-              </Box>
-            )}
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="end"
+              onClick={toggleDrawer(true)}
+              sx={{
+                [theme.breakpoints.up('sm')]: {
+                  display: 'none',
+                },
+              }}
+            >
+              <WidgetsOutlinedIcon
+                sx={{
+                  color: theme.palette.common.white,
+                  fontSize: '2.5rem',
+                }}
+              />
+            </IconButton>
+            <Drawer
+              anchor="right"
+              open={openSideBar}
+              onClose={toggleDrawer(false)}
+            >
+              {list()}
+            </Drawer>
           </Box>
         </Box>
       </Container>

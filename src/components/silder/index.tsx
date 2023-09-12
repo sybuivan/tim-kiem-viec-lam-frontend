@@ -42,8 +42,8 @@ const SliderService = () => {
   return (
     <Box
       sx={{
-        width: '500px',
-        backgroundColor: "rgba(0,0,0,.24)",
+        width: '50%',
+        backgroundColor: 'rgba(0,0,0,.24)',
         borderRadius: 1,
         padding: 2,
         border: '1px solid #c1c1c1',
@@ -54,7 +54,12 @@ const SliderService = () => {
         top: '50%',
         transform: 'translateY(-50%)',
         left: '30px',
-  backdropFilter: "blur(48px)",
+        backdropFilter: 'blur(48px)',
+        [theme.breakpoints.down('sm')]: {
+          width: '90%',
+          left: '50%',
+          transform: 'translate(-50%,-50%)',
+        },
       }}
     >
       <Box
@@ -150,9 +155,11 @@ const SliderHome = () => {
     slidesToScroll: 1,
   };
   return (
-    <Box sx={{
-      mt: 1
-    }}>
+    <Box
+      sx={{
+        mt: 1,
+      }}
+    >
       <Slider {...settings}>
         <div>
           <Box
@@ -179,7 +186,7 @@ const SliderHome = () => {
         <div>
           <Box
             sx={{
-             borderRadius: '10px',
+              borderRadius: '10px',
               backgroundPosition: 'center',
               backgroundSize: 'contain',
               backgroundRepeat: 'no-repeat',

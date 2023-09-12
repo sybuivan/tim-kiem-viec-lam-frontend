@@ -121,6 +121,9 @@ const ApplyModal = ({
         '& h2': {
           marginBottom: '16px!important',
         },
+        [theme.breakpoints.down('sm')]: {
+          width: '100%',
+        },
       }}
     >
       <BootstrapDialogTitle onClose={handleCloseModal}>

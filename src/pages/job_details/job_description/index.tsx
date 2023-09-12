@@ -122,7 +122,16 @@ const JobDescription = ({ job }: { job: IJob }) => {
         <HTMLString html={benefits_job} />
       </Box>
 
-      <Box display="flex" gap={2} py={4}>
+      <Box
+        display="flex"
+        gap={2}
+        py={4}
+        sx={{
+          [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column',
+          },
+        }}
+      >
         {checkIsApply(data, id_job) ? (
           <Box
             sx={{

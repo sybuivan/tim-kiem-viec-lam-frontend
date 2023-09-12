@@ -10,16 +10,16 @@ const Footer = () => {
       <Container
         sx={{
           height: '100%',
-          minWidth: '1300px',
+          // minWidth: '1300px',
         }}
       >
-        <Grid container>
-          <Grid item xs={3}>
+        <Grid container spacing={1}>
+          <Grid item lg={3} md={2} sm={2} xs={12}>
             <div>
               <img src={LOGO} alt="" className={styles.image} />
             </div>
           </Grid>
-          <Grid xs={5}>
+          <Grid item lg={5} md={4} sm={6} xs={12}>
             <div>
               <ul className={styles.listFooter}>
                 <li>
@@ -42,7 +42,7 @@ const Footer = () => {
               </ul>
             </div>
           </Grid>
-          <Grid xs={2}>
+          <Grid item lg={2} md={4} sm={4} xs={12}>
             <div>
               <ul className={styles.listFooter}>
                 <li>Liên hệ</li>
@@ -52,14 +52,14 @@ const Footer = () => {
               </ul>
             </div>
           </Grid>
-          <Grid xs={2}>
+          <Grid item lg={2} md={2} sm={6} xs={12}>
             <ul className={styles.listFooter}>
               <li>
                 <h4 style={{ margin: 0 }}>Kết nối với chúng tôi</h4>
               </li>
             </ul>
 
-            <img src={FOOTERS} alt="" width="100%" />
+            <img src={FOOTERS} alt="" width="50%" />
           </Grid>
         </Grid>
       </Container>

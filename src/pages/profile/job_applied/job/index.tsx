@@ -1,15 +1,10 @@
-import React from 'react';
+import { Box, Chip, Grid, Typography } from '@mui/material';
 import moment from 'moment';
+import React from 'react';
 import { useNavigate } from 'react-router';
-import { Box, Typography, Chip } from '@mui/material';
-
-import { IApply } from 'src/types/apply';
-import {
-  renderLabelStatus,
-  renderColorStatus,
-  renderColorText,
-} from 'src/utils/function';
 import theme from 'src/theme';
+import { IApply } from 'src/types/apply';
+import { renderColorStatus, renderLabelStatus } from 'src/utils/function';
 
 const JobSave = ({ job }: { job: IApply }) => {
   const {
@@ -30,22 +25,27 @@ const JobSave = ({ job }: { job: IApply }) => {
         '&:last-child': {
           borderBottom: 'none',
         },
+        [theme.breakpoints.down('lg')]: {
+          py: 2,
+        },
       }}
     >
-      <Box display="flex" gap={5} alignItems="center">
-        <Box flex="0.5" display="flex" gap={2}>
+      <Grid container spacing={2} ml={0} alignItems="center">
+        <Grid item lg={4} md={4} sm={12} xs={12}>
           <Box>
             <Typography
               fontWeight="600"
               py={0.5}
               sx={{
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                fontSize: '14px',
-                margin: 0,
-                maxWidth: '330px',
-                cursor: 'pointer',
+                [theme.breakpoints.up('lg')]: {
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  fontSize: '14px',
+                  margin: 0,
+                  maxWidth: '330px',
+                  cursor: 'pointer',
+                },
               }}
               onClick={() => {
                 navigate(`/viec-lam/${id_job}`);
@@ -57,13 +57,15 @@ const JobSave = ({ job }: { job: IApply }) => {
               title="Tầng 15, Tòa nhà Centec, 72 -74 Nguyễn Thị Minh Khai, Phường Võ Thị
           Sáu, Quận 3, Thành Phố Hồ Chí Minh, Việt Nam"
               sx={{
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
-                fontSize: '14px',
-                margin: 0,
-                maxWidth: '330px',
-                cursor: 'pointer',
+                [theme.breakpoints.up('lg')]: {
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  fontSize: '14px',
+                  margin: 0,
+                  maxWidth: '330px',
+                  cursor: 'pointer',
+                },
               }}
               py={0.5}
               onClick={() => {
@@ -73,22 +75,40 @@ const JobSave = ({ job }: { job: IApply }) => {
               {name_company}
             </Typography>
           </Box>
-        </Box>
+        </Grid>
 
-        <Box flex="0.2">
-          <Typography pl="15px">Hồ sơ đính kèm</Typography>
-        </Box>
-        <Box flex="0.2">
-          <Typography pl="5px">
-            {moment(created_at).format('DD/MM/YYYY')}
+        <Grid item lg={2} md={2} sm={12} xs={12}>
+          <Typography>Hồ sơ đính kèm</Typography>
+        </Grid>
+        <Grid item lg={2} md={2} sm={6} xs={12} display="flex" gap={1}>
+          <Typography
+            sx={{
+              display: 'none',
+              fontWeight: '600',
+              [theme.breakpoints.down('md')]: {
+                display: 'block',
+              },
+            }}
+          >
+            Ngày nộp:
           </Typography>
-        </Box>
-        <Box flex="0.2">
-          <Typography pl="5px">
-            {moment(deadline).format('DD/MM/YYYY')}
-          </Typography>{' '}
-        </Box>
-        <Box flex="0.2">
+          <Typography>{moment(created_at).format('DD/MM/YYYY')}</Typography>
+        </Grid>
+        <Grid item lg={2} md={2} sm={6} xs={12} display="flex" gap={1}>
+          <Typography
+            sx={{
+              display: 'none',
+              fontWeight: '600',
+              [theme.breakpoints.down('md')]: {
+                display: 'block',
+              },
+            }}
+          >
+            Hạn nộp:
+          </Typography>
+          <Typography>{moment(deadline).format('DD/MM/YYYY')}</Typography>{' '}
+        </Grid>
+        <Grid item lg={2} md={2} sm={6} xs={12}>
           <Chip
             variant="outlined"
             label={renderLabelStatus(status)}
@@ -100,8 +120,8 @@ const JobSave = ({ job }: { job: IApply }) => {
                   : theme.palette.common.white,
             }}
           />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

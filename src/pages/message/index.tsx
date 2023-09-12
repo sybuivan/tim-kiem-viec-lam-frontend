@@ -5,6 +5,7 @@ import { Outlet } from 'react-router';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { getRoom } from 'src/redux_store/chat/chat_actions';
 import { SideBar } from './side_bar';
+import theme from 'src/theme';
 
 const Message = () => {
   const dispatch = useAppDispatch();
@@ -31,12 +32,15 @@ const Message = () => {
           paddingLeft: '0!important',
           overflowY: 'hidden',
           minHeight: '30px',
+          [theme.breakpoints.down('sm')]: {
+            overflowY: 'auto',
+          },
         }}
       >
-        <Grid item xs={3.5}>
+        <Grid item lg={3.5} md={4} sm={5} xs={12}>
           <SideBar />
         </Grid>
-        <Grid item xs={8.5}>
+        <Grid item lg={8.5} md={8} sm={6} xs={12}>
           <Outlet />
         </Grid>
       </Grid>

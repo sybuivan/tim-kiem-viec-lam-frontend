@@ -1,11 +1,12 @@
 import React from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Grid, Typography, Button, Box } from '@mui/material';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'src/hooks';
 import { unFollowCompany } from 'src/redux_store/user/user_action';
 import { IFollowCompany } from 'src/types/user';
 import { baseURL } from 'src/config';
+import theme from 'src/theme';
 
 const Company = ({ company }: { company: IFollowCompany }) => {
   const {
@@ -35,10 +36,13 @@ const Company = ({ company }: { company: IFollowCompany }) => {
         '&:last-child': {
           borderBottom: 'none',
         },
+        [theme.breakpoints.down('md')]: {
+          py: 1,
+        },
       }}
     >
-      <Box display="flex" gap={5} alignItems="center">
-        <Box flex="0.7" display="flex" gap={2}>
+      <Grid container alignItems="center" rowSpacing={1}>
+        <Grid item lg={6} md={6} sm={8} xs={12} display="flex" gap={1}>
           <img
             src={`${baseURL}/${company.logo}`}
             alt=""
@@ -56,13 +60,15 @@ const Company = ({ company }: { company: IFollowCompany }) => {
               fontWeight="600"
               py={0.5}
               sx={{
-                whiteSpace: 'nowrap',
-                textOverflow: 'ellipsis',
-                overflow: 'hidden',
                 fontSize: '15px',
-                margin: 0,
-                maxWidth: '330px',
                 cursor: 'pointer',
+                margin: 0,
+                [theme.breakpoints.up('lg')]: {
+                  whiteSpace: 'nowrap',
+                  textOverflow: 'ellipsis',
+                  overflow: 'hidden',
+                  maxWidth: '330px',
+                },
               }}
               onClick={handleOnNavigate}
             >
@@ -84,24 +90,30 @@ const Company = ({ company }: { company: IFollowCompany }) => {
             </Typography>
             <Typography>Trên {company.total_people} người</Typography>
           </Box>
-        </Box>
+        </Grid>
 
-        <Box flex="0.2">
+        <Grid item lg={2} md={2} sm={4} xs={12} display="flex">
+          <Typography fontWeight="600" textAlign="center">
+            Đang tuyển:
+          </Typography>
           <Typography pl="15px" fontWeight="600">
             {company.total} vị trí
           </Typography>
-        </Box>
-        <Box flex="0.2">
+        </Grid>
+        <Grid item lg={2} md={2} sm={6} xs={12} display="flex">
+          <Typography fontWeight="600" textAlign="center">
+            Ngày theo dõi:{' '}
+          </Typography>
           <Typography pl="10px">
             {moment(company.created_at).format('DD/MM/YYYY')}
           </Typography>
-        </Box>
-        <Box flex="0.2">
+        </Grid>
+        <Grid item lg={2} md={2} sm={6} xs={12}>
           <Button variant="outlined" onClick={handleUnFollow}>
             Hủy theo dõi
           </Button>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

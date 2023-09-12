@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Outlet } from 'react-router';
-import { HeaderCompany } from 'src/components/header';
+import { HeaderCompany } from 'src/components/header_company';
 
 const CompanyLayout = () => {
   return (

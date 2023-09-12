@@ -88,8 +88,8 @@ const CompanyInfo = () => {
       }}
     >
       <Box position="relative">
-        <div
-          style={{
+        <Box
+          sx={{
             width: '100%',
             height: '300px',
             backgroundSize: 'cover',
@@ -99,8 +99,10 @@ const CompanyInfo = () => {
               'https://cdn1.vieclam24h.vn/images/assets/img/generic_19.jpg'
             }")`,
             borderRadius: '0 0 20px 20px',
+            borderBottom: '1px solid #c1c1c1',
+            mb: 2,
           }}
-        ></div>
+        ></Box>
 
         <Container
           sx={{

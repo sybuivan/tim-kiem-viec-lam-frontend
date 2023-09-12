@@ -49,3 +49,18 @@ export const COptionStatusApply = [
 
 export const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+export const CPathRouter = [
+  {
+    path: '/co-hoi-viec-lam',
+    title: 'Cơ hội việc làm',
+  },
+  {
+    path: '/danh-sach-cong-ty',
+    title: 'Công ty',
+  },
+  {
+    path: '/tin-tuc',
+    title: 'Tin tức',
+  },
+];

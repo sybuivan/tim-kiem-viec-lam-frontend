@@ -9,7 +9,7 @@ import { baseURL } from 'src/config';
 const CompanyItem = ({ company }: { company: ICompany }) => {
   const navigate = useNavigate();
   return (
-    <Grid item xs={4} lg={2} md={3} sm={4}>
+    <Grid item lg={2} md={3} sm={4} xs={6}>
       <Box
         bgcolor={theme.palette.common.white}
         sx={{

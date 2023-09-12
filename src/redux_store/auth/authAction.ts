@@ -1,17 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { userApi } from 'src/clients/http/user_api';
-import {
-  IInfoUser,
-  IPayloadLogin,
-  IPayloadRegister,
-  IPayloadGetMe,
-} from 'src/types/auth';
-import {
-  IPayloadFollow,
-  IPayloadSaveJob,
-  IProfileCV,
-  ISavedList,
-} from 'src/types/user';
+import { IInfoUser, IPayloadLogin } from 'src/types/auth';
 import { toastMessage } from 'src/utils/toast';
 
 export const loginUser = createAsyncThunk<IInfoUser, IPayloadLogin>(

@@ -160,8 +160,16 @@ const ProfileOnline = () => {
         <Typography fontSize="20px">Tạo hồ sơ đính kèm</Typography>
       </Box>
 
-      <Grid container columnSpacing={3}>
-        <Grid item xs={8}>
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            flexDirection: 'column-reverse',
+          },
+        }}
+      >
+        <Grid item lg={8} md={8} sm={12} xs={12}>
           <Paper
             sx={{
               mb: 2,
@@ -411,7 +419,7 @@ const ProfileOnline = () => {
             </Box>
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item lg={4} md={4} sm={12} xs={12}>
           <Paper>
             <Box>
               <Typography
@@ -523,7 +531,17 @@ const ProfileOnline = () => {
         </Grid>
       </Grid>
 
-      <Box position="fixed" bottom="0" right="0" left="300px">
+      <Box
+        position="fixed"
+        bottom="0"
+        right="0"
+        sx={{
+          left: '300px',
+          [theme.breakpoints.down('md')]: {
+            left: 0,
+          },
+        }}
+      >
         <Paper
           sx={{
             p: 2,
