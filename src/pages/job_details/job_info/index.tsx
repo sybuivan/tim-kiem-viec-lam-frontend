@@ -4,6 +4,7 @@ import {
   FavoriteRounded,
   TimerOutlined,
 } from '@mui/icons-material';
+import { LoadingButton } from '@mui/lab';
 import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import React from 'react';
@@ -13,7 +14,12 @@ import { socketIo } from 'src/clients/socket';
 import MessageJob from 'src/components/message_job';
 import { baseURL } from 'src/config';
 import { MODAL_IDS } from 'src/constants';
-import { useAppDispatch, useAppSelector, useSaveJob } from 'src/hooks';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useSaveJob,
+  useIsRequestPending,
+} from 'src/hooks';
 import LoginForm from 'src/pages/auth/login_form';
 import { openModal } from 'src/redux_store/common/modal/modal_slice';
 import theme from 'src/theme';
@@ -27,7 +33,8 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
     saveJobList: { savedList },
   } = useAppSelector((state) => state.userSlice);
   const { token, me } = useAppSelector((state) => state.authSlice);
-
+  const isLoadingSave = useIsRequestPending('user', 'saveJob');
+  const isLoadingUnSave = useIsRequestPending('user', 'unSavedJob');
   const {
     applyList: { data },
   } = useAppSelector((state) => state.applySlice);
@@ -197,9 +204,10 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
             </Button>
           )}
           {checkIsSaveJob(savedList, jobDetail.id_job) ? (
-            <Button
+            <LoadingButton
               startIcon={<FavoriteRounded />}
               variant="outlined"
+              loading={isLoadingUnSave}
               sx={{
                 px: 5,
                 color: theme.palette.primary.main,
@@ -207,19 +215,20 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
               onClick={handleOnUnSaved}
             >
               Đã lưu
-            </Button>
+            </LoadingButton>
           ) : (
             <>
-              <Button
+              <LoadingButton
                 startIcon={<FavoriteBorderOutlined />}
                 variant="outlined"
                 sx={{
                   px: 5,
                 }}
+                loading={isLoadingSave}
                 onClick={handleOnSave}
               >
                 Lưu
-              </Button>
+              </LoadingButton>
             </>
           )}
           <Button
