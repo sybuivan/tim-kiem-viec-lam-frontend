@@ -93,7 +93,15 @@ const Company = ({ company }: { company: IFollowCompany }) => {
         </Grid>
 
         <Grid item lg={2} md={2} sm={4} xs={12} display="flex">
-          <Typography fontWeight="600" textAlign="center">
+          <Typography
+            fontWeight="600"
+            textAlign="center"
+            sx={{
+              [theme.breakpoints.up('md')]: {
+                display: 'none',
+              },
+            }}
+          >
             Đang tuyển:
           </Typography>
           <Typography pl="15px" fontWeight="600">
@@ -101,7 +109,15 @@ const Company = ({ company }: { company: IFollowCompany }) => {
           </Typography>
         </Grid>
         <Grid item lg={2} md={2} sm={6} xs={12} display="flex">
-          <Typography fontWeight="600" textAlign="center">
+          <Typography
+            fontWeight="600"
+            textAlign="center"
+            sx={{
+              [theme.breakpoints.up('md')]: {
+                display: 'none',
+              },
+            }}
+          >
             Ngày theo dõi:{' '}
           </Typography>
           <Typography pl="10px">
