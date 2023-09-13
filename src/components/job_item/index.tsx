@@ -241,7 +241,7 @@ const JobItem = (props: IJobItem) => {
                       overflow: 'hidden',
                       fontSize: '15px',
                       margin: 0,
-                      maxWidth: '225px',
+                      maxWidth: '215px',
                       [theme.breakpoints.down('md')]: {
                         maxWidth: 'none',
                         whiteSpace: 'pre-wrap',
@@ -262,7 +262,7 @@ const JobItem = (props: IJobItem) => {
                     overflow: 'hidden',
                     fontSize: '15px',
                     margin: 0,
-                    maxWidth: '225px',
+                    maxWidth: '215px',
                   }}
                 >
                   {jobItem.name_company}
