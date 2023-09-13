@@ -5,6 +5,7 @@ import {
   NotificationsNoneOutlined,
   PersonOutlineOutlined,
 } from '@mui/icons-material';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
@@ -115,6 +116,14 @@ const Header = () => {
     );
   };
 
+  const handleLogout = () => {
+    dispatch(logout(''));
+    dispatch(resetApplyData());
+    dispatch(resetStateUser());
+    dispatch(resetState());
+    setAnchorElUser(null);
+  };
+
   const toggleDrawer =
     (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -134,6 +143,17 @@ const Header = () => {
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
+      <Box display="flex" justifyContent="flex-end">
+        <IconButton onClick={toggleDrawer(false)}>
+          <CancelOutlinedIcon
+            sx={{
+              fontSize: '2rem',
+            }}
+          />
+        </IconButton>
+      </Box>
+      <Divider />
+
       <List>
         {CPathRouter.map((item, index) => (
           <ListItem
@@ -165,7 +185,12 @@ const Header = () => {
               <ListItem
                 key={index}
                 disablePadding
-                onClick={() => navigate(`${item.path}`)}
+                onClick={() => {
+                  if (item.path) {
+                    return navigate(`${item.path}`);
+                  }
+                  handleLogout();
+                }}
               >
                 <ListItemButton>
                   <ListItemIcon>{item.icon}</ListItemIcon>
@@ -383,12 +408,13 @@ const Header = () => {
                           if (setting.path) {
                             navigate(setting.path);
                           } else {
-                            dispatch(logout(''));
-                            dispatch(resetApplyData());
-                            dispatch(resetStateUser());
-                            dispatch(resetState());
-                            setAnchorElUser(null);
+                            handleLogout();
                           }
+                        }}
+                        sx={{
+                          '& svg': {
+                            mr: 1,
+                          },
                         }}
                       >
                         {setting.icon}
@@ -468,7 +494,7 @@ const Header = () => {
               <WidgetsOutlinedIcon
                 sx={{
                   color: theme.palette.common.white,
-                  fontSize: '2.5rem',
+                  fontSize: '2rem',
                 }}
               />
             </IconButton>

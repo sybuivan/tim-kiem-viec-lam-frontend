@@ -1,18 +1,17 @@
 import { SendOutlined } from '@mui/icons-material';
-import { Box, Avatar, Typography, Button } from '@mui/material';
-import moment from 'moment';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router';
 import { FormTextarea } from 'src/components/hook_form';
 import DialogWrapper from 'src/components/modal/dialog_wrapper';
-import { MODAL_IDS } from 'src/constants';
-import { useAppDispatch, useAppSelector } from 'src/hooks';
-import { createNewMessage } from 'src/redux_store/chat/chat_actions';
-import theme from 'src/theme';
-import { closeModal } from 'src/redux_store/common/modal/modal_slice';
-import { IMessageJob } from 'src/types/chat';
-import { useNavigate } from 'react-router';
 import { baseURL } from 'src/config';
+import { MODAL_IDS } from 'src/constants';
+import { useAppDispatch } from 'src/hooks';
+import { createNewMessage } from 'src/redux_store/chat/chat_actions';
+import { closeModal } from 'src/redux_store/common/modal/modal_slice';
+import theme from 'src/theme';
+import { IMessageJob } from 'src/types/chat';
 
 const MessageJob = ({ job }: { job: IMessageJob }) => {
   const { id_user, id_company, id_job, logo, name_company, name_job } = job;
@@ -46,7 +45,17 @@ const MessageJob = ({ job }: { job: IMessageJob }) => {
   };
 
   return (
-    <DialogWrapper modalId={MODAL_IDS.messageJob} minWidth={800}>
+    <DialogWrapper
+      modalId={MODAL_IDS.messageJob}
+      sx={{
+        [theme.breakpoints.up('md')]: {
+          minWidth: 500,
+        },
+        [theme.breakpoints.down('sm')]: {
+          minWidth: '100%',
+        },
+      }}
+    >
       <Box p={1}>
         <Box
           display="flex"

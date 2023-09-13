@@ -1,4 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {
+  setLocalStorage,
+  USER_ACCOUNT,
+  REFRESH_TOKEN_ETC,
+  ACCESS_TOKEN,
+  removeLocalStorage,
+} from 'src/constants/localstoge';
 import { IJob } from 'src/types/job';
 import {
   IFollowList,
@@ -75,8 +82,9 @@ const userSlice = createSlice({
   reducers: {
     logout: (state, action) => {
       state = initialState;
-      localStorage.removeItem('user_account');
-      localStorage.removeItem('token');
+      removeLocalStorage(USER_ACCOUNT);
+      removeLocalStorage(ACCESS_TOKEN);
+      removeLocalStorage(REFRESH_TOKEN_ETC);
     },
 
     unSaveJobById: (state, action) => {
@@ -94,8 +102,9 @@ const userSlice = createSlice({
     },
 
     resetStateUser: (state) => {
-      localStorage.removeItem('user_account');
-      localStorage.removeItem('token');
+      removeLocalStorage(USER_ACCOUNT);
+      removeLocalStorage(ACCESS_TOKEN);
+      removeLocalStorage(REFRESH_TOKEN_ETC);
       state.followList = initialState.followList;
       state.jobSuggets = initialState.jobSuggets;
       state.notification = initialState.notification;
@@ -119,14 +128,25 @@ const userSlice = createSlice({
         accessToken,
         followList,
         notification,
+        refreshToken,
       } = action.payload;
       state.followList = followList;
       state.profileCV = profile_cv;
       state.saveJobList = saveJobList;
       state.jobSuggets = jobSuggets;
       state.notification = notification;
-      localStorage.setItem('user_account', JSON.stringify(users));
-      localStorage.setItem('token', accessToken);
+      setLocalStorage({
+        key: USER_ACCOUNT,
+        value: JSON.stringify(users),
+      });
+      setLocalStorage({
+        key: ACCESS_TOKEN,
+        value: accessToken,
+      });
+      setLocalStorage({
+        key: REFRESH_TOKEN_ETC,
+        value: refreshToken,
+      });
     });
     builder
       .addCase(getMeUser.fulfilled, (state, action) => {
@@ -135,7 +155,6 @@ const userSlice = createSlice({
           profile_cv,
           jobSuggets,
           saveJobList,
-          accessToken,
           followList,
           notification,
         } = action.payload;
@@ -144,16 +163,19 @@ const userSlice = createSlice({
         state.saveJobList = saveJobList;
         state.jobSuggets = jobSuggets;
         state.notification = notification;
-        localStorage.setItem('user_account', JSON.stringify(users));
+        setLocalStorage({ key: USER_ACCOUNT, value: JSON.stringify(users) });
       })
       .addCase(loginAdmin.fulfilled, (state, action) => {
         const { users, accessToken } = action.payload;
-        localStorage.setItem('user_account', JSON.stringify(users));
-        localStorage.setItem('token', accessToken);
+        setLocalStorage({ key: USER_ACCOUNT, value: JSON.stringify(users) });
+        setLocalStorage({
+          key: ACCESS_TOKEN,
+          value: accessToken,
+        });
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
         const { users } = action.payload;
-        localStorage.setItem('user_account', JSON.stringify(users));
+        setLocalStorage({ key: USER_ACCOUNT, value: JSON.stringify(users) });
       })
       .addCase(saveJob.fulfilled, (state, action) => {
         state.saveJobList = action.payload;

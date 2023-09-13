@@ -27,4 +27,5 @@ export interface IInfoUser {
   };
   users: any;
   accessToken: any;
+  refreshToken: any;
 }

@@ -22,6 +22,9 @@ export const userApi = {
   register: (payload: IPayloadRegister) => {
     return client.post<any>('/auth/register', payload);
   },
+  refreshToken: () => {
+    return client.post('/auth/refresh-token');
+  },
   getMe: (payload: IPayloadGetMe) => {
     return client.post('/user/get-me', payload);
   },

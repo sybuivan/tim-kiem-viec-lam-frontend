@@ -47,7 +47,6 @@ const JobItem = (props: IJobItem) => {
     navigate(`/viec-lam/${jobItem.id_job}`);
   };
 
-  console.log(window.innerWidth);
   const renderJobItem = () => {
     if (isPage)
       return (

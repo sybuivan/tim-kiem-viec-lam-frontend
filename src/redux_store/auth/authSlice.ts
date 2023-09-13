@@ -1,5 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getLocal, token } from 'src/constants/localstoge';
+import {
+  USER_ACCOUNT,
+  ACCESS_TOKEN,
+  getLocalStorage,
+  getToken,
+  setLocalStorage,
+  removeLocalStorage,
+} from 'src/constants/localstoge';
 import { IJob } from 'src/types/job';
 
 interface IUserSlice {
@@ -8,8 +15,8 @@ interface IUserSlice {
 }
 
 const initialState: IUserSlice = {
-  me: getLocal('user_account'),
-  token,
+  me: getLocalStorage(USER_ACCOUNT),
+  token: getToken,
 };
 
 const authSlice = createSlice({
@@ -20,12 +27,12 @@ const authSlice = createSlice({
       const { users, accessToken } = action.payload;
       state.me = users;
       state.token = accessToken;
-      localStorage.setItem('user_account', JSON.stringify(users));
-      localStorage.setItem('token', accessToken);
+      setLocalStorage({ key: USER_ACCOUNT, value: JSON.stringify(users) });
+      setLocalStorage({ key: ACCESS_TOKEN, value: accessToken });
     },
     resetState: (state) => {
-      localStorage.removeItem('user_account');
-      localStorage.removeItem('token');
+      removeLocalStorage(USER_ACCOUNT);
+      removeLocalStorage(ACCESS_TOKEN);
       state.me = '';
       state.token = '';
     },

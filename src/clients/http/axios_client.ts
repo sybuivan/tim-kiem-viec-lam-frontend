@@ -1,8 +1,10 @@
 import axios, { AxiosError } from 'axios';
-import { Navigate } from 'react-router';
+import {
+  ACCESS_TOKEN,
+  REFRESH_TOKEN_ETC,
+  setLocalStorage,
+} from 'src/constants/localstoge';
 import { toastMessage } from 'src/utils/toast';
-
-export const getClientToken = (config: any) => {};
 
 export const setClientToken = (token: string) => {
   if (token) {
@@ -12,7 +14,7 @@ export const setClientToken = (token: string) => {
   }
 };
 
-export const createClient = (baseURL: string, access?: string) => {
+export const createClient = (baseURL: string) => {
   const instance = axios.create({
     baseURL,
     timeout: 100000,
@@ -29,8 +31,7 @@ export const createClient = (baseURL: string, access?: string) => {
       if (error.response) {
         // Handle specific HTTP error codes, e.g., unauthorized (401)
         if (error.response.status === 401) {
-          // Redirect to login page using React Router
-          return Promise.reject(error.response.data);
+          return refreshToken(error, () => {});
         }
         // Handle other error codes or display a generic error message
         else {
@@ -44,22 +45,47 @@ export const createClient = (baseURL: string, access?: string) => {
     }
   );
 
+  const refreshToken = async (error: any, logout: Function) => {
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN_ETC);
+    console.log({ refreshToken });
+    if (!refreshToken) {
+      return;
+    }
+    try {
+      const { data } = await instance.post('/auth/refresh-token', {
+        refreshToken,
+      });
+
+      setLocalStorage({
+        key: REFRESH_TOKEN_ETC,
+        value: data.refreshToken,
+      });
+      setLocalStorage({
+        key: ACCESS_TOKEN,
+        value: data.accessToken,
+      });
+
+      error.config.headers = {
+        Authorization: 'Bearer ' + data.accessToken,
+      };
+      return axios(error.config);
+    } catch (error) {
+      logout();
+      return;
+    }
+  };
+
   instance.interceptors.request.use(
-    (config: any) => {
-      const token = localStorage.getItem('token')
-        ? localStorage.getItem('token') || ''
-        : null;
-      if (token) {
-        config.headers['Authorization'] = 'Bearer ' + token;
+    async (config: any) => {
+      const accessToken = localStorage.getItem(ACCESS_TOKEN);
+      console.log({ accessToken });
+      if (accessToken) {
+        config.headers['Authorization'] = 'Bearer ' + accessToken;
       }
       return config;
     },
     (error) => {
-      if (axios.isCancel(error)) {
-        // toastMessage.error(error.message || 'Lỗi hệ thống!');
-      } else {
-        return Promise.reject(error);
-      }
+      return Promise.reject(error);
     }
   );
 

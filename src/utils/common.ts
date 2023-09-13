@@ -1,4 +1,7 @@
+import jwt_decode from 'jwt-decode';
+
 import { ROLE_COMPANY, ROLE_USER, ROLE_ADMIN } from 'src/constants/common';
+
 import { IApply } from 'src/types/apply';
 import { IJob } from 'src/types/job';
 
@@ -138,4 +141,24 @@ export const checkRoleAdmin = (idRole: string, token: string) => {
 export const checkRoleUser = (idRole: string, token: string) => {
   if (idRole === ROLE_USER && token) return true;
   return false;
+};
+
+export const isAccessTokenExpired = (accessToken: string) => {
+  if (!accessToken) {
+    return true;
+  }
+
+  try {
+    const decodedToken: any = jwt_decode(accessToken);
+    const currentTime = Math.floor(Date.now() / 1000);
+    console.log({ decodedToken });
+    if (decodedToken.exp < currentTime) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.error('Lỗi khi giải mã access token:', error);
+    return true;
+  }
 };
