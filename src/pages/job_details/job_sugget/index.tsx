@@ -55,7 +55,15 @@ const JobItem = ({ job }: { job: IJob }) => {
         onClick={handleOnClick}
       >
         <Box display="flex" gap={2}>
-          <img width="50" height="50" alt="" src={`${baseURL}/${logo}`} />
+          <Box
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                display: 'none',
+              },
+            }}
+          >
+            <img width="50" height="50" alt="" src={`${baseURL}/${logo}`} />
+          </Box>
           <Box>
             {urgency === 1 && (
               <Chip

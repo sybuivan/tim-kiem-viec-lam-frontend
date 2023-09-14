@@ -108,6 +108,9 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
         py={3}
         sx={{
           cursor: 'pointer',
+          [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column-reverse',
+          },
         }}
         onClick={() => {
           navigate(`/cong-ty/${jobDetail.id_company}`);
@@ -121,6 +124,9 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
           style={{
             border: '1px solid #c1c1c1',
             borderRadius: '4px',
+            [theme.breakpoints.down('sm')]: {
+              order: 1,
+            },
           }}
         />
         <Box display="flex" flexDirection="column">
@@ -148,7 +154,15 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
               />
             )}
           </Typography>
-          <Box display="flex" gap={2}>
+          <Box
+            display="flex"
+            gap={2}
+            sx={{
+              [theme.breakpoints.down('sm')]: {
+                flexDirection: 'column',
+              },
+            }}
+          >
             <Box display="flex" alignItems="center" gap={0.5}>
               <DateRangeOutlined />
               <Typography>
@@ -311,50 +325,51 @@ const JobInfo = ({ jobDetail }: { jobDetail: IJob }) => {
           <Typography fontWeight="600">Thông tin</Typography>
 
           <Grid container columnSpacing={1} rowSpacing={2}>
-            <Grid item lg={6} sm={6} xs={6}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
-                  Nghề nghiệp:
+                  Nghề nghiệp:{' '}
                 </Typography>
                 <Typography fontWeight="600">{jobDetail.name_field}</Typography>
               </Box>
             </Grid>
-            <Grid item lg={6} sm={6} xs={6}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
-                  Địa điểm làm việc:
+                  Địa điểm làm việc:{' '}
                 </Typography>
                 <Typography fontWeight="600">
                   {jobDetail.work_location}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item lg={6} sm={6} xs={6}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
-                  Số lượng tuyển:
+                  Số lượng tuyển:{' '}
                 </Typography>
                 <Typography fontWeight="600">
                   {jobDetail.size_number}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item lg={6} sm={6} xs={6}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
-                  Hạn nộp hồ sơ:
+                  Hạn nộp hồ sơ:{' '}
                 </Typography>
                 <Typography fontWeight="600">
                   {moment(jobDetail.deadline).format('DD/MM/YYYY')}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item lg={6} sm={6} xs={6}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
               <Box display="flex">
                 <Typography fontWeight="500" minWidth="40%">
                   Tỉnh thành:
                 </Typography>
                 <Typography fontWeight="600">
+                  {' '}
                   {jobDetail.cities?.map((item) => item.name_city).join(', ')}
                 </Typography>
               </Box>

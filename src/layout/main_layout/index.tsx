@@ -1,5 +1,5 @@
 import { Box, IconButton } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Scrollbars from 'react-custom-scrollbars-2';
 import { Outlet, useLocation, useParams } from 'react-router';
 import VerticalAlignTopOutlinedIcon from '@mui/icons-material/VerticalAlignTopOutlined';
@@ -10,11 +10,8 @@ import theme from 'src/theme';
 const MainLayout = () => {
   const location = useLocation();
   const { id_room_message, id_profile } = useParams();
+  const [isShowTop, setIsShowTop] = useState<boolean>(true);
   const refScroll = useRef<any>();
-
-  useEffect(() => {
-    refScroll.current?.scrollToTop({ behavior: 'smooth', block: 'start' });
-  }, [location]);
 
   const pathList = (id_room?: string, id_profile?: string) => [
     '/thong-tin-ca-nhan/them-moi-ho-so',
@@ -22,9 +19,27 @@ const MainLayout = () => {
     '/users/message',
     `/users/message/${id_room}`,
   ];
+
   const isShow = pathList(id_room_message, id_profile).includes(
     location.pathname
   );
+
+  const handleScroll = () => {
+    const scrollTop = refScroll.current.getScrollTop();
+    scrollTop > 100 ? setIsShowTop(true) : setIsShowTop(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    refScroll.current?.scrollToTop({ behavior: 'smooth', block: 'start' });
+  }, [location]);
 
   return (
     <Box bgcolor="#f2f3f7">
@@ -44,7 +59,7 @@ const MainLayout = () => {
           overflowX: 'hidden',
         }}
       >
-        <Scrollbars ref={refScroll}>
+        <Scrollbars ref={refScroll} onScroll={handleScroll}>
           <Outlet />
           {!isShow && <Footer />}
         </Scrollbars>
@@ -68,8 +83,7 @@ const MainLayout = () => {
             background: theme.palette.primary.main,
             color: theme.palette.common.white,
           },
-          // display: `${window.scrollY > 90 ? 'block' : 'none'}`,
-          // display: 'block',
+          visibility: `${isShowTop ? 'visible' : 'hidden'}`,
         }}
       >
         <VerticalAlignTopOutlinedIcon />

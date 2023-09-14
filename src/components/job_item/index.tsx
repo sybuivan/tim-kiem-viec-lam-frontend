@@ -9,8 +9,8 @@ import {
   Chip,
   Grid,
   IconButton,
-  Typography,
   Tooltip,
+  Typography,
 } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router';
@@ -66,13 +66,20 @@ const JobItem = (props: IJobItem) => {
               onClick={handleClick}
             >
               <Box display="flex" gap={1}>
-                <img
-                  alt=""
-                  src={`${baseURL}/${jobItem.logo}`}
-                  width="88"
-                  height="88"
-                />
-
+                <Box
+                  sx={{
+                    [theme.breakpoints.down('sm')]: {
+                      display: 'none',
+                    },
+                  }}
+                >
+                  <img
+                    alt=""
+                    src={`${baseURL}/${jobItem.logo}`}
+                    width="88"
+                    height="88"
+                  />
+                </Box>
                 <Box flex="1">
                   <Box
                     display="flex"
@@ -187,12 +194,20 @@ const JobItem = (props: IJobItem) => {
             onClick={handleClick}
           >
             <Box display="flex" gap={1}>
-              <img
-                alt=""
-                src={`${baseURL}/${jobItem.logo}`}
-                width="88"
-                height="88"
-              />
+              <Box
+                sx={{
+                  [theme.breakpoints.down('sm')]: {
+                    display: 'none',
+                  },
+                }}
+              >
+                <img
+                  alt=""
+                  src={`${baseURL}/${jobItem.logo}`}
+                  width="88"
+                  height="88"
+                />
+              </Box>
 
               <Box flex="1">
                 <Box

@@ -13,7 +13,7 @@ const Discover = ({ item }: { item: IJobTop }) => {
   const navigate = useNavigate();
   const { jobFilters } = useAppSelector((state) => state.jobSlice);
   return (
-    <Grid item xs={6} lg={2.4} md={3} sm={4}>
+    <Grid item lg={2.4} md={3} sm={6} xs={12}>
       <Box
         sx={{
           borderRadius: 2,
