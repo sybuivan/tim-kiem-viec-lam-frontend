@@ -1,13 +1,12 @@
+import { yupResolver } from '@hookform/resolvers/yup';
+import { LoadingButton } from '@mui/lab';
+import { Box } from '@mui/material';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Button } from '@mui/material';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-
-import { useAppDispatch, useIsRequestPending } from 'src/hooks';
 import { FormInput } from 'src/components/hook_form';
+import { useIsRequestPending } from 'src/hooks';
 import { IPayloadRegister } from 'src/types/auth';
-import { LoadingButton } from '@mui/lab';
+import * as yup from 'yup';
 
 const initRegisterForm: IPayloadRegister = {
   email: '',

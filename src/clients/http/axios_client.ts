@@ -35,7 +35,7 @@ export const createClient = (baseURL: string) => {
         }
         // Handle other error codes or display a generic error message
         else {
-          toastMessage.error('Something went wrong');
+          // toastMessage.error('Something went wrong');
           return Promise.reject(error.response.data);
         }
       } else {
@@ -47,7 +47,6 @@ export const createClient = (baseURL: string) => {
 
   const refreshToken = async (error: any, logout: Function) => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN_ETC);
-    console.log({ refreshToken });
     if (!refreshToken) {
       return;
     }
@@ -78,7 +77,6 @@ export const createClient = (baseURL: string) => {
   instance.interceptors.request.use(
     async (config: any) => {
       const accessToken = localStorage.getItem(ACCESS_TOKEN);
-      console.log({ accessToken });
       if (accessToken) {
         config.headers['Authorization'] = 'Bearer ' + accessToken;
       }

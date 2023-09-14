@@ -178,7 +178,13 @@ const Header = () => {
         ))}
       </List>
       <Divider />
-      <List>
+      <List
+        sx={{
+          [theme.breakpoints.up('sm')]: {
+            display: 'none',
+          },
+        }}
+      >
         {token ? (
           <>
             {settings.map((item, index) => (
@@ -486,7 +492,7 @@ const Header = () => {
               edge="end"
               onClick={toggleDrawer(true)}
               sx={{
-                [theme.breakpoints.up('sm')]: {
+                [theme.breakpoints.up('md')]: {
                   display: 'none',
                 },
               }}

@@ -151,7 +151,6 @@ export const isAccessTokenExpired = (accessToken: string) => {
   try {
     const decodedToken: any = jwt_decode(accessToken);
     const currentTime = Math.floor(Date.now() / 1000);
-    console.log({ decodedToken });
     if (decodedToken.exp < currentTime) {
       return true;
     } else {
