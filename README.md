@@ -58,10 +58,6 @@ Back-end: NodeJS, Express.js, MySQL, socket.io.
 - Resolve technical issues
 - Setting system
 
-## ERD
-
-<img src="https://i.imgur.com/AS2CgQe.jpg" width="1000"/>
-
 ## Installation
 
 ## Front end
