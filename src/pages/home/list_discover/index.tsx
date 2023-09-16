@@ -16,7 +16,7 @@ const ListDiscover = ({ list, icon, title }: IListDiscover) => {
     <Box mb={5}>
       <Box display="flex" alignItems="center" gap={1} my={4}>
         <BsFillBriefcaseFill />
-        <Typography fontSize="30px" fontWeight="800">
+        <Typography fontSize="26px" fontWeight="800">
           {title}
         </Typography>
       </Box>

@@ -63,6 +63,9 @@ const LoginFormCompany = () => {
           '& .MuiFormLabel-asterisk': {
             color: theme.palette.error.main,
           },
+          [theme.breakpoints.down('sm')]: {
+            width: '90%',
+          },
         }}
       >
         <Box>
