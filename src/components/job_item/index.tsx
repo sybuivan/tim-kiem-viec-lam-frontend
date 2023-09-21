@@ -50,7 +50,7 @@ const JobItem = (props: IJobItem) => {
   const renderJobItem = () => {
     if (isPage)
       return (
-        <Grid item xs={12} lg={6} md={6} sm={12}>
+        <Grid item xs={12} lg={6} md={12} sm={12}>
           <Box position="relative" m={m}>
             <Box
               sx={{
@@ -111,6 +111,10 @@ const JobItem = (props: IJobItem) => {
                         overflow: 'hidden',
                         fontSize: '15px',
                         margin: 0,
+                        maxWidth: '500px',
+                        [theme.breakpoints.down('lg')]: {
+                          maxWidth: '350px',
+                        },
                         [theme.breakpoints.down('md')]: {
                           maxWidth: 'none',
                           whiteSpace: 'pre-wrap',

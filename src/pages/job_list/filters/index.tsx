@@ -142,8 +142,8 @@ const JobListFilters = ({
         </Grid>
 
         <Grid item lg={3.5} md={3.5} sm={12} xs={12}>
-          <Grid container columnSpacing={2}>
-            <Grid item lg={5} md={5} xs={6} sm={6}>
+          <Grid container columnSpacing={2} rowSpacing={1}>
+            <Grid item lg={5} md={5} xs={12} sm={6}>
               <Box height="38px">
                 <Button
                   variant="contained"
@@ -160,7 +160,7 @@ const JobListFilters = ({
               </Box>
             </Grid>
 
-            <Grid item lg={7} md={7} xs={6} sm={6}>
+            <Grid item lg={7} md={7} xs={12} sm={6}>
               <Box height="37px">
                 <Button
                   variant="contained"
@@ -189,8 +189,7 @@ const JobListFilters = ({
           position="absolute"
           bottom="-50px"
           boxShadow="rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-          columnSpacing={1}
-          width="100%"
+          columnSpacing={0.5}
           left={0}
           container
           alignItems="center"

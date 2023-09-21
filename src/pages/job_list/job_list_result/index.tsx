@@ -27,6 +27,7 @@ const JobListResults = ({ jobList }: { jobList: IJob[] }) => {
       ...jobFilters,
       page: newPage,
     };
+    if (jobFilters.page === newPage) return;
     const stringifiedParams = queryString.stringify({ ...newFilters });
     navigate(`/co-hoi-viec-lam?${stringifiedParams}`);
 
@@ -65,6 +66,7 @@ const JobListResults = ({ jobList }: { jobList: IJob[] }) => {
           page={Number(jobFilters.page)}
           count={Math.ceil(total / 20)}
           handleOnChange={handleOnChangePage}
+          disabled={Math.ceil(total / 20) === 1}
         />
       </Box>
     </Box>
