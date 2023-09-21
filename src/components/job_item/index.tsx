@@ -113,11 +113,12 @@ const JobItem = (props: IJobItem) => {
                         margin: 0,
                         maxWidth: '500px',
                         [theme.breakpoints.down('lg')]: {
-                          maxWidth: '350px',
+                          minWidth: 'calc(100% - 150px)',
                         },
                         [theme.breakpoints.down('md')]: {
                           maxWidth: 'none',
                           whiteSpace: 'pre-wrap',
+                          paddingRight: 4,
                         },
                       }}
                     >
