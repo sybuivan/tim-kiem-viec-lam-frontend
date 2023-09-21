@@ -111,7 +111,7 @@ const JobItem = (props: IJobItem) => {
                         overflow: 'hidden',
                         fontSize: '15px',
                         margin: 0,
-                        maxWidth: '500px',
+                        maxWidth: '400px',
                         [theme.breakpoints.down('lg')]: {
                           minWidth: 'calc(100% - 150px)',
                         },
