@@ -77,7 +77,7 @@ const JobList = ({
       mb={5}
       sx={{
         '& .slick-track, & .slick-slide': {
-          width: '100%!important',
+          // width: '100%!important',
         },
       }}
     >
