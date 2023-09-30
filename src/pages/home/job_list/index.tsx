@@ -73,14 +73,7 @@ const JobList = ({
     return <EmptyData title="Không có tin tuyển dụng nào" />;
 
   return (
-    <Box
-      mb={5}
-      sx={{
-        '& .slick-track, & .slick-slide': {
-          // width: '100%!important',
-        },
-      }}
-    >
+    <Box mb={5}>
       <HeadTitle title={title} icon={icon} />
       <Slider {...settings}>
         {results.map((item, index) => (

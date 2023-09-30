@@ -59,7 +59,17 @@ const MainLayout = () => {
           overflowX: 'hidden',
         }}
       >
-        <Scrollbars ref={refScroll} onScroll={handleScroll}>
+        <Scrollbars
+          ref={refScroll}
+          onScroll={handleScroll}
+          renderTrackHorizontal={(props) => (
+            <div
+              {...props}
+              className="track-horizontal"
+              style={{ display: 'none' }}
+            />
+          )}
+        >
           <Outlet />
           {!isShow && <Footer />}
         </Scrollbars>
